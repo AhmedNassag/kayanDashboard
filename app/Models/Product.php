@@ -16,7 +16,7 @@ class Product extends Model
     {
         return $this->morphOne(Media::class,'mediable');
     }
-    
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -35,5 +35,10 @@ class Product extends Model
     public function tax()
     {
         return $this->belongsTo(Tax::class);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
     }
 }

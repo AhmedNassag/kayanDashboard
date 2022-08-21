@@ -102,6 +102,7 @@ Route::group([ 'prefix' => 'v1','middleware' => ['secretAPI']],function () {
             Route::get('getSubCategories','ProductController@getSubCategories');
             Route::get('getCompanies','ProductController@getCompanies');
             Route::get('getTaxes','ProductController@getTaxes');
+            Route::get('getUnits','ProductController@getUnits');
 
             //start logout
             Route::post('logout','AuthDashboardController@logout');

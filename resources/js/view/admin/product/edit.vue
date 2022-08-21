@@ -150,6 +150,71 @@
                                             </div>
                                             <!--End MaxMount-->
 
+                                            <!--Start Category Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.MainCategory") }}
+                                                </label>
+                                                <select class="form-control" v-model.trim="v$.cat_id.$model">
+                                                    <option v-for="category in categories" :key="category.id" :value="category.id">
+                                                    {{ category.name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <!--End Category Select-->
+
+                                            <!--Start SubCategory Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.SubCategory") }}
+                                                </label>
+                                                <select class="form-control" v-model.trim="v$.sub_category_id.$model">
+                                                    <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
+                                                    {{ subCategory.name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <!--End SubCategory Select-->
+
+                                            <!--Start Company Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.Company") }}
+                                                </label>
+                                                <select class="form-control" v-model.trim="v$.company_id.$model">
+                                                    <option v-for="company in companies" :key="company.id" :value="company.id">
+                                                    {{ company.name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <!--End Company Select-->
+
+                                            <!--Start Tax Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.Tax") }}
+                                                </label>
+                                                <select class="form-control" v-model.trim="v$.tax_id.$model">
+                                                    <option v-for="tax in taxes" :key="tax.id" :value="tax.id">
+                                                    {{ tax.name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <!--End Tax Select-->
+
+                                            <!--Start Unit Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.Unit") }}
+                                                </label>
+                                                <select class="form-control" v-model.trim="v$.unit_id.$model">
+                                                    <option v-for="unit in units" :key="unit.id" :value="unit.id">
+                                                    {{ unit.name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <!--End Unit Select-->
+
                                             <!--Start Description-->
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationCustom02">
@@ -261,6 +326,11 @@ export default {
 
         // get create Package
         let loading = ref(false);
+        let categories = ref([]);
+        let subCategories = ref([]);
+        let companies = ref([]);
+        let taxes = ref([]);
+        let units = ref([]);
         let image = ref('');
 
         let getProduct = () => {
@@ -271,6 +341,15 @@ export default {
                     let l = res.data.data;
 
                     addProduct.data.name = l.product.name;
+                    addProduct.data.barCode = l.product.barCode;
+                    addProduct.data.charge = l.product.charge;
+                    addProduct.data.maxMount = l.product.maxMount;
+                    addProduct.data.description = l.product.description;
+                    addProduct.data.cat_id = l.product.cat_id;
+                    addProduct.data.sub_category_id = l.product.sub_category_id;
+                    addProduct.data.company_id = l.product.company_id;
+                    addProduct.data.tax_id = l.product.tax_id;
+                    addProduct.data.unit_id = l.product.unit_id;
                     image.value = l.product.media.file_name;
                 })
                 .catch((err) => {
@@ -293,10 +372,23 @@ export default {
                 charge : '',
                 maxMount : '',
                 description : '',
+                cat_id:'',
+                sub_category_id:'',
+                company_id:'',
+                tax_id:'',
+                unit_id:'',
                 file : {}
             }
         });
 
+        //
+        getCategories();
+        getSubCategories();
+        getCompanies();
+        getTaxes();
+        getUnits();
+        //
+        
         const rules = computed(() => {
             return {
                 name: {
@@ -318,6 +410,22 @@ export default {
                     maxLength:maxLength(255),
                     required
                 },
+                cat_id: {
+                    required
+                },
+                sub_category_id: {
+                    required
+                },
+                company_id: {
+                    required
+                },
+                tax_id: {
+                    required
+                },
+                unit_id: {
+                    required
+                },
+
             };
         });
 
@@ -355,7 +463,78 @@ export default {
 
         const numberOfImage = ref(0);
 
-        return {id,loading,...toRefs(addProduct),v$,preview,numberOfImage,image};
+        //Commons
+        function getCategories(){
+            adminApi
+            .get(`/v1/dashboard/getCategories`)
+            .then((res) => {
+                categories.value =res.data.data.categories ;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+        }
+
+        function getSubCategories(){
+            adminApi
+            .get(`/v1/dashboard/getSubCategories`)
+            .then((res) => {
+                subCategories.value =res.data.data.subCategories ;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+        }
+
+        function getCompanies(){
+            adminApi
+            .get(`/v1/dashboard/getCompanies`)
+            .then((res) => {
+                companies.value =res.data.data.companies ;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+        }
+
+        function getTaxes(){
+            adminApi
+            .get(`/v1/dashboard/getTaxes`)
+            .then((res) => {
+                taxes.value =res.data.data.taxes ;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+        }
+
+        function getUnits(){
+            adminApi
+            .get(`/v1/dashboard/getUnits`)
+            .then((res) => {
+                units.value =res.data.data.units ;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+        }
+        //end common
+        return {id,loading,...toRefs(addProduct),v$,preview,numberOfImage,image,categories,subCategories,companies,taxes,units};
     },
     methods: {
         editProduct(){
@@ -372,6 +551,11 @@ export default {
                 formData.append('charge',this.data.charge);
                 formData.append('maxMount',this.data.maxMount);
                 formData.append('description',this.data.description);
+                formData.append("cat_id", this.data.cat_id);
+                formData.append("sub_category_id", this.data.sub_category_id);
+                formData.append("company_id", this.data.company_id);
+                formData.append("tax_id", this.data.tax_id);
+                formData.append("unit_id", this.data.unit_id);
                 formData.append('file',this.data.file);
                 formData.append('_method','PUT');
 

@@ -62,6 +62,7 @@
                       <th>{{ $t("global.subCategory") }}</th>
                       <th>{{ $t("global.Company") }}</th>
                       <th>{{ $t("global.Tax") }}</th>
+                      <th>{{ $t("global.Unit") }}</th>
                       <th>{{ $t("global.Status") }}</th>
                       <th>{{ $t("global.Created_At") }}</th>
                       <th>{{ $t("global.Action") }}</th>
@@ -86,6 +87,7 @@
                       <td>{{ item.sub_category_id }}</td>
                       <td>{{ item.company_id }}</td>
                       <td>{{ item.tax_id }}</td>
+                      <td>{{ item.unit_id }}</td>
                       <td>
                         <a
                           href="#"
