@@ -16,14 +16,11 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
+
             ['name' => 'role read','role' => 'role-employee'],
             ['name' => 'role create','role' => 'role-employee'],
             ['name' => 'role edit','role' => 'role-employee'],
             ['name' => 'role delete','role' => 'role-employee'],
-            ['name' => 'employee read','role' => 'role-employee'],
-            ['name' => 'employee create','role' => 'role-employee'],
-            ['name' => 'employee edit','role' => 'role-employee'],
-            ['name' => 'employee delete','role' => 'role-employee'],
             ['name' => 'employeeChangePassword edit','role' => 'role-employee'],
             ['name' => 'department read','role' => 'management'],
             ['name' => 'department create','role' => 'management'],
@@ -63,8 +60,23 @@ class PermissionSeeder extends Seeder
             ['name' => 'product create','role' => 'management'],
             ['name' => 'product edit','role' => 'management'],
             ['name' => 'product delete','role' => 'management'],
+            ['name' => 'unit read', 'role' => ''],
+            ['name' => 'unit create', 'role' => ''],
+            ['name' => 'unit edit', 'role' => ''],
+            ['name' => 'unit delete', 'role' => ''],
+            ['name' => 'offer read', 'role' => ''],
+            ['name' => 'offer create', 'role' => ''],
+            ['name' => 'offer edit', 'role' => ''],
+            ['name' => 'offer delete', 'role' => ''],
+            ['name' => 'shipping read', 'role' => ''],
+            ['name' => 'shipping create', 'role' => ''],
+            ['name' => 'shipping edit', 'role' => ''],
+            ['name' => 'shipping delete', 'role' => ''],
+            ['name' => 'supplier read', 'role' => ''],
+            ['name' => 'supplier create', 'role' => ''],
+            ['name' => 'supplier edit', 'role' => ''],
+            ['name' => 'supplier delete', 'role' => ''],
         ];
-
 
         $notifies = [
             "Sdsd"
@@ -75,7 +87,7 @@ class PermissionSeeder extends Seeder
         }
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission['name'],'role' => $permission['role']]);
+            Permission::create(['name' => $permission['name'], 'role' => $permission['role']]);
         }
     }
 }
