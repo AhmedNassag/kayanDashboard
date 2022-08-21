@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\UsersCategory;
 use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class UsersCategoryController extends Controller
 {
-
     use Message;
 
     /**
@@ -22,39 +21,41 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::with('media:file_name,mediable_id')
+        $usersCategories = UsersCategory::with('media:file_name,mediable_id')
             ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
-        foreach($categories as $category)
-        {
-            $category->setAttribute('added_at',$category->created_at->format('Y-m-d'));
-        }
-
-        $activeCategories = Category::where('status', 1)->get();
-        $notActiveCategories = Category::where('status', 0)->get();
-        return $this->sendResponse(['categories' => $categories,'activeCategories' => $activeCategories,'notActiveCategories' => $notActiveCategories], 'Data exited successfully');
+        return $this->sendResponse(['usersCategories' => $usersCategories], 'Data exited successfully');
     }
 
 
-    public function activationCategory($id)
+    public function activationUsersCategory($id)
     {
-        $department = Category::find($id);
+        $usersCategory = UsersCategory::find($id);
 
-        if ($department->status == 1)
+        if ($usersCategory->status == 1)
         {
-            $department->update([
+            $usersCategory->update([
                 "status" => 0
             ]);
         }else{
-            $department->update([
+            $usersCategory->update([
                 "status" => 1
             ]);
         }
         return $this->sendResponse([], 'Data exited successfully');
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -69,16 +70,16 @@ class CategoryController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'name' => 'required|unique:categories,name',
+                'name' => 'required|unique:users_categories,name',
                 'file' => 'required|file|mimes:png,jpg,jpeg',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $data = $request->only(['name']);
+            $data = $request->only(['name','description']);
 
-            $category = Category::create($data);
+            $usersCategory = UsersCategory::create($data);
 
             if($request->hasFile('file')){
 
@@ -87,9 +88,9 @@ class CategoryController extends Controller
                 $image = time().'.'. $request->file->getClientOriginalName();
 
                 // picture move
-                $request->file->storeAs('category', $image,'general');
+                $request->file->storeAs('usersCategory', $image,'general');
 
-                $category->media()->create([
+                $usersCategory->media()->create([
                     'file_name' => $image ,
                     'file_size' => $file_size,
                     'file_type' => $file_type,
@@ -108,6 +109,16 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -119,9 +130,9 @@ class CategoryController extends Controller
     {
         try {
 
-            $category = Category::with('media:file_name,mediable_id')->find($id);
+            $usersCategory = UsersCategory::with('media:file_name,mediable_id')->find($id);
 
-            return $this->sendResponse(['category' => $category], 'Data exited successfully');
+            return $this->sendResponse(['usersCategory' => $usersCategory], 'Data exited successfully');
 
         } catch (\Exception $e) {
 
@@ -142,37 +153,38 @@ class CategoryController extends Controller
         DB::beginTransaction();
         try {
 
-            $category = Category::find($id);
+            $usersCategory = UsersCategory::find($id);
 
             // Validator request
             $v = Validator::make($request->all(), [
                 'name' => 'required|string',
                 'file' => 'nullable'.($request->hasFile('file')?'|file|mimes:jpeg,jpg,png':''),
+                'description' => 'required|string',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['name','status']);
+            $data = $request->only(['name','description','status']);
 
-            $category->update($data);
+            $usersCategory->update($data);
 
             if($request->hasFile('file')){
 
-                if(File::exists('upload/category/'.$category->media->file_name)){
-                    unlink('upload/category/'. $category->media->file_name);
+                if(File::exists('upload/usersCategory/'.$usersCategory->media->file_name)){
+                    unlink('upload/usersCategory/'. $usersCategory->media->file_name);
                 }
-                $category->media->delete();
+                $usersCategory->media->delete();
 
                 $file_size = $request->file->getSize();
                 $file_type = $request->file->getMimeType();
                 $image = time().'.'. $request->file->getClientOriginalName();
 
                 // picture move
-                $request->file->storeAs('category', $image,'general');
+                $request->file->storeAs('usersCategory', $image,'general');
 
-                $category->media()->create([
+                $usersCategory->media()->create([
                     'file_name' => $image ,
                     'file_size' => $file_size,
                     'file_type' => $file_type,
@@ -199,15 +211,15 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $category = Category::find($id);
-            if ($category){
+            $usersCategory = UsersCategory::find($id);
+            if ($usersCategory){
 
-                if(File::exists('upload/category/'.$category->media->file_name)){
-                    unlink('upload/category/'. $category->media->file_name);
+                if(File::exists('upload/usersCategory/'.$usersCategory->media->file_name)){
+                    unlink('upload/usersCategory/'. $usersCategory->media->file_name);
                 }
-                $category->media->delete();
+                $usersCategory->media->delete();
 
-                $category->delete();
+                $usersCategory->delete();
                 return $this->sendResponse([],'Deleted successfully');
             }else{
                 return $this->sendError('ID is not exist');

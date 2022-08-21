@@ -5,27 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class SubCategory extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
     //start raletions
-
-    public function media()
+    public function category()
     {
-        return $this->morphOne(Media::class,'mediable');
-    }
-
-    public function subCategories()
-    {
-        return $this->hasMany(SubCategory::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function products()
     {
         return $this->hasMany(Product::class);
     }
-
 }

@@ -14,10 +14,10 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">{{ $t("global.Category") }}</h3>
+                        <h3 class="page-title">{{ $t("global.SubCategory") }}</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><router-link :to="{name: 'indexCategory'}">{{ $t("global.Category") }}</router-link></li>
-                            <li class="breadcrumb-item active">{{ $t("category.EditCategory") }}</li>
+                            <li class="breadcrumb-item"><router-link :to="{name: 'indexSubCategory'}">{{ $t("global.SubCategory") }}</router-link></li>
+                            <li class="breadcrumb-item active">{{ $t("usersCategory.EditSubCategory") }}</li>
                         </ul>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <div class="card-header pt-0 mb-4">
                                 <router-link
-                                    :to="{name: 'indexCategory'}"
+                                    :to="{name: 'indexSubCategory'}"
                                     class="btn btn-custom btn-dark"
                                 >
                                     {{ $t("global.back") }}
@@ -45,7 +45,7 @@
                                     >
                                         {{ t("global.Exist", {field:t("global.Name")}) }} <br />
                                     </div>
-                                    <form @submit.prevent="editSupplier" class="needs-validation">
+                                    <form @submit.prevent="editSubCategory" class="needs-validation">
                                         <div class="form-row row">
 
                                             <div class="col-md-6 mb-3">
@@ -64,31 +64,18 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12 row flex-fill">
-                                                <div class="btn btn-outline-primary waves-effect">
-                                                    <span>
-                                                        {{ $t("global.ChooseImage") }}
-                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
-                                                    </span>
-                                                    <input
-                                                        name="mediaPackage"
-                                                        type="file"
-                                                        @change="preview"
-                                                        id="mediaPackage"
-                                                        accept="image/png,jepg,jpg"
-                                                    >
-                                                </div>
-                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
-                                                <p class="num-of-files">{{numberOfImage ? numberOfImage + ' Files Selected' : 'No Files Chosen' }}</p>
-                                                <div class="container-images" id="container-images" v-show="data.file && numberOfImage"></div>
-                                                <div class="container-images" v-show="!numberOfImage">
-                                                    <figure>
-                                                        <figcaption v-if="image">
-                                                            <img :src="`/upload/category/${image}`">
-                                                        </figcaption>
-                                                    </figure>
-                                                </div>
+                                            <!--Start Category Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.MainCategory") }}
+                                                </label>
+                                                <select class="form-control" v-model.trim="v$.category_id.$model">
+                                                    <option v-for="category in categories" :key="category.id" :value="category.id">
+                                                    {{ category.name }}
+                                                    </option>
+                                                </select>
                                             </div>
+                                            <!--End Category Select-->
 
                                         </div>
 
@@ -117,7 +104,7 @@ import { useI18n } from "vue-i18n";
 //
 
 export default {
-    name: "editDepartment",
+    name: "editSubCategory",
     data(){
         return {
             errors:{}
@@ -133,17 +120,17 @@ export default {
 
         // get create Package
         let loading = ref(false);
-        let image = ref('');
+        let categories = ref([]);
 
-        let getCategory = () => {
+        let getSubCategory = () => {
             loading.value = true;
 
-            adminApi.get(`/v1/dashboard/category/${id.value}/edit`)
+            adminApi.get(`/v1/dashboard/subCategory/${id.value}/edit`)
                 .then((res) => {
                     let l = res.data.data;
 
-                    addCategory.data.name = l.category.name;
-                    image.value = l.category.media.file_name;
+                    addSubCategory.data.name = l.subCategory.name;
+                    addSubCategory.data.category_id = l.subCategory.category_id;
                 })
                 .catch((err) => {
                     console.log(err.response);
@@ -154,16 +141,18 @@ export default {
         }
 
         onMounted(() => {
-            getCategory();
+            getSubCategory();
         });
 
         //start design
-        let addCategory =  reactive({
+        let addSubCategory =  reactive({
             data:{
                 name : '',
-                file : {}
+                category_id : ''
             }
         });
+
+        getCategories();
 
         const rules = computed(() => {
             return {
@@ -171,48 +160,35 @@ export default {
                     minLength: minLength(3),
                     maxLength:maxLength(70),
                     required
-                }
+                },
+                category_id: {
+                    required,
+                },
             };
         });
 
-        const v$ = useVuelidate(rules,addCategory.data);
+        //Commons
+        function getCategories(){
+            adminApi
+                .get(`/v1/dashboard/getCategories`)
+                .then((res) => {
+                    categories.value =res.data.data.categories ;
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+                })
+                .finally(() => {
+                    loading.value = false;
+                });
+        }
+        //end commons
 
-        let preview = (e) => {
+        const v$ = useVuelidate(rules,addSubCategory.data);
 
-            let containerImages = document.querySelector('#container-images');
-            if(numberOfImage.value){
-                containerImages.innerHTML = '';
-            }
-            addCategory.data.file = {};
-
-            numberOfImage.value = e.target.files.length;
-
-            addCategory.data.file = e.target.files[0];
-
-            let reader = new FileReader();
-            let figure = document.createElement('figure');
-            let figcap = document.createElement('figcaption');
-
-            figcap.innerText = addCategory.data.file.name;
-            figure.appendChild(figcap);
-
-            reader.onload = () => {
-                let img = document.createElement('img');
-                img.setAttribute('src',reader.result);
-                figure.insertBefore(img,figcap);
-            }
-
-            containerImages.appendChild(figure);
-            reader.readAsDataURL(addCategory.data.file);
-
-        };
-
-        const numberOfImage = ref(0);
-
-        return {id,loading,...toRefs(addCategory),v$,preview,numberOfImage,image};
+        return {id, loading, ...toRefs(addSubCategory), v$, categories};
     },
     methods: {
-        editSupplier(){
+        editSubCategory(){
             this.v$.$validate();
 
             if(!this.v$.$error){
@@ -222,10 +198,10 @@ export default {
 
                 let formData = new FormData();
                 formData.append('name',this.data.name);
-                formData.append('file',this.data.file);
+                formData.append('category_id',this.data.category_id);
                 formData.append('_method','PUT');
 
-                adminApi.post(`/v1/dashboard/category/${this.id}`,formData)
+                adminApi.post(`/v1/dashboard/subCategory/${this.id}`,formData)
                     .then((res) => {
                         notify({
                             title: `تم التعديل بنجاح <i class="fas fa-check-circle"></i>`,

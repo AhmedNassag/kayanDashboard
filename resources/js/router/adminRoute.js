@@ -2,6 +2,11 @@ import {createRouter, createWebHistory} from 'vue-router';
 import Index from '../view/admin/Dashboard.vue';
 import department from './adminRoute/department';
 import category from './adminRoute/category';
+import subCategory from './adminRoute/subCategory';
+import usersCategory from './adminRoute/usersCategory';
+import tax from './adminRoute/tax';
+import company from './adminRoute/company';
+import product from './adminRoute/product';
 import job from './adminRoute/job';
 import role from './adminRoute/role';
 import employee from './adminRoute/employee';
@@ -75,7 +80,12 @@ const routes = [
             ...job,
             ...employee,
             ...role,
-            ...category
+            ...category,
+            ...subCategory,
+            ...usersCategory,
+            ...tax,
+            ...company,
+            ...product
         ]
     },
     {

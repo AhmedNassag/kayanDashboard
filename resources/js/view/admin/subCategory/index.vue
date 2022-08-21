@@ -17,52 +17,12 @@
                   {{ $t("dashboard.Dashboard") }}
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">{{ $t("global.Category") }}</li>
+              <li class="breadcrumb-item active">{{ $t("global.SubCategory") }}</li>
             </ul>
           </div>
         </div>
       </div>
       <!-- /Page Header -->
-
-
-      <!--Start Statistics-->
-      <div class="row">
-        <div class="col-md-8">
-            <!--/Wizard-->
-            <div class="row">
-                <div class="col-md-4 d-flex">
-                    <div class="card wizard-card flex-fill">
-                        <div class="card-body text-center">
-                            <p class="text-primary mt-0 mb-2">{{ $t("global.Categories") }}</p>
-                            <h5>{{categories.length}}</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 d-flex">
-                    <div class="card wizard-card flex-fill">
-                        <div class="card-body text-center">
-                            <p class="text-primary mt-0 mb-2">{{ $t("global.activeCategories") }}</p>
-                            <h5>{{activeCategories.length}}</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 d-flex">
-                    <div class="card wizard-card flex-fill">
-                        <div class="card-body text-center">
-                            <p class="text-primary mt-0 mb-2">{{ $t("global.notActiveCategories") }}</p>
-                            <h5>{{notActiveCategories.length}}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/Wizard-->
-        </div>
-    </div>
-      <!--End Statistics-->
-
-
       <!-- Table -->
       <div class="row">
         <div class="col-lg-12">
@@ -77,8 +37,8 @@
                   </div>
                   <div class="col-5 row justify-content-end">
                     <router-link
-                      v-if="permission.includes('department create')"
-                      :to="{ name: 'createCategory' }"
+                      v-if="permission.includes('subCategory create')"
+                      :to="{ name: 'createSubCategory' }"
                       class="btn btn-custom btn-warning"
                     >
                       {{ $t("global.Add") }}
@@ -92,27 +52,20 @@
                     <tr>
                       <th>#</th>
                       <th>{{ $t("global.Name") }}</th>
-                      <th>{{ $t("global.Image") }}</th>
+                      <th>{{ $t("global.MainCategory") }}</th>
                       <th>{{ $t("global.Status") }}</th>
-                      <th>{{ $t("global.Created_At") }}</th>
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
-                  <tbody v-if="categories.length">
-                    <tr v-for="(item, index) in categories" :key="item.id">
+                  <tbody v-if="subCategories.length">
+                    <tr v-for="(item, index) in subCategories" :key="item.id">
                       <td>{{ index + 1 }}</td>
                       <td>{{ item.name }}</td>
-                      <td>
-                        <img
-                          :src="'/upload/category/' + item.media.file_name"
-                          :alt="item.name"
-                          class="custom-img"
-                        />
-                      </td>
+                      <td>{{ item.category.name }}</td>
                       <td>
                         <a
                           href="#"
-                          @click="activationCategory(item.id, item.status, index)"
+                          @click="activationSubCategory(item.id, item.status, index)"
                         >
                           <span
                             :class="[
@@ -128,22 +81,21 @@
                           >
                         </a>
                       </td>
-                      <td>{{ item.added_at }}</td>
                       <td>
                         <router-link
                           :to="{
-                            name: 'editCategory',
+                            name: 'editSubCategory',
                             params: { id: item.id },
                           }"
-                          v-if="permission.includes('department edit')"
+                          v-if="permission.includes('subCategory edit')"
                           class="btn btn-sm btn-success me-2"
                         >
                           <i class="far fa-edit"></i>
                         </router-link>
                         <a
                           href="#"
-                          @click="deleteCategory(item.id, index)"
-                          v-if="permission.includes('department delete')"
+                          @click="deleteSubCategory(item.id, index)"
+                          v-if="permission.includes('subCategory delete')"
                           data-bs-target="#staticBackdrop"
                           class="btn btn-sm btn-danger me-2"
                         >
@@ -168,8 +120,8 @@
       <!-- /Table -->
       <!-- start Pagination -->
       <Pagination
-        :data="categoriesPaginate"
-        @pagination-change-page="getCategory"
+        :data="subCategoriesPaginate"
+        @pagination-change-page="getSubCategory"
       >
         <template #prev-nav>
           <span>&lt; {{ $t("global.Previous") }}</span>
@@ -200,27 +152,23 @@ export default {
     //
 
     // get packages
-    let categories = ref([]);
-    let activeCategories = ref([]);
-    let notActiveCategories = ref([]);
-    let categoriesPaginate = ref({});
+    let subCategories = ref([]);
+    let subCategoriesPaginate = ref({});
     let loading = ref(false);
     const search = ref("");
     let store = useStore();
 
     let permission = computed(() => store.getters["authAdmin/permission"]);
 
-    let getCategory = (page = 1) => {
+    let getSubCategory = (page = 1) => {
       loading.value = true;
 
       adminApi
-        .get(`/v1/dashboard/category?page=${page}&search=${search.value}`)
+        .get(`/v1/dashboard/subCategory?page=${page}&search=${search.value}`)
         .then((res) => {
           let l = res.data.data;
-          categoriesPaginate.value = l.categories;
-          categories.value = l.categories.data;
-          activeCategories.value = l.activeCategories;
-          notActiveCategories.value = l.notActiveCategories;
+          subCategoriesPaginate.value = l.subCategories;
+          subCategories.value = l.subCategories.data;
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -231,22 +179,22 @@ export default {
     };
 
     onMounted(() => {
-      getCategory();
+      getSubCategory();
     });
 
     //
     emitter.on("get_lang", () => {
-      getCategory(search.value);
+      getSubCategory(search.value);
     });
     //
 
     watch(search, (search, prevSearch) => {
       if (search.length >= 0) {
-        getCategory();
+        getSubCategory();
       }
     });
 
-    function deleteCategory(id, index) {
+    function deleteSubCategory(id, index) {
       Swal.fire({
         title: `${t("global.AreYouSureDelete")}`,
         text: `${t("global.YouWontBeAbleToRevertThis")}`,
@@ -259,9 +207,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           adminApi
-            .delete(`/v1/dashboard/category/${id}`)
+            .delete(`/v1/dashboard/subCategory/${id}`)
             .then((res) => {
-              categories.value.splice(index, index + 1);
+              subCategories.value.splice(index, index + 1);
 
               Swal.fire({
                 icon: "success",
@@ -281,7 +229,7 @@ export default {
       });
     }
 
-    function activationCategory(id, active, index) {
+    function activationSubCategory(id, active, index) {
       Swal.fire({
         title: `${
           active
@@ -298,7 +246,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           adminApi
-            .get(`/v1/dashboard/activationCategory/${id}`)
+            .get(`/v1/dashboard/activationSubCategory/${id}`)
             .then((res) => {
               Swal.fire({
                 icon: "success",
@@ -310,7 +258,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              categories.value[index]["status"] = active ? 0 : 1;
+              subCategories.value[index]["status"] = active ? 0 : 1;
             })
             .catch((err) => {
               Swal.fire({
@@ -324,16 +272,14 @@ export default {
     }
 
     return {
-      getCategory,
+      getSubCategory,
       loading,
       permission,
       search,
-      deleteCategory,
-      activationCategory,
-      categoriesPaginate,
-      categories,
-      activeCategories,
-      notActiveCategories,
+      deleteSubCategory,
+      activationSubCategory,
+      subCategoriesPaginate,
+      subCategories,
     };
   },
   data() {

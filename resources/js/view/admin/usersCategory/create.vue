@@ -16,12 +16,12 @@
             <h3 class="page-title">{{ $t("global.Category") }}</h3>
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
-                <router-link :to="{ name: 'indexCategory' }">
-                    {{ $t("global.Category") }}
+                <router-link :to="{ name: 'indexUsersCategory' }">
+                    {{ $t("global.usersCategory") }}
                 </router-link>
               </li>
               <li class="breadcrumb-item active">
-                {{ $t("category.CreateCategory") }}
+                {{ $t("usersCategory.CreateUsersCategory") }}
               </li>
             </ul>
           </div>
@@ -36,7 +36,7 @@
             <div class="card-body">
               <div class="card-header pt-0 mb-4">
                 <router-link
-                  :to="{ name: 'indexCategory' }"
+                  :to="{ name: 'indexUsersCategory' }"
                   class="btn btn-custom btn-dark"
                 >
                   {{ $t("global.back") }}
@@ -48,11 +48,11 @@
                     {{ t("global.Exist", {field:t("global.Name")}) }}<br />
                   </div>
                   <form
-                    @submit.prevent="storeCategory"
+                    @submit.prevent="storeUsersCategory"
                     class="needs-validation"
                   >
                     <div class="form-row row">
-                      <div class="col-md-6 mb-3">
+                      <div class="col-md-7 mb-3">
                         <label for="validationCustom01">
                             {{ $t("global.Name") }}
                         </label>
@@ -92,6 +92,47 @@
                           </span>
                         </div>
                       </div>
+                      <!--Start Description-->
+                      <div class="col-md-7 mb-3">
+                        <label for="validationCustom01">
+                            {{ $t("global.Description") }}
+                        </label>
+                        <textarea
+                          type="text"
+                          class="form-control"
+                          cols="7"
+                          rows="7"
+                          v-model.trim="v$.description.$model"
+                          id="validationCustom02"
+                          :placeholder="$t('global.Description')"
+                          :class="{
+                            'is-invalid': v$.description.$error,
+                            'is-valid': !v$.description.$invalid,
+                          }"
+                        ></textarea>
+                        <div class="valid-feedback">
+                            {{ $t("global.LooksGood") }}
+                        </div>
+                        <div class="invalid-feedback">
+                          <span v-if="v$.description.required.$invalid">
+                            {{ $t("global.NameIsRequired") }}
+                            <br/>
+                          </span>
+                          <span v-if="v$.description.maxLength.$invalid">
+                            {{ $t("global.NameIsMustHaveAtLeast") }}
+                            {{ v$.description.minLength.$params.min }}
+                            {{ $t("global.Letters") }}
+                            <br/>
+                          </span>
+                          <span v-if="v$.description.minLength.$invalid">
+                            {{ $t("global.NameIsMustHaveAtMost") }}
+                            {{ v$.description.maxLength.$params.max }}
+                            {{ $t("global.Letters") }}
+                            <br/>
+                          </span>
+                        </div>
+                      </div>
+                      <!--End Description-->
 
                       <div class="col-md-12 row flex-fill">
                         <div class="btn btn-outline-primary waves-effect">
@@ -128,7 +169,7 @@
                         <div class="container-images" v-show="!numberOfImage">
                           <figure>
                             <figcaption>
-                              <img :src="`/admin/img/company/img-1.png`" />
+                              <img :src="`/admin/img/usersCategory/img-1.png`" />
                             </figcaption>
                           </figure>
                         </div>
@@ -169,7 +210,7 @@ import { useI18n } from "vue-i18n";
 //
 
 export default {
-  name: "createDepartment",
+  name: "createUsersCategory",
   data() {
     return {
       errors: {},
@@ -183,10 +224,11 @@ export default {
     let loading = ref(false);
 
     //start design
-    let addCategory = reactive({
+    let addUsersCategory = reactive({
       data: {
         name: "",
         file: {},
+        description: "",
         nameExist: false,
       },
     });
@@ -201,27 +243,32 @@ export default {
         file: {
           required,
         },
+        description: {
+          minLength: minLength(3),
+          maxLength: maxLength(255),
+          required,
+        },
       };
     });
 
-    const v$ = useVuelidate(rules, addCategory.data);
+    const v$ = useVuelidate(rules, addUsersCategory.data);
 
     let preview = (e) => {
       let containerImages = document.querySelector("#container-images");
       if (numberOfImage.value) {
         containerImages.innerHTML = "";
       }
-      addCategory.data.file = {};
+      addUsersCategory.data.file = {};
 
       numberOfImage.value = e.target.files.length;
 
-      addCategory.data.file = e.target.files[0];
+      addUsersCategory.data.file = e.target.files[0];
 
       let reader = new FileReader();
       let figure = document.createElement("figure");
       let figcap = document.createElement("figcaption");
 
-      figcap.innerText = addCategory.data.file.name;
+      figcap.innerText = addUsersCategory.data.file.name;
       figure.appendChild(figcap);
 
       reader.onload = () => {
@@ -231,16 +278,16 @@ export default {
       };
 
       containerImages.appendChild(figure);
-      reader.readAsDataURL(addCategory.data.file);
+      reader.readAsDataURL(addUsersCategory.data.file);
     };
 
     const numberOfImage = ref(0);
 
-    return { loading, ...toRefs(addCategory), v$, preview, numberOfImage };
+    return { loading, ...toRefs(addUsersCategory), v$, preview, numberOfImage };
 
   },
   methods: {
-    storeCategory() {
+    storeUsersCategory() {
       this.v$.$validate();
 
       if (!this.v$.$error) {
@@ -249,9 +296,10 @@ export default {
         let formData = new FormData();
         formData.append("name", this.data.name);
         formData.append("file", this.data.file);
+        formData.append("description", this.data.description);
 
         adminApi
-          .post(`/v1/dashboard/category`, formData)
+          .post(`/v1/dashboard/usersCategory`, formData)
           .then((res) => {
             notify({
               title: `تم الإضافة بنجاح <i class="fas fa-check-circle"></i>`,
@@ -274,7 +322,6 @@ export default {
       }
     },
     resetForm() {
-      // this.data.phone = "";
       this.data.name = "";
       this.data.file = {};
     },

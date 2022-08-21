@@ -13,15 +13,15 @@
       <div class="page-header">
         <div class="row align-items-center">
           <div class="col">
-            <h3 class="page-title">{{ $t("global.Category") }}</h3>
+            <h3 class="page-title">{{ $t("global.Companies") }}</h3>
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
-                <router-link :to="{ name: 'indexCategory' }">
-                    {{ $t("global.Category") }}
+                <router-link :to="{ name: 'indexCompany' }">
+                    {{ $t("global.Companies") }}
                 </router-link>
               </li>
               <li class="breadcrumb-item active">
-                {{ $t("category.CreateCategory") }}
+                {{ $t("company.CreateCompany") }}
               </li>
             </ul>
           </div>
@@ -36,7 +36,7 @@
             <div class="card-body">
               <div class="card-header pt-0 mb-4">
                 <router-link
-                  :to="{ name: 'indexCategory' }"
+                  :to="{ name: 'indexCompany' }"
                   class="btn btn-custom btn-dark"
                 >
                   {{ $t("global.back") }}
@@ -48,7 +48,7 @@
                     {{ t("global.Exist", {field:t("global.Name")}) }}<br />
                   </div>
                   <form
-                    @submit.prevent="storeCategory"
+                    @submit.prevent="storeCompany"
                     class="needs-validation"
                   >
                     <div class="form-row row">
@@ -169,7 +169,7 @@ import { useI18n } from "vue-i18n";
 //
 
 export default {
-  name: "createDepartment",
+  name: "createCompany",
   data() {
     return {
       errors: {},
@@ -183,7 +183,7 @@ export default {
     let loading = ref(false);
 
     //start design
-    let addCategory = reactive({
+    let addCompany = reactive({
       data: {
         name: "",
         file: {},
@@ -204,24 +204,24 @@ export default {
       };
     });
 
-    const v$ = useVuelidate(rules, addCategory.data);
+    const v$ = useVuelidate(rules, addCompany.data);
 
     let preview = (e) => {
       let containerImages = document.querySelector("#container-images");
       if (numberOfImage.value) {
         containerImages.innerHTML = "";
       }
-      addCategory.data.file = {};
+      addCompany.data.file = {};
 
       numberOfImage.value = e.target.files.length;
 
-      addCategory.data.file = e.target.files[0];
+      addCompany.data.file = e.target.files[0];
 
       let reader = new FileReader();
       let figure = document.createElement("figure");
       let figcap = document.createElement("figcaption");
 
-      figcap.innerText = addCategory.data.file.name;
+      figcap.innerText = addCompany.data.file.name;
       figure.appendChild(figcap);
 
       reader.onload = () => {
@@ -231,16 +231,16 @@ export default {
       };
 
       containerImages.appendChild(figure);
-      reader.readAsDataURL(addCategory.data.file);
+      reader.readAsDataURL(addCompany.data.file);
     };
 
     const numberOfImage = ref(0);
 
-    return { loading, ...toRefs(addCategory), v$, preview, numberOfImage };
+    return { loading, ...toRefs(addCompany), v$, preview, numberOfImage };
 
   },
   methods: {
-    storeCategory() {
+    storeCompany() {
       this.v$.$validate();
 
       if (!this.v$.$error) {
@@ -251,7 +251,7 @@ export default {
         formData.append("file", this.data.file);
 
         adminApi
-          .post(`/v1/dashboard/category`, formData)
+          .post(`/v1/dashboard/company`, formData)
           .then((res) => {
             notify({
               title: `تم الإضافة بنجاح <i class="fas fa-check-circle"></i>`,

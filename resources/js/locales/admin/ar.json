@@ -121,9 +121,11 @@
         "BankName": "اسم البنك",
         "BankAddress": "عنوان البنك",
         "ChooseRole": "اختر دوره",
-        "NameIsRequired": "الاسم مطلوب .",
+        "NameIsRequired": "الاسم مطلوب.",
         "NameIsMustHaveAtLeast": "الاسم يجب ان يحتوى على الاقل",
         "NameIsMustHaveAtMost": "الاسم يجب ان يحتوى على الاكثر",
+        "NameIsExist":"السم موجود بالفعل",
+        "RateIsRequired": "النسبة مطلوبة.",
         "NationalIdIsRequired": "الرقم القومى مطلوب .",
         "NationalIdIsMustHaveAtLeast": "الرقم القومى يجب ان يحتوى على الاقل",
         "PhoneIsRequired": "رقم الهاتف مطلوب .",
@@ -147,6 +149,7 @@
         "ConfirmIsRequired": "تأكيد كلمة السر مطلوب .",
         "ConfirmationMustMatchPassword": "يجب أن يتطابق التأكيد مع كلمة المرور .",
         "ChooseImage": "اختر الصورة",
+        "ImageValidation": "أقصى حجم لا يجب أن يتعدى 2 ميجابايت",
         "ImagesIsMustHaveAtLeast1Photos": "يجب ان تحتوى على صورة واحده على الاقل",
         "BankNameIsRequired": "اسم البنك مطلوب .",
         "BankNameIsMustHaveAtLeast": "اسم البنك يجب ان يحتوى على الاقل",
@@ -294,6 +297,10 @@
         "CustomersService": "خدمة العملاء",
         "EmployeeCategory": "فئة الموظف",
         "Categories": "الفئات",
+        "MainCategories": "الفئات الرئيسية",
+        "SubCategories": "الفئات الفرعية",
+        "activeCategories":"الفئات المفعلة",
+        "notActiveCategories":"الفئات غير المفعلة",
         "CategoryIsRequired": "الفئة مطلوبه .",
         "ChoseCategory": "اختر الفئة",
         "From": "من",
@@ -307,7 +314,25 @@
         "SalesEmployeeComments": "تعليقات موظف المبيعات",
         "SalesEmployeeChange" : "تغيير موظف المبيعات",
         "Comment": "التعليق",
-        "Exist":"{field} موجود مسبقا"
+        "Exist":"{field} موجود مسبقا",
+
+        "Category":"فئات",
+        "MainCategory": "الفئة الرئيسية",
+        "SubCategory":"الفئة الفرعية",
+        "Tax":"الضريبة",
+        "Company":"الشركة",
+        "Product":"المنتج",
+        "Image":"الصورة",
+        "usersCategory":"فئات المستخدمين",
+        "subCategory":"الفئات الفرعية",
+        "Created_At":"تاريخ الإضافة",
+        "Taxes":"الضرائب",
+        "Rate":"نسبة الضريبة",
+        "Companies":"الشركات",
+        "Products":"المنتجات",
+        "BarCode":"بار كود",
+        "Charge":"رصيد",
+        "MaxMount":"أقصى كمية"
     },
     "treasury": {
         "TreasuryManagement":"ادارة الخزن",
@@ -414,5 +439,36 @@
         "Notifications": "اشعارات",
         "all": "عرض جميع الاشعارات",
         "clear": "قراه الكل"
+    },
+
+    "category": {
+        "CreateCategory": "اضافة فئة",
+        "ChooseCategory": "اختر الفئة",
+        "EditCategory": "تعديل الفئة"
+    },
+
+    "subCategory": {
+        "CreateSubCategory": "اضافة فئة فرعية",
+        "EditSubCategory": "تعديل الفئة الفرعية"
+    },
+
+    "usersCategory": {
+        "CreateUsersCategory": "اضافة فئة مستخدم",
+        "EditUsersCategory": "تعديل فئة المستخدم"
+    },
+
+    "product": {
+        "CreateProduct": "اضافة منتج",
+        "EditProduct": "تعديل منتج "
+    },
+
+    "tax": {
+        "CreateTax": "اضافة ضريبة",
+        "EditTax": "تعديل ضريبة"
+    },
+
+    "company": {
+        "CreateCompany": "اضافة شركة",
+        "EditCompany": "تعديل شركة"
     }
 }

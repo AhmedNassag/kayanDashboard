@@ -33,6 +33,36 @@ class PermissionSeeder extends Seeder
             ['name' => 'job create','role' => 'management'],
             ['name' => 'job edit','role' => 'management'],
             ['name' => 'job delete','role' => 'management'],
+            //category
+            ['name' => 'category read','role' => 'management'],
+            ['name' => 'category create','role' => 'management'],
+            ['name' => 'category edit','role' => 'management'],
+            ['name' => 'category delete','role' => 'management'],
+            //subCategory
+            ['name' => 'subCategory read','role' => 'management'],
+            ['name' => 'subCategory create','role' => 'management'],
+            ['name' => 'subCategory edit','role' => 'management'],
+            ['name' => 'subCategory delete','role' => 'management'],
+            //usersCategory
+            ['name' => 'usersCategory read','role' => 'management'],
+            ['name' => 'usersCategory create','role' => 'management'],
+            ['name' => 'usersCategory edit','role' => 'management'],
+            ['name' => 'usersCategory delete','role' => 'management'],
+            //tax
+            ['name' => 'tax read','role' => 'management'],
+            ['name' => 'tax create','role' => 'management'],
+            ['name' => 'tax edit','role' => 'management'],
+            ['name' => 'tax delete','role' => 'management'],
+            //company
+            ['name' => 'company read','role' => 'management'],
+            ['name' => 'company create','role' => 'management'],
+            ['name' => 'company edit','role' => 'management'],
+            ['name' => 'company delete','role' => 'management'],
+            //product
+            ['name' => 'product read','role' => 'management'],
+            ['name' => 'product create','role' => 'management'],
+            ['name' => 'product edit','role' => 'management'],
+            ['name' => 'product delete','role' => 'management'],
         ];
 
 

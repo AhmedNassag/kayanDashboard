@@ -13,15 +13,15 @@
       <div class="page-header">
         <div class="row align-items-center">
           <div class="col">
-            <h3 class="page-title">{{ $t("global.Category") }}</h3>
+            <h3 class="page-title">{{ $t("global.Taxes") }}</h3>
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
-                <router-link :to="{ name: 'indexCategory' }">
-                    {{ $t("global.Category") }}
+                <router-link :to="{ name: 'indexTax' }">
+                    {{ $t("global.Taxes") }}
                 </router-link>
               </li>
               <li class="breadcrumb-item active">
-                {{ $t("category.CreateCategory") }}
+                {{ $t("tax.CreateTax") }}
               </li>
             </ul>
           </div>
@@ -36,7 +36,7 @@
             <div class="card-body">
               <div class="card-header pt-0 mb-4">
                 <router-link
-                  :to="{ name: 'indexCategory' }"
+                  :to="{ name: 'indexTax' }"
                   class="btn btn-custom btn-dark"
                 >
                   {{ $t("global.back") }}
@@ -48,10 +48,12 @@
                     {{ t("global.Exist", {field:t("global.Name")}) }}<br />
                   </div>
                   <form
-                    @submit.prevent="storeCategory"
+                    @submit.prevent="storeTax"
                     class="needs-validation"
                   >
                     <div class="form-row row">
+
+                      <!--Start Name-->
                       <div class="col-md-6 mb-3">
                         <label for="validationCustom01">
                             {{ $t("global.Name") }}
@@ -92,47 +94,36 @@
                           </span>
                         </div>
                       </div>
+                      <!--End Name-->
 
-                      <div class="col-md-12 row flex-fill">
-                        <div class="btn btn-outline-primary waves-effect">
-                          <span>
-                            {{ $t("global.ChooseImage") }}
-                            <i
-                              class="fas fa-cloud-upload-alt ml-3"
-                              aria-hidden="true"
-                            ></i>
-                          </span>
-                          <input
-                            name="mediaPackage"
-                            type="file"
-                            @change="preview"
-                            id="mediaPackage"
-                            accept="image/png,jepg,jpg"
-                          />
+                      <!--Start Rate-->
+                      <div class="col-md-6 mb-3">
+                        <label for="validationCustom01">
+                            {{ $t("global.Rate") }}
+                        </label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          v-model.trim="v$.rate.$model"
+                          id="validationCustom01"
+                          :placeholder="$t('global.Rate')"
+                          :class="{
+                            'is-invalid': v$.rate.$error,
+                            'is-valid': !v$.rate.$invalid,
+                          }"
+                        />
+                        <div class="valid-feedback">
+                            {{ $t("global.LooksGood") }}
                         </div>
-                        <span class="text-danger text-center"
-                          >{{ $t("global.ImageValidation") }}</span
-                        >
-                        <p class="num-of-files">
-                          {{
-                            numberOfImage
-                              ? numberOfImage + " Files Selected"
-                              : "No Files Chosen"
-                          }}
-                        </p>
-                        <div
-                          class="container-images"
-                          id="container-images"
-                          v-show="data.file && numberOfImage"
-                        ></div>
-                        <div class="container-images" v-show="!numberOfImage">
-                          <figure>
-                            <figcaption>
-                              <img :src="`/admin/img/company/img-1.png`" />
-                            </figcaption>
-                          </figure>
+                        <div class="invalid-feedback">
+                          <span v-if="v$.rate.required.$invalid">
+                            {{ $t("global.RateIsRequired") }}
+                            <br/>
+                          </span>
                         </div>
                       </div>
+                      <!--End Rate-->
+
                     </div>
 
                     <button class="btn btn-primary" type="submit">{{ $t("global.Submit") }}</button>
@@ -169,7 +160,7 @@ import { useI18n } from "vue-i18n";
 //
 
 export default {
-  name: "createDepartment",
+  name: "createTax",
   data() {
     return {
       errors: {},
@@ -183,10 +174,10 @@ export default {
     let loading = ref(false);
 
     //start design
-    let addCategory = reactive({
+    let addTax = reactive({
       data: {
         name: "",
-        file: {},
+        rate: "",
         nameExist: false,
       },
     });
@@ -198,49 +189,19 @@ export default {
           maxLength: maxLength(70),
           required,
         },
-        file: {
+        rate: {
           required,
         },
       };
     });
 
-    const v$ = useVuelidate(rules, addCategory.data);
+    const v$ = useVuelidate(rules, addTax.data);
 
-    let preview = (e) => {
-      let containerImages = document.querySelector("#container-images");
-      if (numberOfImage.value) {
-        containerImages.innerHTML = "";
-      }
-      addCategory.data.file = {};
-
-      numberOfImage.value = e.target.files.length;
-
-      addCategory.data.file = e.target.files[0];
-
-      let reader = new FileReader();
-      let figure = document.createElement("figure");
-      let figcap = document.createElement("figcaption");
-
-      figcap.innerText = addCategory.data.file.name;
-      figure.appendChild(figcap);
-
-      reader.onload = () => {
-        let img = document.createElement("img");
-        img.setAttribute("src", reader.result);
-        figure.insertBefore(img, figcap);
-      };
-
-      containerImages.appendChild(figure);
-      reader.readAsDataURL(addCategory.data.file);
-    };
-
-    const numberOfImage = ref(0);
-
-    return { loading, ...toRefs(addCategory), v$, preview, numberOfImage };
+    return { loading, ...toRefs(addTax), v$ };
 
   },
   methods: {
-    storeCategory() {
+    storeTax() {
       this.v$.$validate();
 
       if (!this.v$.$error) {
@@ -248,10 +209,10 @@ export default {
         this.errors = {};
         let formData = new FormData();
         formData.append("name", this.data.name);
-        formData.append("file", this.data.file);
+        formData.append("rate", this.data.rate);
 
         adminApi
-          .post(`/v1/dashboard/category`, formData)
+          .post(`/v1/dashboard/tax`, formData)
           .then((res) => {
             notify({
               title: `تم الإضافة بنجاح <i class="fas fa-check-circle"></i>`,
@@ -274,9 +235,8 @@ export default {
       }
     },
     resetForm() {
-      // this.data.phone = "";
       this.data.name = "";
-      this.data.file = {};
+      this.data.rate = "";
     },
   },
 };

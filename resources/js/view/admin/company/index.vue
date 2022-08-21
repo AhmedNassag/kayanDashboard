@@ -10,58 +10,19 @@
       <div class="page-header">
         <div class="row align-items-center">
           <div class="col">
-            <h3 class="page-title">{{ $t("global.Category") }}</h3>
+            <h3 class="page-title">{{ $t("global.Companies") }}</h3>
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
                 <router-link :to="{ name: 'dashboard' }">
                   {{ $t("dashboard.Dashboard") }}
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">{{ $t("global.Category") }}</li>
+              <li class="breadcrumb-item active">{{ $t("global.Companies") }}</li>
             </ul>
           </div>
         </div>
       </div>
       <!-- /Page Header -->
-
-
-      <!--Start Statistics-->
-      <div class="row">
-        <div class="col-md-8">
-            <!--/Wizard-->
-            <div class="row">
-                <div class="col-md-4 d-flex">
-                    <div class="card wizard-card flex-fill">
-                        <div class="card-body text-center">
-                            <p class="text-primary mt-0 mb-2">{{ $t("global.Categories") }}</p>
-                            <h5>{{categories.length}}</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 d-flex">
-                    <div class="card wizard-card flex-fill">
-                        <div class="card-body text-center">
-                            <p class="text-primary mt-0 mb-2">{{ $t("global.activeCategories") }}</p>
-                            <h5>{{activeCategories.length}}</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 d-flex">
-                    <div class="card wizard-card flex-fill">
-                        <div class="card-body text-center">
-                            <p class="text-primary mt-0 mb-2">{{ $t("global.notActiveCategories") }}</p>
-                            <h5>{{notActiveCategories.length}}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/Wizard-->
-        </div>
-    </div>
-      <!--End Statistics-->
-
 
       <!-- Table -->
       <div class="row">
@@ -77,8 +38,8 @@
                   </div>
                   <div class="col-5 row justify-content-end">
                     <router-link
-                      v-if="permission.includes('department create')"
-                      :to="{ name: 'createCategory' }"
+                      v-if="permission.includes('company create')"
+                      :to="{ name: 'createCompany' }"
                       class="btn btn-custom btn-warning"
                     >
                       {{ $t("global.Add") }}
@@ -98,13 +59,13 @@
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
-                  <tbody v-if="categories.length">
-                    <tr v-for="(item, index) in categories" :key="item.id">
+                  <tbody v-if="companies.length">
+                    <tr v-for="(item, index) in companies" :key="item.id">
                       <td>{{ index + 1 }}</td>
                       <td>{{ item.name }}</td>
                       <td>
                         <img
-                          :src="'/upload/category/' + item.media.file_name"
+                          :src="'/upload/company/' + item.media.file_name"
                           :alt="item.name"
                           class="custom-img"
                         />
@@ -112,7 +73,7 @@
                       <td>
                         <a
                           href="#"
-                          @click="activationCategory(item.id, item.status, index)"
+                          @click="activationCompany(item.id, item.status, index)"
                         >
                           <span
                             :class="[
@@ -132,18 +93,18 @@
                       <td>
                         <router-link
                           :to="{
-                            name: 'editCategory',
+                            name: 'editCompany',
                             params: { id: item.id },
                           }"
-                          v-if="permission.includes('department edit')"
+                          v-if="permission.includes('company edit')"
                           class="btn btn-sm btn-success me-2"
                         >
                           <i class="far fa-edit"></i>
                         </router-link>
                         <a
                           href="#"
-                          @click="deleteCategory(item.id, index)"
-                          v-if="permission.includes('department delete')"
+                          @click="deleteCompany(item.id, index)"
+                          v-if="permission.includes('company delete')"
                           data-bs-target="#staticBackdrop"
                           class="btn btn-sm btn-danger me-2"
                         >
@@ -168,8 +129,8 @@
       <!-- /Table -->
       <!-- start Pagination -->
       <Pagination
-        :data="categoriesPaginate"
-        @pagination-change-page="getCategory"
+        :data="companiesPaginate"
+        @pagination-change-page="getCompany"
       >
         <template #prev-nav>
           <span>&lt; {{ $t("global.Previous") }}</span>
@@ -200,27 +161,23 @@ export default {
     //
 
     // get packages
-    let categories = ref([]);
-    let activeCategories = ref([]);
-    let notActiveCategories = ref([]);
-    let categoriesPaginate = ref({});
+    let companies = ref([]);
+    let companiesPaginate = ref({});
     let loading = ref(false);
     const search = ref("");
     let store = useStore();
 
     let permission = computed(() => store.getters["authAdmin/permission"]);
 
-    let getCategory = (page = 1) => {
+    let getCompany = (page = 1) => {
       loading.value = true;
 
       adminApi
-        .get(`/v1/dashboard/category?page=${page}&search=${search.value}`)
+        .get(`/v1/dashboard/company?page=${page}&search=${search.value}`)
         .then((res) => {
           let l = res.data.data;
-          categoriesPaginate.value = l.categories;
-          categories.value = l.categories.data;
-          activeCategories.value = l.activeCategories;
-          notActiveCategories.value = l.notActiveCategories;
+          companiesPaginate.value = l.companies;
+          companies.value = l.companies.data;
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -231,22 +188,22 @@ export default {
     };
 
     onMounted(() => {
-      getCategory();
+      getCompany();
     });
 
     //
     emitter.on("get_lang", () => {
-      getCategory(search.value);
+      getCompany(search.value);
     });
     //
 
     watch(search, (search, prevSearch) => {
       if (search.length >= 0) {
-        getCategory();
+        getCompany();
       }
     });
 
-    function deleteCategory(id, index) {
+    function deleteCompany(id, index) {
       Swal.fire({
         title: `${t("global.AreYouSureDelete")}`,
         text: `${t("global.YouWontBeAbleToRevertThis")}`,
@@ -259,9 +216,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           adminApi
-            .delete(`/v1/dashboard/category/${id}`)
+            .delete(`/v1/dashboard/company/${id}`)
             .then((res) => {
-              categories.value.splice(index, index + 1);
+              companies.value.splice(index, index + 1);
 
               Swal.fire({
                 icon: "success",
@@ -281,7 +238,7 @@ export default {
       });
     }
 
-    function activationCategory(id, active, index) {
+    function activationCompany(id, active, index) {
       Swal.fire({
         title: `${
           active
@@ -298,7 +255,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           adminApi
-            .get(`/v1/dashboard/activationCategory/${id}`)
+            .get(`/v1/dashboard/activationCompany/${id}`)
             .then((res) => {
               Swal.fire({
                 icon: "success",
@@ -310,7 +267,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              categories.value[index]["status"] = active ? 0 : 1;
+              companies.value[index]["status"] = active ? 0 : 1;
             })
             .catch((err) => {
               Swal.fire({
@@ -324,16 +281,14 @@ export default {
     }
 
     return {
-      getCategory,
+      getCompany,
       loading,
       permission,
       search,
-      deleteCategory,
-      activationCategory,
-      categoriesPaginate,
-      categories,
-      activeCategories,
-      notActiveCategories,
+      deleteCompany,
+      activationCompany,
+      companiesPaginate,
+      companies,
     };
   },
   data() {

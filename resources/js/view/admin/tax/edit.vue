@@ -14,10 +14,10 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">{{ $t("global.Category") }}</h3>
+                        <h3 class="page-title">{{ $t("global.Taxes") }}</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><router-link :to="{name: 'indexCategory'}">{{ $t("global.Category") }}</router-link></li>
-                            <li class="breadcrumb-item active">{{ $t("category.EditCategory") }}</li>
+                            <li class="breadcrumb-item"><router-link :to="{name: 'indexTax'}">{{ $t("global.Taxes") }}</router-link></li>
+                            <li class="breadcrumb-item active">{{ $t("tax.EditTax") }}</li>
                         </ul>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <div class="card-header pt-0 mb-4">
                                 <router-link
-                                    :to="{name: 'indexCategory'}"
+                                    :to="{name: 'indexTax'}"
                                     class="btn btn-custom btn-dark"
                                 >
                                     {{ $t("global.back") }}
@@ -45,9 +45,10 @@
                                     >
                                         {{ t("global.Exist", {field:t("global.Name")}) }} <br />
                                     </div>
-                                    <form @submit.prevent="editSupplier" class="needs-validation">
+                                    <form @submit.prevent="editTax" class="needs-validation">
                                         <div class="form-row row">
 
+                                            <!--Start Name-->
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationCustom01">{{$t("global.Name")}}</label>
                                                 <input type="text" class="form-control"
@@ -63,32 +64,23 @@
                                                     <span v-if="v$.name.minLength.$invalid">{{ $t("global.NameIsMustHaveAtMost") }} {{ v$.name.maxLength.$params.max }} {{ $t("global.Letters") }}</span>
                                                 </div>
                                             </div>
+                                            <!--End Name-->
 
-                                            <div class="col-md-12 row flex-fill">
-                                                <div class="btn btn-outline-primary waves-effect">
-                                                    <span>
-                                                        {{ $t("global.ChooseImage") }}
-                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
-                                                    </span>
-                                                    <input
-                                                        name="mediaPackage"
-                                                        type="file"
-                                                        @change="preview"
-                                                        id="mediaPackage"
-                                                        accept="image/png,jepg,jpg"
-                                                    >
-                                                </div>
-                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
-                                                <p class="num-of-files">{{numberOfImage ? numberOfImage + ' Files Selected' : 'No Files Chosen' }}</p>
-                                                <div class="container-images" id="container-images" v-show="data.file && numberOfImage"></div>
-                                                <div class="container-images" v-show="!numberOfImage">
-                                                    <figure>
-                                                        <figcaption v-if="image">
-                                                            <img :src="`/upload/category/${image}`">
-                                                        </figcaption>
-                                                    </figure>
+                                            <!--Start Rate-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom02">{{$t("global.Rate")}}</label>
+                                                <input type="number" class="form-control"
+                                                       v-model.trim="v$.rate.$model"
+                                                       id="validationCustom02"
+                                                       :placeholder="$t('global.Rate')"
+                                                       :class="{'is-invalid':v$.rate.$error,'is-valid':!v$.rate.$invalid}"
+                                                >
+                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.rate.required.$invalid">{{ $t("global.RateIsRequired") }} <br/> </span>
                                                 </div>
                                             </div>
+                                            <!--End Rate-->
 
                                         </div>
 
@@ -117,7 +109,7 @@ import { useI18n } from "vue-i18n";
 //
 
 export default {
-    name: "editDepartment",
+    name: "editTax",
     data(){
         return {
             errors:{}
@@ -133,17 +125,16 @@ export default {
 
         // get create Package
         let loading = ref(false);
-        let image = ref('');
 
-        let getCategory = () => {
+        let getTax = () => {
             loading.value = true;
 
-            adminApi.get(`/v1/dashboard/category/${id.value}/edit`)
+            adminApi.get(`/v1/dashboard/tax/${id.value}/edit`)
                 .then((res) => {
                     let l = res.data.data;
 
-                    addCategory.data.name = l.category.name;
-                    image.value = l.category.media.file_name;
+                    addTax.data.name = l.tax.name;
+                    addTax.data.rate = l.tax.rate;
                 })
                 .catch((err) => {
                     console.log(err.response);
@@ -154,14 +145,14 @@ export default {
         }
 
         onMounted(() => {
-            getCategory();
+            getTax();
         });
 
         //start design
-        let addCategory =  reactive({
+        let addTax =  reactive({
             data:{
                 name : '',
-                file : {}
+                rate : '',
             }
         });
 
@@ -171,48 +162,19 @@ export default {
                     minLength: minLength(3),
                     maxLength:maxLength(70),
                     required
-                }
+                },
+                rate: {
+                    required
+                },
             };
         });
 
-        const v$ = useVuelidate(rules,addCategory.data);
+        const v$ = useVuelidate(rules,addTax.data);
 
-        let preview = (e) => {
-
-            let containerImages = document.querySelector('#container-images');
-            if(numberOfImage.value){
-                containerImages.innerHTML = '';
-            }
-            addCategory.data.file = {};
-
-            numberOfImage.value = e.target.files.length;
-
-            addCategory.data.file = e.target.files[0];
-
-            let reader = new FileReader();
-            let figure = document.createElement('figure');
-            let figcap = document.createElement('figcaption');
-
-            figcap.innerText = addCategory.data.file.name;
-            figure.appendChild(figcap);
-
-            reader.onload = () => {
-                let img = document.createElement('img');
-                img.setAttribute('src',reader.result);
-                figure.insertBefore(img,figcap);
-            }
-
-            containerImages.appendChild(figure);
-            reader.readAsDataURL(addCategory.data.file);
-
-        };
-
-        const numberOfImage = ref(0);
-
-        return {id,loading,...toRefs(addCategory),v$,preview,numberOfImage,image};
+        return {id,loading,...toRefs(addTax),v$};
     },
     methods: {
-        editSupplier(){
+        editTax(){
             this.v$.$validate();
 
             if(!this.v$.$error){
@@ -222,10 +184,10 @@ export default {
 
                 let formData = new FormData();
                 formData.append('name',this.data.name);
-                formData.append('file',this.data.file);
+                formData.append('rate',this.data.rate);
                 formData.append('_method','PUT');
 
-                adminApi.post(`/v1/dashboard/category/${this.id}`,formData)
+                adminApi.post(`/v1/dashboard/tax/${this.id}`,formData)
                     .then((res) => {
                         notify({
                             title: `تم التعديل بنجاح <i class="fas fa-check-circle"></i>`,

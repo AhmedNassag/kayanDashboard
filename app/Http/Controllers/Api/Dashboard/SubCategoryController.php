@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\SubCategory;
 use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class SubCategoryController extends Controller
 {
-
     use Message;
 
     /**
@@ -22,39 +21,42 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::with('media:file_name,mediable_id')
+        $subCategories = SubCategory::with('category')
             ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
-        foreach($categories as $category)
-        {
-            $category->setAttribute('added_at',$category->created_at->format('Y-m-d'));
-        }
-
-        $activeCategories = Category::where('status', 1)->get();
-        $notActiveCategories = Category::where('status', 0)->get();
-        return $this->sendResponse(['categories' => $categories,'activeCategories' => $activeCategories,'notActiveCategories' => $notActiveCategories], 'Data exited successfully');
+        return $this->sendResponse(['subCategories' => $subCategories], 'Data exited successfully');
     }
 
 
-    public function activationCategory($id)
+    public function activationSubCategory($id)
     {
-        $department = Category::find($id);
+        $subCategory = SubCategory::find($id);
 
-        if ($department->status == 1)
+        if ($subCategory->status == 1)
         {
-            $department->update([
+            $subCategory->update([
                 "status" => 0
             ]);
         }else{
-            $department->update([
+            $subCategory->update([
                 "status" => 1
             ]);
         }
         return $this->sendResponse([], 'Data exited successfully');
     }
 
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -69,34 +71,16 @@ class CategoryController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'name' => 'required|unique:categories,name',
-                'file' => 'required|file|mimes:png,jpg,jpeg',
+                'name' => 'required',
+                'category_id' => 'required',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $data = $request->only(['name']);
+            $data = $request->only(['name','category_id']);
 
-            $category = Category::create($data);
-
-            if($request->hasFile('file')){
-
-                $file_size = $request->file->getSize();
-                $file_type = $request->file->getMimeType();
-                $image = time().'.'. $request->file->getClientOriginalName();
-
-                // picture move
-                $request->file->storeAs('category', $image,'general');
-
-                $category->media()->create([
-                    'file_name' => $image ,
-                    'file_size' => $file_size,
-                    'file_type' => $file_type,
-                    'file_sort' => 1
-                ]);
-
-            }
+            $subCategory = SubCategory::create($data);
 
             DB::commit();
 
@@ -108,6 +92,16 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -119,9 +113,9 @@ class CategoryController extends Controller
     {
         try {
 
-            $category = Category::with('media:file_name,mediable_id')->find($id);
+            $subCategory = SubCategory::find($id);
 
-            return $this->sendResponse(['category' => $category], 'Data exited successfully');
+            return $this->sendResponse(['subCategory' => $subCategory], 'Data exited successfully');
 
         } catch (\Exception $e) {
 
@@ -142,44 +136,21 @@ class CategoryController extends Controller
         DB::beginTransaction();
         try {
 
-            $category = Category::find($id);
+            $subCategory = SubCategory::find($id);
 
             // Validator request
             $v = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'file' => 'nullable'.($request->hasFile('file')?'|file|mimes:jpeg,jpg,png':''),
+                'category_id' => 'required',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['name','status']);
+            $data = $request->only(['name','category_id','status']);
 
-            $category->update($data);
-
-            if($request->hasFile('file')){
-
-                if(File::exists('upload/category/'.$category->media->file_name)){
-                    unlink('upload/category/'. $category->media->file_name);
-                }
-                $category->media->delete();
-
-                $file_size = $request->file->getSize();
-                $file_type = $request->file->getMimeType();
-                $image = time().'.'. $request->file->getClientOriginalName();
-
-                // picture move
-                $request->file->storeAs('category', $image,'general');
-
-                $category->media()->create([
-                    'file_name' => $image ,
-                    'file_size' => $file_size,
-                    'file_type' => $file_type,
-                    'file_sort' => 1
-                ]);
-
-            }
+            $subCategory->update($data);
 
             DB::commit();
             return $this->sendResponse([],'Data exited successfully');
@@ -199,15 +170,9 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $category = Category::find($id);
-            if ($category){
-
-                if(File::exists('upload/category/'.$category->media->file_name)){
-                    unlink('upload/category/'. $category->media->file_name);
-                }
-                $category->media->delete();
-
-                $category->delete();
+            $subCategory = SubCategory::find($id);
+            if ($subCategory){
+                $subCategory->delete();
                 return $this->sendResponse([],'Deleted successfully');
             }else{
                 return $this->sendError('ID is not exist');
