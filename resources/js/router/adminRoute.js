@@ -20,8 +20,10 @@ import auth from "../middleware/admin/auth";
 import login from "../view/admin/login";
 import forgetPassword from "../view/admin/forgetPassword";
 import resetPassword from "../view/admin/resetPassword";
-
-
+import unit from './adminRoute/unit';
+import offer from './adminRoute/offer';
+import shipping from './adminRoute/shipping';
+import supplier from './adminRoute/supplier';
 
 const routes = [
     {
@@ -85,7 +87,11 @@ const routes = [
             ...usersCategory,
             ...tax,
             ...company,
-            ...product
+            ...product,
+            ...unit,
+            ...offer,
+            ...shipping,
+            ...supplier,
         ]
     },
     {

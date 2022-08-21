@@ -20,22 +20,29 @@ const getters = {
 
 // mutations
 const mutations = {
-    editToken(state,token){
+    editToken(state, token) {
         state.token = token;
-        Cookies.set('tokenAdmin',token,{ expires: 7 });
+        Cookies.set('tokenAdmin', token, { expires: 7 });
     },
-    editPermission(state,permission){
-        state.permission = permission;
-        localStorage.setItem('permission',JSON.stringify(permission));
+    editPermission(state, permission) {
+        let name = [];
+        permission.forEach(el => {
+            name.push(el.name);
+            if (el.role && !name.includes(el.role)) {
+                name.push(el.role);
+            }
+        })
+        state.permission = name;
+        localStorage.setItem('permission', JSON.stringify(name));
     },
-    editUser(state,user){
+    editUser(state, user) {
         state.user = user;
-        localStorage.setItem('user',JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(user));
     },
-    editLoading(state,load){
+    editLoading(state, load) {
         state.loading = load;
     },
-    logoutToken(state){
+    logoutToken(state) {
         state.roles = null;
         state.token = null;
         state.user = null;
@@ -48,26 +55,19 @@ const mutations = {
 
 // actions
 const actions = {
-    login({commit},preload) {
+    login({ commit }, preload) {
 
-        commit('editLoading',true);
+        commit('editLoading', true);
 
-        adminApi.post(`/v1/auth/login`,preload)
+        adminApi.post(`/v1/auth/login`, preload)
             .then((res) => {
-                let l =res.data.data;
+                let l = res.data.data;
 
-                commit('editToken',l.access_token);
+                commit('editToken', l.access_token);
 
-                let name = [];
-                l.permission.forEach(el => {
-                    name.push(el.name);
-                    if(el.role && !name.includes(el.role)){
-                        name.push(el.role);
-                    }
-                })
 
-                commit('editPermission',name);
-                commit('editUser',l.user);
+                commit('editPermission', l.permission);
+                commit('editUser', l.user);
 
                 window.location.reload();
 
@@ -75,30 +75,30 @@ const actions = {
             .catch((err) => {
                 console.log(err.response);
             }).finally(() => {
-                commit('editLoading',false);
+                commit('editLoading', false);
             });
     },
-    logout({commit}){
+    logout({ commit }) {
 
-        commit('editLoading',true);
+        commit('editLoading', true);
 
         adminApi.post(`/v1/dashboard/logout`)
             .then((res) => {
                 commit('logoutToken');
                 let locale = localStorage.getItem("langAdmin");
 
-                return router.push({name: 'login'});
+                return router.push({ name: 'login' });
 
             })
             .catch((err) => {
                 console.log(err.response.data);
             }).finally(() => {
-                commit('editLoading',false);
-             })
+                commit('editLoading', false);
+            })
     }
 }
 
-export default  {
+export default {
     namespaced: true,
     state,
     getters,
