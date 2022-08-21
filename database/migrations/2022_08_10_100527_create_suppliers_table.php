@@ -15,14 +15,20 @@ class CreateSuppliersTable extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->string('name_supplier')->nullable();
-            $table->string('address')->nullable();
-            $table->string('phone_supplier')->nullable();
-            $table->string('commercial_record')->nullable();
-            $table->string('tax_card')->nullable();
-            $table->string('name')->nullable();
-            $table->string('phone')->nullable();
-            $table->boolean('status')->default(true);
+            $table->string("name")->nullable();
+            $table->string("address")->nullable();
+            $table->string("phone")->nullable();
+            $table->string("commerical_register")->nullable();
+            $table->string("tax_card")->nullable();
+            $table->string("responsible_name")->nullable();
+            $table->string("responsible_phone")->nullable();
+            $table->boolean("active")->nullable();
+            $table->string("payment_type")->nullable();
+            $table->string("account_number")->nullable();
+            $table->string("payment_phone")->nullable();
+            $table->string("payment_responsible_name")->nullable();
+            $table->string("payment_responsible_phone")->nullable();
+            $table->string("payment_responsible_card_number")->nullable();
             $table->timestamps();
         });
     }
