@@ -7,19 +7,58 @@
           <li :class="[$route.name == 'dashboard' ? 'active' : '']">
             <router-link :to="{ name: 'dashboard' }">
               <i class="fa fa-home" aria-hidden="true"></i>
-              <span>الرئيسية</span>
+              <span>{{ $t("sidebar.Dashboard") }}</span>
             </router-link>
           </li>
-          <li :class="[$route.name == 'indexCategory' ? 'active' : '']">
+          <li
+            v-if="permission.includes('category read')"
+            :class="[$route.name == 'indexCategory' ? 'active' : '']"
+          >
             <router-link :to="{ name: 'indexCategory' }">
               <i class="fa fa-home" aria-hidden="true"></i>
-              <span>الفئات</span>
+              <span>{{ $t("sidebar.Categories") }}</span>
             </router-link>
           </li>
-
+          <li
+            v-if="permission.includes('unit read')"
+            :class="[$route.name == 'UnitIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'UnitIndex' }">
+              <i class="fa fa-balance-scale" aria-hidden="true"></i>
+              <span>{{ $t("sidebar.Units") }}</span>
+            </router-link>
+          </li>
+          <li
+            v-if="permission.includes('offer read')"
+            :class="[$route.name == 'OfferIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'OfferIndex' }">
+              <i class="fas fa-boxes"></i
+              ><span>{{ $t("sidebar.Offers") }}</span>
+            </router-link>
+          </li>
+          <li
+            v-if="permission.includes('shipping read')"
+            :class="[$route.name == 'ShippingIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'ShippingIndex' }">
+              <i class="fa fa-truck" aria-hidden="true"></i>
+              <span>{{ $t("sidebar.Shippings") }}</span>
+            </router-link>
+          </li>
+          <li
+            v-if="permission.includes('supplier read')"
+            :class="[$route.name == 'SupplierIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'SupplierIndex' }">
+              <i class="fa fa-users" aria-hidden="true"></i>
+              <span>{{ $t("sidebar.Suppliers") }}</span>
+            </router-link>
+          </li>
           <li class="submenu" v-if="permission.includes('management')">
             <a href="#"
-              ><i class="fas fa-suitcase"></i> <span>الادارة</span>
+              ><i class="fas fa-suitcase"></i>
+              <span>{{ $t("sidebar.Management") }}</span>
               <span :class="['menu-arrow', 'menu-arrow-ar']"></span
             ></a>
             <ul>
@@ -31,10 +70,9 @@
                   :to="{ name: 'indexDepartment' }"
                   :class="['sidebar-menu-rtl']"
                 >
-                  الاقسام
+                  {{ $t("sidebar.Department") }}
                 </router-link>
               </li>
-
               <li
                 :class="[$route.name == 'indexJob' ? 'active' : '']"
                 v-if="permission.includes('job read')"
@@ -43,7 +81,7 @@
                   :to="{ name: 'indexJob' }"
                   :class="['sidebar-menu-rtl']"
                 >
-                  الوظائف
+                  {{ $t("sidebar.Jobs") }}
                 </router-link>
               </li>
             </ul>
@@ -51,7 +89,8 @@
 
           <li class="submenu" v-if="permission.includes('role-employee')">
             <a href="#"
-              ><i class="fas fa-user-tie"></i> <span> الموظفين</span>
+              ><i class="fas fa-user-tie"></i>
+              <span> {{ $t("sidebar.Employees") }}</span>
               <span :class="['menu-arrow menu-arrow-ar']"></span
             ></a>
             <ul>
@@ -63,7 +102,7 @@
                   :to="{ name: 'indexRole' }"
                   :class="['sidebar-menu-rtl']"
                 >
-                  الادوار
+                  {{ $t("sidebar.Roles") }}
                 </router-link>
               </li>
 
@@ -75,7 +114,7 @@
                   :to="{ name: 'indexEmployee' }"
                   :class="['sidebar-menu-rtl']"
                 >
-                  الموظفين
+                  {{ $t("sidebar.Employees") }}
                 </router-link>
               </li>
             </ul>

@@ -3,180 +3,48 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Supplier;
-use App\Traits\Message;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreSupplierRequest;
+use App\Http\Requests\UpdateSupplierRequest;
+use App\Repositories\SupplierRepository;
 
 class SupplierController extends Controller
 {
 
-    use Message;
+    private $supplierRepository;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function __construct(SupplierRepository $supplierRepository)
     {
-        $suppliers = Supplier::select('id','name_supplier','status','phone_supplier')
-        ->when($request->search, function ($q) use ($request) {
-            return $q->where('name_supplier', 'like', '%' . $request->search . '%')
-                    ->orWhere('name', 'like', '%' . $request->search . '%');
-
-        })
-        ->latest()->paginate(10);
-
-        return $this->sendResponse(['suppliers' => $suppliers], 'Data exited successfully');
+        $this->supplierRepository = $supplierRepository;
+        $this->middleware('permission:supplier read', ['only' => ['index']]);
+        $this->middleware('permission:supplier create', ['only' => ['store']]);
+        $this->middleware('permission:supplier edit', ['only' => ['update', 'toggleActivation']]);
+        $this->middleware('permission:supplier delete', ['only' => ['delete']]);
     }
 
-
-    public function activationSupplier($id)
+    public function store(StoreSupplierRequest $request)
     {
-        $department = Supplier::find($id);
-
-        if ($department->status == 1)
-        {
-            $department->update([
-                "status" => 0
-            ]);
-        }else{
-            $department->update([
-                "status" => 1
-            ]);
-        }
-        return $this->sendResponse([], 'Data exited successfully');
+        $request->merge(["active" => 1]);
+        return $this->supplierRepository->store($request->input());
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function update(UpdateSupplierRequest $request)
     {
-        try {
-            DB::beginTransaction();
-
-            // Validator request
-            $v = Validator::make($request->all(), [
-                'name_supplier' => ['required','string'],
-                'address' => ['required','string'],
-                'phone_supplier' => ['required','string'],
-                'commercial_record' => ['nullable','string'],
-                'tax_card' => ['nullable','string'],
-                'name' => ['nullable','string'],
-                'phone' => ['nullable','string'],
-            ]);
-
-            if ($v->fails()) {
-                return $this->sendError('There is an error in the data', $v->errors());
-            }
-            $data = $request->only(['name_supplier','address','phone_supplier','commercial_record','tax_card','name','phone']);
-
-            $supplier = Supplier::create($data);
-
-            DB::commit();
-
-            return $this->sendResponse([], 'Data exited successfully');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+        return $this->supplierRepository->update($request->input());
     }
 
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function delete($id)
     {
-        try {
-
-            $supplier = Supplier::find($id);
-
-            return $this->sendResponse(['supplier' => $supplier], 'Data exited successfully');
-
-        } catch (\Exception $e) {
-
-            return $this->sendError('An error occurred in the system');
-
-        }
+        $this->supplierRepository->delete($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function index()
     {
-        DB::beginTransaction();
-        try {
-
-            $supplier = Supplier::find($id);
-
-            // Validator request
-            $v = Validator::make($request->all(), [
-                    'name_supplier' => ['required','string'],
-                    'address' => ['required','string'],
-                    'phone_supplier' => ['required','string'],
-                    'commercial_record' => ['nullable','string'],
-                    'tax_card' => ['nullable','string'],
-                    'name' => ['nullable','string'],
-                    'phone' => ['nullable','string'],
-                ]);
-
-            if ($v->fails()) {
-                return $this->sendError('There is an error in the data', $v->errors());
-            }
-
-            $data = $request->only(['name_supplier','address','phone_supplier','commercial_record','tax_card','name','phone']);
-
-            $supplier->update($data);
-
-            DB::commit();
-            return $this->sendResponse([],'Data exited successfully');
-        }catch (\Exception $e){
-
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+        $text = isset(request()->text) ? request()->text : '';
+        return $this->supplierRepository->getPage(request()->page_size, $text);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function toggleActivation($id)
     {
-        try {
-            $supplier = Supplier::find($id);
-            if ($supplier){
-
-                $supplier->delete();
-                return $this->sendResponse([],'Deleted successfully');
-            }else{
-                return $this->sendError('ID is not exist');
-            }
-
-        }catch (\Exception $e){
-            return $this->sendError('An error occurred in the system');
-        }
-
+        $this->supplierRepository->toggleActivation($id);
     }
 }

@@ -166,7 +166,6 @@ export default {
       if (!this.v$.$error) {
         this.loading = true;
         this.errors = {};
-
         adminApi
           .post(`/v1/dashboard/job`, this.data)
           .then((res) => {
@@ -178,7 +177,6 @@ export default {
               duration: 5000,
               speed: 2000,
             });
-
             this.resetForm();
             this.$nextTick(() => {
               this.v$.$reset();
