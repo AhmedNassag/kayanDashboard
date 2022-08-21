@@ -232,6 +232,19 @@
                         </div>
                         <!--End Tax Select-->
 
+                        <!--Start Unit Select-->
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom0">
+                                {{ $t("global.Unit") }}
+                            </label>
+                            <select class="form-control" v-model.trim="v$.unit_id.$model">
+                                <option v-for="unit in units" :key="unit.id" :value="unit.id">
+                                {{ unit.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <!--End Unit Select-->
+
                         <!--Start Description-->
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom02">
@@ -367,6 +380,7 @@ export default {
     let subCategories = ref([]);
     let companies = ref([]);
     let taxes = ref([]);
+    let units = ref([]);
 
 
     //start design
@@ -381,6 +395,7 @@ export default {
         sub_category_id:"",
         company_id:"",
         tax_id:"",
+        unit_id:"",
         file: {},
         nameExist: false,
       },
@@ -391,6 +406,7 @@ export default {
     getSubCategories();
     getCompanies();
     getTaxes();
+    getUnits();
     //
 
 
@@ -430,6 +446,9 @@ export default {
         tax_id:{
             required,
         },
+        unit_id:{
+            required,
+        },
       };
     });
 
@@ -466,64 +485,78 @@ export default {
     //Commons
     function getCategories(){
         adminApi
-            .get(`/v1/dashboard/getCategories`)
-            .then((res) => {
-                categories.value =res.data.data.categories ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-            .finally(() => {
-                loading.value = false;
-            });
+        .get(`/v1/dashboard/getCategories`)
+        .then((res) => {
+            categories.value =res.data.data.categories ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
     }
 
     function getSubCategories(){
         adminApi
-            .get(`/v1/dashboard/getSubCategories`)
-            .then((res) => {
-                subCategories.value =res.data.data.subCategories ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-            .finally(() => {
-                loading.value = false;
-            });
+        .get(`/v1/dashboard/getSubCategories`)
+        .then((res) => {
+            subCategories.value =res.data.data.subCategories ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
     }
 
     function getCompanies(){
         adminApi
-            .get(`/v1/dashboard/getCompanies`)
-            .then((res) => {
-                companies.value =res.data.data.companies ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-            .finally(() => {
-                loading.value = false;
-            });
+        .get(`/v1/dashboard/getCompanies`)
+        .then((res) => {
+            companies.value =res.data.data.companies ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
     }
 
     function getTaxes(){
         adminApi
-            .get(`/v1/dashboard/getTaxes`)
-            .then((res) => {
-                taxes.value =res.data.data.taxes ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-            .finally(() => {
-                loading.value = false;
-            });
+        .get(`/v1/dashboard/getTaxes`)
+        .then((res) => {
+            taxes.value =res.data.data.taxes ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+    }
+
+    function getUnits(){
+        adminApi
+        .get(`/v1/dashboard/getUnits`)
+        .then((res) => {
+            units.value =res.data.data.units ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
     }
     //end common
 
     const numberOfImage = ref(0);
 
-    return { loading, ...toRefs(addProduct), v$, preview, numberOfImage, categories, subCategories, companies, taxes };
+    return { loading, ...toRefs(addProduct), v$, preview, numberOfImage, categories, subCategories, companies, taxes, units };
 
   },
   methods: {
@@ -543,6 +576,7 @@ export default {
         formData.append("sub_category_id", this.data.sub_category_id);
         formData.append("company_id", this.data.company_id);
         formData.append("tax_id", this.data.tax_id);
+        formData.append("unit_id", this.data.unit_id);
         formData.append("file", this.data.file);
 
         adminApi
@@ -579,6 +613,7 @@ export default {
       this.data.sub_category_id = "";
       this.data.company_id = "";
       this.data.tax_id = "";
+      this.data.unit_id = "";
       this.data.file = {};
     },
   },

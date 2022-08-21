@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('sub_category_id');
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('tax_id');
+            $table->unsignedBigInteger('unit_id');
 
             // $table->index(["cat_id"], 'cat_id');
             // $table->foreign('cat_id', 'cat_id')

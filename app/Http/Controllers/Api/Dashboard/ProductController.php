@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\Tax;
+use App\Models\Unit;
 use App\Traits\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -89,12 +90,13 @@ class ProductController extends Controller
                 'sub_category_id' => 'required',
                 'company_id' => 'required',
                 'tax_id' => 'required',
+                'unit_id' => 'required',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $data = $request->only(['name','description','charge','maxMount','barCode','cat_id','sub_category_id','company_id','tax_id']);
+            $data = $request->only(['name','description','charge','maxMount','barCode','cat_id','sub_category_id','company_id','tax_id','unit_id']);
 
             $product = Product::create($data);
 
@@ -179,18 +181,19 @@ class ProductController extends Controller
                 'charge' => 'required',
                 'maxMount' => 'required',
                 'barCode' => 'required',
-                'file' => 'required|file|mimes:png,jpg,jpeg',
-                'category_id' => 'required',
+                'file' => 'nullable'.($request->hasFile('file')?'|file|mimes:jpeg,jpg,png':''),
+                'cat_id' => 'required',
                 'sub_category_id' => 'required',
                 'company_id' => 'required',
                 'tax_id' => 'required',
+                'unit_id' => 'required',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['name','description','charge','maxMount','barCode','category_id','sub_category_id','company_id','tax_id','status']);
+            $data = $request->only(['name','description','charge','maxMount','barCode','cat_id','sub_category_id','company_id','tax_id','unit_id','status']);
 
             $product->update($data);
 
@@ -278,5 +281,11 @@ class ProductController extends Controller
     {
         $taxes = Tax::all();
         return $this->sendResponse(['taxes' => $taxes], 'Data exited successfully');
+    }
+
+    public function getUnits()
+    {
+        $units = Unit::all();
+        return $this->sendResponse(['units' => $units], 'Data exited successfully');
     }
 }
