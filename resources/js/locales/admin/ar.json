@@ -4,11 +4,16 @@
     "afterDate": "يجب ان يكون اكبر من {date}",
     "minValue": "يجب ان يكون على الاقل {minValue}",
     "maxDiscountRatio": "يجب ان يكون على الاكثر {maxValue}",
-    "phone":"غير صحيح",
+    "phone": "غير صحيح",
+    "email": "غير صحيح",
+    "sameAsPassword": "غير متطابقة",
+    "strong": "ضعيفة",
     "dashboard": {
         "Dashboard": "الرئيسيه"
     },
     "sidebar": {
+        "ClientGroups": "مجموعات العملاء",
+        "Clients": "العملاء",
         "Dashboard": "الرئيسيه",
         "Package": "الباقات",
         "Suppliers": "الموردين",
@@ -59,6 +64,14 @@
         "Percentage": "نسبة"
     },
     "global": {
+        "Country":"الدولة",
+        "City":"المدينة",
+        "Location":"الموقع",
+        "Area":"المنطقة",
+        "WhatsupPhone":"رقم الواتساب",
+        "StoreName":"اسم المتجر",
+        "ClientGroups": "مجموعات العملاء",
+        "Clients": "العملاء",
         "BankTransfer": "تحويل بنكي",
         "Wallet": "محفظة",
         "Cash": "كاش",
@@ -67,6 +80,7 @@
         "ResponsibleName": "اسم مسئول المورد",
         "ResponsiblePhone": "رقم تليفون مسئول المورد",
         "PaymentType": "نوع الدفع",
+        "SameAddressShipping":"الشحن على نفس العنوان",
         "AccountNumber": "رقم الحساب",
         "PaymentPhone": "رقم هاتف الدفع",
         "PaymentResponsibleName": "اسم مسؤول الدفع",
@@ -150,14 +164,14 @@
         "Salary": "الراتب",
         "BirthDate": "تاريخ الميلاد",
         "Password": "كلمة السر",
-        "confirm": "تأكيد الرقم السر",
+        "confirm": "تأكيد رقم السر",
         "BankName": "اسم البنك",
         "BankAddress": "عنوان البنك",
         "ChooseRole": "اختر دوره",
         "NameIsRequired": "الاسم مطلوب.",
         "NameIsMustHaveAtLeast": "الاسم يجب ان يحتوى على الاقل",
         "NameIsMustHaveAtMost": "الاسم يجب ان يحتوى على الاكثر",
-        "NameIsExist":"السم موجود بالفعل",
+        "NameIsExist": "السم موجود بالفعل",
         "RateIsRequired": "النسبة مطلوبة.",
         "NationalIdIsRequired": "الرقم القومى مطلوب .",
         "NationalIdIsMustHaveAtLeast": "الرقم القومى يجب ان يحتوى على الاقل",
@@ -296,6 +310,7 @@
         "TotalDebit": "اجمالى المدين",
         "TotalCreditor": "اجمالى الدائن",
         "Show": "عرض",
+        "ShowPassword": "اظهار كلمة المرور",
         "AccountingEntry": "القيد المحاسبي",
         "AccountingEntryRecord": "سجل القيد المحاسبي",
         "Number": "رقم",
@@ -332,8 +347,8 @@
         "Categories": "الفئات",
         "MainCategories": "الفئات الرئيسية",
         "SubCategories": "الفئات الفرعية",
-        "activeCategories":"الفئات المفعلة",
-        "notActiveCategories":"الفئات غير المفعلة",
+        "activeCategories": "الفئات المفعلة",
+        "notActiveCategories": "الفئات غير المفعلة",
         "CategoryIsRequired": "الفئة مطلوبه .",
         "ChoseCategory": "اختر الفئة",
         "From": "من",
@@ -347,24 +362,24 @@
         "SalesEmployeeComments": "تعليقات موظف المبيعات",
         "SalesEmployeeChange": "تغيير موظف المبيعات",
         "Comment": "التعليق",
-        "Exist":"{field} موجود مسبقا",
-        "Category":"فئات",
+        "Exist": "{field} موجود مسبقا",
+        "Category": "فئات",
         "MainCategory": "الفئة الرئيسية",
-        "SubCategory":"الفئة الفرعية",
-        "Tax":"الضريبة",
-        "Company":"الشركة",
-        "Product":"المنتج",
-        "Image":"الصورة",
-        "usersCategory":"فئات المستخدمين",
-        "subCategory":"الفئات الفرعية",
-        "Created_At":"تاريخ الإضافة",
-        "Taxes":"الضرائب",
-        "Rate":"نسبة الضريبة",
-        "Companies":"الشركات",
-        "Products":"المنتجات",
-        "BarCode":"بار كود",
-        "Charge":"رصيد",
-        "MaxMount":"أقصى كمية",
+        "SubCategory": "الفئة الفرعية",
+        "Tax": "الضريبة",
+        "Company": "الشركة",
+        "Product": "المنتج",
+        "Image": "الصورة",
+        "usersCategory": "فئات المستخدمين",
+        "subCategory": "الفئات الفرعية",
+        "Created_At": "تاريخ الإضافة",
+        "Taxes": "الضرائب",
+        "Rate": "نسبة الضريبة",
+        "Companies": "الشركات",
+        "Products": "المنتجات",
+        "BarCode": "بار كود",
+        "Charge": "رصيد",
+        "MaxMount": "أقصى كمية",
         "YouCanNotModifyThisSafe": "لا تستطيع التعديل على هذه الخزنة !"
     },
     "treasury": {
@@ -472,33 +487,27 @@
         "all": "عرض جميع الاشعارات",
         "clear": "قراه الكل"
     },
-
     "category": {
         "CreateCategory": "اضافة فئة",
         "ChooseCategory": "اختر الفئة",
         "EditCategory": "تعديل الفئة"
     },
-
     "subCategory": {
         "CreateSubCategory": "اضافة فئة فرعية",
         "EditSubCategory": "تعديل الفئة الفرعية"
     },
-
     "usersCategory": {
         "CreateUsersCategory": "اضافة فئة مستخدم",
         "EditUsersCategory": "تعديل فئة المستخدم"
     },
-
     "product": {
         "CreateProduct": "اضافة منتج",
         "EditProduct": "تعديل منتج "
     },
-
     "tax": {
         "CreateTax": "اضافة ضريبة",
         "EditTax": "تعديل ضريبة"
     },
-
     "company": {
         "CreateCompany": "اضافة شركة",
         "EditCompany": "تعديل شركة"

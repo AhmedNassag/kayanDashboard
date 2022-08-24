@@ -25,12 +25,14 @@ class UpdateSupplierRequest extends FormRequest
     public function rules()
     {
         $validators = [
+            "id"=>"required",
             "name" => "required",
             "address" => "required",
-            "phone" => "required|unique:suppliers,phone," . $this->id,
+            "employee_id" => "required|numeric",
+            "phone" => "required|regex:/^01[0125][0-9]{8}$/|unique:suppliers,phone," . $this->id,
             "commerical_register" => "nullable|unique:suppliers,commerical_register," . $this->id,
             "tax_card" => "nullable|unique:suppliers,tax_card," . $this->id,
-            "responsible_phone" => "nullable",
+            "responsible_phone" => "nullable|regex:/^01[0125][0-9]{8}$/",
             "payment_type" => "required|in:" . PaymentType::BANK_TRANSFER . "," . PaymentType::CASH . ","
                 . PaymentType::WALLET
         ];

@@ -11,75 +11,76 @@
             </router-link>
           </li>
 
-            <!-- Start Category Links -->
-            <li class="submenu" v-if="permission.includes('management')">
-                <a href="#"
-                ><i class="fas fa-suitcase"></i> <span>{{ $t("global.Categories") }}</span>
-                <span :class="['menu-arrow', 'menu-arrow-ar']"></span
-                ></a>
-                <ul>
-                <li
-                    :class="[$route.name == 'indexCategory' ? 'active' : '']"
-                    v-if="permission.includes('category read')"
+          <!-- Start Category Links -->
+          <li class="submenu" v-if="permission.includes('management')">
+            <a href="#"
+              ><i class="fas fa-suitcase"></i>
+              <span>{{ $t("global.Categories") }}</span>
+              <span :class="['menu-arrow', 'menu-arrow-ar']"></span
+            ></a>
+            <ul>
+              <li
+                :class="[$route.name == 'indexCategory' ? 'active' : '']"
+                v-if="permission.includes('category read')"
+              >
+                <router-link
+                  :to="{ name: 'indexCategory' }"
+                  :class="['sidebar-menu-rtl']"
                 >
-                    <router-link
-                    :to="{ name: 'indexCategory' }"
-                    :class="['sidebar-menu-rtl']"
-                    >
-                    {{ $t("global.MainCategories") }}
-                    </router-link>
-                </li>
+                  {{ $t("global.MainCategories") }}
+                </router-link>
+              </li>
 
-                <li
-                    :class="[$route.name == 'indexSubCategory' ? 'active' : '']"
-                    v-if="permission.includes('subCategory read')"
+              <li
+                :class="[$route.name == 'indexSubCategory' ? 'active' : '']"
+                v-if="permission.includes('subCategory read')"
+              >
+                <router-link
+                  :to="{ name: 'indexSubCategory' }"
+                  :class="['sidebar-menu-rtl']"
                 >
-                    <router-link
-                    :to="{ name: 'indexSubCategory' }"
-                    :class="['sidebar-menu-rtl']"
-                    >
-                    {{ $t("global.SubCategories") }}
-                    </router-link>
-                </li>
-                </ul>
-            </li>
-            <!-- End Category Links -->
-
-            <!-- Start Users Category Links -->
-            <li :class="[$route.name == 'indexUsersCategory' ? 'active' : '']">
-                <router-link :to="{ name: 'indexUsersCategory' }">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <span>{{ $t("global.usersCategory")}}</span>
+                  {{ $t("global.SubCategories") }}
                 </router-link>
-            </li>
-            <!-- End Users Category Links -->
+              </li>
+            </ul>
+          </li>
+          <!-- End Category Links -->
 
-            <!-- Start Tax Links -->
-            <li :class="[$route.name == 'indexTax' ? 'active' : '']">
-                <router-link :to="{ name: 'indexTax' }">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <span>{{ $t("global.Taxes")}}</span>
-                </router-link>
-            </li>
-            <!-- End Tax Links -->
+          <!-- Start Users Category Links -->
+          <li :class="[$route.name == 'indexUsersCategory' ? 'active' : '']">
+            <router-link :to="{ name: 'indexUsersCategory' }">
+              <i class="fa fa-home" aria-hidden="true"></i>
+              <span>{{ $t("global.usersCategory") }}</span>
+            </router-link>
+          </li>
+          <!-- End Users Category Links -->
 
-            <!-- Start Company Links -->
-            <li :class="[$route.name == 'indexCompany' ? 'active' : '']">
-                <router-link :to="{ name: 'indexCompany' }">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <span>{{ $t("global.Companies")}}</span>
-                </router-link>
-            </li>
-            <!-- End Company Links -->
+          <!-- Start Tax Links -->
+          <li :class="[$route.name == 'indexTax' ? 'active' : '']">
+            <router-link :to="{ name: 'indexTax' }">
+              <i class="fa fa-home" aria-hidden="true"></i>
+              <span>{{ $t("global.Taxes") }}</span>
+            </router-link>
+          </li>
+          <!-- End Tax Links -->
 
-            <!-- Start Product Links -->
-            <li :class="[$route.name == 'indexProduct' ? 'active' : '']">
-                <router-link :to="{ name: 'indexProduct' }">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <span>{{ $t("global.Products")}}</span>
-                </router-link>
-            </li>
-            <!-- End Product Links -->
+          <!-- Start Company Links -->
+          <li :class="[$route.name == 'indexCompany' ? 'active' : '']">
+            <router-link :to="{ name: 'indexCompany' }">
+              <i class="fa fa-home" aria-hidden="true"></i>
+              <span>{{ $t("global.Companies") }}</span>
+            </router-link>
+          </li>
+          <!-- End Company Links -->
+
+          <!-- Start Product Links -->
+          <li :class="[$route.name == 'indexProduct' ? 'active' : '']">
+            <router-link :to="{ name: 'indexProduct' }">
+              <i class="fa fa-home" aria-hidden="true"></i>
+              <span>{{ $t("global.Products") }}</span>
+            </router-link>
+          </li>
+          <!-- End Product Links -->
           <li
             v-if="permission.includes('unit read')"
             :class="[$route.name == 'UnitIndex' ? 'active' : '']"
@@ -108,12 +109,30 @@
             </router-link>
           </li>
           <li
+            v-if="permission.includes('client-group read')"
+            :class="[$route.name == 'ClientGroupIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'ClientGroupIndex' }">
+              <i class="fa fa-users" aria-hidden="true"></i>
+              <span>{{ $t("sidebar.ClientGroups") }}</span>
+            </router-link>
+          </li>
+          <li
             v-if="permission.includes('supplier read')"
             :class="[$route.name == 'SupplierIndex' ? 'active' : '']"
           >
             <router-link :to="{ name: 'SupplierIndex' }">
               <i class="fa fa-users" aria-hidden="true"></i>
               <span>{{ $t("sidebar.Suppliers") }}</span>
+            </router-link>
+          </li>
+          <li
+            v-if="permission.includes('client read')"
+            :class="[$route.name == 'ClientIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'ClientIndex' }">
+              <i class="fa fa-users" aria-hidden="true"></i>
+              <span>{{ $t("sidebar.Clients") }}</span>
             </router-link>
           </li>
           <li class="submenu" v-if="permission.includes('management')">

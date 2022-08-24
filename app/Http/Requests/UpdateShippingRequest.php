@@ -24,6 +24,7 @@ class UpdateShippingRequest extends FormRequest
     public function rules()
     {
         return [
+            "id"=>"required",
             "name" => "required|unique:shippings,name," . $this->id,
             "description" => "required"
         ];

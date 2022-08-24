@@ -31,6 +31,10 @@ class StoreSupplierRequest extends FormRequest
             "commerical_register" => "nullable|unique:suppliers",
             "tax_card" => "nullable|unique:suppliers",
             "responsible_phone" => "nullable|regex:/^01[0125][0-9]{8}$/",
+            "employee_id" => "required|numeric",
+            "shippings_ids" => "required|array|min:1",
+            "shippings_ids.*" => "required|numeric",
+            "shippings_ids.*" => "required|numeric",
             "payment_type" => "required|in:" . PaymentType::BANK_TRANSFER . "," . PaymentType::CASH . ","
                 . PaymentType::WALLET,
         ];

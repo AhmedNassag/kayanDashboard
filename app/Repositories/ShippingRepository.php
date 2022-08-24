@@ -38,4 +38,9 @@ class ShippingRepository
         $shipping->active = !$shipping->active;
         $shipping->save();
     }
+
+    public function getAllShippings()
+    {
+        return Shipping::where("active", 1)->get();
+    }
 }

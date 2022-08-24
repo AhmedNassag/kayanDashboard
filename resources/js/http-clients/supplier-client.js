@@ -13,6 +13,12 @@ export default {
     getPage(pageNo, pageSize, text) {
         return adminApi.get(`${BASE_URL}?page=${pageNo}&page_size=${pageSize}&text=${text}`);
     },
+    getAllEmployees() {
+        return adminApi.get(`${BASE_URL}/employees`);
+    },
+    getAllShippings() {
+        return adminApi.get(`${BASE_URL}/shippings`);
+    },
     toggleActivation(id) {
         return adminApi.get(`${BASE_URL}/toggle-activation/${id}`);
     },

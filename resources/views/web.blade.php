@@ -83,7 +83,6 @@
     <script src="{{asset('admin/js/printThis.js')}}"></script>
 
     <script src="{{mix('js/app.js')}}"></script>
-
 </body>
 
 </html>
