@@ -25,5 +25,15 @@ class Employee extends Model
     {
         return $this->belongsTo(Job::class,'job_id');
     }
-    
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
 }

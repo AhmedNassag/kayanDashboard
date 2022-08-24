@@ -57,10 +57,35 @@ class PermissionSeeder extends Seeder
             ['name' => 'company edit', 'role' => 'management'],
             ['name' => 'company delete', 'role' => 'management'],
             //product
-            ['name' => 'product read', 'role' => 'management'],
-            ['name' => 'product create', 'role' => 'management'],
-            ['name' => 'product edit', 'role' => 'management'],
-            ['name' => 'product delete', 'role' => 'management'],
+            ['name' => 'product read','role' => 'management'],
+            ['name' => 'product create','role' => 'management'],
+            ['name' => 'product edit','role' => 'management'],
+            ['name' => 'product delete','role' => 'management'],
+            //saleMethods
+            ['name' => 'saleMethods read','role' => 'management'],
+            ['name' => 'saleMethods create','role' => 'management'],
+            ['name' => 'saleMethods edit','role' => 'management'],
+            ['name' => 'saleMethods delete','role' => 'management'],
+            //shift
+            ['name' => 'shift read','role' => 'management'],
+            ['name' => 'shift create','role' => 'management'],
+            ['name' => 'shift edit','role' => 'management'],
+            ['name' => 'shift delete','role' => 'management'],
+            //stock
+            ['name' => 'stock read','role' => 'management'],
+            ['name' => 'stock create','role' => 'management'],
+            ['name' => 'stock edit','role' => 'management'],
+            ['name' => 'stock delete','role' => 'management'],
+            //purchase
+            ['name' => 'purchase read','role' => 'management'],
+            ['name' => 'purchase create','role' => 'management'],
+            ['name' => 'purchase edit','role' => 'management'],
+            ['name' => 'purchase delete','role' => 'management'],
+            //refused
+            ['name' => 'refused read','role' => 'management'],
+            ['name' => 'refused create','role' => 'management'],
+            ['name' => 'refused edit','role' => 'management'],
+            ['name' => 'refused delete','role' => 'management'],
             //Unit
             ['name' => 'unit read', 'role' => ''],
             ['name' => 'unit create', 'role' => ''],

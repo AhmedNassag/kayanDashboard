@@ -17,40 +17,55 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
-            $table->text('charge')->nullable();
-            $table->text('maxMount')->nullable();
-            $table->text('barCode')->nullable();
-            $table->unsignedBigInteger('cat_id');
-            $table->unsignedBigInteger('sub_category_id');
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('tax_id');
+            $table->string('charge')->nullable();
+            $table->string('maxMount')->nullable();
+            $table->string('barCode')->nullable();
+            $table->string('saleMethods')->nullable();
+            $table->boolean('status')->default(true);
 
-            // $table->index(["cat_id"], 'cat_id');
-            // $table->foreign('cat_id', 'cat_id')
+            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('sub_category_id')->constrained('sub_categories')->cascadeOnDelete();
+            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
+            $table->foreignId('tax_id')->constrained('taxes')->cascadeOnDelete();
+            $table->foreignId('unit_id')->constrained('units')->cascadeOnDelete();
+
+            $table->timestamps();
+
+            // $table->unsignedBigInteger('category_id');
+            // $table->index(["category_id"], 'category_id');
+            // $table->foreign('category_id', 'category_id')
             //       ->references('id')->on('categories')
             //       ->onDelete('cascade')
             //       ->onUpdate('cascade');
 
+            // $table->unsignedBigInteger('sub_category_id');
             // $table->index(["sub_category_id"], 'sub_category_id');
             // $table->foreign('sub_category_id', 'sub_category_id')
             //       ->references('id')->on('sub_categories')
             //       ->onDelete('cascade')
             //       ->onUpdate('cascade');
 
+            // $table->unsignedBigInteger('company_id');
             // $table->index(["company_id"], 'company_id');
             // $table->foreign('company_id', 'company_id')
-            //       ->references('id')->on('sub_companies')
+            //       ->references('id')->on('companies')
             //       ->onDelete('cascade')
             //       ->onUpdate('cascade');
 
+            // $table->unsignedBigInteger('tax_id');
             // $table->index(["tax_id"], 'tax_id');
             // $table->foreign('tax_id', 'tax_id')
             //       ->references('id')->on('taxes')
             //       ->onDelete('cascade')
             //       ->onUpdate('cascade');
 
-            $table->boolean('status')->default(true);
-            $table->timestamps();
+            // $table->unsignedBigInteger('unit_id');
+            // $table->index(["unit_id"], 'unit_id');
+            // $table->foreign('unit_id', 'unit_id')
+            //       ->references('id')->on('units')
+            //       ->onDelete('cascade')
+            //       ->onUpdate('cascade');
+
         });
     }
 

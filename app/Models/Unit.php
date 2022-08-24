@@ -10,4 +10,10 @@ class Unit extends Model
     protected $casts = [
         'created_at' => 'date:Y-m-d',
     ];
+
+    //start relations
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

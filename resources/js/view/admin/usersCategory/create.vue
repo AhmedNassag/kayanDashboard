@@ -169,7 +169,7 @@
                         <div class="container-images" v-show="!numberOfImage">
                           <figure>
                             <figcaption>
-                              <img :src="`/admin/img/usersCategory/img-1.png`" />
+                              <img :src="`/admin/img/company/img-1.png`" />
                             </figcaption>
                           </figure>
                         </div>
