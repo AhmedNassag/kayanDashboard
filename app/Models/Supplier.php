@@ -11,4 +11,15 @@ class Supplier extends Model
     {
         return $this->belongsToMany(Shipping::class);
     }
+
+    //start relation
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function refuseds()
+    {
+        return $this->hasMany(Refused::class);
+    }
 }

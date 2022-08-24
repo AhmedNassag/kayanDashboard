@@ -5,6 +5,7 @@
       this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
     ]"
   >
+  
     <div class="content container-fluid">
       <notifications
         :position="this.$i18n.locale == 'ar' ? 'top left' : 'top right'"
@@ -50,6 +51,7 @@
                   <form
                     @submit.prevent="storeProduct"
                     class="needs-validation"
+                    enctype="multipart/form-data"
                   >
                     <div class="form-row row">
 
@@ -112,6 +114,7 @@
                                 'is-valid': !v$.barCode.$invalid,
                             }"
                             />
+                            <button type="button" class="btn btn-secondary btn-sm" @click="myFunction()">{{ $t("global.Generate Random") }}</button>
                             <div class="valid-feedback">
                                 {{ $t("global.LooksGood") }}
                             </div>
@@ -185,7 +188,7 @@
                             <label for="validationCustom0">
                                 {{ $t("global.MainCategory") }}
                             </label>
-                            <select class="form-control" v-model.trim="v$.cat_id.$model">
+                            <select class="form-control" v-model.trim="v$.category_id.$model">
                                 <option v-for="category in categories" :key="category.id" :value="category.id">
                                 {{ category.name }}
                                 </option>
@@ -232,6 +235,19 @@
                         </div>
                         <!--End Tax Select-->
 
+                        <!--Start Unit Select-->
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom0">
+                                {{ $t("global.Unit") }}
+                            </label>
+                            <select class="form-control" v-model.trim="v$.unit_id.$model">
+                                <option v-for="unit in units" :key="unit.id" :value="unit.id">
+                                {{ unit.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <!--End Unit Select-->
+
                         <!--Start Description-->
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom02">
@@ -274,47 +290,57 @@
                         </div>
                         <!--End Description-->
 
+                        <!--Start Sale Methods Checkbox-->
+                        <div class="form-group">
+                            <label><strong>{{$t('global.Sale Method')}} :</strong></label><br>
+                            <label> <input type="checkbox" v-model.trim="v$.saleMethods.$model" value="جملة"> {{$t('global.total')}} &ensp;</label>
+                            <label> <input type="checkbox" v-model.trim="v$.saleMethods.$model" value="قطاعى"> {{$t('global.Sectional')}} &ensp;</label>
+                            <label> <input type="checkbox" v-model.trim="v$.saleMethods.$model" value="توزيع"> {{$t('global.Delivery')}} &ensp;</label>
+                        </div>
+                        <!--End Sale Methods Checkbox-->
 
-                      <div class="col-md-12 row flex-fill">
-                        <div class="btn btn-outline-primary waves-effect">
-                          <span>
-                            {{ $t("global.ChooseImage") }}
-                            <i
-                              class="fas fa-cloud-upload-alt ml-3"
-                              aria-hidden="true"
-                            ></i>
-                          </span>
-                          <input
-                            name="mediaPackage"
-                            type="file"
-                            @change="preview"
-                            id="mediaPackage"
-                            accept="image/png,jepg,jpg"
-                          />
+                        <!--Start Image-->
+                        <div class="col-md-12 row flex-fill">
+                            <div class="btn btn-outline-primary waves-effect">
+                            <span>
+                                {{ $t("global.ChooseImage") }}
+                                <i
+                                class="fas fa-cloud-upload-alt ml-3"
+                                aria-hidden="true"
+                                ></i>
+                            </span>
+                            <input
+                                name="mediaPackage"
+                                type="file"
+                                @change="preview"
+                                id="mediaPackage"
+                                accept="image/png,jepg,jpg"
+                            />
+                            </div>
+                            <span class="text-danger text-center"
+                            >{{ $t("global.ImageValidation") }}</span
+                            >
+                            <p class="num-of-files">
+                            {{
+                                numberOfImage
+                                ? numberOfImage + " Files Selected"
+                                : "No Files Chosen"
+                            }}
+                            </p>
+                            <div
+                            class="container-images"
+                            id="container-images"
+                            v-show="data.file && numberOfImage"
+                            ></div>
+                            <div class="container-images" v-show="!numberOfImage">
+                            <figure>
+                                <figcaption>
+                                <img :src="`/admin/img/company/img-1.png`" />
+                                </figcaption>
+                            </figure>
+                            </div>
                         </div>
-                        <span class="text-danger text-center"
-                          >{{ $t("global.ImageValidation") }}</span
-                        >
-                        <p class="num-of-files">
-                          {{
-                            numberOfImage
-                              ? numberOfImage + " Files Selected"
-                              : "No Files Chosen"
-                          }}
-                        </p>
-                        <div
-                          class="container-images"
-                          id="container-images"
-                          v-show="data.file && numberOfImage"
-                        ></div>
-                        <div class="container-images" v-show="!numberOfImage">
-                          <figure>
-                            <figcaption>
-                              <img :src="`/admin/img/product/img-1.png`" />
-                            </figcaption>
-                          </figure>
-                        </div>
-                      </div>
+                        <!--End Image-->
                     </div>
 
                     <button class="btn btn-primary" type="submit">{{ $t("global.Submit") }}</button>
@@ -330,11 +356,9 @@
   </div>
 </template>
 
+
 <script>
-//
 import { computed, onMounted, reactive, toRefs, inject, ref } from "vue";
-//
-//import { computed, onMounted, reactive, toRefs, ref } from "vue";
 import useVuelidate from "@vuelidate/core";
 import {
   required,
@@ -367,8 +391,9 @@ export default {
     let subCategories = ref([]);
     let companies = ref([]);
     let taxes = ref([]);
+    let units = ref([]);
 
-
+    
     //start design
     let addProduct = reactive({
       data: {
@@ -377,10 +402,12 @@ export default {
         charge: "",
         maxMount: "",
         description: "",
-        cat_id:"",
+        category_id:"",
         sub_category_id:"",
         company_id:"",
         tax_id:"",
+        unit_id:"",
+        saleMethods: [],
         file: {},
         nameExist: false,
       },
@@ -391,6 +418,7 @@ export default {
     getSubCategories();
     getCompanies();
     getTaxes();
+    getUnits();
     //
 
 
@@ -415,10 +443,13 @@ export default {
         maxMount: {
           required,
         },
+        saleMethods:{
+            required,
+        },
         file: {
           required,
         },
-        cat_id: {
+        category_id: {
           required,
         },
         sub_category_id:{
@@ -428,6 +459,9 @@ export default {
             required,
         },
         tax_id:{
+            required,
+        },
+        unit_id:{
             required,
         },
       };
@@ -445,6 +479,10 @@ export default {
       numberOfImage.value = e.target.files.length;
 
       addProduct.data.file = e.target.files[0];
+
+      //
+    //   addProduct.data.saleMethods = e.target.saleMethods[0];
+      //
 
       let reader = new FileReader();
       let figure = document.createElement("figure");
@@ -466,67 +504,84 @@ export default {
     //Commons
     function getCategories(){
         adminApi
-            .get(`/v1/dashboard/getCategories`)
-            .then((res) => {
-                categories.value =res.data.data.categories ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-            .finally(() => {
-                loading.value = false;
-            });
+        .get(`/v1/dashboard/getCategories`)
+        .then((res) => {
+            categories.value =res.data.data.categories ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
     }
 
     function getSubCategories(){
         adminApi
-            .get(`/v1/dashboard/getSubCategories`)
-            .then((res) => {
-                subCategories.value =res.data.data.subCategories ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-            .finally(() => {
-                loading.value = false;
-            });
+        .get(`/v1/dashboard/getSubCategories`)
+        .then((res) => {
+            subCategories.value =res.data.data.subCategories ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
     }
 
     function getCompanies(){
         adminApi
-            .get(`/v1/dashboard/getCompanies`)
-            .then((res) => {
-                companies.value =res.data.data.companies ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-            .finally(() => {
-                loading.value = false;
-            });
+        .get(`/v1/dashboard/getCompanies`)
+        .then((res) => {
+            companies.value =res.data.data.companies ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
     }
 
     function getTaxes(){
         adminApi
-            .get(`/v1/dashboard/getTaxes`)
-            .then((res) => {
-                taxes.value =res.data.data.taxes ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-            .finally(() => {
-                loading.value = false;
-            });
+        .get(`/v1/dashboard/getTaxes`)
+        .then((res) => {
+            taxes.value =res.data.data.taxes ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+    }
+
+    function getUnits(){
+        adminApi
+        .get(`/v1/dashboard/getUnits`)
+        .then((res) => {
+            units.value =res.data.data.units ;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
     }
     //end common
 
     const numberOfImage = ref(0);
 
-    return { loading, ...toRefs(addProduct), v$, preview, numberOfImage, categories, subCategories, companies, taxes };
+    return { loading, ...toRefs(addProduct), v$, preview, numberOfImage, categories, subCategories, companies, taxes, units };
 
   },
   methods: {
+    myFunction() {
+        this.data.barCode = Math.random()*100;
+    },
     storeProduct() {
       this.v$.$validate();
 
@@ -538,11 +593,13 @@ export default {
         formData.append("barCode", this.data.barCode);
         formData.append("charge", this.data.charge);
         formData.append("maxMount", this.data.maxMount);
+        formData.append("saleMethods", this.data.saleMethods);
         formData.append("description", this.data.description);
-        formData.append("cat_id", this.data.cat_id);
+        formData.append("category_id", this.data.category_id);
         formData.append("sub_category_id", this.data.sub_category_id);
         formData.append("company_id", this.data.company_id);
         formData.append("tax_id", this.data.tax_id);
+        formData.append("unit_id", this.data.unit_id);
         formData.append("file", this.data.file);
 
         adminApi
@@ -569,17 +626,20 @@ export default {
       }
     },
     resetForm() {
-      // this.data.phone = "";
       this.data.name = "";
       this.data.barCode = "";
       this.data.charge = "";
       this.data.maxMount = "";
       this.data.description = "";
-      this.data.cat_id = "";
+      this.data.category_id = "";
       this.data.sub_category_id = "";
       this.data.company_id = "";
       this.data.tax_id = "";
+      this.data.unit_id = "";
       this.data.file = {};
+      //
+      this.data.saleMethods = [];
+      //
     },
   },
 };
