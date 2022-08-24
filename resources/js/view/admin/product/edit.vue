@@ -155,7 +155,7 @@
                                                 <label for="validationCustom0">
                                                     {{ $t("global.MainCategory") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.cat_id.$model">
+                                                <select class="form-control" v-model.trim="v$.category_id.$model">
                                                     <option v-for="category in categories" :key="category.id" :value="category.id">
                                                     {{ category.name }}
                                                     </option>
@@ -257,6 +257,15 @@
                                             </div>
                                             <!--End Description-->
 
+                                            <!--Start Sale Methods Checkbox-->
+                                            <div class="form-group">
+                                                <label><strong>{{$t('global.Sale Method')}} :</strong></label><br>
+                                                <label> <input type="checkbox" v-model.trim="v$.saleMethods.$model" value="جملة"> {{$t('global.total')}} &ensp;</label>
+                                                <label> <input type="checkbox" v-model.trim="v$.saleMethods.$model" value="قطاعى"> {{$t('global.Sectional')}} &ensp;</label>
+                                                <label> <input type="checkbox" v-model.trim="v$.saleMethods.$model" value="توزيع"> {{$t('global.Delivery')}} &ensp;</label>
+                                            </div>
+                                            <!--End Sale Methods Checkbox-->
+
                                             <div class="col-md-12 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
                                                     <span>
@@ -345,7 +354,8 @@ export default {
                     addProduct.data.charge = l.product.charge;
                     addProduct.data.maxMount = l.product.maxMount;
                     addProduct.data.description = l.product.description;
-                    addProduct.data.cat_id = l.product.cat_id;
+                    // addProduct.data.saleMethods = l.product.saleMethods;
+                    addProduct.data.category_id = l.product.category_id;
                     addProduct.data.sub_category_id = l.product.sub_category_id;
                     addProduct.data.company_id = l.product.company_id;
                     addProduct.data.tax_id = l.product.tax_id;
@@ -372,11 +382,12 @@ export default {
                 charge : '',
                 maxMount : '',
                 description : '',
-                cat_id:'',
+                category_id:'',
                 sub_category_id:'',
                 company_id:'',
                 tax_id:'',
                 unit_id:'',
+                saleMethods : [],
                 file : {}
             }
         });
@@ -388,7 +399,7 @@ export default {
         getTaxes();
         getUnits();
         //
-        
+
         const rules = computed(() => {
             return {
                 name: {
@@ -410,7 +421,7 @@ export default {
                     maxLength:maxLength(255),
                     required
                 },
-                cat_id: {
+                category_id: {
                     required
                 },
                 sub_category_id: {
@@ -424,6 +435,9 @@ export default {
                 },
                 unit_id: {
                     required
+                },
+                saleMethods:{
+                    required,
                 },
 
             };
@@ -551,11 +565,12 @@ export default {
                 formData.append('charge',this.data.charge);
                 formData.append('maxMount',this.data.maxMount);
                 formData.append('description',this.data.description);
-                formData.append("cat_id", this.data.cat_id);
+                formData.append("category_id", this.data.category_id);
                 formData.append("sub_category_id", this.data.sub_category_id);
                 formData.append("company_id", this.data.company_id);
                 formData.append("tax_id", this.data.tax_id);
                 formData.append("unit_id", this.data.unit_id);
+                formData.append('saleMethods',this.data.saleMethods);
                 formData.append('file',this.data.file);
                 formData.append('_method','PUT');
 

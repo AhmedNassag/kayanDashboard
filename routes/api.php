@@ -96,13 +96,40 @@ Route::group([ 'prefix' => 'v1','middleware' => ['secretAPI']],function () {
             // product
             Route::resource('product','ProductController')->except(['show']);
             Route::get('activationProduct/{id}','ProductController@activationProduct');
-
             // relations routes
             Route::get('getCategories','ProductController@getCategories');
             Route::get('getSubCategories','ProductController@getSubCategories');
             Route::get('getCompanies','ProductController@getCompanies');
             Route::get('getTaxes','ProductController@getTaxes');
             Route::get('getUnits','ProductController@getUnits');
+
+            // sale method
+            Route::resource('saleMethod','SaleMethodsController')->except(['show']);
+            Route::get('activationSaleMethod/{id}','SaleMethodsController@activationSaleMethod');
+
+            // shift
+            Route::resource('shift','ShiftController')->except(['show']);
+            Route::get('activationShift/{id}','ShiftController@activationShift');
+
+            // stock
+            Route::resource('stock','StockController')->except(['show']);
+            // relations routes
+            Route::get('getEmpolyees','StockController@getEmpolyees');
+            Route::get('getShifts','StockController@getShifts');
+
+            // purchase
+            Route::resource('purchase','PurchaseController')->except(['show']);
+            // relations routes
+            // Route::get('getCategories','PurchaseController@getCategories');
+            Route::get('getSuppliers','PurchaseController@getSuppliers');
+            Route::get('getProducts','PurchaseController@getProducts');
+            Route::get('getEmployees','PurchaseController@getEmployees');
+
+            // refused
+            Route::resource('refused','RefusedController')->except(['show']);
+            // relations routes
+            Route::get('getStocks','RefusedController@getStocks');
+
 
             //start logout
             Route::post('logout','AuthDashboardController@logout');

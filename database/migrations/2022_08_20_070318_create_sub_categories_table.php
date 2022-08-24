@@ -17,13 +17,15 @@ class CreateSubCategoriesTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->boolean('status')->default(true);
-            $table->unsignedBigInteger('category_id');
+            
+            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+            // $table->unsignedBigInteger('category_id');
+            // $table->index(["category_id"], 'category_id');
+            // $table->foreign('category_id', 'category_id')
+            //       ->references('id')->on('categories')
+            //       ->onDelete('cascade')
+            //       ->onUpdate('cascade');
 
-            $table->index(["category_id"], 'category_id');
-            $table->foreign('category_id', 'category_id')
-                  ->references('id')->on('categories')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
             $table->timestamps();
         });
     }
