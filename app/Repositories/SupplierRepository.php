@@ -2,13 +2,17 @@
 
 namespace App\Repositories;
 
+use App\Models\Employee;
 use App\Models\Supplier;
 
 class SupplierRepository
 {
-    public function store($supplier)
+    public function store($supplierInput)
     {
-        return Supplier::create($supplier);
+        $supplier = Supplier::create($supplierInput);
+        $supplier->shippings()->sync($supplierInput["shippings_ids"]);
+        $supplier->shippings = $supplierInput["shippings_ids"];
+        return $supplier;
     }
 
     public function update($supplierInput)
@@ -27,7 +31,10 @@ class SupplierRepository
         $supplier->payment_responsible_name = $supplierInput["payment_responsible_name"] ?? null;
         $supplier->payment_responsible_phone = $supplierInput["payment_responsible_phone"] ?? null;
         $supplier->payment_responsible_card_number = $supplierInput["payment_responsible_card_number"] ?? null;
+        $supplier->employee_id = $supplierInput["employee_id"] ?? null;
         $supplier->save();
+        $supplier->shippings()->sync($supplierInput["shippings_ids"]);
+        $supplier->shippings = $supplierInput["shippings_ids"];
         return $supplier;
     }
 
@@ -40,15 +47,23 @@ class SupplierRepository
     }
     public function getPage($pageSize, $text)
     {
-        return Supplier::where("name", "like", "%$text%")
-            ->orWhere("address","like", "%$text%")
+        $suppliers = Supplier::where("name", "like", "%$text%")
+            ->orWhere("address", "like", "%$text%")
             ->orWhere("phone", $text)
+            ->with("shippings")
             ->paginate($pageSize);
+        return $suppliers;
     }
     public function toggleActivation($id)
     {
         $supplier = Supplier::find($id);
         $supplier->active = !$supplier->active;
         $supplier->save();
+    }
+    public function getAllEmployees()
+    {
+        return Employee::whereHas("user", function ($q) {
+            $q->where("status", 1);
+        })->with("user")->get();
     }
 }

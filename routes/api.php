@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([ 'prefix' => 'v1','middleware' => ['secretAPI']],function () {
+Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
-        // check token
+    // check token
 
 
     // start Dashboard auth
@@ -36,78 +36,76 @@ Route::group([ 'prefix' => 'v1','middleware' => ['secretAPI']],function () {
     Route::middleware(['auth:api'])->group(function () {
 
         // start Dashboard
-        Route::group(['prefix' => 'dashboard','namespace' => 'Dashboard'],function () {
+        Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard'], function () {
 
 
             // start Notification
-//            Route::get('getAllNot','NotificationController@getAllNot');
-//            Route::get('getNotNotRead','NotificationController@getNotNotRead');
-//            Route::post('clearItem/{id}','NotificationController@clearItem');
-//            Route::post('getNotNotRead','NotificationController@clearAll');
+            //            Route::get('getAllNot','NotificationController@getAllNot');
+            //            Route::get('getNotNotRead','NotificationController@getNotNotRead');
+            //            Route::post('clearItem/{id}','NotificationController@clearItem');
+            //            Route::post('getNotNotRead','NotificationController@clearAll');
 
 
             // start User
-            Route::apiResource('user','UserController');
+            Route::apiResource('user', 'UserController');
 
             // start role
-            Route::resource('role','RoleController');
+            Route::resource('role', 'RoleController');
 
             // department
-            Route::resource('department','DepartmentController');
-            Route::get('activeDepartment','DepartmentController@activeDepartment');
-            Route::get('activationDepartment/{id}','DepartmentController@activationDepartment');
+            Route::resource('department', 'DepartmentController');
+            Route::get('activeDepartment', 'DepartmentController@activeDepartment');
+            Route::get('activationDepartment/{id}', 'DepartmentController@activationDepartment');
 
             // job
-            Route::resource('job','JobController');
-            Route::get('activeJob','JobController@activeJob');
-            Route::get('activationJob/{id}','JobController@activationJob');
+            Route::resource('job', 'JobController');
+            Route::get('activeJob', 'JobController@activeJob');
+            Route::get('activationJob/{id}', 'JobController@activationJob');
 
             // employee
-            Route::resource('employee','EmployeeController');
-            Route::get('activationEmployee/{id}','EmployeeController@activationEmployee');
-            Route::post('employee/changePassword/{id}','EmployeeController@changePassword');
-            Route::get('role','EmployeeController@role');
-            Route::get('salesEmployee','EmployeeController@salesEmployee');
+            Route::resource('employee', 'EmployeeController');
+            Route::get('activationEmployee/{id}', 'EmployeeController@activationEmployee');
+            Route::post('employee/changePassword/{id}', 'EmployeeController@changePassword');
+            Route::get('role', 'EmployeeController@role');
+            Route::get('salesEmployee', 'EmployeeController@salesEmployee');
 
             // supplier
-            Route::resource('supplier','SupplierController')->except(['show']);
-            Route::get('activationSupplier/{id}','SupplierController@activationSupplier');
+            Route::resource('supplier', 'SupplierController')->except(['show']);
+            Route::get('activationSupplier/{id}', 'SupplierController@activationSupplier');
 
             // category
-            Route::resource('category','CategoryController')->except(['show']);
-            Route::get('activationCategory/{id}','CategoryController@activationCategory');
+            Route::resource('category', 'CategoryController')->except(['show']);
+            Route::get('activationCategory/{id}', 'CategoryController@activationCategory');
 
             // sub category
-            Route::resource('subCategory','SubCategoryController')->except(['show']);
-            Route::get('activationSubCategory/{id}','SubCategoryController@activationSubCategory');
+            Route::resource('subCategory', 'SubCategoryController')->except(['show']);
+            Route::get('activationSubCategory/{id}', 'SubCategoryController@activationSubCategory');
 
             // users category
-            Route::resource('usersCategory','UsersCategoryController')->except(['show']);
-            Route::get('activationUsersCategory/{id}','UsersCategoryController@activationUsersCategory');
+            Route::resource('usersCategory', 'UsersCategoryController')->except(['show']);
+            Route::get('activationUsersCategory/{id}', 'UsersCategoryController@activationUsersCategory');
 
             // tax
-            Route::resource('tax','TaxController')->except(['show']);
-            Route::get('activationTax/{id}','TaxController@activationTax');
+            Route::resource('tax', 'TaxController')->except(['show']);
+            Route::get('activationTax/{id}', 'TaxController@activationTax');
 
             // company
-            Route::resource('company','CompanyController')->except(['show']);
-            Route::get('activationCompany/{id}','CompanyController@activationCompany');
+            Route::resource('company', 'CompanyController')->except(['show']);
+            Route::get('activationCompany/{id}', 'CompanyController@activationCompany');
 
             // product
-            Route::resource('product','ProductController')->except(['show']);
-            Route::get('activationProduct/{id}','ProductController@activationProduct');
+            Route::resource('product', 'ProductController')->except(['show']);
+            Route::get('activationProduct/{id}', 'ProductController@activationProduct');
 
             // relations routes
-            Route::get('getCategories','ProductController@getCategories');
-            Route::get('getSubCategories','ProductController@getSubCategories');
-            Route::get('getCompanies','ProductController@getCompanies');
-            Route::get('getTaxes','ProductController@getTaxes');
+            Route::get('getCategories', 'ProductController@getCategories');
+            Route::get('getSubCategories', 'ProductController@getSubCategories');
+            Route::get('getCompanies', 'ProductController@getCompanies');
+            Route::get('getTaxes', 'ProductController@getTaxes');
 
             //start logout
-            Route::post('logout','AuthDashboardController@logout');
-
+            Route::post('logout', 'AuthDashboardController@logout');
         });
-
     });
 
 
@@ -181,10 +179,29 @@ Route::group([ 'prefix' => 'v1','middleware' => ['secretAPI']],function () {
             //Suppliers
             Route::prefix("suppliers")->group(function () {
                 Route::get("", "SupplierController@index");
+                Route::get("employees", "SupplierController@getAllEmployees");
+                Route::get("shippings", "SupplierController@getAllShippings");
                 Route::post("", "SupplierController@store");
                 Route::put("", "SupplierController@update");
                 Route::delete("{id}", "SupplierController@delete");
                 Route::get("toggle-activation/{id}", "SupplierController@toggleActivation");
+            });
+
+            //Client Groups
+            Route::prefix("client-groups")->group(function () {
+                Route::get("", "ClientGroupController@index");
+                Route::post("", "ClientGroupController@store");
+                Route::put("", "ClientGroupController@update");
+                Route::delete("{id}", "ClientGroupController@delete");
+            });
+
+
+            //Client Groups
+            Route::prefix("clients")->group(function () {
+                Route::get("", "ClientController@index");
+                Route::post("", "ClientController@store");
+                Route::put("", "ClientController@update");
+                Route::get("toggle-activation/{id}", "ClientController@toggleActivation");
             });
 
             //start logout

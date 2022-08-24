@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import Index from '../view/admin/Dashboard.vue';
 import department from './adminRoute/department';
 import category from './adminRoute/category';
@@ -21,9 +21,11 @@ import login from "../view/admin/login";
 import forgetPassword from "../view/admin/forgetPassword";
 import resetPassword from "../view/admin/resetPassword";
 import unit from './adminRoute/unit';
+import clientGroup from './adminRoute/client-group';
 import offer from './adminRoute/offer';
 import shipping from './adminRoute/shipping';
 import supplier from './adminRoute/supplier';
+import client from './adminRoute/client';
 
 const routes = [
     {
@@ -92,6 +94,8 @@ const routes = [
             ...offer,
             ...shipping,
             ...supplier,
+            ...clientGroup,
+            ...client
         ]
     },
     {

@@ -5,16 +5,21 @@ namespace App\Http\Controllers\Api\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use App\Repositories\ShippingRepository;
 use App\Repositories\SupplierRepository;
 
 class SupplierController extends Controller
 {
 
     private $supplierRepository;
+    private $shippingRepository;
 
-    public function __construct(SupplierRepository $supplierRepository)
-    {
+    public function __construct(
+        SupplierRepository $supplierRepository,
+        ShippingRepository $shippingRepository
+    ) {
         $this->supplierRepository = $supplierRepository;
+        $this->shippingRepository = $shippingRepository;
         $this->middleware('permission:supplier read', ['only' => ['index']]);
         $this->middleware('permission:supplier create', ['only' => ['store']]);
         $this->middleware('permission:supplier edit', ['only' => ['update', 'toggleActivation']]);
@@ -46,5 +51,13 @@ class SupplierController extends Controller
     public function toggleActivation($id)
     {
         $this->supplierRepository->toggleActivation($id);
+    }
+    public function getAllEmployees()
+    {
+        return $this->supplierRepository->getAllEmployees();
+    }
+    public function getAllShippings()
+    {
+        return $this->shippingRepository->getAllShippings();
     }
 }

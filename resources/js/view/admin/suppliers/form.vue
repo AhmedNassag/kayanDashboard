@@ -165,6 +165,64 @@
                 </div>
                 <div class="col-12">
                   <div class="form-group">
+                    <label for="sel1">{{ $t("global.Employees") }}</label>
+                    <select
+                      :class="{
+                        'is-invalid': v$.employee_id.$error,
+                      }"
+                      v-model="v$.employee_id.$model"
+                      class="custom-select"
+                      id="sel1"
+                    >
+                      <option
+                        :value="employee.id"
+                        v-for="employee in employees"
+                        :key="employee.id"
+                      >
+                        {{ employee.user.name }}
+                      </option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <div v-for="error in v$.employee_id.$errors" :key="error">
+                        {{ $t("global.Employee") + " " + $t(error.$validator) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="multi-select mb-2">
+                    <label>{{ $t("global.Shipping") }}</label>
+                    <div
+                      :class="{
+                        'is-invalid':
+                          shippingsTouched && getSelectedShipping().length == 0,
+                      }"
+                      class="select border p-2"
+                    >
+                      <div
+                        v-for="(shipping, index) in shippings"
+                        :key="shipping.id"
+                        class="form-check"
+                      >
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          @change="toggleShippingSelection(shipping)"
+                          :id="index"
+                          :checked="shipping.selected"
+                        />
+                        <label class="form-check-label" for="flexCheckChecked">
+                          {{ shipping.name }}
+                        </label>
+                      </div>
+                    </div>
+                    <div class="invalid-feedback">
+                      {{ $t("global.Shipping") + " " + $t("required") }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
                     <label for="exampleInputEmail1">{{
                       $t("global.PaymentType")
                     }}</label>
@@ -365,6 +423,7 @@ export default {
       phoneExist: false,
       taxCardExist: false,
       commericalRegisterExist: false,
+      shippingsTouched: false,
     });
     const form = reactive({
       id: null,
@@ -381,10 +440,12 @@ export default {
       payment_responsible_name: "",
       payment_responsible_phone: "",
       payment_responsible_card_number: "",
+      employee_id: null,
     });
     const rules = {
       name: { required },
       address: { required },
+      employee_id: { required },
       phone: {
         required,
         phone(value) {
@@ -431,9 +492,21 @@ export default {
     };
     const v$ = useVuelidate(rules, form);
     //Methods
+    function toggleShippingSelection(shipping) {
+      shipping.selected = !shipping.selected;
+      data.shippingsTouched = true;
+    }
+    function getSelectedShipping() {
+      return props.shippings
+        .filter((shipping) => {
+          return shipping.selected;
+        })
+        .map((shipping) => shipping.id);
+    }
     function save() {
-      if (v$.value.$invalid) {
+      if (v$.value.$invalid || getSelectedShipping().length == 0) {
         v$.value.$touch();
+        data.shippingsTouched = true;
         return;
       }
       if (!props.selectedSupplier) {
@@ -443,6 +516,17 @@ export default {
       }
     }
     //Commons
+    function setSelectedShippings() {
+      if (props.selectedSupplier) {
+        props.shippings.forEach((shipping) => {
+          shipping.selected = props.selectedSupplier.shippings
+            .map((_shipping) => (_shipping.id ? _shipping.id : _shipping))
+            .includes(shipping.id);
+        });
+      } else {
+        props.shippings.forEach((shipping) => (shipping.selected = false));
+      }
+    }
     function alertMessage(message) {
       notify({
         title: `${t(message)} <i class="fas fa-check-circle"></i>`,
@@ -508,6 +592,7 @@ export default {
         address: form.address,
         phone: form.phone,
         commerical_register: form.commerical_register,
+        employee_id: form.employee_id,
         tax_card: form.tax_card,
         responsible_name: form.responsible_name,
         responsible_phone: form.responsible_phone,
@@ -517,10 +602,12 @@ export default {
         payment_responsible_name: form.payment_responsible_name,
         payment_responsible_phone: form.payment_responsible_phone,
         payment_responsible_card_number: form.payment_responsible_card_number,
+        shippings_ids: getSelectedShipping(),
       };
     }
     function setForm() {
       v$.value.$reset();
+      data.shippingsTouched = false;
       form.name = props.selectedSupplier ? props.selectedSupplier.name : "";
       form.address = props.selectedSupplier
         ? props.selectedSupplier.address
@@ -556,6 +643,14 @@ export default {
       form.payment_responsible_card_number = props.selectedSupplier
         ? props.selectedSupplier.payment_responsible_card_number
         : "";
+      let firstEmployeeId =
+        props.employees && props.employees.length > 0
+          ? props.employees[0].id
+          : null;
+      form.employee_id = props.selectedSupplier
+        ? props.selectedSupplier.employee_id
+        : firstEmployeeId;
+      setSelectedShippings();
       data.phoneExist = false;
       data.commericalRegisterExist = false;
       data.taxCardExist = false;
@@ -573,17 +668,26 @@ export default {
     return {
       ...toRefs(data),
       ...toRefs(form),
+      toggleShippingSelection,
+      getSelectedShipping,
       v$,
       locale,
       save,
+      employees: props.employees,
+      shippings: props.shippings,
     };
   },
-  props: ["selectedSupplier"],
+  props: ["selectedSupplier", "employees", "shippings"],
 };
 </script>
 
 <style scoped lang="scss">
 .unit-form {
+  .select {
+    border-radius: 0.25rem;
+    height: 150px;
+    overflow: auto;
+  }
   .form-control {
     padding: 10px;
   }
