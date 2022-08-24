@@ -7,6 +7,11 @@ import usersCategory from './adminRoute/usersCategory';
 import tax from './adminRoute/tax';
 import company from './adminRoute/company';
 import product from './adminRoute/product';
+import saleMethod from './adminRoute/saleMethod';
+import shift from './adminRoute/shift';
+import stock from './adminRoute/stock';
+import purchase from './adminRoute/purchase';
+import refused from './adminRoute/refused';
 import job from './adminRoute/job';
 import role from './adminRoute/role';
 import employee from './adminRoute/employee';
@@ -24,6 +29,7 @@ import unit from './adminRoute/unit';
 import offer from './adminRoute/offer';
 import shipping from './adminRoute/shipping';
 import supplier from './adminRoute/supplier';
+import refuse from './adminRoute/refused';
 
 const routes = [
     {
@@ -88,6 +94,11 @@ const routes = [
             ...tax,
             ...company,
             ...product,
+            ...saleMethod,
+            ...shift,
+            ...stock,
+            ...purchase,
+            ...refused,
             ...unit,
             ...offer,
             ...shipping,

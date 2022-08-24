@@ -10,6 +10,9 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $casts = [
+        'saleMethods' => 'array'
+    ];
 
     //start raletions
     public function media()
@@ -40,5 +43,15 @@ class Product extends Model
     public function unit()
     {
         return $this->belongsTo(Unit::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function refuseds()
+    {
+        return $this->hasMany(Refused::class);
     }
 }

@@ -154,7 +154,7 @@
         "BankName": "اسم البنك",
         "BankAddress": "عنوان البنك",
         "ChooseRole": "اختر دوره",
-        "NameIsRequired": "الاسم مطلوب.",
+        "NameIsRequired": "الحقل مطلوب.",
         "NameIsMustHaveAtLeast": "الاسم يجب ان يحتوى على الاقل",
         "NameIsMustHaveAtMost": "الاسم يجب ان يحتوى على الاكثر",
         "NameIsExist":"السم موجود بالفعل",
@@ -359,6 +359,8 @@
         "usersCategory":"فئات المستخدمين",
         "subCategory":"الفئات الفرعية",
         "Created_At":"تاريخ الإضافة",
+        "Started_at":"يبدأ فى",
+        "Ended_at":"ينتهى فى",
         "Taxes":"الضرائب",
         "Rate":"نسبة الضريبة",
         "Companies":"الشركات",
@@ -366,6 +368,42 @@
         "BarCode":"بار كود",
         "Charge":"رصيد",
         "MaxMount":"أقصى كمية",
+        "Shifts":"الشيفتات",
+        "Shift":"شيفت",
+        "Stocks":"المخازن",
+        "Stock":"مخزن",
+        "Type":"النوع",
+        "Morning":"صباحى",
+        "Evening":"مسائى",
+        "Governorate":"المحافظة",
+        "Region":"المنطقة",
+        "Empolyee Name":"اسم الموظف",
+        "Empolyee Phone":"تليفون الموظف",
+        "Shift Name":"اسم الشيفت",
+        "Sale Methods":"طرق البيع",
+        "Sale Method":"طريقة البيع",
+        "Purchase":"مشترى",
+        "Purchases":"المشتريات",
+        "total":"جملة",
+        "Sectional":"قطاعى",
+        "Delivery":"توزيع",
+        "Entered Quanitity":"الكمية المدخلة",
+        "Refused Quantity":"الكمية المرفوضة",
+        "Product Case":"حالة المنتج",
+        "Production Date":"تاريخ الإنتاج",
+        "Expiration Date":"تاريخ الصلاحية",
+        "Supplier":"المورد",
+        "Emloyee":"الموظف",
+        "Perfect":"ممتاز",
+        "Very Good":"جيد جداً",
+        "Good":"جيد",
+        "Refuseds":"المرتجعات",
+        "Refused":"مرتجع",
+        "Refused Reason":"سبب الرفض",
+        "Discount Percentage":"نسبة الخصم",
+        "Discount Value":"قيمة الخصم",
+        "Another Discount":"خصومات أخرى",
+        "Generate Random":"عشوائى",
         "YouCanNotModifyThisSafe": "لا تستطيع التعديل على هذه الخزنة !"
     },
     "treasury": {
@@ -503,5 +541,30 @@
     "company": {
         "CreateCompany": "اضافة شركة",
         "EditCompany": "تعديل شركة"
+    },
+
+    "saleMethod": {
+        "CreateSaleMethod": "اضافة طريقة بيع",
+        "EditSaleMethod": "تعديل طريقة البيع"
+    },
+
+    "shift": {
+        "CreateShift": "اضافة شيفت",
+        "EditShift": "تعديل شيفت"
+    },
+
+    "stock": {
+        "CreateStock": "اضافة مخزن",
+        "EditStock": "تعديل مخزن"
+    },
+
+    "purchase": {
+        "CreatePurchase": "اضافة مشتريات",
+        "EditPurchase": "تعديل مشتريات"
+    },
+
+    "refused": {
+        "CreateRefused": "اضافة مرتجع",
+        "EditRefused": "تعديل مرتجع"
     }
 }

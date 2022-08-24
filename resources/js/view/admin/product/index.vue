@@ -58,6 +58,7 @@
                       <th>{{ $t("global.BarCode") }}</th>
                       <th>{{ $t("global.Charge") }}</th>
                       <th>{{ $t("global.MaxMount") }}</th>
+                      <th>{{ $t("global.Sale Methods") }}</th>
                       <th>{{ $t("global.Category") }}</th>
                       <th>{{ $t("global.subCategory") }}</th>
                       <th>{{ $t("global.Company") }}</th>
@@ -83,11 +84,12 @@
                       <td>{{ item.barCode }}</td>
                       <td>{{ item.charge }}</td>
                       <td>{{ item.maxMount }}</td>
-                      <td>{{ item.cat_id }}</td>
-                      <td>{{ item.sub_category_id }}</td>
-                      <td>{{ item.company_id }}</td>
-                      <td>{{ item.tax_id }}</td>
-                      <td>{{ item.unit_id }}</td>
+                      <td>{{ item.saleMethods }}</td>
+                      <td>{{ item.category_id }}</td>
+                      <td>{{ item.sub_category.name }}</td>
+                      <td>{{ item.company.name }}</td>
+                      <td>{{ item.tax.name }}</td>
+                      <td>{{ item.unit.name }}</td>
                       <td>
                         <a
                           href="#"
