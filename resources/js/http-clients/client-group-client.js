@@ -13,4 +13,7 @@ export default {
     getPage(pageNo, pageSize, text) {
         return adminApi.get(`${BASE_URL}?page=${pageNo}&page_size=${pageSize}&text=${text}`);
     },
+    getAllClients(){
+        return adminApi.get(`${BASE_URL}/clients`);
+    }
 }

@@ -6,21 +6,21 @@ import store from "../../store/admin";
 export default [
     {
         path: 'subCategory',
-        component:  {
-            template:'<router-view />',
+        component: {
+            template: '<router-view />',
         },
-        children:[
+        children: [
             {
                 path: '',
                 name: 'indexSubCategory',
                 component: indexSubCategory,
-                beforeEnter: (to, from,next) => {
+                beforeEnter: (to, from, next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('subCategory read')){
+                    if (permission.includes('subCategory read')) {
                         return next();
-                    }else{
-                        return next({name:'Page404'});
+                    } else {
+                        return next({ name: 'Page404' });
                     }
                 }
             },
@@ -28,13 +28,13 @@ export default [
                 path: 'create',
                 name: 'createSubCategory',
                 component: createSubCategory,
-                beforeEnter: (to, from,next) => {
+                beforeEnter: (to, from, next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('subCategory create')){
+                    if (permission.includes('subCategory create')) {
                         return next();
-                    }else{
-                        return next({name:'Page404'});
+                    } else {
+                        return next({ name: 'Page404' });
                     }
                 }
             },
@@ -43,13 +43,13 @@ export default [
                 name: 'editSubCategory',
                 component: editSubCategory,
                 props: true,
-                beforeEnter: (to, from,next) => {
+                beforeEnter: (to, from, next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('subCategory edit')){
+                    if (permission.includes('subCategory edit')) {
                         return next();
-                    }else{
-                        return next({name:'Page404'});
+                    } else {
+                        return next({ name: 'Page404' });
                     }
                 }
             },

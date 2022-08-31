@@ -7,6 +7,7 @@
     ]"
   >
     <ClientGroupForm
+      :clients="clients"
       :selectedClientGroup="selectedClientGroup"
       @created="onCreated"
       @updated="onUpdated"
@@ -84,15 +85,6 @@
                         >
                           <i class="far fa-edit"></i>
                         </a>
-                        <a
-                          href="#"
-                          @click="deleteClientGroup(clientGroup, index)"
-                          data-bs-target="#staticBackdrop"
-                          v-if="permission.includes('client-group delete')"
-                          class="btn btn-sm btn-danger me-2"
-                        >
-                          <i class="far fa-trash-alt"></i>
-                        </a>
                       </td>
                     </tr>
                   </tbody>
@@ -147,6 +139,7 @@ export default {
       page: 1,
       pageSize: 5,
       loading: false,
+      clients: [],
     });
     const { t, locale } = useI18n({});
     provide("client_group_store", clientGroupStore);
@@ -198,22 +191,6 @@ export default {
       data.clientGroups[data.selectedClientGroupIndex] = event;
       data.selectedClientGroup = null;
     }
-    function deleteClientGroup(clientGroup, index) {
-      Swal.fire({
-        title: `${t("global.AreYouSureDelete")} (${clientGroup.name})`,
-        text: `${t("global.YouWontBeAbleToRevertThis")}`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: t("global.Yeas"),
-        cancelButtonText: t("global.No"),
-      }).then((result) => {
-        if (result.isConfirmed) {
-          httpDeleteRequest(clientGroup, index);
-        }
-      });
-    }
     function search() {
       // clear timeout variable
       clearTimeout(data.timeout);
@@ -229,37 +206,19 @@ export default {
     );
 
     //Commons
-    function httpDeleteRequest(clientGroup, index) {
+    function getAllClients() {
       data.loading = true;
       clientGroupClient
-        .delete(clientGroup.id)
+        .getAllClients()
         .then((response) => {
           data.loading = false;
-          data.clientGroups.splice(index, 1);
-          if (data.clientGroups.length == 0) {
-            if (data.page > 1) {
-              data.page--;
-            }
-            getClientGroups(data.page);
-          }
-          Swal.fire({
-            icon: "success",
-            title: `${t("global.DeletedSuccessfully")}`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          data.clients = response.data;
         })
-        .catch((error) => {
-          data.loading = false;
-          Swal.fire({
-            icon: "error",
-            title: `${t("global.ThereIsAnErrorInTheSystem")}`,
-            text: `${t("global.YouCanNotDelete")}`,
-          });
-        });
+        .catch((error) => {});
     }
     function created() {
       getClientGroups();
+      getAllClients();
     }
     return {
       ...toRefs(data),
@@ -269,7 +228,6 @@ export default {
       downloadExcelFile,
       onCreated,
       onUpdated,
-      deleteClientGroup,
       search,
       permission,
     };

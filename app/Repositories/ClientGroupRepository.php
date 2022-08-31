@@ -6,28 +6,27 @@ use App\Models\ClientGroup;
 
 class ClientGroupRepository
 {
-    public function store($ClientGroup)
+    public function store($clientGroupInput)
     {
-        return ClientGroup::create($ClientGroup);
+        $clientGroup = ClientGroup::create($clientGroupInput);
+        $clientGroup->clients()->sync($clientGroupInput["clients_ids"]);
+        $clientGroup->clients = $clientGroupInput["clients_ids"];
+        return $clientGroup;
     }
 
-    public function update($ClientGroupInput)
+    public function update($clientGroupInput)
     {
-        $ClientGroup = ClientGroup::find($ClientGroupInput["id"]);
-        $ClientGroup->name = $ClientGroupInput["name"];
-        $ClientGroup->save();
-        return $ClientGroup;
+        $clientGroup = ClientGroup::find($clientGroupInput["id"]);
+        $clientGroup->name = $clientGroupInput["name"];
+        $clientGroup->save();
+        $clientGroup->clients()->sync($clientGroupInput["clients_ids"]);
+        $clientGroup->clients = $clientGroupInput["clients_ids"];
+        return $clientGroup;
     }
 
-    public function delete($id)
-    {
-        $ClientGroup = ClientGroup::find($id);
-        if ($ClientGroup) {
-            $ClientGroup->delete();
-        }
-    }
     public function getPage($pageSize, $text)
     {
-        return ClientGroup::where("name", "like", "%$text%")->paginate($pageSize);
+        return ClientGroup::where("name", "like", "%$text%")->with("clients")
+            ->paginate($pageSize);
     }
 }

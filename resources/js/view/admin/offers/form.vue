@@ -80,9 +80,9 @@
                         type="checkbox"
                         v-model="ratio"
                       />
-                      <label class="custom-control-label" for="workflow"
-                        >{{$t("global.Percentage")}}</label
-                      >
+                      <label class="custom-control-label" for="workflow">{{
+                        $t("global.Percentage")
+                      }}</label>
                     </div>
                   </div>
                 </div>

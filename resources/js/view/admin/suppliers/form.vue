@@ -35,6 +35,11 @@
                         'is-invalid': v$.name.$error,
                       }"
                     />
+                    <div class="invalid-feedback">
+                      <div v-for="error in v$.name.$errors" :key="error">
+                        {{ $t("global.Name") + " " + $t(error.$validator) }}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-6">
@@ -195,7 +200,7 @@
                     <div
                       :class="{
                         'is-invalid':
-                          shippingsTouched && getSelectedShipping().length == 0,
+                          shippingsTouched && getSelectedShippingsIds().length == 0,
                       }"
                       class="select border p-2"
                     >
@@ -496,7 +501,7 @@ export default {
       shipping.selected = !shipping.selected;
       data.shippingsTouched = true;
     }
-    function getSelectedShipping() {
+    function getSelectedShippingsIds() {
       return props.shippings
         .filter((shipping) => {
           return shipping.selected;
@@ -504,7 +509,7 @@ export default {
         .map((shipping) => shipping.id);
     }
     function save() {
-      if (v$.value.$invalid || getSelectedShipping().length == 0) {
+      if (v$.value.$invalid || getSelectedShippingsIds().length == 0) {
         v$.value.$touch();
         data.shippingsTouched = true;
         return;
@@ -602,7 +607,7 @@ export default {
         payment_responsible_name: form.payment_responsible_name,
         payment_responsible_phone: form.payment_responsible_phone,
         payment_responsible_card_number: form.payment_responsible_card_number,
-        shippings_ids: getSelectedShipping(),
+        shippings_ids: getSelectedShippingsIds(),
       };
     }
     function setForm() {
@@ -669,7 +674,7 @@ export default {
       ...toRefs(data),
       ...toRefs(form),
       toggleShippingSelection,
-      getSelectedShipping,
+      getSelectedShippingsIds,
       v$,
       locale,
       save,

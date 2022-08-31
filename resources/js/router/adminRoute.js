@@ -31,8 +31,7 @@ import offer from './adminRoute/offer';
 import shipping from './adminRoute/shipping';
 import supplier from './adminRoute/supplier';
 import client from './adminRoute/client';
-import refuse from './adminRoute/refused';
-
+import salePoint from './adminRoute/sale-point';
 const routes = [
     {
         path: '/',
@@ -106,7 +105,8 @@ const routes = [
             ...shipping,
             ...supplier,
             ...clientGroup,
-            ...client
+            ...client,
+            ...salePoint
         ]
     },
     {

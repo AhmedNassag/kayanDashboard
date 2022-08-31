@@ -98,38 +98,38 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');
 
             // relations routes
-            Route::get('getCategories','ProductController@getCategories');
-            Route::get('getSubCategories','ProductController@getSubCategories');
-            Route::get('getCompanies','ProductController@getCompanies');
-            Route::get('getTaxes','ProductController@getTaxes');
-            Route::get('getUnits','ProductController@getUnits');
+            Route::get('getCategories', 'ProductController@getCategories');
+            Route::get('getSubCategories', 'ProductController@getSubCategories');
+            Route::get('getCompanies', 'ProductController@getCompanies');
+            Route::get('getTaxes', 'ProductController@getTaxes');
+            Route::get('getUnits', 'ProductController@getUnits');
 
             // sale method
-            Route::resource('saleMethod','SaleMethodsController')->except(['show']);
-            Route::get('activationSaleMethod/{id}','SaleMethodsController@activationSaleMethod');
+            Route::resource('saleMethod', 'SaleMethodsController')->except(['show']);
+            Route::get('activationSaleMethod/{id}', 'SaleMethodsController@activationSaleMethod');
 
             // shift
-            Route::resource('shift','ShiftController')->except(['show']);
-            Route::get('activationShift/{id}','ShiftController@activationShift');
+            Route::resource('shift', 'ShiftController')->except(['show']);
+            Route::get('activationShift/{id}', 'ShiftController@activationShift');
 
             // stock
-            Route::resource('stock','StockController')->except(['show']);
+            Route::resource('stock', 'StockController')->except(['show']);
             // relations routes
-            Route::get('getEmpolyees','StockController@getEmpolyees');
-            Route::get('getShifts','StockController@getShifts');
+            Route::get('getEmpolyees', 'StockController@getEmpolyees');
+            Route::get('getShifts', 'StockController@getShifts');
 
             // purchase
-            Route::resource('purchase','PurchaseController')->except(['show']);
+            Route::resource('purchase', 'PurchaseController')->except(['show']);
             // relations routes
             // Route::get('getCategories','PurchaseController@getCategories');
-            Route::get('getSuppliers','PurchaseController@getSuppliers');
-            Route::get('getProducts','PurchaseController@getProducts');
-            Route::get('getEmployees','PurchaseController@getEmployees');
+            Route::get('getSuppliers', 'PurchaseController@getSuppliers');
+            Route::get('getProducts', 'PurchaseController@getProducts');
+            Route::get('getEmployees', 'PurchaseController@getEmployees');
 
             // refused
-            Route::resource('refused','RefusedController')->except(['show']);
+            Route::resource('refused', 'RefusedController')->except(['show']);
             // relations routes
-            Route::get('getStocks','RefusedController@getStocks');
+            Route::get('getStocks', 'RefusedController@getStocks');
 
 
             //start logout
@@ -219,9 +219,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             //Client Groups
             Route::prefix("client-groups")->group(function () {
                 Route::get("", "ClientGroupController@index");
+                Route::get("clients", "ClientGroupController@getAllClients");
                 Route::post("", "ClientGroupController@store");
                 Route::put("", "ClientGroupController@update");
-                Route::delete("{id}", "ClientGroupController@delete");
             });
 
 
@@ -233,6 +233,23 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::get("toggle-activation/{id}", "ClientController@toggleActivation");
             });
 
+            //Client Groups
+            Route::prefix("point-groups")->group(function () {
+                Route::get("", "ClientController@index");
+                Route::post("", "ClientController@store");
+                Route::put("", "ClientController@update");
+                Route::get("toggle-activation/{id}", "ClientController@toggleActivation");
+            });
+
+            //Sales points
+            Route::prefix("sales-points")->group(function () {
+                Route::get("", "SalePointController@index");
+                Route::post("", "SalePointController@store");
+                Route::put("", "SalePointController@update");
+                Route::get("toggle-activation/{id}", "SalePointController@toggleActivation");
+                Route::get("main-categories", "SalePointController@getMainCategories");
+                Route::get("clients-groups", "SalePointController@getClientGroups");
+            });
             //start logout
             Route::post('logout', 'AuthDashboardController@logout');
         });

@@ -29,7 +29,6 @@ class UpdateClientRequest extends FormRequest
             "name" => "required",
             "phone" => "required|unique:users,phone," . $this->user_id . "|regex:/^01[0125][0-9]{8}$/",
             "email" => "required|email|unique:users,email," . $this->user_id,
-            "password" => "required",
             "store_name" => "required",
             "country" => "required",
             "city" => "required",

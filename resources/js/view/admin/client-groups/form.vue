@@ -1,5 +1,5 @@
 <template>
-  <div class="unit-form">
+  <div class="client-group-form">
     <notifications :position="locale == 'ar' ? 'top left' : 'top right'" />
     <div
       class="modal fade"
@@ -45,6 +45,38 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-12">
+                  <div class="multi-select mb-2">
+                    <label>{{ $t("global.Clients") }}</label>
+                    <div
+                      :class="{
+                        'is-invalid':
+                          clientsTouched && getSelectedClientsIds().length == 0,
+                      }"
+                      class="select border p-2"
+                    >
+                      <div
+                        v-for="(client, index) in clients"
+                        :key="client.id"
+                        class="form-check"
+                      >
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          @change="toggleClientSelection(client)"
+                          :id="index"
+                          :checked="client.selected"
+                        />
+                        <label class="form-check-label" for="flexCheckChecked">
+                          {{ client.user.name }}
+                        </label>
+                      </div>
+                    </div>
+                    <div class="invalid-feedback">
+                      {{ $t("global.Clients") + " " + $t("required") }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -79,6 +111,7 @@ export default {
     const client_group_store = inject("client_group_store");
     const data = reactive({
       nameExist: false,
+      clientsTouched: false,
     });
     const form = reactive({
       id: null,
@@ -89,9 +122,23 @@ export default {
     };
     const v$ = useVuelidate(rules, form);
     //Methods
+    function toggleClientSelection(client) {
+      client.selected = !client.selected;
+      data.clientsTouched = true;
+    }
+
+    function getSelectedClientsIds() {
+      return props.clients
+        .filter((client) => {
+          return client.selected;
+        })
+        .map((client) => client.id);
+    }
+
     function save() {
-      if (v$.value.$invalid) {
+      if (v$.value.$invalid || getSelectedClientsIds().length == 0) {
         v$.value.$touch();
+        data.clientsTouched = true;
         return;
       }
       if (!props.selectedClientGroup) {
@@ -101,6 +148,17 @@ export default {
       }
     }
     //Commons
+    function setSelectedClients() {
+      if (props.selectedClientGroup) {
+        props.clients.forEach((client) => {
+          client.selected = props.selectedClientGroup.clients
+            .map((_client) => (_client.id ? _client.id : _client))
+            .includes(client.id);
+        });
+      } else {
+        props.clients.forEach((client) => (client.selected = false));
+      }
+    }
     function alertMessage(message) {
       notify({
         title: `${t(message)} <i class="fas fa-check-circle"></i>`,
@@ -145,11 +203,16 @@ export default {
       return {
         id: props.selectedClientGroup ? props.selectedClientGroup.id : null,
         name: form.name,
+        clients_ids: getSelectedClientsIds(),
       };
     }
     function setForm() {
       v$.value.$reset();
-      form.name = props.selectedClientGroup ? props.selectedClientGroup.name : "";
+      form.name = props.selectedClientGroup
+        ? props.selectedClientGroup.name
+        : "";
+      setSelectedClients();
+      data.clientsTouched = false;
       data.nameExist = false;
     }
     //Watchers
@@ -165,17 +228,24 @@ export default {
     return {
       ...toRefs(data),
       ...toRefs(form),
+      toggleClientSelection,
+      getSelectedClientsIds,
       v$,
       locale,
       save,
     };
   },
-  props: ["selectedClientGroup"],
+  props: ["selectedClientGroup", "clients"],
 };
 </script>
 
 <style scoped lang="scss">
-.unit-form {
+.client-group-form {
+  .select {
+    border-radius: 0.25rem;
+    height: 150px;
+    overflow: auto;
+  }
   .form-control {
     padding: 10px;
   }

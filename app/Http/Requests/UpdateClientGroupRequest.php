@@ -24,8 +24,11 @@ class UpdateClientGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            "id"=>"required",
-            "name" => "required|unique:client_groups,name," . $this->id
+            "id" => "required",
+            "name" => "required|unique:client_groups,name," . $this->id,
+            "clients_ids" => "required|array|min:1",
+            "clients_ids.*" => "required|numeric",
+            "clients_ids.*" => "required|numeric",
         ];
     }
 }
