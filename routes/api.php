@@ -45,6 +45,18 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             //            Route::post('clearItem/{id}','NotificationController@clearItem');
             //            Route::post('getNotNotRead','NotificationController@clearAll');
 
+            // examination Record
+            Route::resource('examinationRecord','ExaminationRecordController');
+
+            // Purchase Return
+            Route::resource('purchaseReturn','PurchaseReturnController');
+
+            // Purchase Invoice
+            Route::resource('purchaseInvoice','PurchaseController');
+
+
+
+
 
             // start User
             Route::apiResource('user', 'UserController');
@@ -93,16 +105,23 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('company', 'CompanyController')->except(['show']);
             Route::get('activationCompany/{id}', 'CompanyController@activationCompany');
 
+            //product Name
+            Route::resource('productName', 'ProductNameController')->except(['show']);
+            Route::get('activationProductName/{id}', 'ProductNameController@activationProductName');
+
             // product
             Route::resource('product', 'ProductController')->except(['show']);
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');
+            //
+            Route::get('purchaseInvoiceProduct','ProductController@purchaseInvoiceProduct');
 
             // relations routes
-            Route::get('getCategories','ProductController@getCategories');
-            Route::get('getSubCategories','ProductController@getSubCategories');
-            Route::get('getCompanies','ProductController@getCompanies');
-            Route::get('getTaxes','ProductController@getTaxes');
-            Route::get('getUnits','ProductController@getUnits');
+            // Route::get('getProductNames','ProductController@getProductNames');
+            // Route::get('getCategories','ProductController@getCategories');
+            // Route::get('getSubCategories','ProductController@getSubCategories');
+            // Route::get('getCompanies','ProductController@getCompanies');
+            // Route::get('getTaxes','ProductController@getTaxes');
+            // Route::get('getUnits','ProductController@getUnits');
 
             // sale method
             Route::resource('saleMethod','SaleMethodsController')->except(['show']);
@@ -115,20 +134,36 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // stock
             Route::resource('stock','StockController')->except(['show']);
             // relations routes
-            Route::get('getEmpolyees','StockController@getEmpolyees');
-            Route::get('getShifts','StockController@getShifts');
+            // Route::get('getEmpolyees','StockController@getEmpolyees');
+            // Route::get('getShifts','StockController@getShifts');
+
+            // virtual stock
+            Route::resource('virtualStock','VirtualStockController')->except(['show']);
 
             // purchase
             Route::resource('purchase','PurchaseController')->except(['show']);
             // relations routes
             // Route::get('getCategories','PurchaseController@getCategories');
-            Route::get('getSuppliers','PurchaseController@getSuppliers');
-            Route::get('getProducts','PurchaseController@getProducts');
-            Route::get('getEmployees','PurchaseController@getEmployees');
+            // Route::get('getSuppliers','PurchaseController@getSuppliers');
+            // Route::get('getProducts','PurchaseController@getProducts');
+            // Route::get('getEmployees','PurchaseController@getEmployees');
 
             // refused
             Route::resource('refused','RefusedController')->except(['show']);
+
+
             // relations routes
+            Route::get('getProductNames','ProductController@getProductNames');
+            Route::get('getCategories','ProductController@getCategories');
+            Route::get('getSubCategories','ProductController@getSubCategories');
+            Route::get('getCompanies','ProductController@getCompanies');
+            Route::get('getTaxes','ProductController@getTaxes');
+            Route::get('getUnits','ProductController@getUnits');
+            Route::get('getEmployees','StockController@getEmployees');
+            Route::get('getShifts','StockController@getShifts');
+            Route::get('getSuppliers','PurchaseController@getSuppliers');
+            Route::get('getProducts','PurchaseController@getProducts');
+            // Route::get('getEmployees','PurchaseController@getEmployees');
             Route::get('getStocks','RefusedController@getStocks');
 
 
@@ -176,7 +211,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('salesEmployee', 'EmployeeController@salesEmployee');
 
             // category
-            Route::resource('category', 'CategoryController')->except(['show']);
+            Route::resource('category', 'CategoryController');
             Route::get('activationCategory/{id}', 'CategoryController@activationCategory');
 
             //Units

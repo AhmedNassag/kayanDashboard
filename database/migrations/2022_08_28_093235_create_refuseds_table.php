@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePurchasesTable extends Migration
+class CreateRefusedsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,22 @@ class CreatePurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('purchases', function (Blueprint $table) {
+        Schema::create('refuseds', function (Blueprint $table) {
             $table->id();
-            $table->string('enteredQuanitity')->nullable();
-            $table->text('refusedQuantity')->nullable();
-            $table->string('productCase')->nullable();
-            $table->string('productionDate')->nullable();
-            $table->string('expirationDate')->nullable();
-            $table->string('price')->nullable();
+            $table->string('refusedQuantity')->nullable();
+            $table->text('refusedReason')->nullable();
+            $table->string('note')->nullable();
+            $table->string('discountPercentage')->nullable();
+            $table->string('discountValue')->nullable();
+            $table->string('anotherDiscount')->nullable();
             $table->string('total')->nullable();
+            $table->string('code')->nullable();
 
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
-            
+            $table->foreignId('stock_id')->constrained('stocks')->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
@@ -39,6 +40,6 @@ class CreatePurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchases');
+        Schema::dropIfExists('refuses');
     }
 }

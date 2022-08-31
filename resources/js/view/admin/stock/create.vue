@@ -249,7 +249,7 @@
                             </label>
                             <select class="form-control" v-model.trim="v$.employee_id.$model">
                                 <option v-for="employee in employees" :key="employee.id" :value="employee.id">
-                                    {{ employee.user.name }}
+                                    {{ employee.id }}
                                 </option>
                             </select>
                         </div>

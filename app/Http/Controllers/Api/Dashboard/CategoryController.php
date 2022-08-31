@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\SubCategory;
 use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +36,8 @@ class CategoryController extends Controller
 
         $activeCategories = Category::where('status', 1)->get();
         $notActiveCategories = Category::where('status', 0)->get();
-        return $this->sendResponse(['categories' => $categories,'activeCategories' => $activeCategories,'notActiveCategories' => $notActiveCategories], 'Data exited successfully');
+        $products = Product::get();
+        return $this->sendResponse(['categories' => $categories,'activeCategories' => $activeCategories,'notActiveCategories' => $notActiveCategories, 'products' => $products], 'Data exited successfully');
     }
 
 
@@ -77,7 +80,7 @@ class CategoryController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
             $data = $request->only(['name']);
-
+            $data['code'] = rand();
             $category = Category::create($data);
 
             if($request->hasFile('file')){
@@ -109,6 +112,11 @@ class CategoryController extends Controller
     }
 
 
+    public function show($id)
+    {
+        $subCategories = SubCategory::where('category_id',$id)->get();
+        return $this->sendResponse(['subCategories' => $subCategories], 'Data exited successfully');
+    }
     /**
      * Show the form for editing the specified resource.
      *

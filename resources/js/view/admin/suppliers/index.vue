@@ -63,12 +63,12 @@
                 <table class="table mb-0">
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th>{{ $t("global.Name") }}</th>
-                      <th>{{ $t("global.Address") }}</th>
-                      <th>{{ $t("global.Phone") }}</th>
-                      <th>{{ $t("global.Status") }}</th>
-                      <th>{{ $t("global.Action") }}</th>
+                      <th class="text-center">#</th>
+                      <th class="text-center">{{ $t("global.Name") }}</th>
+                      <th class="text-center">{{ $t("global.Address") }}</th>
+                      <th class="text-center">{{ $t("global.Phone") }}</th>
+                      <th class="text-center">{{ $t("global.Status") }}</th>
+                      <th class="text-center">{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
                   <tbody v-if="suppliers.length">
@@ -76,11 +76,11 @@
                       v-for="(supplier, index) in suppliers"
                       :key="supplier.id"
                     >
-                      <td>{{ index + 1 }}</td>
-                      <td>{{ supplier.name }}</td>
-                      <td>{{ supplier.address }}</td>
-                      <td>{{ supplier.phone }}</td>
-                      <td>
+                      <td class="text-center">{{ index + 1 }}</td>
+                      <td class="text-center">{{ supplier.name }}</td>
+                      <td class="text-center">{{ supplier.address }}</td>
+                      <td class="text-center">{{ supplier.phone }}</td>
+                      <td class="text-center">
                         <button
                           class="active"
                           :disabled="!permission.includes('supplier edit')"
@@ -108,7 +108,7 @@
                           >
                         </button>
                       </td>
-                      <td>
+                      <td class="text-center">
                         <a
                           href="#"
                           @click="onEditClicked(supplier, index)"
@@ -128,6 +128,16 @@
                         >
                           <i class="far fa-trash-alt"></i>
                         </a>
+                        <!---->
+                        <router-link
+                        v-if="permission.includes('virtualStock create')"
+                        :to="{ name: 'createVirtualStock', params: { id: supplier.id }, }"
+                        class="btn btn-sm btn-info me-2"
+                        >
+                            <i class="far fa-edit"></i>
+                            {{ $t("global.Create Virtual Stock") }}
+                        </router-link>
+                        <!---->
                       </td>
                     </tr>
                   </tbody>

@@ -59,6 +59,7 @@
                       <th>{{ $t("global.Discount Value") }}</th>
                       <th>{{ $t("global.Another Discount") }}</th>
                       <th>{{ $t("global.Total") }}</th>
+                      <th>{{ $t("global.Code Number") }}</th>
                       <th>{{ $t("global.Category") }}</th>
                       <th>{{ $t("global.Supplier") }}</th>
                       <th>{{ $t("global.Product") }}</th>
@@ -77,6 +78,7 @@
                       <td>{{ item.discountValue }}</td>
                       <td>{{ item.anotherDiscount }}</td>
                       <td>{{ item.total }}</td>
+                      <td>{{ item.code }}</td>
                       <td>{{ item.category_id }}</td>
                       <td>{{ item.supplier_id }}</td>
                       <td>{{ item.product_id }}</td>
