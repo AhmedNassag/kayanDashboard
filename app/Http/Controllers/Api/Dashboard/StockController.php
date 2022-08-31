@@ -183,10 +183,10 @@ class StockController extends Controller
 
 
     //start relations functions
-    public function getEmpolyees()
+    public function getEmployees()
     {
-        $empolyees = Employee::with('user')->get();
-        return $this->sendResponse(['empolyees' => $empolyees], 'Data exited successfully');
+        $employees = Employee::all();
+        return $this->sendResponse(['employees' => $employees], 'Data exited successfully');
     }
 
     public function getShifts()

@@ -8,28 +8,53 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id'];
-    protected $table = 'purchases';
+    protected $appends = [
+        'quantity',
+        'total_price',
+        'is_received'
+    ];
 
-    //start raletions
-    public function category()
+    public function getIsReceivedAttribute()
     {
-        return $this->belongsTo(Category::class);
+        if ($this->examinationRecord != null || $this->purchaseReturns != null)
+        {
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
-    public function supplier()
+    public function getQuantityAttribute()
     {
-        return $this->belongsTo(Supplier::class);
+        return  $this->purchaseProducts()->sum('quantity') ;
     }
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
+    public function getTotalPriceAttribute(){
+        return ($this->price + $this->transfer_price) - ($this->discount_value + $this->other_discounts);
     }
 
-    public function employee()
-    {
-        return $this->belongsTo(Employee::class);
+    public function purchaseProducts(){
+
+        return $this->hasMany(PurchaseProduct::class);
     }
+
+    public function store(){
+        return $this->belongsTo(Stock::class,'stock_id');
+    }
+
+    public function supplier(){
+        return $this->belongsTo(Supplier::class,'supplier_id');
+    }
+
+    public function examinationRecord(){
+
+        return $this->hasOne(ExaminationRecord::class,'purchase_id');
+
+    }
+
+    public function purchaseReturns (){
+        return $this->hasOne(PurchaseReturn::class,'purchase_id');
+    }
+
 }

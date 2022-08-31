@@ -84,6 +84,7 @@ class CompanyController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
             $data = $request->only(['name']);
+            $data['code'] = rand();
 
             $company = Company::create($data);
 

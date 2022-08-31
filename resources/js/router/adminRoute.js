@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Index from '../view/admin/Dashboard.vue';
 import department from './adminRoute/department';
+import productName from './adminRoute/productName';
 import category from './adminRoute/category';
 import subCategory from './adminRoute/subCategory';
 import usersCategory from './adminRoute/usersCategory';
@@ -10,6 +11,7 @@ import product from './adminRoute/product';
 import saleMethod from './adminRoute/saleMethod';
 import shift from './adminRoute/shift';
 import stock from './adminRoute/stock';
+import virtualStock from './adminRoute/virtualStock';
 import purchase from './adminRoute/purchase';
 import refused from './adminRoute/refused';
 import job from './adminRoute/job';
@@ -31,7 +33,10 @@ import offer from './adminRoute/offer';
 import shipping from './adminRoute/shipping';
 import supplier from './adminRoute/supplier';
 import client from './adminRoute/client';
-import refuse from './adminRoute/refused';
+
+import purchaseInvoice from './adminRoute/purchaseInvoice';
+import examinationRecord from './adminRoute/examinationRecord';
+import purchaseReturn from './adminRoute/purchaseReturn';
 
 const routes = [
     {
@@ -90,6 +95,7 @@ const routes = [
             ...job,
             ...employee,
             ...role,
+            ...productName,
             ...category,
             ...subCategory,
             ...usersCategory,
@@ -99,6 +105,7 @@ const routes = [
             ...saleMethod,
             ...shift,
             ...stock,
+            ...virtualStock,
             ...purchase,
             ...refused,
             ...unit,
@@ -106,7 +113,11 @@ const routes = [
             ...shipping,
             ...supplier,
             ...clientGroup,
-            ...client
+            ...client,
+
+            ...purchaseInvoice,
+            ...examinationRecord,
+            ...purchaseReturn
         ]
     },
     {
