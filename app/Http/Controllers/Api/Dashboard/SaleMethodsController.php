@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\SaleMethods;
+use App\Models\SellingMethod;
 use Illuminate\Http\Request;
 use App\Traits\Message;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ class SaleMethodsController extends Controller
      */
     public function index(Request $request)
     {
-        $saleMethods = SaleMethods::when($request->search, function ($q) use ($request) {
+        $saleMethods = SellingMethod::when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
@@ -29,7 +30,7 @@ class SaleMethodsController extends Controller
 
     public function activationSaleMethod($id)
     {
-        $saleMethod = SaleMethods::find($id);
+        $saleMethod = SellingMethod::find($id);
 
         if ($saleMethod->status == 1) {
             $saleMethod->update([
@@ -74,7 +75,7 @@ class SaleMethodsController extends Controller
         }
 
         $data = $request->only(['name']);
-        $saleMethod = SaleMethods::create($data);
+        $saleMethod = SellingMethod::create($data);
 
         DB::commit();
 
@@ -107,7 +108,7 @@ class SaleMethodsController extends Controller
     {
         try {
 
-            $saleMethod = SaleMethods::find($id);
+            $saleMethod = SellingMethod::find($id);
 
             return $this->sendResponse(['saleMethod' => $saleMethod], 'Data exited successfully');
         } catch (\Exception $e) {
@@ -128,7 +129,7 @@ class SaleMethodsController extends Controller
         DB::beginTransaction();
         try {
 
-            $saleMethod = SaleMethods::find($id);
+            $saleMethod = SellingMethod::find($id);
 
             // Validator request
             $v = Validator::make($request->all(), [
@@ -161,7 +162,7 @@ class SaleMethodsController extends Controller
     public function destroy($id)
     {
         try {
-            $saleMethod = SaleMethods::find($id);
+            $saleMethod = SellingMethod::find($id);
             if ($saleMethod) {
 
                 $saleMethod->delete();

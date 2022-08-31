@@ -22,6 +22,7 @@ class CreateRefusedsTable extends Migration
             $table->string('discountValue')->nullable();
             $table->string('anotherDiscount')->nullable();
             $table->string('total')->nullable();
+            $table->string('code')->nullable();
 
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete();

@@ -54,6 +54,7 @@
                       <th>#</th>
                       <th>{{ $t("global.Name") }}</th>
                       <th>{{ $t("global.Image") }}</th>
+                      <th>{{ $t("global.Code Number") }}</th>
                       <th>{{ $t("global.Status") }}</th>
                       <th>{{ $t("global.Created_At") }}</th>
                       <th>{{ $t("global.Action") }}</th>
@@ -70,6 +71,7 @@
                           class="custom-img"
                         />
                       </td>
+                      <td>{{item.code}}</td>
                       <td>
                         <a
                           href="#"

@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Purchase;
-use Illuminate\Http\Request;
-use App\Models\Supplier;
+use App\Models\Category;
+use App\Models\Company;
 use App\Models\Product;
-use App\Models\Employee;
+use App\Models\Purchase;
+use App\Models\PurchaseProduct;
+use App\Models\Stock;
+use App\Models\Store;
+use App\Models\Supplier;
 use App\Traits\Message;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,33 +27,44 @@ class PurchaseController extends Controller
      */
     public function index(Request $request)
     {
-        $purchases = Purchase::with('category')->with('supplier')->with('product')->with('employee')
-            ->when($request->search, function ($q) use ($request) {
-            return $q->where('name', 'like', '%' . $request->search . '%');
-        })->latest()->paginate(10);
-
-        foreach($purchases as $purchase)
-        {
-            $purchase->setAttribute('added_at',$purchase->created_at->format('Y-m-d'));
-        }
-
+        $purchases = Purchase::with(['purchaseProducts.product.mainMeasurementUnit','store','supplier'])
+            ->where(function ($q) use ($request) {
+                $q->when($request->search, function ($q) use ($request) {
+                    return $q->where('discount_percentage', 'like', '%' . $request->search . '%')
+                        ->orWhere('discount_value', 'like', '%' . $request->search . '%')
+                        ->orWhere('other_discounts', 'like', '%' . $request->search . '%')
+                        ->orWhere('	transfer_price', 'like', '%' . $request->search . '%')
+                        ->orWhere('	note', 'like', '%' . $request->search . '%')
+                        ->orWhere('	price', 'like', '%' . $request->search . '%')
+                        ->orWhereRelation('store','name','like','%'.$request->search.'%')
+                        ->orWhereRelation('supplier','name','like','%'.$request->search.'%');
+                });
+            })->where(function ($q) use ($request) {
+                $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
+                    $q->whereDate('created_at', ">=", $request->from_date)
+                        ->whereDate('created_at', "<=", $request->to_date);
+                });
+            })->where(function ($q) use ($request) {
+                $q->when($request->purchase_id, function ($q) use ($request) {
+                    $q->where('id', $request->purchase_id);
+                });
+            })->latest()->paginate(5);
         return $this->sendResponse(['purchases' => $purchases], 'Data exited successfully');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function create(){
+        $categories = Category::where([
+            ['status', 1],
+        ])->get();
+        $stores = Stock::get();
+        $suppliers = Supplier::get();
+        return $this->sendResponse(['categories' => $categories,'stores'=>$stores,'suppliers'=>$suppliers], 'Data exited successfully');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -59,61 +74,68 @@ class PurchaseController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'enteredQuanitity' => 'required',
-                'refusedQuantity' => 'required',
-                'productCase' => 'required',
-                'productionDate' => 'required',
-                'expirationDate' => 'required',
-                'price' => 'required',
-                'total' => 'required',
-                'category_id' => 'required',
-                'supplier_id' => 'required',
-                'product_id' => 'required',
-                'employee_id' => 'required',
+                'stock_id' => 'required|integer|exists:stocks,id',
+                'supplier_id' => 'required|integer|exists:suppliers,id',
+                'discount_percentage' => 'nullable|numeric',
+                'discount_value' => 'nullable|numeric',
+                'other_discounts' => 'nullable|numeric',
+                'transfer_price' => 'nullable|numeric',
+                'note' => 'required|string|min:5',
+                'price' => 'required|numeric',
+                'product.*.product_id' => 'required|integer|exists:products,id',
+                'product.*.quantity' => 'required|integer',
+                'product.*.count_unit' => 'required|integer',
+                'product.*.price_before_discount' => 'required|numeric',
+                'product.*.price_after_discount' => 'required|numeric|lte:product.*.price_before_discount',
+                'product.*.production_date' => 'required|date',
+                'product.*.expiry_date' => 'required|date|after:product.*.production_date',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $data = $request->only(['enteredQuanitity','refusedQuantity','productCase','productionDate','expirationDate','price','total','category_id','supplier_id','product_id','employee_id']);
 
-            $purchase = Purchase::create($data);
+            $purchase = Purchase::create($request->all());
+
+            foreach ($request->product as $product){
+                PurchaseProduct::create([
+                    'product_id' => $product['product_id'],
+                    'quantity' => $product['quantity'],
+                    'price_before_discount' => $product['price_before_discount'],
+                    'price_after_discount' => $product['price_after_discount'],
+                    'production_date' => $product['production_date'],
+                    'expiry_date' => $product['expiry_date'],
+                    'purchase_id' => $purchase['id'],
+                    'count_unit' => $product['count_unit'],
+                ]);
+            }
 
             DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
 
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         try {
 
-            $purchase = Purchase::with('category')->with('supplier')->with('product')->with('employee')->find($id);
-
-            return $this->sendResponse(['purchase' => $purchase], 'Data exited successfully');
+            $purchase = Purchase::with(['purchaseProducts'=>function($q){
+                $q->with(['product' =>function($qu){
+                    $qu->with('mainMeasurementUnit','subMeasurementUnit');
+                }]);
+            }])->find($id);
+            $categories = Category::where([
+                ['status', 1],
+            ])->get();
+            $stores = Stock::get();
+            $suppliers = Supplier::get();
+            return $this->sendResponse(['purchase' => $purchase,'categories' => $categories,'stores'=>$stores,'suppliers'=>$suppliers], 'Data exited successfully');
 
         } catch (\Exception $e) {
 
@@ -122,47 +144,79 @@ class PurchaseController extends Controller
         }
     }
 
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        DB::beginTransaction();
         try {
 
-            $purchase = Purchase::find($id);
+            DB::beginTransaction();
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'enteredQuanitity' => 'required',
-                'refusedQuantity' => 'required',
-                'productCase' => 'required',
-                'productionDate' => 'required',
-                'expirationDate' => 'required',
-                'price' => 'required',
-                'total' => 'required',
-                'category_id' => 'required',
-                'supplier_id' => 'required',
-                'product_id' => 'required',
-                'employee_id' => 'required',
+                'stock_id' => 'required|integer|exists:stocks,id',
+                'supplier_id' => 'required|integer|exists:suppliers,id',
+                'discount_percentage' => 'nullable|numeric',
+                'discount_value' => 'nullable|numeric',
+                'other_discounts' => 'nullable|numeric',
+                'transfer_price' => 'nullable|numeric',
+                'note' => 'required|string|min:5',
+                'price' => 'required|numeric',
+                'product.*.product_id' => 'required|integer|exists:products,id',
+                'product.*.quantity' => 'required|integer',
+                'product.*.count_unit' => 'required|integer',
+                'product.*.price_before_discount' => 'required|numeric',
+                'product.*.price_after_discount' => 'required|numeric|lte:product.*.price_before_discount',
+                'product.*.production_date' => 'required|date',
+                'product.*.expiry_date' => 'required|date|after:product.*.production_date',
             ]);
-
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['enteredQuanitity','refusedQuantity','productCase','productionDate','expirationDate','price','total','category_id','supplier_id','product_id','employee_id']);
+            $purchase = Purchase::find($id);
 
-            $purchase->update($data);
+            $purchase->update($request->all());
+
+            foreach ($purchase->purchaseProducts as $data){
+                $data->delete();
+            }
+
+            foreach ($request->product as $product){
+                PurchaseProduct::create([
+                    'product_id' => $product['product_id'],
+                    'quantity' => $product['quantity'],
+                    'price_before_discount' => $product['price_before_discount'],
+                    'price_after_discount' => $product['price_after_discount'],
+                    'production_date' => $product['production_date'],
+                    'expiry_date' => $product['expiry_date'],
+                    'purchase_id' => $purchase['id'],
+                    'count_unit' => $product['count_unit'],
+                ]);
+            }
 
             DB::commit();
-            return $this->sendResponse([],'Data exited successfully');
-        }catch (\Exception $e){
+
+            return $this->sendResponse([], 'Data exited successfully');
+        } catch (\Exception $e) {
 
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
@@ -172,22 +226,18 @@ class PurchaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        try {
-            $purchase = Purchase::find($id);
-            if ($purchase){
-                $purchase->delete();
-                return $this->sendResponse([],'Deleted successfully');
-            }else{
-                return $this->sendError('ID is not exist');
-            }
-
-        }catch (\Exception $e){
-            return $this->sendError('An error occurred in the system');
+        $purchase=Purchase::find($id);
+        if ($purchase->purchaseReturns == null && $purchase->examinationRecord == null)
+        {
+            $purchase->delete();
+            return $this->sendResponse([],'Deleted successfully');
+        }else{
+            return $this->sendError('ID is not exist');
         }
     }
 
@@ -197,17 +247,5 @@ class PurchaseController extends Controller
     {
         $suppliers = Supplier::all();
         return $this->sendResponse(['suppliers' => $suppliers], 'Data exited successfully');
-    }
-
-    public function getProducts()
-    {
-        $products = Product::all();
-        return $this->sendResponse(['products' => $products], 'Data exited successfully');
-    }
-
-    public function getEmployees()
-    {
-        $employees = Employee::with('user')->get();
-        return $this->sendResponse(['employees' => $employees], 'Data exited successfully');
     }
 }

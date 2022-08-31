@@ -13,13 +13,34 @@ class Supplier extends Model
     }
 
     //start relation
-    public function purchases()
-    {
-        return $this->hasMany(Purchase::class);
-    }
+    // public function purchases()
+    // {
+    //     return $this->hasMany(Purchase::class);
+    // }
 
     public function refuseds()
     {
         return $this->hasMany(Refused::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function virtualStocks()
+    {
+        return $this->hasMany(VirtualStock::class);
+    }
+
+
+    //
+    public function purchases(){
+
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function purchaseReturns(){
+        return $this->hasMany(PurchaseReturn::class);
     }
 }

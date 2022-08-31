@@ -256,7 +256,7 @@
                             </label>
                             <select class="form-control" v-model.trim="v$.product_id.$model">
                                 <option v-for="product in products" :key="product.id" :value="product.id">
-                                    {{ product.name }}
+                                    {{ product.product_name.nameAr }}
                                 </option>
                             </select>
                         </div>
@@ -274,7 +274,7 @@
                             </select>
                         </div>
                         <!--End Stock Select-->
-                        
+
                         <!--Start Note-->
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom01">

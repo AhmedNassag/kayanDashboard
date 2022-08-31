@@ -27,10 +27,10 @@
 
       <!--Start Statistics-->
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <!--/Wizard-->
             <div class="row">
-                <div class="col-md-4 d-flex">
+                <div class="col-md-3 d-flex">
                     <div class="card wizard-card flex-fill">
                         <div class="card-body text-center">
                             <p class="text-primary mt-0 mb-2">{{ $t("global.Categories") }}</p>
@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 d-flex">
+                <div class="col-md-3 d-flex">
                     <div class="card wizard-card flex-fill">
                         <div class="card-body text-center">
                             <p class="text-primary mt-0 mb-2">{{ $t("global.activeCategories") }}</p>
@@ -48,11 +48,20 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 d-flex">
+                <div class="col-md-3 d-flex">
                     <div class="card wizard-card flex-fill">
                         <div class="card-body text-center">
                             <p class="text-primary mt-0 mb-2">{{ $t("global.notActiveCategories") }}</p>
                             <h5>{{notActiveCategories.length}}</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 d-flex">
+                    <div class="card wizard-card flex-fill">
+                        <div class="card-body text-center">
+                            <p class="text-primary mt-0 mb-2">{{ $t("global.Products") }}</p>
+                            <h5>{{products.length}}</h5>
                         </div>
                     </div>
                 </div>
@@ -93,6 +102,7 @@
                       <th>#</th>
                       <th>{{ $t("global.Name") }}</th>
                       <th>{{ $t("global.Image") }}</th>
+                      <th>{{ $t("global.Code Number") }}</th>
                       <th>{{ $t("global.Status") }}</th>
                       <th>{{ $t("global.Created_At") }}</th>
                       <th>{{ $t("global.Action") }}</th>
@@ -109,6 +119,7 @@
                           class="custom-img"
                         />
                       </td>
+                      <td>{{ item.code }}</td>
                       <td>
                         <a
                           href="#"
@@ -203,6 +214,7 @@ export default {
     let categories = ref([]);
     let activeCategories = ref([]);
     let notActiveCategories = ref([]);
+    let products = ref([]);
     let categoriesPaginate = ref({});
     let loading = ref(false);
     const search = ref("");
@@ -221,6 +233,7 @@ export default {
           categories.value = l.categories.data;
           activeCategories.value = l.activeCategories;
           notActiveCategories.value = l.notActiveCategories;
+          products.value = l.products;
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -334,6 +347,7 @@ export default {
       categories,
       activeCategories,
       notActiveCategories,
+      products,
     };
   },
   data() {

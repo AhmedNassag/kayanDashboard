@@ -16,4 +16,9 @@ class ProductName extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function virtualStocks()
+    {
+        return $this->hasMany(VirtualStock::class,'productName_id');
+    }
 }
