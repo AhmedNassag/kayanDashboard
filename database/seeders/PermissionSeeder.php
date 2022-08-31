@@ -56,6 +56,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'company create', 'role' => 'management'],
             ['name' => 'company edit', 'role' => 'management'],
             ['name' => 'company delete', 'role' => 'management'],
+            //productName
+            ['name' => 'productName read', 'role' => 'management'],
+            ['name' => 'productName create', 'role' => 'management'],
+            ['name' => 'productName edit', 'role' => 'management'],
+            ['name' => 'productName delete', 'role' => 'management'],
             //product
             ['name' => 'product read', 'role' => 'management'],
             ['name' => 'product create', 'role' => 'management'],
@@ -76,6 +81,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'stock create', 'role' => 'management'],
             ['name' => 'stock edit', 'role' => 'management'],
             ['name' => 'stock delete', 'role' => 'management'],
+            //virtualStock
+            ['name' => 'virtualStock read', 'role' => 'management'],
+            ['name' => 'virtualStock create', 'role' => 'management'],
+            ['name' => 'virtualStock edit', 'role' => 'management'],
+            ['name' => 'virtualStock delete', 'role' => 'management'],
             //purchase
             ['name' => 'purchase read', 'role' => 'management'],
             ['name' => 'purchase create', 'role' => 'management'],
@@ -127,6 +137,16 @@ class PermissionSeeder extends Seeder
             ['name' => 'sale-point create', 'role' => ''],
             ['name' => 'sale-point edit', 'role' => ''],
             ['name' => 'sale-point delete', 'role' => ''],
+            //Purchase Invoice
+            ['name' => 'PurchaseInvoice read', 'role' => 'buy'],
+            ['name' => 'PurchaseInvoice create', 'role' => 'buy'],
+            ['name' => 'PurchaseInvoice edit', 'role' => 'buy'],
+            ['name' => 'PurchaseInvoice delete', 'role' => 'buy'],
+            ['name' => 'PurchaseReturn read', 'role' => 'buy'],
+            //Examination Recpords
+            ['name' => 'examinationRecords read', 'role' => 'buy'],
+            ['name' => 'examinationRecords create', 'role' => 'buy'],
+            ['name' => 'examinationRecords edit', 'role' => 'buy'],
         ];
 
         $notifies = [

@@ -38,4 +38,9 @@ class Category extends Model
         return $this->hasMany(Refused::class);
     }
 
+    public function virtualStocks()
+    {
+        return $this->hasMany(VirtualStock::class);
+    }
+
 }

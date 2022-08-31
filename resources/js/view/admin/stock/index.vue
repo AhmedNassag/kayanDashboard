@@ -75,8 +75,8 @@
                       <!-- <td>{{ item.location }}</td> -->
                       <td>{{ item.phone }}</td>
                       <td>{{ item.email }}</td>
-                      <td>{{ item.employee.address }}</td>
-                      <td>{{ item.employee.address }}</td>
+                      <td>{{ item.employee.user_id }}</td>
+                      <td>{{ item.employee_id }}</td>
                       <td>{{ item.shift.name }}</td>
                       <!-- <td>
                         <a

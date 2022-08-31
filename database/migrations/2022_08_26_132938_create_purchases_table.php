@@ -15,19 +15,14 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->string('enteredQuanitity')->nullable();
-            $table->text('refusedQuantity')->nullable();
-            $table->string('productCase')->nullable();
-            $table->string('productionDate')->nullable();
-            $table->string('expirationDate')->nullable();
-            $table->string('price')->nullable();
-            $table->string('total')->nullable();
-
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('stock_id')->constrained('stocks')->cascadeOnDelete();
             $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
-            
+            $table->double('discount_percentage',8,2)->default(0);
+            $table->double('discount_value',8,2)->default(0);
+            $table->double('other_discounts',8,2)->default(0);
+            $table->double('transfer_price',8,2)->default(0);
+            $table->text('note');
+            $table->double('price',25,2)->default(0);
             $table->timestamps();
         });
     }

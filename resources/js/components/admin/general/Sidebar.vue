@@ -74,7 +74,7 @@
             <!-- End Company Links -->
 
             <!-- Start Shift Links -->
-            <li v-if="permission.includes('shift read')" :class="[$route.name == 'indexCompany' ? 'active' : '']">
+            <li v-if="permission.includes('shift read')" :class="[$route.name == 'indexShift' ? 'active' : '']">
                 <router-link :to="{ name: 'indexShift' }">
                     <i class="fa fa-home" aria-hidden="true"></i>
                     <span>{{ $t("global.Shifts")}}</span>
@@ -91,41 +91,108 @@
             </li> -->
             <!-- End Sale Method Links -->
 
-            <!-- Start Stock Links -->
-            <li v-if="permission.includes('stock read')" :class="[$route.name == 'indexStock' ? 'active' : '']">
-                <router-link :to="{ name: 'indexStock' }">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <span>{{ $t("global.Stocks")}}</span>
-                </router-link>
+            <!-- Start Stocks Links -->
+            <li class="submenu" v-if="permission.includes('management')">
+                <a href="#"
+                ><i class="fas fa-suitcase"></i>
+                <span>{{ $t("global.Stocks") }}</span>
+                <span :class="['menu-arrow', 'menu-arrow-ar']"></span
+                ></a>
+                <ul>
+                    <li v-if="permission.includes('stock read')" :class="[$route.name == 'indexStock' ? 'active' : '']">
+                        <router-link :to="{ name: 'indexStock' }" :class="['sidebar-menu-rtl']">
+                            {{ $t("global.Stocks") }}
+                        </router-link>
+                    </li>
+
+                    <li v-if="permission.includes('virtualStock read')" :class="[$route.name == 'indexVirtualStock' ? 'active' : '']">
+                        <router-link :to="{ name: 'indexVirtualStock' }" :class="['sidebar-menu-rtl']">
+                            {{ $t("global.Virtual Stocks") }}
+                        </router-link>
+                    </li>
+                </ul>
             </li>
-            <!-- End Stock Links -->
+            <!-- End Stocks Links -->
 
             <!-- Start Product Links -->
-            <li v-if="permission.includes('product read')" :class="[$route.name == 'indexProduct' ? 'active' : '']">
-                <router-link :to="{ name: 'indexProduct' }">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <span>{{ $t("global.Products")}}</span>
-                </router-link>
+            <li class="submenu" v-if="permission.includes('management')">
+                <a href="#"
+                ><i class="fas fa-suitcase"></i>
+                <span>{{ $t("global.Products") }}</span>
+                <span :class="['menu-arrow', 'menu-arrow-ar']"></span
+                ></a>
+                <ul>
+                    <li v-if="permission.includes('productName read')" :class="[$route.name == 'indexProductName' ? 'active' : '']">
+                        <router-link :to="{ name: 'indexProductName' }" :class="['sidebar-menu-rtl']">
+                            {{ $t("global.Product Names") }}
+                        </router-link>
+                    </li>
+
+                    <li v-if="permission.includes('product read')" :class="[$route.name == 'indexProduct' ? 'active' : '']">
+                        <router-link :to="{ name: 'indexProduct' }" :class="['sidebar-menu-rtl']">
+                            {{ $t("global.Product Details")}}
+                        </router-link>
+                    </li>
+                </ul>
             </li>
-            <!-- End Product Links -->
 
             <!-- Start Purchase Links -->
-            <li v-if="permission.includes('purchase read')" :class="[$route.name == 'indexPurchase' ? 'active' : '']">
+            <!-- <li v-if="permission.includes('purchase read')" :class="[$route.name == 'indexPurchase' ? 'active' : '']">
                 <router-link :to="{ name: 'indexPurchase' }">
                     <i class="fa fa-home" aria-hidden="true"></i>
                     <span>{{ $t("global.Purchases")}}</span>
                 </router-link>
-            </li>
+            </li> -->
             <!-- End Purchase Links -->
 
-            <!-- Start Refuse Links -->
-            <li v-if="permission.includes('refused read')" :class="[$route.name == 'indexRefused' ? 'active' : '']">
+            <!-- Start Refused Links -->
+            <!-- <li v-if="permission.includes('refused read')" :class="[$route.name == 'indexRefused' ? 'active' : '']">
                 <router-link :to="{ name: 'indexRefused' }">
                     <i class="fa fa-home" aria-hidden="true"></i>
                     <span>{{ $t("global.Refuseds")}}</span>
                 </router-link>
-            </li>
-            <!-- End Refuse Links -->
+            </li> -->
+            <!-- End Refused Links -->
+
+            <!-- <li v-if="permission.includes('product read')" :class="[$route.name == 'indexProduct' ? 'active' : '']">
+                <router-link :to="{ name: 'indexProduct' }">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    <span>{{ $t("global.Products")}}</span>
+                </router-link>
+            </li> -->
+            <!-- End Product Links -->
+
+
+
+            <!--start buy-->
+                    <li class="submenu" v-if="permission.includes('buy')">
+                        <a href="#" ><i class="fas fa-box-open"></i> <span> {{ $t('global.purchaseManagement') }}</span>  <span :class="['menu-arrow menu-arrow-ar']"></span></a>
+                        <ul>
+
+                            <li :class="[$route.name == 'indexPurchaseInvoice'? 'active': '']" v-if="permission.includes('PurchaseInvoice read')">
+                                <router-link :to="{name:'indexPurchaseInvoice'}" :class="['sidebar-menu-rtl']">
+                                    {{ $t('global.PurchaseInvoice') }}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexPurchaseReturn'? 'active': '']" v-if="permission.includes('PurchaseReturn read')">
+                                <router-link :to="{name:'indexPurchaseReturn'}" :class="['sidebar-menu-rtl']">
+                                    {{ $t('global.PurchaseReturn') }}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexExaminationRecord'? 'active': '']" v-if="permission.includes('examinationRecords read')">
+                                <router-link :to="{name:'indexExaminationRecord'}" :class="['sidebar-menu-rtl']">
+                                    {{ $t('global.examinationRecords') }}
+                                </router-link>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <!--end buy-->
+
+
 
             <!-- Start Stores Links -->
             <!-- <li class="submenu" v-if="permission.includes('management')">

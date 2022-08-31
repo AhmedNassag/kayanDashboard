@@ -74,4 +74,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->morphOne(Media::class,'mediable');
     }
 
+
+
+    //
+    public function examinationRecords (){
+        return $this->hasMany(ExaminationRecord::class,'user_id');
+    }
+
+    public function purchaseReturns (){
+        return $this->hasMany(PurchaseReturn::class,'user_id');
+    }
+
 }

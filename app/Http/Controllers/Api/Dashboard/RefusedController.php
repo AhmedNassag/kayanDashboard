@@ -75,7 +75,7 @@ class RefusedController extends Controller
             }
 
             $data = $request->only(['refusedQuantity','refusedReason','note','discountPercentage','discountValue','anotherDiscount','total','category_id','supplier_id','product_id','stock_id']);
-
+            $data['code'] = rand();
             $refused = Refused::create($data);
 
             DB::commit();

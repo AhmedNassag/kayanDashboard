@@ -275,7 +275,7 @@
                             </label>
                             <select class="form-control" v-model.trim="v$.product_id.$model">
                                 <option v-for="product in products" :key="product.id" :value="product.id">
-                                    {{ product.name }}
+                                    {{ product.productName_id }}
                                 </option>
                             </select>
                         </div>
