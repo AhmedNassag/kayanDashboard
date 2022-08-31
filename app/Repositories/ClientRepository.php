@@ -12,7 +12,6 @@ class ClientRepository
         $user = User::create([
             "name" => $client["name"],
             "email" => $client["email"],
-            "password" => $client["password"],
             "status" => 1,
             'phone' => $client["phone"]
         ]);
@@ -60,7 +59,6 @@ class ClientRepository
         $user = User::find($client->user_id);
         $user->name = $clientInput["name"];
         $user->email = $clientInput["email"];
-        $user->password = $clientInput["password"];
         $user->phone = $clientInput["phone"];
         $user->save();
         $client->user = $user;
@@ -81,5 +79,12 @@ class ClientRepository
         $user = User::find($userId);
         $user->status = !$user->status;
         $user->save();
+    }
+
+    public function getAllClients()
+    {
+        return Client::whereHas("user", function ($q) {
+            $q->where("status", 1);
+        })->with("user")->get();
     }
 }

@@ -24,7 +24,10 @@ class StoreClientGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|unique:client_groups"
+            "name" => "required|unique:client_groups",
+            "clients_ids" => "required|array|min:1",
+            "clients_ids.*" => "required|numeric",
+            "clients_ids.*" => "required|numeric",
         ];
     }
 }

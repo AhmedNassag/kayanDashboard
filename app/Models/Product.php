@@ -17,7 +17,7 @@ class Product extends Model
     //start raletions
     public function media()
     {
-        return $this->morphOne(Media::class,'mediable');
+        return $this->morphOne(Media::class, 'mediable');
     }
 
     public function category()
@@ -53,5 +53,10 @@ class Product extends Model
     public function refuseds()
     {
         return $this->hasMany(Refused::class);
+    }
+
+    public function productName()
+    {
+        return $this->belongsTo(ProductName::class, "productName_id");
     }
 }

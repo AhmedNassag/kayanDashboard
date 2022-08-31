@@ -8,7 +8,7 @@ export default [
         },
         children: [
             {
-                path: 'suppliers',
+                path: '',
                 name: 'SupplierIndex',
                 component: SupplierIndex,
                 beforeEnter: (to, from, next) => {

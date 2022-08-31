@@ -27,7 +27,6 @@ class StoreClientRequest extends FormRequest
             "name" => "required",
             "phone" => "required|unique:users|regex:/^01[0125][0-9]{8}$/",
             "email" => "required|email|unique:users",
-            "password" => "required",
             "store_name" => "required",
             "country" => "required",
             "city" => "required",

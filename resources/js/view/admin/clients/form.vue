@@ -88,62 +88,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Password")
-                    }}</label>
-                    <input
-                      id="validationCustom01"
-                      :type="hidden ? 'password' : 'text'"
-                      class="form-control"
-                      v-model="v$.password.$model"
-                      :class="{
-                        'is-invalid': v$.password.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div v-for="error in v$.password.$errors" :key="error">
-                        {{ $t("global.Password") + " " + $t(error.$validator) }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.confirm")
-                    }}</label>
-                    <input
-                      id="validationCustom09"
-                      :type="hidden ? 'password' : 'text'"
-                      class="form-control"
-                      v-model="v$.confirmation.$model"
-                      :class="{
-                        'is-invalid': v$.confirmation.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.confirmation.$errors"
-                        :key="error"
-                      >
-                        {{ $t("global.confirm") + " " + $t(error.$validator) }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 mb-1">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input
-                        type="checkbox"
-                        class="form-check-input"
-                        @click="hidden = !hidden"
-                      />{{ $t("global.ShowPassword") }}
-                    </label>
-                  </div>
-                </div>
+                
                 <div class="col-6">
                   <div class="form-group">
                     <label for="exampleInputEmail1">{{
@@ -518,7 +463,6 @@ import { inject, reactive, toRefs, watch } from "@vue/runtime-core";
 import { useI18n } from "vue-i18n";
 import { notify } from "@kyvg/vue3-notification";
 import phone from "../../../validators/phone-validator";
-import strong from "../../../validators/strong-password-validator";
 export default {
   setup(props, context) {
     const { t, locale } = useI18n({});
@@ -527,7 +471,6 @@ export default {
       whatsupPhoneExist: false,
       phoneExist: false,
       emailExist: false,
-      hidden: true,
     });
     const form = reactive({
       id: null,
@@ -535,8 +478,6 @@ export default {
       name: "",
       phone: "",
       email: "",
-      password: "",
-      confirmation: "",
       store_name: "",
       country: "",
       city: "",
@@ -568,13 +509,6 @@ export default {
       address: { required },
       location: { required },
       area: { required },
-      password: { required, strong },
-      confirmation: {
-        required,
-        sameAsPassword(value) {
-          return !value || form.password == form.confirmation;
-        },
-      },
       whatsup_phone: {
         required,
         phone(value) {
@@ -684,7 +618,6 @@ export default {
         name: form.name,
         phone: form.phone,
         email: form.email,
-        password: form.password,
         store_name: form.store_name,
         country: form.country,
         city: form.city,
@@ -705,8 +638,6 @@ export default {
     function setForm() {
       v$.value.$reset();
       form.name = props.selectedClient ? props.selectedClient.user.name : "";
-      form.password = "";
-      form.confirmation = "";
       form.phone = props.selectedClient ? props.selectedClient.user.phone : "";
       form.email = props.selectedClient ? props.selectedClient.user.email : "";
       form.store_name = props.selectedClient

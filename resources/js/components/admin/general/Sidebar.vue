@@ -215,6 +215,15 @@
               <span>{{ $t("sidebar.Clients") }}</span>
             </router-link>
           </li>
+          <li
+            v-if="permission.includes('sale-point read')"
+            :class="[$route.name == 'SalePointIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'SalePointIndex' }">
+              <i class="fa fa-users" aria-hidden="true"></i>
+              <span>{{ $t("sidebar.SalePoints") }}</span>
+            </router-link>
+          </li>
           <li class="submenu" v-if="permission.includes('management')">
             <a href="#"
               ><i class="fas fa-suitcase"></i>
