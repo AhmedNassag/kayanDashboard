@@ -9,7 +9,7 @@ class ReturnProduct extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
     protected $appends = [
         'price',
     ];

@@ -80,17 +80,9 @@
                             )
                           "
                         >
-                          <span
-                            :class="[
-                              parseInt(item.active)
-                                ? 'text-success hover'
-                                : 'text-danger hover',
-                            ]"
-                            >{{
-                              parseInt(item.active)
-                                ? $t("global.Active")
-                                : $t("global.Inactive")
-                            }}</span
+                            <span :class="[parseInt(item.active) ? 'text-success hover' : 'text-danger hover']">
+                                {{parseInt(item.active) ? $t("global.Active") : $t("global.Inactive")}}
+                            </span
                           >
                         </a>
                       </td>

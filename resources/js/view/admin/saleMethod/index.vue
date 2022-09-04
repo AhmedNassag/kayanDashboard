@@ -10,14 +10,14 @@
       <div class="page-header">
         <div class="row align-items-center">
           <div class="col">
-            <h3 class="page-title">{{ $t("global.Product Names") }}</h3>
+            <h3 class="page-title">{{ $t("global.Sale Methods") }}</h3>
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
                 <router-link :to="{ name: 'dashboard' }">
                   {{ $t("dashboard.Dashboard") }}
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">{{ $t("global.Product Names") }}</li>
+              <li class="breadcrumb-item active">{{ $t("global.Sale Methods") }}</li>
             </ul>
           </div>
         </div>
@@ -33,13 +33,13 @@
               <div class="card-header pt-0">
                 <div class="row justify-content-between">
                   <div class="col-5">
-                    <!-- {{ $t("global.Search") }}:
-                    <input type="search" v-model="search" class="custom" /> -->
+                    {{ $t("global.Search") }}:
+                    <input type="search" v-model="search" class="custom" />
                   </div>
                   <div class="col-5 row justify-content-end">
                     <router-link
-                      v-if="permission.includes('productName create')"
-                      :to="{ name: 'createProductName' }"
+                      v-if="permission.includes('saleMethods create')"
+                      :to="{ name: 'createSaleMethod' }"
                       class="btn btn-custom btn-warning"
                     >
                       {{ $t("global.Add") }}
@@ -52,21 +52,19 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>{{ $t("global.NameAr") }}</th>
-                      <th>{{ $t("global.NameEn") }}</th>
+                      <th>{{ $t("global.Name") }}</th>
                       <th>{{ $t("global.Status") }}</th>
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
-                  <tbody v-if="productNames.length">
-                    <tr v-for="(item, index) in productNames" :key="item.id">
+                  <tbody v-if="saleMethods.length">
+                    <tr v-for="(item, index) in saleMethods" :key="item.id">
                       <td>{{ index + 1 }}</td>
-                      <td>{{ item.nameAr }}</td>
-                      <td>{{ item.nameEn }}</td>
+                      <td>{{ item.name }}</td>
                       <td>
                         <a
                           href="#"
-                          @click="activationProductName(item.id, item.status, index)"
+                          @click="activationSaleMethod(item.id, item.status, index)"
                         >
                           <span
                             :class="[
@@ -85,18 +83,18 @@
                       <td>
                         <router-link
                           :to="{
-                            name: 'editProductName',
+                            name: 'editSaleMethod',
                             params: { id: item.id },
                           }"
-                          v-if="permission.includes('productName edit')"
+                          v-if="permission.includes('saleMethod edit')"
                           class="btn btn-sm btn-success me-2"
                         >
                           <i class="far fa-edit"></i>
                         </router-link>
                         <a
                           href="#"
-                          @click="deleteProductName(item.id, index)"
-                          v-if="permission.includes('productName delete')"
+                          @click="deleteSaleMethod(item.id, index)"
+                          v-if="permission.includes('saleMethod delete')"
                           data-bs-target="#staticBackdrop"
                           class="btn btn-sm btn-danger me-2"
                         >
@@ -121,8 +119,8 @@
       <!-- /Table -->
       <!-- start Pagination -->
       <Pagination
-        :data="productNamesPaginate"
-        @pagination-change-page="getProductName"
+        :data="saleMethodsPaginate"
+        @pagination-change-page="getSaleMethod"
       >
         <template #prev-nav>
           <span>&lt; {{ $t("global.Previous") }}</span>
@@ -151,23 +149,23 @@ export default {
     const { t } = useI18n({});
 
     // get packages
-    let productNames = ref([]);
-    let productNamesPaginate = ref({});
+    let saleMethods = ref([]);
+    let saleMethodsPaginate = ref({});
     let loading = ref(false);
     const search = ref("");
     let store = useStore();
 
     let permission = computed(() => store.getters["authAdmin/permission"]);
 
-    let getProductName = (page = 1) => {
+    let getSaleMethod = (page = 1) => {
       loading.value = true;
 
       adminApi
-        .get(`/v1/dashboard/productName?page=${page}&search=${search.value}`)
+        .get(`/v1/dashboard/saleMethod?page=${page}&search=${search.value}`)
         .then((res) => {
           let l = res.data.data;
-          productNamesPaginate.value = l.productNames;
-          productNames.value = l.productNames.data;
+          saleMethodsPaginate.value = l.saleMethods;
+          saleMethods.value = l.saleMethods.data;
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -178,20 +176,20 @@ export default {
     };
 
     onMounted(() => {
-      getProductName();
+      getSaleMethod();
     });
 
     emitter.on("get_lang", () => {
-      getProductName(search.value);
+      getSaleMethod(search.value);
     });
 
     watch(search, (search, prevSearch) => {
       if (search.length >= 0) {
-        getProductName();
+        getSaleMethod();
       }
     });
 
-    function deleteProductName(id, index) {
+    function deleteSaleMethod(id, index) {
       Swal.fire({
         title: `${t("global.AreYouSureDelete")}`,
         text: `${t("global.YouWontBeAbleToRevertThis")}`,
@@ -204,9 +202,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           adminApi
-            .delete(`/v1/dashboard/productName/${id}`)
+            .delete(`/v1/dashboard/saleMethod/${id}`)
             .then((res) => {
-              productNames.value.splice(index, index + 1);
+              saleMethods.value.splice(index, index + 1);
 
               Swal.fire({
                 icon: "success",
@@ -226,7 +224,7 @@ export default {
       });
     }
 
-    function activationProductName(id, active, index) {
+    function activationSaleMethod(id, active, index) {
       Swal.fire({
         title: `${
           active
@@ -243,7 +241,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           adminApi
-            .get(`/v1/dashboard/activationProductName/${id}`)
+            .get(`/v1/dashboard/activationSaleMethod/${id}`)
             .then((res) => {
               Swal.fire({
                 icon: "success",
@@ -255,7 +253,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              productNames.value[index]["status"] = active ? 0 : 1;
+              saleMethods.value[index]["status"] = active ? 0 : 1;
             })
             .catch((err) => {
               Swal.fire({
@@ -269,14 +267,14 @@ export default {
     }
 
     return {
-      getProductName,
+      getSaleMethod,
       loading,
       permission,
       search,
-      deleteProductName,
-      activationProductName,
-      productNamesPaginate,
-      productNames,
+      deleteSaleMethod,
+      activationSaleMethod,
+      saleMethodsPaginate,
+      saleMethods,
     };
   },
   data() {

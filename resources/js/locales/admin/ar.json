@@ -220,7 +220,8 @@
         "Permissions": "الصلاحيات",
         "ProcessWriter": "كاتب العملية",
         "AdvisorPackage": "باقات مستشار شطبنا",
-        "Price": "السعر",
+        "Price": "سعر المنتج",
+        "Prices": "أسعار المنتجات",
         "Successfully added": "تم الاضافة بنجاح",
         "PriceIsRequired": "السعر مطلوب .",
         "DescriptionArIsRequired": "الوصف باللغة العربية مطلوب .",
@@ -387,6 +388,8 @@
         "Product Details": "تفاصيل المنتج",
         "Product Names": "اسم المنتجات",
         "Product Name": "اسم المنتج",
+        "Product Prices": "أسعار المنتجات",
+        "Product Price": "سعر المنتج",
         "BarCode": "بار كود",
         "Charge": "رصيد",
         "MaxMount": "أقصى كمية",
@@ -404,6 +407,8 @@
         "Shift Name":"اسم الشيفت",
         "Sale Methods":"طرق البيع",
         "Sale Method":"طريقة البيع",
+        "Selling Methods":"طرق البيع",
+        "Selling Method":"طريقة البيع",
         "Purchase":"مشترى",
         "Purchases":"المشتريات",
         "total":"جملة",
@@ -426,7 +431,7 @@
         "Discount Percentage":"نسبة الخصم",
         "Discount Value":"قيمة الخصم",
         "Another Discount":"خصومات أخرى",
-        "Generate Random":"عشوائى",
+        "Generate Random":"إنشاء",
         "Create Virtual Stock":"تعيين كمخزن",
         "Virtual Stock":"مخزن وهمى",
         "Virtual Stocks":"المخازن الوهمية",
@@ -434,7 +439,13 @@
         "Pharmacy Price":"السعر للصيدلى",
         "Public Price":"السعر للجمهور",
         "Pharmacy Discount":"نسبة الخصم للصيدلى",
+        "Client Discount":"نسبة الخصم للعميل",
         "Kayan Discount":"نسبة الخصم لكيان",
+        "Kayan Profit":"نسبة ربحية كيان",
+        "Re Order Limit":"حد إعادة الطلب",
+        "Main Measurement Unit":"وحدة القياس الرئيسية",
+        "Sub Measurement Unit":"وحدة القياس الفرعية",
+        "Count Unit":"عدد الوحدات داخل الفئة الفرعية",
         "YouCanNotModifyThisSafe": "لا تستطيع التعديل على هذه الخزنة !",
 
 
@@ -638,6 +649,10 @@
         "CreateProduct": "اضافة منتج",
         "EditProduct": "تعديل منتج "
     },
+    "price": {
+        "CreatePrice": "اضافة سعر منتج",
+        "EditPrice": "تعديل سعر منتج "
+    },
     "tax": {
         "CreateTax": "اضافة ضريبة",
         "EditTax": "تعديل ضريبة"
@@ -649,6 +664,11 @@
     "saleMethod": {
         "CreateSaleMethod": "اضافة طريقة بيع",
         "EditSaleMethod": "تعديل طريقة البيع"
+    },
+
+    "sellingMethod": {
+        "CreateSellingMethod": "اضافة طريقة بيع",
+        "EditSellingMethod": "تعديل طريقة البيع"
     },
     "shift": {
         "CreateShift": "اضافة شيفت",

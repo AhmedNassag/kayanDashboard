@@ -1,23 +1,23 @@
-import indexSaleMethod from "../../view/admin/saleMethod/index";
-import createSaleMethod from "../../view/admin/saleMethod/create";
-import editSaleMethod from "../../view/admin/saleMethod/edit";
+import indexSellingMethod from "../../view/admin/sellingMethod/index";
+import createSellingMethod from "../../view/admin/sellingMethod/create";
+import editSellingMethod from "../../view/admin/sellingMethod/edit";
 import store from "../../store/admin";
 
 export default [
     {
-        path: 'saleMethod',
+        path: 'sellingMethod',
         component:  {
             template:'<router-view />',
         },
         children:[
             {
                 path: '',
-                name: 'indexSaleMethod',
-                component: indexSaleMethod,
+                name: 'indexSellingMethod',
+                component: indexSellingMethod,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('saleMethods read')){
+                    if(permission.includes('sellingMethod read')){
                         return next();
                     }else{
                         return next({name:'Page404'});
@@ -26,12 +26,12 @@ export default [
             },
             {
                 path: 'create',
-                name: 'createSaleMethod',
-                component: createSaleMethod,
+                name: 'createSellingMethod',
+                component: createSellingMethod,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('saleMethods create')){
+                    if(permission.includes('sellingMethod create')){
                         return next();
                     }else{
                         return next({name:'Page404'});
@@ -40,13 +40,13 @@ export default [
             },
             {
                 path: 'edit/:id(\\d+)',
-                name: 'editSaleMethod',
-                component: editSaleMethod,
+                name: 'editSellingMethod',
+                component: editSellingMethod,
                 props: true,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('saleMethods edit')){
+                    if(permission.includes('sellingMethod edit')){
                         return next();
                     }else{
                         return next({name:'Page404'});

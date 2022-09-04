@@ -6,14 +6,14 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">المنتاجات</h3>
+                        <h3 class="page-title">{{ $t("global.Products") }}</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <router-link :to="{name: 'dashboard'}">
-                                    الرئيسية
+                                    {{ $t("dashboard.Dashboard") }}
                                 </router-link>
                             </li>
-                            <li class="breadcrumb-item active">المنتاجات</li>
+                            <li class="breadcrumb-item active">{{ $t("global.Products") }}</li>
                         </ul>
                     </div>
 
@@ -29,7 +29,7 @@
                             <div class="card-header pt-0">
                                 <div class="row justify-content-between">
                                     <div class="col-5">
-                                        بحث :
+                                        {{ $t("global.Search") }}:
                                         <input type="search" v-model="search" class="custom"/>
                                     </div>
                                     <div class="col-5 row justify-content-end">
@@ -37,7 +37,7 @@
                                             v-if="permission.includes('product create')"
                                            :to="{name: 'createProduct'}"
                                             class="btn btn-custom btn-warning">
-                                            اضافه
+                                            {{ $t("global.Add") }}
                                         </router-link>
                                     </div>
                                 </div>
@@ -47,13 +47,14 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>اسم المنتج</th>
-                                        <th> الفئه</th>
-                                        <th>الشركه</th>
-                                        <th>الضريبه</th>
-                                        <th>الصورة</th>
-                                        <th>الحاله</th>
-                                        <th>الاجراءات</th>
+                                        <th>{{ $t("global.Name") }}</th>
+                                        <th> {{ $t("global.Category") }}</th>
+                                        <th>{{ $t("global.Company") }}</th>
+                                        <th>{{ $t("global.Supplier") }}</th>
+                                        <th>{{ $t("global.Tax") }}</th>
+                                        <th>{{ $t("global.Image") }}</th>
+                                        <th>{{ $t("global.Status") }}</th>
+                                        <th>{{ $t("global.Action") }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="products.length">
@@ -61,7 +62,10 @@
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ item.name }}</td>
                                         <td>{{ item.category.name }}</td>
-                                        <td>{{ item.company.name }}</td>
+                                        <td v-if="item.company_id">{{ item.company.name }}</td>
+                                        <td v-else>---</td>
+                                        <td v-if="item.supplier_id">{{ item.supplier.name }}</td>
+                                        <td v-else>---</td>
                                         <td>{{ item.tax.name }}</td>
                                         <td>
                                             <img
@@ -94,7 +98,7 @@
                                     </tbody>
                                     <tbody v-else>
                                         <tr>
-                                            <th class="text-center" colspan="7">لا يوجد بيانات</th>
+                                            <th class="text-center" colspan="7">{{ $t("global.NoDataFound") }}</th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -107,10 +111,10 @@
             <!-- start Pagination -->
             <Pagination :data="productsPaginate" @pagination-change-page="getProduct">
                 <template #prev-nav>
-                    <span>&lt; السابق</span>
+                    <span>&lt; {{ $t("global.Previous") }}</span>
                 </template>
                 <template #next-nav>
-                    <span>التالي &gt;</span>
+                    <span>{{ $t("global.Next") }} &gt;</span>
                 </template>
             </Pagination>
             <!-- end Pagination -->
@@ -168,13 +172,14 @@ export default {
 
         function deleteProduct(id, index) {
             Swal.fire({
-                title: `هل تريد هذف هذا العنصر ؟ `,
-                text: `لن تتمكن من التراجع عن هذا`,
+                title: `هل انت متأكد من الحذف ؟`,
+                text: `لن تتمكن من التراجع عن هذا!`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
             }).then((result) => {
                 if (result.isConfirmed) {
 
@@ -192,8 +197,8 @@ export default {
                         .catch((err) => {
                             Swal.fire({
                                 icon: 'error',
-                                title: `يوجد خطا`,
-                                text: `يوجد خطا في النظام!`,
+                                title: `يوجد خطا في النظام...`,
+                                text: `لا تستطيع الحذف !`,
                             });
                         });
                 }
@@ -202,13 +207,14 @@ export default {
 
         function activationProduct(id, active,index) {
             Swal.fire({
-                title: `${active ? 'هل انت متاكد من ايقاف التفعيل ؟' : 'هل انت متاكد من التفعيل  ؟'} `,
-                text: `لم تتمكن من التراجع عن هذا`,
+                title: `${active ? 'هل انت متاكد من ايقاف التفعيل ؟' : 'هل انت متاكد من التفعيل ؟'} `,
+                text: `لن تتمكن من التراجع عن هذا!`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
+                confirmButtonText: 'نعم',
+                cancelButtonText: 'لا'
             }).then((result) => {
                 if (result.isConfirmed) {
 

@@ -9,7 +9,7 @@ class Company extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     //start raletions
     public function media()

@@ -52,10 +52,10 @@ class VirtualStockController extends Controller
             $v = Validator::make($request->all(), [
                 'productQuantity' => 'required',
                 'pharmacyPrice' => 'required',
-                'publicPrice' => '',
+                'publicPrice' => 'required',
                 'pharmacyDiscount' => 'required',
                 'kayanDiscount' => 'required',
-                // 'supplier_id' => 'required',
+                'supplier_id' => 'required',
                 'category_id' => 'required',
                 'sub_category_id' => 'required',
                 'productName_id' => 'required',
@@ -96,16 +96,14 @@ class VirtualStockController extends Controller
      */
     public function edit($id)
     {
-        try {
-
+        try
+        {
             $virtualStock = VirtualStock::with('productName')->with('category')->with('subCategory')->with('supplier')->find($id);
-
-            return $this->sendResponse(['virtu$virtualStock' => $virtualStock], 'Data exited successfully');
-
-        } catch (\Exception $e) {
-
+            return $this->sendResponse(['virtualStock' => $virtualStock], 'Data exited successfully');
+        }
+        catch (\Exception $e)
+        {
             return $this->sendError('An error occurred in the system');
-
         }
     }
 
@@ -127,7 +125,7 @@ class VirtualStockController extends Controller
             $v = Validator::make($request->all(), [
                 'productQuantity' => 'required',
                 'pharmacyPrice' => 'required',
-                'publicPrice' => '',
+                'publicPrice' => 'required',
                 'pharmacyDiscount' => 'required',
                 'kayanDiscount' => 'required',
                 // 'supplier_id' => 'required',
@@ -161,17 +159,21 @@ class VirtualStockController extends Controller
      */
     public function destroy($id)
     {
-        try {
+        try
+        {
             $virtualStock = VirtualStock::find($id);
-            if ($virtualStock){
-
+            if ($virtualStock)
+            {
                 $virtualStock->delete();
                 return $this->sendResponse([],'Deleted successfully');
-            }else{
+            }
+            else
+            {
                 return $this->sendError('ID is not exist');
             }
-
-        }catch (\Exception $e){
+        }
+        catch (\Exception $e)
+        {
             return $this->sendError('An error occurred in the system');
         }
     }

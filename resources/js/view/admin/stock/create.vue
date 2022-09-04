@@ -249,7 +249,7 @@
                             </label>
                             <select class="form-control" v-model.trim="v$.employee_id.$model">
                                 <option v-for="employee in employees" :key="employee.id" :value="employee.id">
-                                    {{ employee.id }}
+                                    {{ employee.user.name }}
                                 </option>
                             </select>
                         </div>
@@ -343,9 +343,26 @@ export default {
       },
     });
 
+    let getStock= () => {
+            loading.value = true;
+
+            adminApi.get(`/v1/dashboard/stock/create`)
+            .then((res) => {
+                let l = res.data.data;
+                employees.value = l.employees;
+                shifts.value = l.shifts;
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+            .finally(() => {
+                loading.value = false;
+            })
+        };
+
     //
-    getEmployees();
-    getShifts();
+    // getEmployees();
+    // getShifts();
     //
 
 
@@ -390,36 +407,39 @@ export default {
     const v$ = useVuelidate(rules, addStock.data);
 
     //Commons
-    function getEmployees(){
-        adminApi
-        .get(`/v1/dashboard/getEmployees`)
-        .then((res) => {
-            employees.value =res.data.data.employees ;
-        })
-        .catch((err) => {
-            console.log(err.response.data);
-        })
-        .finally(() => {
-            loading.value = false;
-        });
-    }
+    // function getEmployees(){
+    //     adminApi
+    //     .get(`/v1/dashboard/getEmployees`)
+    //     .then((res) => {
+    //         employees.value =res.data.data.employees ;
+    //     })
+    //     .catch((err) => {
+    //         console.log(err.response.data);
+    //     })
+    //     .finally(() => {
+    //         loading.value = false;
+    //     });
+    // }
 
-    function getShifts(){
-        adminApi
-        .get(`/v1/dashboard/getShifts`)
-        .then((res) => {
-            shifts.value =res.data.data.shifts ;
-        })
-        .catch((err) => {
-            console.log(err.response.data);
-        })
-        .finally(() => {
-            loading.value = false;
-        });
-    }
+    // function getShifts(){
+    //     adminApi
+    //     .get(`/v1/dashboard/getShifts`)
+    //     .then((res) => {
+    //         shifts.value =res.data.data.shifts ;
+    //     })
+    //     .catch((err) => {
+    //         console.log(err.response.data);
+    //     })
+    //     .finally(() => {
+    //         loading.value = false;
+    //     });
+    // }
     //end common
 
 
+    onMounted(() => {
+        getStock();
+    });
     return { loading, ...toRefs(addStock), v$, employees, shifts };
 
   },

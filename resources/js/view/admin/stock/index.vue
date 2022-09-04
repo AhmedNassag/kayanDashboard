@@ -51,33 +51,33 @@
                 <table class="table mb-0">
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th>{{ $t("global.Name") }}</th>
-                      <th>{{ $t("global.Governorate") }}</th>
-                      <th>{{ $t("global.Region") }}</th>
-                      <th>{{ $t("global.Title") }}</th>
-                      <!-- <th>{{ $t("global.Location") }}</th> -->
-                      <th>{{ $t("global.Phone") }}</th>
-                      <th>{{ $t("global.Email") }}</th>
-                      <th>{{ $t("global.Empolyee Name") }}</th>
-                      <th>{{ $t("global.Empolyee Phone") }}</th>
-                      <th>{{ $t("global.Shift Name") }}</th>
-                      <th>{{ $t("global.Action") }}</th>
+                      <th class="text-center">#</th>
+                      <th class="text-center">{{ $t("global.Name") }}</th>
+                      <th class="text-center">{{ $t("global.Governorate") }}</th>
+                      <th class="text-center">{{ $t("global.Region") }}</th>
+                      <th class="text-center">{{ $t("global.Title") }}</th>
+                      <!-- <th class="text-center">{{ $t("global.Location") }}</th> -->
+                      <th class="text-center">{{ $t("global.Phone") }}</th>
+                      <th class="text-center">{{ $t("global.Email") }}</th>
+                      <th class="text-center">{{ $t("global.Empolyee Name") }}</th>
+                      <th class="text-center">{{ $t("global.Empolyee Phone") }}</th>
+                      <th class="text-center">{{ $t("global.Shift Name") }}</th>
+                      <th class="text-center">{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
                   <tbody v-if="stocks.length">
                     <tr v-for="(item, index) in stocks" :key="item.id">
-                      <td>{{ index + 1 }}</td>
-                      <td>{{ item.name }}</td>
-                      <td>{{ item.governorate }}</td>
-                      <td>{{ item.region }}</td>
-                      <td>{{ item.title }}</td>
-                      <!-- <td>{{ item.location }}</td> -->
-                      <td>{{ item.phone }}</td>
-                      <td>{{ item.email }}</td>
-                      <td>{{ item.employee.user_id }}</td>
-                      <td>{{ item.employee_id }}</td>
-                      <td>{{ item.shift.name }}</td>
+                      <td class="text-center">{{ index + 1 }}</td>
+                      <td class="text-center">{{ item.name }}</td>
+                      <td class="text-center">{{ item.governorate }}</td>
+                      <td class="text-center">{{ item.region }}</td>
+                      <td class="text-center">{{ item.title }}</td>
+                      <!-- <td class="text-center">{{ item.location }}</td> -->
+                      <td class="text-center">{{ item.phone }}</td>
+                      <td class="text-center">{{ item.email }}</td>
+                      <td class="text-center">{{ item.employee.user.name }}</td>
+                      <td class="text-center">{{ item.employee.user.phone}}</td>
+                      <td class="text-center">{{ item.shift.name }}</td>
                       <!-- <td>
                         <a
                           href="#"
@@ -97,7 +97,7 @@
                           >
                         </a>
                       </td> -->
-                      <td>
+                      <td class="text-center">
                         <router-link
                           :to="{
                             name: 'editStock',
@@ -155,21 +155,19 @@
 <script>
 import { onMounted, inject, watch, ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
-//import { onMounted, watch, ref, computed } from "vue";
 import { useStore } from "vuex";
 import adminApi from "../../../api/adminAxios";
 
 export default {
   name: "index",
   setup() {
-    //
     const emitter = inject("emitter");
     const { t } = useI18n({});
-    //
 
     // get packages
     let stocks = ref([]);
     let stocksPaginate = ref({});
+    let employee = ref([]);
     let loading = ref(false);
     const search = ref("");
     let store = useStore();
