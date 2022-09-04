@@ -17,7 +17,7 @@
                         <h3 class="page-title">{{ $t("global.Virtual Stock") }}</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><router-link :to="{name: 'indexVirtualStock'}">{{ $t("global.Virtual Stock") }}</router-link></li>
-                            <li class="breadcrumb-item active">{{ $t("stock.EditVirtualStock") }}</li>
+                            <li class="breadcrumb-item active">{{ $t("virtualStock.EditVirtualStock") }}</li>
                         </ul>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                                                 <label for="validationCustom07">
                                                     {{ $t("global.Category") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.category_id.$model">
+                                                <select @change="getSubCategory(v$.category_id.$model)" class="form-control" v-model.trim="v$.category_id.$model">
                                                     <option v-for="category in categories" :key="category.id" :value="category.id">
                                                         {{ category.name }}
                                                     </option>
@@ -81,7 +81,7 @@
                                                 </label>
                                                 <select class="form-control" v-model.trim="v$.productName_id.$model">
                                                     <option v-for="productName in productNames" :key="productName.id" :value="productName.id">
-                                                    {{ productName.nameAr }}
+                                                        {{ productName.nameAr }}
                                                     </option>
                                                 </select>
                                             </div>
@@ -286,7 +286,7 @@ export default {
                     addVirtualStock.data.supplier_id = l.virtualStock.supplier_id;
                     addVirtualStock.data.category_id = l.virtualStock.category_id;
                     addVirtualStock.data.sub_category_id = l.virtualStock.sub_category_id;
-                    addVirtualStock.data.productName_id = l.virtualStock.productName_id;
+                    addVirtualStock.data.productName_id  = l.virtualStock.productName_id ;
                 })
                 .catch((err) => {
                     console.log(err.response);
@@ -317,7 +317,22 @@ export default {
 
         getProductNames();
         getCategories();
-        getSubCategories();
+        // getSubCategories();
+        let getSubCategory= (id) => {
+            loading.value = true;
+
+            adminApi.get(`/v1/dashboard/category/${id}`)
+            .then((res) => {
+                let l = res.data.data;
+                subCategories.value = l.subCategories;
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+            .finally(() => {
+                loading.value = false;
+            })
+        };
 
         const rules = computed(() => {
             return {
@@ -385,23 +400,23 @@ export default {
             });
         }
 
-        function getSubCategories()
-        {
-            adminApi
-            .get(`/v1/dashboard/getSubCategories`)
-            .then((res) => {
-                subCategories.value =res.data.data.subCategories ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-            .finally(() => {
-                loading.value = false;
-            });
-        }
+        // function getSubCategories()
+        // {
+        //     adminApi
+        //     .get(`/v1/dashboard/getSubCategories`)
+        //     .then((res) => {
+        //         subCategories.value =res.data.data.subCategories ;
+        //     })
+        //     .catch((err) => {
+        //         console.log(err.response.data);
+        //     })
+        //     .finally(() => {
+        //         loading.value = false;
+        //     });
+        // }
         //end common
 
-        return {id,loading,...toRefs(addVirtualStock),v$,categories,subCategories,productNames};
+        return {id,loading,...toRefs(addVirtualStock),v$,getSubCategory,categories,subCategories,productNames};
     },
     methods: {
         editVirtualStock(){

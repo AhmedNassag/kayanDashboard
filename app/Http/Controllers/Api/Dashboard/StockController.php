@@ -22,7 +22,7 @@ class StockController extends Controller
      */
     public function index(Request $request)
     {
-        $stocks = Stock::with('employee')->with('shift')
+        $stocks = Stock::with('employee.user')->with('shift')
             ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
@@ -37,7 +37,19 @@ class StockController extends Controller
      */
     public function create()
     {
-        //
+        try {
+
+            $shifts = Shift::select('id','name')->get();
+            $employees = Employee::with('user')->get();
+
+            return $this->sendResponse([
+                'shifts' => $shifts,
+                'employees' => $employees,
+            ], 'Data exited successfully');
+
+        } catch (\Exception $e) {
+            return $this->sendError('An error occurred in the system');
+        }
     }
 
     /**

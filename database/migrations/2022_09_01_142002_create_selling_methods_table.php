@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSellingMethodProductTable extends Migration
+class CreateSellingMethodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSellingMethodProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('sellingMethod_product', function (Blueprint $table) {
+        Schema::create('selling_methods', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('selling_method_id')->constrained('sale_methods')->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+            $table->string('name')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateSellingMethodProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sellingMethod_product');
+        Schema::dropIfExists('selling_methods');
     }
 }

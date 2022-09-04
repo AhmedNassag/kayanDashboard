@@ -8,7 +8,8 @@ import usersCategory from './adminRoute/usersCategory';
 import tax from './adminRoute/tax';
 import company from './adminRoute/company';
 import product from './adminRoute/product';
-import saleMethod from './adminRoute/saleMethod';
+import price from './adminRoute/price';
+import sellingMethod from './adminRoute/sellingMethod';
 import shift from './adminRoute/shift';
 import stock from './adminRoute/stock';
 import virtualStock from './adminRoute/virtualStock';
@@ -102,7 +103,8 @@ const routes = [
             ...tax,
             ...company,
             ...product,
-            ...saleMethod,
+            ...price,
+            ...sellingMethod,
             ...shift,
             ...stock,
             ...virtualStock,

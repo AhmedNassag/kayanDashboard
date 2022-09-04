@@ -9,10 +9,10 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
-    protected $casts = [
-        'saleMethods' => 'array'
-    ];
+    protected $guarded = [];
+    // protected $casts = [
+    //     'saleMethods' => 'array'
+    // ];
 
     protected $appends = [
         'name',
@@ -28,7 +28,7 @@ class Product extends Model
     {
         return $this->morphMany(Media::class,'mediable');
     }
-    public function sellingMethod()
+    public function selling_methods()
     {
         return $this->belongsToMany(SellingMethod::class);
     }

@@ -9,7 +9,7 @@ class VirtualStock extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     //start raletions
     public function productName()
@@ -28,7 +28,7 @@ class VirtualStock extends Model
     }
 
     public function supplier()
-        {
-            return $this->belongsTo(Supplier::class);
-        }
+    {
+        return $this->belongsTo(Supplier::class);
+    }
 }

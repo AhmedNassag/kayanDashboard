@@ -17,7 +17,7 @@
                         <h3 class="page-title">{{ $t("global.Shifts") }}</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><router-link :to="{name: 'indexShift'}">{{ $t("global.SubCategory") }}</router-link></li>
-                            <li class="breadcrumb-item active">{{ $t("shifts.EditShift") }}</li>
+                            <li class="breadcrumb-item active">{{ $t("shift.EditShift") }}</li>
                         </ul>
                     </div>
                 </div>
