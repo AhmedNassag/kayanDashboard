@@ -9,10 +9,10 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">{{ $t("global.Product") }}</h3>
+                        <h3 class="page-title">{{ $t("global.Price") }}</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><router-link :to="{name: 'indexProduct'}">{{ $t("global.Product") }}</router-link></li>
-                            <li class="breadcrumb-item active">{{ $t("product.EditProduct") }}</li>
+                            <li class="breadcrumb-item"><router-link :to="{name: 'indexPrice'}">{{ $t("global.Price") }}</router-link></li>
+                            <li class="breadcrumb-item active">{{ $t("price.EditPrice") }}</li>
                         </ul>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                         <div class="card-body">
                             <div class="card-header pt-0 mb-4">
                                 <router-link
-                                    :to="{name: 'indexProduct'}"
+                                    :to="{name: 'indexPrice'}"
                                     class="btn btn-custom btn-dark"
                                 >
                                     {{ $t("global.back") }}
@@ -34,99 +34,72 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm">
-                                    <form @submit.prevent="editProduct" class="needs-validation">
+                                    <form @submit.prevent="editPrice" class="needs-validation">
+
                                         <div class="form-row row">
 
                                             <!--Start Company And Supplier Supplier-->
                                             <div class="col-md-6 mb-3">
 
-                                            <!--Start Company Select-->
-                                            <div id="company" class="col-md-12 mb-3" v-if="companyShow == true">
-                                                <label >{{ $t("global.Company") }}</label>
-                                                <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    v-model="v$.company_id.$model"
-                                                    :class="{'is-invalid':v$.company_id.$error,'is-valid':!v$.company_id.$invalid}"
-                                                >
-                                                    <option :value="data.nullValue">---</option>
-                                                    <option v-for="company in companies" :key="company.id" :value="company.id">
-                                                        {{ company.name }}
-                                                    </option>
-                                                </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <!-- <span v-if="v$.company_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
+                                                <!--Start Company Select-->
+                                                <div id="company" class="col-md-12 mb-3" v-if="companyShow == true">
+                                                    <label >{{ $t("global.Company") }}</label>
+                                                    <select
+                                                        name="type"
+                                                        class="form-control"
+                                                        v-model="v$.company_id.$model"
+                                                        :class="{'is-invalid':v$.company_id.$error,'is-valid':!v$.company_id.$invalid}"
+                                                    >
+                                                        <option :value="data.nullValue">---</option>
+                                                        <option v-for="company in companies" :key="company.id" :value="company.id">
+                                                            {{ company.name }}
+                                                        </option>
+                                                    </select>
+                                                    <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                    <div class="invalid-feedback">
+                                                        <!-- <span v-if="v$.company_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
+                                                    </div>
+                                                    <input id ="myButton1" class="btn btn-secondary btn-ms" type="button" v-on:click="showSupplier()" value="مورد"/>
                                                 </div>
-                                                <input id ="myButton1" class="btn btn-secondary btn-ms" type="button" v-on:click="showSupplier()" value="مورد"/>
-                                            </div>
-                                            <!--End Company Select-->
+                                                <!--End Company Select-->
 
-                                            <!--Start Supplier Select-->
-                                            <div id="supplier" class="col-md-12 mb-3" v-if="supplierShow == true">
-                                                <label for="validationCustom0">
-                                                    {{ $t("global.Supplier") }}
-                                                </label>
-                                                <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    v-model.trim="v$.supplier_id.$model"
-                                                    :class="{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}"
-                                                >
-                                                    <option :value="data.nullValue">---</option>
-                                                    <option id="supplier-option" v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">
-                                                        {{ supplier.name }}
-                                                    </option>
-                                                </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <!-- <span v-if="v$.supplier_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
+                                                <!--Start Supplier Select-->
+                                                <div id="supplier" class="col-md-12 mb-3" v-if="supplierShow == true">
+                                                    <label for="validationCustom0">
+                                                        {{ $t("global.Supplier") }}
+                                                    </label>
+                                                    <select
+                                                        name="type"
+                                                        class="form-control"
+                                                        v-model.trim="v$.supplier_id.$model"
+                                                        :class="{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}"
+                                                    >
+                                                        <option :value="data.nullValue">---</option>
+                                                        <option id="supplier-option" v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">
+                                                            {{ supplier.name }}
+                                                        </option>
+                                                    </select>
+                                                    <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                    <div class="invalid-feedback">
+                                                        <!-- <span v-if="v$.supplier_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
+                                                    </div>
+                                                    <input id ="myButton2" class="btn btn-secondary btn-ms" type="button" v-on:click="showCompany()" value="شركة"/>
                                                 </div>
-                                                <input id ="myButton2" class="btn btn-secondary btn-ms" type="button" v-on:click="showCompany()" value="شركة"/>
-                                            </div>
-                                            <!--End Supplier Select-->
+                                                <!--End Supplier Select-->
 
                                             </div>
                                             <!--End Company And Supplier Supplier-->
-
-                                            <!--Start Barcode-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom01">{{ $t("global.BarCode") }}</label>
-                                                <input
-                                                    type="number" class="form-control"
-                                                    v-model.trim="v$.barcode.$model"
-                                                    id="validationCustom056"
-                                                    :placeholder="$t('global.BarCode')"
-                                                    :class="{'is-invalid':v$.barcode.$error,'is-valid':!v$.barcode.$invalid}"
-                                                >
-                                                <button type="button" class="btn btn-secondary btn-sm" @click="myFunction()">{{ $t("global.Generate Random") }}</button>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.barcode.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                    <span v-if="v$.barcode.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
-                                                </div>
-                                            </div>
-                                            <!--End BarCode-->
 
                                             <!--Start Product Name Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationCustom00">
                                                     {{ $t("global.Product Name") }}
                                                 </label>
-                                                <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    v-model.trim="v$.productName_id.$model"
-                                                    :class="{'is-invalid':v$.productName_id.$error,'is-valid':!v$.productName_id.$invalid}"
-                                                >
+                                                <select class="form-control" v-model.trim="v$.productName_id.$model">
                                                     <option v-for="productName in productNames" :key="productName.id" :value="productName.id">
                                                         {{ productName.nameAr }}
                                                     </option>
                                                 </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.productName_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div>
                                             </div>
                                             <!--End Product Name Select-->
 
@@ -139,7 +112,7 @@
                                                     v-model="v$.category_id.$model"
                                                     :class="{'is-invalid':v$.category_id.$error,'is-valid':!v$.category_id.$invalid}"
                                                 >
-                                                    <!-- <option value="">---</option> -->
+                                                    <option value="">---</option>
                                                     <option v-for="category in categories" :key="category.id" :value="category.id" >
                                                         {{ category.name }}
                                                     </option>
@@ -160,7 +133,7 @@
                                                     v-model="v$.sub_category_id.$model"
                                                     :class="{'is-invalid':v$.sub_category_id.$error,'is-valid':!v$.sub_category_id.$invalid}"
                                                 >
-                                                    <!-- <option value="">---</option> -->
+                                                    <option value="">---</option>
                                                     <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id" >
                                                         {{ subCategory.name }}
                                                     </option>
@@ -172,219 +145,76 @@
                                             </div>
                                             <!--End SubCategory Select-->
 
-                                            <!--Start Main Measurement Select-->
+                                            <!--Start Pharmacy Price-->
                                             <div class="col-md-6 mb-3">
-                                                <label >{{ $t("global.Main Measurement Unit") }}</label>
-                                                <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    v-model="v$.main_measurement_unit_id.$model"
-                                                    :class="{'is-invalid':v$.main_measurement_unit_id.$error,'is-valid':!v$.main_measurement_unit_id.$invalid}"
-                                                >
-                                                    <!-- <option value="">---</option> -->
-                                                    <option v-for="measure in measures" :key="measure.id" :value="measure.id" >
-                                                        {{ measure.name }}
-                                                    </option>
-                                                </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.main_measurement_unit_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div>
-                                            </div>
-                                            <!--End Main Measurement Select-->
-
-                                            <!--Start Count Unit Select-->
-                                            <div class="col-md-6 mb-3">
-                                                <label >{{ $t("global.Count Unit") }}</label>
+                                                <label>{{ $t("global.Pharmacy Price") }}</label>
                                                 <input
                                                     type="number" class="form-control"
-                                                    v-model="v$.count_unit.$model"
-                                                    :placeholder="$t('global.Count Unit')"
-                                                    :class="{'is-invalid':v$.count_unit.$error,'is-valid':!v$.count_unit.$invalid}"
+                                                    v-model="v$.pharmacyPrice.$model"
+                                                    :placeholder="$t('global.Pharmacy Price')"
+                                                    :class="{'is-invalid':v$.pharmacyPrice.$error,'is-valid':!v$.pharmacyPrice.$invalid}"
                                                 >
                                                 <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.count_unit.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                    <span v-if="v$.count_unit.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
+                                                    <span v-if="v$.pharmacyPrice.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
                                             </div>
-                                            <!--End Count Unit Select-->
+                                            <!--End Pharmacy Price-->
 
-                                            <!--Start Sub Measurement Select-->
+                                            <!--Start Public Price-->
                                             <div class="col-md-6 mb-3">
-                                                <label>{{ $t("global.Sub Measurement Unit") }}</label>
-                                                <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    v-model="v$.sub_measurement_unit_id.$model"
-                                                    :class="{'is-invalid':v$.sub_measurement_unit_id.$error,'is-valid':!v$.sub_measurement_unit_id.$invalid}"
-                                                >
-                                                    <!-- <option value="">---</option> -->
-                                                    <option v-for="measure in measures" :key="measure.id" :value="measure.id" >
-                                                        {{ measure.name }}
-                                                    </option>
-                                                </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.sub_measurement_unit_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div>
-                                            </div>
-                                            <!--End Sub Measurement Select-->
-
-                                            <!--Start Tax Select-->
-                                            <div class="col-md-6 mb-3">
-                                                <label >{{ $t("global.Tax") }}</label>
-                                                <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    v-model="v$.tax_id.$model"
-                                                    :class="{'is-invalid':v$.tax_id.$error,'is-valid':!v$.tax_id.$invalid}"
-                                                >
-                                                    <!-- <option value="">---</option> -->
-                                                    <option v-for="tax in taxes" :key="tax.id" :value="tax.id" >
-                                                        {{ tax.name }}
-                                                    </option>
-                                                </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.tax_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div>
-                                            </div>
-                                            <!--End Tax Select-->
-
-                                            <!--Start MaxMount-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom055">{{ $t("global.MaxMount") }}</label>
+                                                <label>{{ $t("global.Public Price") }}</label>
                                                 <input
                                                     type="number" class="form-control"
-                                                    v-model.trim="v$.maximum_product.$model"
-                                                    id="validationCustom055"
-                                                    :placeholder="$t('global.MaxMount')"
-                                                    :class="{'is-invalid':v$.maximum_product.$error,'is-valid':!v$.maximum_product.$invalid}"
+                                                    v-model="v$.publicPrice.$model"
+                                                    :placeholder="$t('global.Public Price')"
+                                                    :class="{'is-invalid':v$.publicPrice.$error,'is-valid':!v$.publicPrice.$invalid}"
                                                 >
                                                 <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.maximum_product.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                    <span v-if="v$.maximum_product.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
+                                                    <span v-if="v$.publicPrice.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
                                             </div>
-                                            <!--Start MaxMount-->
+                                            <!--End Public Price-->
 
-                                            <!--Start Re Order Limit-->
+                                            <!--Start Client Discount-->
                                             <div class="col-md-6 mb-3">
-                                                <label>{{ $t("global.Re Order Limit") }}</label>
+                                                <label>{{ $t("global.Client Discount") }}</label>
                                                 <input
                                                     type="number" class="form-control"
-                                                    v-model="v$.Re_order_limit.$model"
-                                                    :placeholder="$t('global.Re Order Limit')"
-                                                    :class="{'is-invalid':v$.Re_order_limit.$error,'is-valid':!v$.Re_order_limit.$invalid}"
+                                                    v-model="v$.clientDiscount.$model"
+                                                    :placeholder="$t('global.Client Discount')"
+                                                    :class="{'is-invalid':v$.clientDiscount.$error,'is-valid':!v$.clientDiscount.$invalid}"
                                                 >
                                                 <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.Re_order_limit.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                    <span v-if="v$.Re_order_limit.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
+                                                    <span v-if="v$.clientDiscount.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
                                             </div>
-                                            <!--End Re Order Limit-->
+                                            <!--End Client Discount-->
 
-                                            <!--Start Selling Method Select-->
+                                            <!--Start Kayan Discount-->
                                             <div class="col-md-6 mb-3">
-                                                <label >{{ $t("global.Selling Method") }}</label>
-                                                <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    multiple
-                                                    v-model="v$.selling_methods.$model"
-                                                    :class="{'is-invalid':v$.selling_methods.$error,'is-valid':!v$.selling_methods.$invalid}"
+                                                <label>{{ $t("global.Kayan Discount") }}</label>
+                                                <input
+                                                    type="number" class="form-control"
+                                                    v-model="v$.kayanDiscount.$model"
+                                                    :placeholder="$t('global.Kayan Discount')"
+                                                    :class="{'is-invalid':v$.kayanDiscount.$error,'is-valid':!v$.kayanDiscount.$invalid}"
                                                 >
-                                                    <option v-for="sellingMethod in sellingMethods" :key="sellingMethod.id" :value="sellingMethod.id" >
-                                                        {{ sellingMethod.name }}
-                                                    </option>
-                                                </select>
                                                 <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.selling_methods.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
+                                                    <span v-if="v$.kayanDiscount.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
                                             </div>
-                                            <!--Start Selling Method Select-->
+                                            <!--End Kayan Discount-->
 
-                                            <!--Start Description-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom034">{{ $t("global.Description") }}</label>
-                                                <textarea
-                                                    type="text"
-                                                    class="form-control custom-textarea"
-                                                    v-model.trim="v$.description.$model"
-                                                    id="validationCustom034"
-                                                    :placeholder="$t('global.Description')"
-                                                    :class="{'is-invalid':v$.description.$error,'is-valid':!v$.description.$invalid}"
-                                                ></textarea>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                </div>
-                                            </div>
-                                            <!--End Description-->
-
-                                            <!--Start Image-->
-                                            <div class="col-md-3 row flex-fill">
-                                                <div class="btn btn-outline-primary waves-effect">
-                                                    <span>
-                                                        {{ $t("global.ChooseImage") }}
-                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
-                                                    </span>
-                                                    <input
-                                                        name="mediaPackage"
-                                                        type="file"
-                                                        @change="preview"
-                                                        id="mediaPackage"
-                                                        accept="image/png,jepg,jpg"
-                                                    >
-                                                </div>
-                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
-                                                <p class="num-of-files">{{numberOfImage ? numberOfImage + ' Files Selected' : 'No Files Chosen' }}</p>
-                                                <div class="container-images" id="container-images" v-show="data.image && numberOfImage"></div>
-                                                <div class="container-images" v-show="!numberOfImage">
-                                                    <figure>
-                                                        <figcaption>
-                                                            <img :src="`/admin/img/company/img-1.png`">
-                                                        </figcaption>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <!--End Image-->
-
-                                            <!--Start Multiple Images-->
-                                            <div class="col-md-9 row flex-fill">
-                                                <div class="btn btn-outline-primary waves-effect">
-                                                    <span>
-                                                        {{ $t("global.ChooseImage") }}
-                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
-                                                    </span>
-                                                    <input
-                                                        name="mediaPackage[]"
-                                                        type="file"
-                                                        multiple
-                                                        @change="preview2"
-                                                        id="mediaPackage1"
-                                                        accept="image/png,jepg,jpg"
-                                                    >
-                                                </div>
-                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
-                                                <p class="num-of-files">{{numberOfImage1 ? numberOfImage1 + ' Files Selected' : 'No Files Chosen' }}</p>
-                                                <div class="container-images" id="container-images1" v-show="data.files && numberOfImage1"></div>
-                                                <div class="container-images" v-show="!numberOfImage1">
-                                                    <figure>
-                                                        <figcaption>
-                                                            <img :src="`/admin/img/company/img-1.png`">
-                                                        </figcaption>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <!--End Multiple Images-->
+                                            <!--Start Kayan Profit-->
+                                            <!--End Kayan Profit-->
 
                                         </div>
 
-                                        <button class="btn btn-primary" type="submit">تعديل</button>
+                                        <button class="btn btn-primary" type="submit">{{$t('global.Submit')}}</button>
                                     </form>
                                 </div>
                             </div>
@@ -406,7 +236,7 @@ import { notify } from "@kyvg/vue3-notification";
 
 
 export default {
-    name: "editProduct",
+    name: "editPrice",
     data(){
         return {
             errors:{},
@@ -425,68 +255,47 @@ export default {
         let companies = ref([]);
         let categories = ref([]);
         let subCategories = ref([]);
-        let measures = ref([]);
-        let taxes = ref([]);
-        let sellingMethods = ref([]);
-        let images = ref([]);
-        let image = ref('');
 
         //start design
-        let addProduct =  reactive({
+        let addPrice =  reactive({
             data:{
                 nullValue: null,
                 productName_id: null,
-                barcode : null,
-                count_unit : null,
-                maximum_product: null,
-                Re_order_limit: null,
-                description : null,
-                image : {},
-                files : [],
+                supplier_id: null,
                 category_id: null,
                 sub_category_id: null,
                 company_id: null,
-                supplier_id: null,
-                main_measurement_unit_id: null,
-                sub_measurement_unit_id: null,
-                tax_id: null,
-                selling_methods: [],
+                pharmacyPrice: null,
+                publicPrice : null,
+                clientDiscount: null,
+                kayanDiscount : null,
+                // kayanProfit: null,
             }
         });
 
-        let getProduct = () => {
+        let getPrice = () => {
             loading.value = true;
 
-            adminApi.get(`/v1/dashboard/product/${id.value}/edit`)
+            adminApi.get(`/v1/dashboard/price/${id.value}/edit`)
                 .then((res) => {
                     let l = res.data.data;
-                    addProduct.data.productName_id = l.product.productName_id;
-                    addProduct.data.barcode = l.product.barcode;
-                    addProduct.data.count_unit = l.product.count_unit;
-                    addProduct.data.maximum_product= l.product.maximum_product;
-                    addProduct.data.Re_order_limit = l.product.Re_order_limit;
-                    addProduct.data.description = l.product.description;
-                    addProduct.data.category_id = l.product.category_id;
-                    addProduct.data.sub_category_id = l.product.sub_category_id;
-                    addProduct.data.company_id = l.product.company_id;
-                    addProduct.data.supplier_id = l.product.supplier_id;
-                    addProduct.data.main_measurement_unit_id = l.product.main_measurement_unit_id;
-                    addProduct.data.sub_measurement_unit_id = l.product.sub_measurement_unit_id;
-                    addProduct.data.tax_id = l.product.tax_id;
-                    image.value = l.product.image;
-                    images.value = l.product.media;
+                    addPrice.data.productName_id = l.price.productName_id;
+                    addPrice.data.supplier_id = l.price.supplier_id;
+                    addPrice.data.company_id = l.price.company_id;
+                    addPrice.data.category_id = l.price.category_id;
+                    addPrice.data.sub_category_id = l.price.sub_category_id;
+
+                    addPrice.data.pharmacyPrice = l.price.pharmacyPrice;
+                    addPrice.data.publicPrice = l.price.publicPrice;
+                    addPrice.data.clientDiscount = l.price.clientDiscount;
+                    addPrice.data.kayanDiscount = l.price.kayanDiscount;
+                    addPrice.data.kayanProfit = l.price.kayanProfit;
+
                     productNames.value = l.productNames;
-                    companies.value = l.companies;
                     suppliers.value = l.suppliers;
+                    companies.value = l.companies;
                     categories.value = l.categories;
-                    measures.value = l.measures;
-                    taxes.value = l.taxes;
-                    sellingMethods.value = l.sellingMethods;
-                    l.sellingMethodChange.forEach((e) => {
-                        addProduct.data.selling_methods.push(e.id);
-                    });
-                    console.log( addProduct.data.selling_methods);
-                    getSubCategory(l.product.category_id);
+                    getSubCategory(l.price.category_id);
                 })
                 .catch((err) => {
                     console.log(err.response);
@@ -497,7 +306,7 @@ export default {
         };
 
         onMounted(() => {
-            getProduct();
+            getPrice();
         });
 
         let getSubCategory= (id) => {
@@ -522,30 +331,10 @@ export default {
                     required,
                 },
                 supplier_id: {
-                    // required,
+                    //required,
                 },
-                barcode: {
-                    required,
-                    integer
-                },
-                count_unit: {
-                    required,
-                    integer
-                },
-                maximum_product: {
-                    required,
-                    integer
-                },
-                Re_order_limit: {
-                    required,
-                    integer
-                },
-                description: {},
-                image: {
-                    //required
-                },
-                files: {
-                    //required
+                company_id: {
+                    //required,
                 },
                 category_id: {
                     required,
@@ -555,136 +344,40 @@ export default {
                     required,
                     integer
                 },
-                company_id: {
-                    // required,
-                },
-                main_measurement_unit_id: {
+                pharmacyPrice: {
                     required,
-                    integer
                 },
-                sub_measurement_unit_id: {
+                publicPrice: {
                     required,
-                    integer
                 },
-                tax_id: {
+                clientDiscount: {
                     required,
-                    integer
                 },
-                selling_methods: {
-                    required
-                }
+                kayanDiscount: {
+                    required,
+                },
+                // kayanProfit: {
+                //     required,
+                // },
             }
         });
 
-        const v$ = useVuelidate(rules,addProduct.data);
+        const v$ = useVuelidate(rules,addPrice.data);
 
-        let preview = (e) => {
-
-            let containerImages = document.querySelector('#container-images');
-            if(numberOfImage.value){
-                containerImages.innerHTML = '';
-            }
-            addProduct.data.image = {};
-
-            numberOfImage.value = e.target.files.length;
-
-            addProduct.data.image = e.target.files[0];
-
-            let reader = new FileReader();
-            let figure = document.createElement('figure');
-            let figcap = document.createElement('figcaption');
-
-            figcap.innerText = addProduct.data.image.name;
-            figure.appendChild(figcap);
-
-            reader.onload = () => {
-                let img = document.createElement('img');
-                img.setAttribute('src',reader.result);
-                figure.insertBefore(img,figcap);
-            }
-
-            containerImages.appendChild(figure);
-            reader.readAsDataURL(addProduct.data.image);
-
-        };
-
-        let preview2 = (e) => {
-
-            let containerImages = document.querySelector('#container-images1');
-            if(numberOfImage1.value){
-                containerImages.innerHTML = '';
-            }
-            addProduct.data.files = [];
-
-            numberOfImage1.value = e.target.files.length;
-
-            for(let file of e.target.files){
-
-                addProduct.data.files.push(file);
-                let reader = new FileReader();
-                let figure = document.createElement('figure');
-                let figcap = document.createElement('figcaption');
-
-                figcap.innerText = file.name;
-                figure.appendChild(figcap);
-
-                reader.onload = () => {
-                    let img = document.createElement('img');
-                    img.setAttribute('src',reader.result);
-                    figure.insertBefore(img,figcap);
-                }
-
-                containerImages.appendChild(figure);
-                reader.readAsDataURL(file);
-            }
-
-        };
-
-        const numberOfImage = ref(0);
-        const numberOfImage1 = ref(0);
-
-        let deleteOne = (idMedia,index) =>{
-            loading.value = true;
-
-            adminApi.post(`/v1/dashboard/deleteOne/${id.value}`,{idMedia:idMedia})
-                .then((res) => {
-                    images.value.splice(index,1);
-                })
-                .catch((err) => {
-                    console.log(err.response);
-                })
-                .finally(() => {
-                    loading.value = false;
-                })
-        }
-
-        return { loading,
-            ...toRefs(addProduct),
+        return {
+            loading,
+            ...toRefs(addPrice),
             v$,
-            preview,
-            preview2,
-            numberOfImage,
-            numberOfImage1,
-            companies,
-            categories,
-            measures,
-            taxes,
-            sellingMethods,
             productNames,
             suppliers,
-            image,
-            images,
-            deleteOne,
+            companies,
+            categories,
             subCategories,
             getSubCategory,
             id
-
         };
     },
     methods: {
-        myFunction() {
-            this.data.barcode = Math.random()*100;
-        },
         showCompany()
         {
             this.companyShow = true;
@@ -696,7 +389,7 @@ export default {
             this.companyShow = false;
         },
 
-        editProduct(){
+        editPrice(){
             this.v$.$validate();
 
             if(!this.v$.$error){
@@ -707,27 +400,18 @@ export default {
                 let formData = new FormData();
                 formData.append("productName_id", this.data.productName_id);
                 formData.append("supplier_id", this.data.supplier_id);
-                formData.append('barcode',this.data.barcode);
-                formData.append('count_unit',this.data.count_unit);
-                formData.append('maximum_product',this.data.maximum_product);
-                formData.append('Re_order_limit',this.data.Re_order_limit);
-                formData.append('description',this.data.description);
+                formData.append('company_id',this.data.company_id);
                 formData.append('category_id',this.data.category_id);
                 formData.append('sub_category_id',this.data.sub_category_id);
-                formData.append('company_id',this.data.company_id);
-                formData.append('sub_measurement_unit_id',this.data.sub_measurement_unit_id);
-                formData.append('main_measurement_unit_id',this.data.main_measurement_unit_id);
-                formData.append('tax_id',this.data.tax_id);
-                formData.append('image',this.data.image);
-                formData.append('selling_methods',this.data.selling_methods);
+
+                formData.append('pharmacyPrice',this.data.pharmacyPrice);
+                formData.append('publicPrice',this.data.publicPrice);
+                formData.append('clientDiscount',this.data.clientDiscount);
+                formData.append('kayanDiscount',this.data.kayanDiscount);
+                formData.append('kayanProfit',this.data.kayanProfit);
                 formData.append('_method','PUT');
 
-                for( var i = 0; i < this.numberOfImage1; i++ ){
-                    let file = this.data.files[i];
-                    formData.append('files[' + i + ']', file);
-                }
-
-                adminApi.post(`/v1/dashboard/product/${this.id}`,formData)
+                adminApi.post(`/v1/dashboard/price/${this.id}`,formData)
                 .then((res) => {
 
                     notify({

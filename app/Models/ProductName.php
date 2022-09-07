@@ -21,4 +21,9 @@ class ProductName extends Model
     {
         return $this->hasMany(VirtualStock::class,'productName_id');
     }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
+    }
 }

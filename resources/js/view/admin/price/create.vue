@@ -86,18 +86,18 @@
                                             </div>
                                             <!--End Company And Supplier Supplier-->
 
-                                            <!--Start Product Select-->
+                                            <!--Start Product Name Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationCustom00">
                                                     {{ $t("global.Product Name") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.product_id.$model">
-                                                    <option v-for="product in products" :key="product.id" :value="product.id">
-                                                        {{ product.productName.nameAr }}
+                                                <select class="form-control" v-model.trim="v$.productName_id.$model">
+                                                    <option v-for="productName in productNames" :key="productName.id" :value="productName.id">
+                                                        {{ productName.nameAr }}
                                                     </option>
                                                 </select>
                                             </div>
-                                            <!--End Product Select-->
+                                            <!--End Product Name Select-->
 
                                             <!--Start Category Select-->
                                             <div class="col-md-6 mb-3">
@@ -242,7 +242,7 @@ export default {
     },
     setup(){
         let loading = ref(false);
-        let products = ref([]);
+        let productNames = ref([]);
         let suppliers = ref([]);
         let companies = ref([]);
         let categories = ref([]);
@@ -252,16 +252,16 @@ export default {
         let addPrice =  reactive({
             data:{
                 nullValue: null,
-                product_id: null,
-                category_id: null,
-                subCategory_id: null,
-                company_id: null,
+                productName_id: null,
                 supplier_id: null,
+                category_id: null,
+                sub_category_id: null,
+                company_id: null,
                 pharmacyPrice: null,
-                publicPrice: null,
+                publicPrice : null,
                 clientDiscount: null,
-                kayanDiscount: null,
-                kayanProfit: null,
+                kayanDiscount : null,
+                // kayanProfit: null,
             }
         });
 
@@ -271,7 +271,7 @@ export default {
             adminApi.get(`/v1/dashboard/price/create`)
                 .then((res) => {
                     let l = res.data.data;
-                    products.value = l.products;
+                    productNames.value = l.productNames;
                     suppliers.value = l.suppliers;
                     companies.value = l.companies;
                     categories.value = l.categories;
@@ -302,14 +302,13 @@ export default {
 
         const rules = computed(() => {
             return {
-                product_id: {
+                productName_id: {
                     required,
-                    integer
-                },
-                company_id: {
-                    //required,
                 },
                 supplier_id: {
+                    //required,
+                },
+                company_id: {
                     //required,
                 },
                 category_id: {
@@ -332,9 +331,9 @@ export default {
                 kayanDiscount: {
                     required,
                 },
-                kayanProfit: {
-                    required,
-                },
+                // kayanProfit: {
+                //     required,
+                // },
             }
         });
 
@@ -348,9 +347,9 @@ export default {
             loading,
             ...toRefs(addPrice),
             v$,
-            products,
-            companies,
+            productNames,
             suppliers,
+            companies,
             categories,
             subCategories,
             getSubCategory,
@@ -376,12 +375,12 @@ export default {
                 this.loading = true;
                 this.errors = {};
                 let formData = new FormData();
-                formData.append("product_id", this.data.product_id);
+                formData.append("productName_id", this.data.productName_id);
                 formData.append("supplier_id", this.data.supplier_id);
                 formData.append('company_id',this.data.company_id);
                 formData.append('category_id',this.data.category_id);
-                formData.append('subCategory_id',this.data.subCategory_id);
-                
+                formData.append('sub_category_id',this.data.sub_category_id);
+
                 formData.append('pharmacyPrice',this.data.pharmacyPrice);
                 formData.append('publicPrice',this.data.publicPrice);
                 formData.append('clientDiscount',this.data.clientDiscount);
@@ -412,7 +411,7 @@ export default {
             }
         },
         resetForm(){
-            this.data.product_id = null;
+            this.data.productName_id = null;
             this.data.company_id = null;
             this.data.supplier_id = null;
             this.data.category_id = null;

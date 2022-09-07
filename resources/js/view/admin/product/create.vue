@@ -182,7 +182,7 @@
                                             <!--End Main Measurement Select-->
 
                                             <!--Start Count Unit Select-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label >عدد الوحدات داخل الفئة الفرعية </label>
                                                 <input
                                                     type="number" class="form-control"
@@ -195,11 +195,11 @@
                                                     <span v-if="v$.count_unit.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                     <span v-if="v$.count_unit.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Count Unit Select-->
 
                                             <!--Start Sub Measurement Select-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label >وحدة القياس الفرعية</label>
                                                 <select
                                                     name="type"
@@ -216,7 +216,7 @@
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.sub_measurement_unit_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Sub Measurement Select-->
 
                                             <!--Start Tax Select-->
@@ -418,7 +418,7 @@ export default {
                 productName_id: null,
                 supplier_id: null,
                 barcode : null,
-                count_unit : null,
+                // count_unit : null,
                 maximum_product: null,
                 Re_order_limit: null,
                 description : null,
@@ -428,7 +428,7 @@ export default {
                 sub_category_id: null,
                 company_id: null,
                 main_measurement_unit_id: null,
-                sub_measurement_unit_id: null,
+                // sub_measurement_unit_id: null,
                 tax_id: null,
                 selling_methods: [],
             }
@@ -484,10 +484,10 @@ export default {
                     required,
                     integer
                 },
-                count_unit: {
-                    required,
-                    integer
-                },
+                // count_unit: {
+                //     required,
+                //     integer
+                // },
                 maximum_product: {
                     required,
                     integer
@@ -518,10 +518,10 @@ export default {
                     required,
                     integer
                 },
-                sub_measurement_unit_id: {
-                    required,
-                    integer
-                },
+                // sub_measurement_unit_id: {
+                //     required,
+                //     integer
+                // },
                 tax_id: {
                     required,
                     integer
@@ -618,10 +618,10 @@ export default {
             measures,
             taxes,
             subCategories,
-            getSubCategory,
             sellingMethods,
             productNames,
             suppliers,
+            getSubCategory,
         };
     },
     methods: {
@@ -651,14 +651,14 @@ export default {
                 formData.append("productName_id", this.data.productName_id);
                 formData.append("supplier_id", this.data.supplier_id);
                 formData.append('barcode',this.data.barcode);
-                formData.append('count_unit',this.data.count_unit);
+                // formData.append('count_unit',this.data.count_unit);
                 formData.append('maximum_product',this.data.maximum_product);
                 formData.append('Re_order_limit',this.data.Re_order_limit);
                 formData.append('description',this.data.description);
                 formData.append('category_id',this.data.category_id);
                 formData.append('sub_category_id',this.data.sub_category_id);
                 formData.append('company_id',this.data.company_id);
-                formData.append('sub_measurement_unit_id',this.data.sub_measurement_unit_id);
+                // formData.append('sub_measurement_unit_id',this.data.sub_measurement_unit_id);
                 formData.append('main_measurement_unit_id',this.data.main_measurement_unit_id);
                 formData.append('tax_id',this.data.tax_id);
                 formData.append('image',this.data.image);
@@ -699,7 +699,7 @@ export default {
             this.data.productName_id = null;
             this.data.supplier_id = null;
             this.data.barcode = null;
-            this.data.count_unit = null;
+            // this.data.count_unit = null;
             this.data.maximum_product= null;
             this.data.Re_order_limit = null;
             this.data.description = null;
@@ -709,7 +709,7 @@ export default {
             this.data.sub_category_id = null;
             this.data.company_id = null;
             this.data.main_measurement_unit_id = null;
-            this.data.sub_measurement_unit_id = null;
+            // this.data.sub_measurement_unit_id = null;
             this.data.tax_id = null;
             this.data.selling_methods = [];
         }

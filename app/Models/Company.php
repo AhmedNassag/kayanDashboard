@@ -21,4 +21,9 @@ class Company extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
+    }
 }

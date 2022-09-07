@@ -177,7 +177,7 @@
                                                                                         <tr v-for="(it,index) in item.purchase_products" :key="it.id">
                                                                                             <td>{{ index +1}}</td>
                                                                                             <td>{{ it.product.name }}</td>
-                                                                                            <td>{{ it.quantity }} ( {{it.product.main_measurement_unit.name}} )</td>
+                                                                                            <td>{{ it.quantity }} <!--( {{it.product.main_measurement_unit.name}} )--></td>
                                                                                             <td>{{ it.production_date }}</td>
                                                                                             <td>{{ it.expiry_date }}</td>
                                                                                             <td v-if="item.is_received == 0">{{it.product.main_measurement_unit.name}} {{$t('global.ThereIs')}} {{it.count_unit}} {{it.product.sub_measurement_unit.name}}</td>

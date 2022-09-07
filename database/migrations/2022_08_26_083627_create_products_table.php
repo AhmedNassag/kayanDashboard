@@ -27,9 +27,9 @@ class CreateProductsTable extends Migration
             $table->foreignId('company_id')->nullable()->constrained('companies')->cascadeOnDelete();
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->cascadeOnDelete();
             $table->foreignId('tax_id')->constrained('taxes')->cascadeOnDelete();
-            $table->foreignId('main_measurement_unit_id')->constrained('units')->cascadeOnDelete();
-            $table->foreignId('sub_measurement_unit_id')->constrained('units')->cascadeOnDelete();
-            $table->integer('count_unit')->default(0);
+            $table->foreignId('main_measurement_unit_id')->nullable()->constrained('units')->cascadeOnDelete();
+            $table->foreignId('sub_measurement_unit_id')->default(1)->constrained('units')->cascadeOnDelete();
+            // $table->integer('count_unit')->default(0);
 
             $table->timestamps();
 

@@ -246,13 +246,13 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-3 mb-3">
+                                                        <!-- <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.subUnitMeasurement')}}</label>
                                                             <input type="text" disabled class="form-control"
                                                                    v-model="data.product[index].subUnitMeasurement"
                                                                    @input="DebitAmount"
                                                             >
-                                                        </div>
+                                                        </div> -->
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.priceBeforeDiscount')}}</label>
@@ -640,7 +640,17 @@ export default {
             }
         },
         addDebit(){
-            this.data.product.push({ price_before_discount:null,price_after_discount:null,production_date:null,expiry_date:null,quantity:null,count_unit:null, category_id:'', sub_category_id:'', product_id:''});
+            this.data.product.push({
+                price_before_discount:null,
+                price_after_discount:null,
+                production_date:null,
+                expiry_date:null,
+                quantity:null,
+                count_unit:null,
+                category_id:'',
+                sub_category_id:'',
+                product_id:''
+            });
             this.productValidation.push({
                 price_before_discount: {
                     required,
@@ -697,7 +707,16 @@ export default {
             this.data.transfer_price = 0;
             this.data.price = '';
             this.data.product = [
-                {price_before_discount:null,price_after_discount:null,production_date:null,expiry_date:null,quantity:null,count_unit:null, category_id:'', sub_category_id:'', product_id:''}
+                {   price_before_discount:null,
+                    price_after_discount:null,
+                    production_date:null,
+                    expiry_date:null,
+                    quantity:null,
+                    count_unit:null,
+                    category_id:'',
+                    sub_category_id:'',
+                    product_id:''
+                }
             ];
         }
     }

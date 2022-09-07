@@ -55,7 +55,7 @@
                                                 <label>{{ $t('global.ChooseStore') }}</label>
 
                                                 <select v-model="data.store_id" :class="['form-select',{'is-invalid':v$.store_id.$error,'is-valid':!v$.store_id.$invalid}]">
-                                                    <option v-for="store in stores" :kay="store.id" :value="store.id">{{store.name}}</option>
+                                                    <option v-for="store in stores" :key="store.id" :value="store.id">{{store.name}}</option>
                                                 </select>
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
@@ -68,7 +68,7 @@
                                                 <label>{{ $t('global.ChooseSupplier') }}</label>
 
                                                 <select v-model="data.supplier_id" :class="['form-select',{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}]">
-                                                    <option v-for="supplier in suppliers" :kay="supplier.id" :value="supplier.id">{{supplier.name}}</option>
+                                                    <option v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">{{supplier.name}}</option>
                                                 </select>
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
@@ -172,12 +172,12 @@
                                                     <div class="col-md-12 mb-12 head-account">
                                                         <h3>{{ $t('global.Products') }}</h3>
                                                     </div>
-                                                    <div v-for="(it,index) in data.product" class="col-md-12 mb-12 body-account row">
+                                                    <div v-for="(it,index) in data.product" :key="it.id" class="col-md-12 mb-12 body-account row">
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.mainCategory') }}</label>
 
                                                             <select @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :class="['form-select',{'is-invalid':v$.product[index].category_id.$error,'is-valid':!v$.product[index].category_id.$invalid}]">
-                                                                <option v-for="category in categories" :kay="category.id" :value="category.id">{{category.name}}</option>
+                                                                <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
                                                             </select>
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
@@ -188,7 +188,7 @@
                                                             <label>{{ $t('global.subCategory') }}</label>
 
                                                             <select @change="getProduct(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :class="['form-select',{'is-invalid':v$.product[index].sub_category_id.$error,'is-valid':!v$.product[index].sub_category_id.$invalid}]">
-                                                                <option v-for="category in subCategory[index].subCategory" :kay="category.id" :value="category.id">{{category.name}}</option>
+                                                                <option v-for="category in subCategory[index].subCategory" :key="category.id" :value="category.id">{{category.name}}</option>
                                                             </select>
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
@@ -200,7 +200,7 @@
                                                             <label>{{ $t('global.Products') }}</label>
 
                                                             <select @change="getMeasurementUnit(it.product_id,index)" v-model="it.product_id" :class="['form-select',{'is-invalid':v$.product[index].product_id.$error,'is-valid':!v$.product[index].product_id.$invalid}]">
-                                                                <option v-for="category in products[index].products" :kay="category.id" :value="category.id">{{category.name}}</option>
+                                                                <option v-for="category in products[index].products" :key="category.id" :value="category.id">{{category.name}}</option>
                                                             </select>
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
@@ -246,13 +246,13 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-3 mb-3">
+                                                        <!-- <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.subUnitMeasurement')}}</label>
                                                             <input type="text" disabled class="form-control"
                                                                    v-model="data.product[index].subUnitMeasurement"
                                                                    @input="DebitAmount"
                                                             >
-                                                        </div>
+                                                        </div> -->
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.priceBeforeDiscount')}}</label>
