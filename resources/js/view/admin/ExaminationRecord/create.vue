@@ -141,12 +141,12 @@
                                                             >
                                                         </div>
 
-                                                        <div class="col-md-3 mb-3">
+                                                        <!-- <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.subUnitMeasurement')}}</label>
                                                             <input type="text" disabled class="form-control"
                                                                    v-model="data.product[index].subUnitMeasurement"
                                                             >
-                                                        </div>
+                                                        </div> -->
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.productStatus') }}</label>

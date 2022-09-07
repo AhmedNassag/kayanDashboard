@@ -71,6 +71,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'price create', 'role' => 'management'],
             ['name' => 'price edit', 'role' => 'management'],
             ['name' => 'price delete', 'role' => 'management'],
+            //kayanPrice
+            ['name' => 'kayanPrice read', 'role' => 'management'],
+            ['name' => 'kayanPrice create', 'role' => 'management'],
+            ['name' => 'kayanPrice edit', 'role' => 'management'],
+            ['name' => 'kayanPrice delete', 'role' => 'management'],
             //sellingMethods
             ['name' => 'sellingMethod read', 'role' => 'management'],
             ['name' => 'sellingMethod create', 'role' => 'management'],

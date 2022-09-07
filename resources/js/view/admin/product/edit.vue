@@ -194,7 +194,7 @@
                                             <!--End Main Measurement Select-->
 
                                             <!--Start Count Unit Select-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label >{{ $t("global.Count Unit") }}</label>
                                                 <input
                                                     type="number" class="form-control"
@@ -207,11 +207,11 @@
                                                     <span v-if="v$.count_unit.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                     <span v-if="v$.count_unit.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Count Unit Select-->
 
                                             <!--Start Sub Measurement Select-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label>{{ $t("global.Sub Measurement Unit") }}</label>
                                                 <select
                                                     name="type"
@@ -219,7 +219,7 @@
                                                     v-model="v$.sub_measurement_unit_id.$model"
                                                     :class="{'is-invalid':v$.sub_measurement_unit_id.$error,'is-valid':!v$.sub_measurement_unit_id.$invalid}"
                                                 >
-                                                    <!-- <option value="">---</option> -->
+                                                    <option value="">---</option>
                                                     <option v-for="measure in measures" :key="measure.id" :value="measure.id" >
                                                         {{ measure.name }}
                                                     </option>
@@ -228,7 +228,7 @@
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.sub_measurement_unit_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Sub Measurement Select-->
 
                                             <!--Start Tax Select-->
@@ -437,7 +437,7 @@ export default {
                 nullValue: null,
                 productName_id: null,
                 barcode : null,
-                count_unit : null,
+                // count_unit : null,
                 maximum_product: null,
                 Re_order_limit: null,
                 description : null,
@@ -448,7 +448,7 @@ export default {
                 company_id: null,
                 supplier_id: null,
                 main_measurement_unit_id: null,
-                sub_measurement_unit_id: null,
+                // sub_measurement_unit_id: null,
                 tax_id: null,
                 selling_methods: [],
             }
@@ -462,7 +462,7 @@ export default {
                     let l = res.data.data;
                     addProduct.data.productName_id = l.product.productName_id;
                     addProduct.data.barcode = l.product.barcode;
-                    addProduct.data.count_unit = l.product.count_unit;
+                    // addProduct.data.count_unit = l.product.count_unit;
                     addProduct.data.maximum_product= l.product.maximum_product;
                     addProduct.data.Re_order_limit = l.product.Re_order_limit;
                     addProduct.data.description = l.product.description;
@@ -471,7 +471,7 @@ export default {
                     addProduct.data.company_id = l.product.company_id;
                     addProduct.data.supplier_id = l.product.supplier_id;
                     addProduct.data.main_measurement_unit_id = l.product.main_measurement_unit_id;
-                    addProduct.data.sub_measurement_unit_id = l.product.sub_measurement_unit_id;
+                    // addProduct.data.sub_measurement_unit_id = l.product.sub_measurement_unit_id;
                     addProduct.data.tax_id = l.product.tax_id;
                     image.value = l.product.image;
                     images.value = l.product.media;
@@ -528,10 +528,10 @@ export default {
                     required,
                     integer
                 },
-                count_unit: {
-                    required,
-                    integer
-                },
+                // count_unit: {
+                //     required,
+                //     integer
+                // },
                 maximum_product: {
                     required,
                     integer
@@ -562,10 +562,10 @@ export default {
                     required,
                     integer
                 },
-                sub_measurement_unit_id: {
-                    required,
-                    integer
-                },
+                // sub_measurement_unit_id: {
+                //     required,
+                //     integer
+                // },
                 tax_id: {
                     required,
                     integer
@@ -708,14 +708,14 @@ export default {
                 formData.append("productName_id", this.data.productName_id);
                 formData.append("supplier_id", this.data.supplier_id);
                 formData.append('barcode',this.data.barcode);
-                formData.append('count_unit',this.data.count_unit);
+                // formData.append('count_unit',this.data.count_unit);
                 formData.append('maximum_product',this.data.maximum_product);
                 formData.append('Re_order_limit',this.data.Re_order_limit);
                 formData.append('description',this.data.description);
                 formData.append('category_id',this.data.category_id);
                 formData.append('sub_category_id',this.data.sub_category_id);
                 formData.append('company_id',this.data.company_id);
-                formData.append('sub_measurement_unit_id',this.data.sub_measurement_unit_id);
+                // formData.append('sub_measurement_unit_id',this.data.sub_measurement_unit_id);
                 formData.append('main_measurement_unit_id',this.data.main_measurement_unit_id);
                 formData.append('tax_id',this.data.tax_id);
                 formData.append('image',this.data.image);

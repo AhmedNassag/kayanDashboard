@@ -47,35 +47,35 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>{{ $t("global.Product Name") }}</th>
-                                        <th> {{ $t("global.MainCategory") }}</th>
-                                        <th>{{ $t("global.SubCategory") }}</th>
-                                        <th>{{ $t("global.Company") }}</th>
-                                        <th>{{ $t("global.Supplier") }}</th>
-                                        <th>{{ $t("global.Pharmacy Price") }}</th>
-                                        <th>{{ $t("global.Public Price") }}</th>
-                                        <th>{{ $t("global.Client Discount") }}</th>
-                                        <th>{{ $t("global.Kayan Discount") }}</th>
-                                        <th>{{ $t("global.Kayan Profit") }}</th>
-                                        <th>{{ $t("global.Action") }}</th>
+                                        <th class="text-center">{{ $t("global.Product Name") }}</th>
+                                        <th class="text-center">{{ $t("global.MainCategory") }}</th>
+                                        <th class="text-center">{{ $t("global.SubCategory") }}</th>
+                                        <th class="text-center">{{ $t("global.Company") }}</th>
+                                        <th class="text-center">{{ $t("global.Supplier") }}</th>
+                                        <th class="text-center">{{ $t("global.Pharmacy Price") }}</th>
+                                        <th class="text-center">{{ $t("global.Public Price") }}</th>
+                                        <th class="text-center">{{ $t("global.Client Discount") }}</th>
+                                        <th class="text-center">{{ $t("global.Kayan Discount") }}</th>
+                                        <th class="text-center">{{ $t("global.Kayan Profit") }}</th>
+                                        <th class="text-center">{{ $t("global.Action") }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="prices.length">
                                     <tr v-for="(item,index) in prices"  :key="item.id">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ item.product.productName.nameAr }}</td>
-                                        <td>{{ item.category.name }}</td>
-                                        <td>{{ item.subCategory.name }}</td>
-                                        <td v-if="item.company_id">{{ item.company.name }}</td>
-                                        <td v-else>---</td>
-                                        <td v-if="item.supplier_id">{{ item.supplier.name }}</td>
-                                        <td v-else>---</td>
-                                        <td>{{ item.pharmacyPrice }}</td>
-                                        <td>{{ item.publicPrice }}</td>
-                                        <td>{{ item.clientDiscount }}</td>
-                                        <td>{{ item.kayanDiscount }}</td>
-                                        <td>{{ item.kayanProfit }}</td>
-                                        <td>
+                                        <td class="text-center">{{ index + 1 }}</td>
+                                        <td class="text-center">{{ item.product_name.nameAr }}</td>
+                                        <td class="text-center">{{ item.category.name }}</td>
+                                        <td class="text-center">{{ item.sub_category.name }}</td>
+                                        <td class="text-center" v-if="item.company_id">{{ item.company.name }}</td>
+                                        <td class="text-center" v-else>---</td>
+                                        <td class="text-center" v-if="item.supplier_id">{{ item.supplier.name }}</td>
+                                        <td class="text-center" v-else>---</td>
+                                        <td class="text-center">{{ item.pharmacyPrice }}</td>
+                                        <td class="text-center">{{ item.publicPrice }}</td>
+                                        <td class="text-center">{{ item.clientDiscount }}</td>
+                                        <td class="text-center">{{ item.kayanDiscount }}</td>
+                                        <td class="text-center">{{ item.kayanProfit }}</td>
+                                        <td class="text-center">
                                             <!-- v-if="permission.includes('product edit')" -->
                                             <router-link
                                                 :to="{name: 'editPrice',params:{id:item.id}}"
@@ -200,41 +200,41 @@ export default {
             });
         }
 
-        function activationPrice(id, active,index) {
-            Swal.fire({
-                title: `${active ? 'هل انت متاكد من ايقاف التفعيل ؟' : 'هل انت متاكد من التفعيل ؟'} `,
-                text: `لن تتمكن من التراجع عن هذا!`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'نعم',
-                cancelButtonText: 'لا'
-            }).then((result) => {
-                if (result.isConfirmed) {
+        // function activationPrice(id, active,index) {
+        //     Swal.fire({
+        //         title: `${active ? 'هل انت متاكد من ايقاف التفعيل ؟' : 'هل انت متاكد من التفعيل ؟'} `,
+        //         text: `لن تتمكن من التراجع عن هذا!`,
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'نعم',
+        //         cancelButtonText: 'لا'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
 
-                    adminApi.get(`/v1/dashboard/activationPrice/${id}`)
-                        .then((res) => {
-                            Swal.fire({
-                                icon: 'success',
-                                title: `${active ? 'تم التفعيل بنجاح' :'تم ايقاف التفعيل بنجاح'}`,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            prices.value[index]['status'] =  active ? 0:1
-                        })
-                        .catch((err) => {
-                            Swal.fire({
-                                icon: 'error',
-                                title: `يوجد خطا`,
-                                text: `يوجد خطا في النظام!`,
-                            });
-                        });
-                }
-            });
-        }
+        //             adminApi.get(`/v1/dashboard/activationPrice/${id}`)
+        //                 .then((res) => {
+        //                     Swal.fire({
+        //                         icon: 'success',
+        //                         title: `${active ? 'تم التفعيل بنجاح' :'تم ايقاف التفعيل بنجاح'}`,
+        //                         showConfirmButton: false,
+        //                         timer: 1500
+        //                     });
+        //                     prices.value[index]['status'] =  active ? 0:1
+        //                 })
+        //                 .catch((err) => {
+        //                     Swal.fire({
+        //                         icon: 'error',
+        //                         title: `يوجد خطا`,
+        //                         text: `يوجد خطا في النظام!`,
+        //                     });
+        //                 });
+        //         }
+        //     });
+        // }
 
-        return {getPrice, loading,permission, search, deletePrice, activationPrice, pricesPaginate,prices};
+        return {getPrice, loading,permission, search, deletePrice, pricesPaginate,prices};
 
     },
     data() {

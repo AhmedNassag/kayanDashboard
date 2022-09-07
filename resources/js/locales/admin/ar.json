@@ -221,7 +221,23 @@
         "ProcessWriter": "كاتب العملية",
         "AdvisorPackage": "باقات مستشار شطبنا",
         "Price": "سعر المنتج",
-        "Prices": "أسعار المنتجات",
+        "Prices": "أسعار الموردين",
+        "Kayan Prices": "أسعار كيان",
+        "Kayan Price": "سعر كيان",
+        "Collection Price": "سعر الجملة",
+        "Partial Price": "سعر القطاعى",
+        "Destribution Price": "سعر التوزيع",
+        "Average Price": "متوسط السعر",
+        "Product Discount": "خصم على المنتج",
+        "Kayan Collection Profit": "ربح كيان فى الجملة",
+        "Kayan Partial Profit": "ربح كيان فى القطاعى",
+        "Kayan Destribution Profit": "ربح كيان فى التوزيع",
+        "Kayan Collection Profit Percentage": "نسبة ربح كيان فى الجملة",
+        "Kayan Partial Profit Percentage": "نسبة ربح كيان فى القطاعى",
+        "Kayan Destribution Profit Percentage": "نسبة ربح كيان فى التوزيع",
+        "Maximum Limit" : "أقصى كمية للمخزن",
+        "ReOrder Limit" : "حد إعادة الطلب",
+        "Products Prices" : "أسعار المنتجات",
         "Successfully added": "تم الاضافة بنجاح",
         "PriceIsRequired": "السعر مطلوب .",
         "DescriptionArIsRequired": "الوصف باللغة العربية مطلوب .",
@@ -433,8 +449,8 @@
         "Another Discount":"خصومات أخرى",
         "Generate Random":"إنشاء",
         "Create Virtual Stock":"تعيين كمخزن",
-        "Virtual Stock":"مخزن وهمى",
-        "Virtual Stocks":"المخازن الوهمية",
+        "Virtual Stock":"مخزن مورد",
+        "Virtual Stocks":"مخازن الموردين",
         "Product Quantity":"كمية المنتج",
         "Pharmacy Price":"السعر للصيدلى",
         "Public Price":"السعر للجمهور",
@@ -653,6 +669,10 @@
         "CreatePrice": "اضافة سعر منتج",
         "EditPrice": "تعديل سعر منتج "
     },
+    "kayanPrice": {
+        "CreateKayanPrice": "اضافة سعر منتج",
+        "EditKayanPrice": "تعديل سعر منتج "
+    },
     "tax": {
         "CreateTax": "اضافة ضريبة",
         "EditTax": "تعديل ضريبة"
@@ -680,8 +700,8 @@
     },
 
     "virtualStock": {
-        "CreateVirtualStock": "إضافة مخزن وهمى",
-        "EditVirtualStock": "تعديل مخزن وهمى"
+        "CreateVirtualStock": "إضافة مخزن مورد",
+        "EditVirtualStock": "تعديل مخزن مورد"
     },
     "purchase": {
         "CreatePurchase": "اضافة مشتريات",

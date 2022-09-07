@@ -134,8 +134,8 @@ class ProductController extends Controller
                 // 'supplier_id'               => 'required|integer|exists:suppliers,id',
                 'tax_id'                    => 'required|integer|exists:taxes,id',
                 'main_measurement_unit_id'  => 'required|integer|exists:units,id',
-                'sub_measurement_unit_id'   => 'required|integer|exists:units,id',
-                'count_unit'                => 'required|integer',
+                // 'sub_measurement_unit_id'   => 'required|integer|exists:units,id',
+                // 'count_unit'                => 'required|integer',
 
                 'files'                     => 'required|array',
                 'files.*'                   => 'required|file|mimes:png,jpg,jpeg',
@@ -152,35 +152,24 @@ class ProductController extends Controller
             // picture move
             $request->image->storeAs('product', $image,'general');
 
-            $data = $request->only(['description','barcode','maximum_product','Re_order_limit','image','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id','sub_measurement_unit_id','count_unit']);
-            if($data['supplier_id'] != "null")
-            {
-                //unset($data['company_id']);
-                $data['company_id'] = null;
-            }
-            else
+        $data = $request->only(['description','barcode','maximum_product','Re_order_limit','image','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id'/*,'sub_measurement_unit_id','count_unit'*/]);
+
+            $data['sub_measurement_unit_id'] = 1;
+
+            if($data['company_id'] != "null")
             {
                 //unset($data['supplier_id']);
                 $data['supplier_id'] = null;
             }
+            else
+            {
+                //unset($data['company_id']);
+                $data['company_id'] = null;
+            }
+
+            $data['image'] = $image;
+
             $product = Product::create($data);
-            // $product = Product::create([
-            //     //'name' => $request->name,
-            //     'description' => $request->description,
-            //     'barcode' => $request->barcode,
-            //     'maximum_product' => $request->maximum_product,
-            //     'Re_order_limit'  => $request->Re_order_limit,
-            //     'image' => $image,
-            //     'productName_id' => $request->productName_id,
-            //     'category_id' => $request->category_id,
-            //     'sub_category_id' => $request->sub_category_id,
-            //     // 'company_id' => $request->company_id,
-            //     // 'supplier_id' => $request->supplier_id,
-            //     'tax_id' => $request->tax_id,
-            //     'main_measurement_unit_id' => $request->main_measurement_unit_id,
-            //     'sub_measurement_unit_id' => $request->sub_measurement_unit_id,
-            //     'count_unit' => $request->count_unit,
-            // ]);
 
             $imageProduct = explode(',',$request->selling_methods[0]);
             $product->selling_methods()->attach($imageProduct);
@@ -280,8 +269,8 @@ class ProductController extends Controller
                 // 'supplier_id'               => 'required|integer|exists:suppliers,id',
                 'tax_id'                    => 'required|integer|exists:taxes,id',
                 'main_measurement_unit_id'  => 'required|integer|exists:units,id',
-                'sub_measurement_unit_id'   => 'required|integer|exists:units,id',
-                'count_unit'                => 'required|integer',
+                // 'sub_measurement_unit_id'   => 'required|integer|exists:units,id',
+                // 'count_unit'                => 'required|integer',
 
                 'image'                     => 'nullable'.($request->hasFile('image')?'|file|mimes:jpeg,jpg,png':''),
                 'files'                     => 'nullable',
@@ -294,19 +283,21 @@ class ProductController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['description','barcode','maximum_product','Re_order_limit','image','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id','sub_measurement_unit_id','count_unit']);
-            if($data['supplier_id'] != "null")
-            {
-                //unset($data['company_id']);
-                $data['company_id'] = null;
-            }
-            else
+            $data = $request->only(['description','barcode','maximum_product','Re_order_limit','image','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id'/*,'sub_measurement_unit_id','count_unit'*/]);
+
+            if($data['company_id'] != "null")
             {
                 //unset($data['supplier_id']);
                 $data['supplier_id'] = null;
             }
+            else
+            {
+                //unset($data['company_id']);
+                $data['company_id'] = null;
+            }
 
-            if($request->hasFile('image')){
+            if($request->hasFile('image'))
+            {
                 if(File::exists('upload/product/'. $product->image)){
                     unlink('upload/product/'. $product->image);
                 }
@@ -342,7 +333,9 @@ class ProductController extends Controller
 
             DB::commit();
             return $this->sendResponse([],'Data exited successfully');
-        }catch (\Exception $e){
+        }
+        catch (\Exception $e)
+        {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }

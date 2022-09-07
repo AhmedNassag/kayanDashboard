@@ -112,9 +112,13 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // product
             Route::resource('product', 'ProductController')->except(['show']);
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');
-            
+
             // price
             Route::resource('price', 'PriceController')->except(['show']);
+
+            // kayan price
+            Route::resource('kayanPrice', 'KayanPriceController')->except(['show']);
+            Route::get('kayanPrice/getProduct', 'KayanPriceController@getProduct');
 
             //
             Route::get('purchaseInvoiceProduct','ProductController@purchaseInvoiceProduct');
