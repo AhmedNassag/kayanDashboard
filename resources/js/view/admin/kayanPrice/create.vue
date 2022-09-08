@@ -126,20 +126,6 @@
                                                     <span v-if="v$.sub_category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-md-3 mb-3">
-                                                <label>{{ $t('global.subCategory') }}</label>
-                                                <select
-                                                    @change="getProduct(v$.category_id,v$.sub_category_id,$model)"
-                                                    v-model="v$.sub_category_id.$model"
-                                                    :class="['form-select',{'is-invalid':v$.sub_category_id.$error,'is-valid':!v$.sub_category_id.$invalid}]"
-                                                >
-                                                    <option v-for="category in subCategory[index].subCategory" :key="category.id" :value="category.id">{{category.name}}</option>
-                                                </select>
-                                                <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.product[index].sub_category_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /></span>
-                                                </div>
-                                            </div> -->
                                             <!--End SubCategory Select-->
 
                                             <!--Start Product Name Select-->
@@ -147,9 +133,9 @@
                                                 <label for="validationCustom00">
                                                     {{ $t("global.Product Name") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.product_id.$model">
-                                                    <option v-for="product in products" :key="product.id" :value="product.id">
-                                                        {{ product.product_name.nameAr }}
+                                                <select class="form-control" v-model.trim="v$.productName_id.$model">
+                                                    <option v-for="productName in productNames" :key="productName.id" :value="productName.id">
+                                                        {{ productName.nameAr }}
                                                     </option>
                                                 </select>
                                             </div>
@@ -333,7 +319,7 @@ export default {
     },
     setup(){
         let loading = ref(false);
-        let products = ref([]);
+        let productNames = ref([]);
         let suppliers = ref([]);
         let companies = ref([]);
         let categories = ref([]);
@@ -343,7 +329,7 @@ export default {
         let addKayanPrice =  reactive({
             data:{
                 nullValue: null,
-                product_id: null,
+                productName_id: null,
                 supplier_id: null,
                 category_id: null,
                 sub_category_id: null,
@@ -365,7 +351,7 @@ export default {
             adminApi.get(`/v1/dashboard/kayanPrice/create`)
                 .then((res) => {
                     let l = res.data.data;
-                    products.value = l.products;
+                    productNames.value = l.productNames;
                     suppliers.value = l.suppliers;
                     companies.value = l.companies;
                     categories.value = l.categories;
@@ -411,7 +397,7 @@ export default {
 
         const rules = computed(() => {
             return {
-                product_id: {
+                productName_id: {
                     required,
                 },
                 supplier_id: {
@@ -465,7 +451,7 @@ export default {
             loading,
             ...toRefs(addKayanPrice),
             v$,
-            products,
+            productNames,
             suppliers,
             companies,
             categories,
@@ -495,7 +481,7 @@ export default {
                 this.errors = {};
                 let formData = new FormData();
 
-                formData.append("product_id", this.data.product_id);
+                formData.append("productName_id", this.data.productName_id);
                 formData.append("supplier_id", this.data.supplier_id);
                 formData.append('company_id',this.data.company_id);
                 formData.append('category_id',this.data.category_id);
@@ -534,7 +520,7 @@ export default {
             }
         },
         resetForm(){
-            this.data.product_id = null;
+            this.data.productName_id = null;
             this.data.company_id = null;
             this.data.supplier_id = null;
             this.data.category_id = null;

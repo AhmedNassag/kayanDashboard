@@ -32,8 +32,8 @@ class CreateKayanPricesTable extends Migration
             $table->integer('maximumLimit')->nullable();
             $table->integer('reOrderLimit')->default(0);
 
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('productName_id')->nullable()->constrained('product_names')->cascadeOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnDelete();
             $table->foreignId('sub_category_id')->constrained('sub_categories')->cascadeOnDelete();
             $table->foreignId('company_id')->nullable()->constrained('companies')->cascadeOnDelete();
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->cascadeOnDelete();

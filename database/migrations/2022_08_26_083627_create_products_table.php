@@ -29,7 +29,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('tax_id')->constrained('taxes')->cascadeOnDelete();
             $table->foreignId('main_measurement_unit_id')->nullable()->constrained('units')->cascadeOnDelete();
             $table->foreignId('sub_measurement_unit_id')->default(1)->constrained('units')->cascadeOnDelete();
-            // $table->integer('count_unit')->default(0);
+            $table->integer('count_unit')->default(0);
 
             $table->timestamps();
 
