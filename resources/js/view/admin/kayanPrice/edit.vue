@@ -151,9 +151,9 @@
                                                 <label for="validationCustom00">
                                                     {{ $t("global.Product Name") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.product_id.$model">
-                                                    <option v-for="product in products" :key="product.id" :value="product.id">
-                                                        {{ product.product_name.nameAr }}
+                                                <select class="form-control" v-model.trim="v$.productName_id.$model">
+                                                    <option v-for="productName in productNames" :key="productName.id" :value="productName.id">
+                                                        {{ productName.nameAr }}
                                                     </option>
                                                 </select>
                                             </div>
@@ -351,7 +351,7 @@ export default {
         let addKayanPrice =  reactive({
             data:{
                 nullValue: null,
-                product_id: null,
+                productName_id: null,
                 supplier_id: null,
                 category_id: null,
                 sub_category_id: null,
@@ -373,25 +373,25 @@ export default {
             adminApi.get(`/v1/dashboard/kayanPrice/${id.value}/edit`)
                 .then((res) => {
                     let l = res.data.data;
-                    addKayanPrice.data.product_id = l.kayanPrice.product_id;
-                    addKayanPrice.data.supplier_id = l.kayanPrice.supplier_id;
-                    addKayanPrice.data.company_id = l.kayanPrice.company_id;
-                    addKayanPrice.data.category_id = l.kayanPrice.category_id;
-                    addKayanPrice.data.sub_category_id = l.kayanPrice.sub_category_id;
+                    addKayanPrice.data.productName_id    = l.kayanPrice.productName_id;
+                    addKayanPrice.data.supplier_id       = l.kayanPrice.supplier_id;
+                    addKayanPrice.data.company_id        = l.kayanPrice.company_id;
+                    addKayanPrice.data.category_id       = l.kayanPrice.category_id;
+                    addKayanPrice.data.sub_category_id   = l.kayanPrice.sub_category_id;
 
-                    addKayanPrice.data.pharmacyPrice = l.kayanPrice.pharmacyPrice;
-                    addKayanPrice.data.publicPrice = l.kayanPrice.publicPrice;
-                    addKayanPrice.data.productDiscount = l.kayanPrice.productDiscount;
-                    addKayanPrice.data.maximumLimit = l.kayanPrice.maximumLimit;
-                    addKayanPrice.data.reOrderLimit = l.kayanPrice.reOrderLimit;
-                    addKayanPrice.data.collectionPrice = l.kayanPrice.collectionPrice;
-                    addKayanPrice.data.partialPrice = l.kayanPrice.partialPrice;
+                    addKayanPrice.data.pharmacyPrice     = l.kayanPrice.pharmacyPrice;
+                    addKayanPrice.data.publicPrice       = l.kayanPrice.publicPrice;
+                    addKayanPrice.data.productDiscount   = l.kayanPrice.productDiscount;
+                    addKayanPrice.data.maximumLimit      = l.kayanPrice.maximumLimit;
+                    addKayanPrice.data.reOrderLimit      = l.kayanPrice.reOrderLimit;
+                    addKayanPrice.data.collectionPrice   = l.kayanPrice.collectionPrice;
+                    addKayanPrice.data.partialPrice      = l.kayanPrice.partialPrice;
                     addKayanPrice.data.destributionPrice = l.kayanPrice.destributionPrice;
 
-                    products.value = l.products;
-                    suppliers.value = l.suppliers;
-                    companies.value = l.companies;
-                    categories.value = l.categories;
+                    productNames.value = l.productNames;
+                    suppliers.value    = l.suppliers;
+                    companies.value    = l.companies;
+                    categories.value   = l.categories;
                     getSubCategory(l.kayanPrice.category_id);
                 })
                 .catch((err) => {
@@ -424,7 +424,7 @@ export default {
 
         const rules = computed(() => {
             return {
-                product_id: {
+                productName_id: {
                     required,
                 },
                 supplier_id: {
@@ -504,7 +504,7 @@ export default {
                 this.errors = {};
 
                 let formData = new FormData();
-                formData.append("product_id", this.data.product_id);
+                formData.append("productName_id", this.data.productName_id);
                 formData.append("supplier_id", this.data.supplier_id);
                 formData.append('company_id',this.data.company_id);
                 formData.append('category_id',this.data.category_id);

@@ -39,7 +39,7 @@ class StockController extends Controller
     {
         try {
 
-            $shifts = Shift::select('id','name')->get();
+            $shifts    = Shift::select('id','name')->get();
             $employees = Employee::with('user')->get();
 
             return $this->sendResponse([
