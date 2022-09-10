@@ -75,7 +75,7 @@
                                                         type="file"
                                                         @change="preview"
                                                         id="mediaPackage"
-                                                        accept="image/png,jepg,jpg"
+                                                        accept=""
                                                     >
                                                 </div>
                                                 <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>

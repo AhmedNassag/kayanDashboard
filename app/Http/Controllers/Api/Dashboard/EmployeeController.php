@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Employee;
-use App\Models\Income;
 use App\Models\Job;
 use App\Models\User;
 use App\Traits\Message;

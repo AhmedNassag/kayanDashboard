@@ -53,6 +53,7 @@
                       {{ $t("global.Add") }}
                     </button>
                   </div>
+                  
                 </div>
               </div>
               <div class="table-responsive">
