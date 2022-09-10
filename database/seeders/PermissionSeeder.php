@@ -147,6 +147,18 @@ class PermissionSeeder extends Seeder
             ['name' => 'examinationRecords read', 'role' => 'buy'],
             ['name' => 'examinationRecords create', 'role' => 'buy'],
             ['name' => 'examinationRecords edit', 'role' => 'buy'],
+            //Newsletters
+            ['name' => 'newsletter read', 'role' => ''],
+            //Sliders
+            ['name' => 'slider read', 'role' => ''],
+            ['name' => 'slider create', 'role' => ''],
+            ['name' => 'slider edit', 'role' => ''],
+            ['name' => 'slider delete', 'role' => ''],
+            //SimpleAdvertise
+            ['name' => 'simple-advertise read', 'role' => ''],
+            ['name' => 'simple-advertise create', 'role' => ''],
+            ['name' => 'simple-advertise edit', 'role' => ''],
+            ['name' => 'simple-advertise delete', 'role' => ''],
         ];
 
         $notifies = [

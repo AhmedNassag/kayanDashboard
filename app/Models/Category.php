@@ -15,7 +15,7 @@ class Category extends Model
 
     public function media()
     {
-        return $this->morphOne(Media::class,'mediable');
+        return $this->morphOne(Media::class, 'mediable');
     }
 
     public function subCategories()
@@ -42,5 +42,4 @@ class Category extends Model
     {
         return $this->hasMany(VirtualStock::class);
     }
-
 }

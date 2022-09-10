@@ -155,7 +155,7 @@ class CategoryController extends Controller
             // Validator request
             $v = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'file' => 'nullable'.($request->hasFile('file')?'|file|mimes:jpeg,jpg,png':''),
+                'file' => 'nullable'.($request->hasFile('file')?'|file':''),
             ]);
 
             if ($v->fails()) {

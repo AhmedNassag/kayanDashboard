@@ -24,13 +24,11 @@ class CreateAdminSeeder extends Seeder
             'role_name' => ['SuperAdmin'],
             'Status' => true,
         ]);
-
         $role = Role::create(['name' => 'SuperAdmin']);
-        $permissions = Permission::pluck('id','id')->all();
+        $permissions = Permission::pluck('id', 'id')->all();
         $notify = Notify::pluck('id');
         $role->syncPermissions($permissions);
         $role->notify()->attach($notify);
         $user->assignRole([$role->id]);
-
     }
 }

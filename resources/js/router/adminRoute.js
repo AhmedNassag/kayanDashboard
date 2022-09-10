@@ -28,11 +28,14 @@ import login from "../view/admin/login";
 import forgetPassword from "../view/admin/forgetPassword";
 import resetPassword from "../view/admin/resetPassword";
 import unit from './adminRoute/unit';
+import simpleAdvertise from './adminRoute/simple-advertise';
+import slider from './adminRoute/slider';
 import clientGroup from './adminRoute/client-group';
 import offer from './adminRoute/offer';
 import shipping from './adminRoute/shipping';
 import supplier from './adminRoute/supplier';
 import client from './adminRoute/client';
+import newsletter from './adminRoute/newsletter';
 
 import purchaseInvoice from './adminRoute/purchaseInvoice';
 import examinationRecord from './adminRoute/examinationRecord';
@@ -105,16 +108,18 @@ const routes = [
             ...saleMethod,
             ...shift,
             ...stock,
+            ...slider,
+            ...simpleAdvertise,
             ...virtualStock,
             ...purchase,
             ...refused,
             ...unit,
+            ...newsletter,
             ...offer,
             ...shipping,
             ...supplier,
             ...clientGroup,
             ...client,
-
             ...purchaseInvoice,
             ...examinationRecord,
             ...purchaseReturn,
