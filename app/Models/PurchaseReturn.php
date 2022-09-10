@@ -9,7 +9,7 @@ class PurchaseReturn extends Model
 {
     use HasFactory;
 
-    protected $guarded=['id'];
+    protected $guarded=[];
 
     protected $appends = [
         'total_price',

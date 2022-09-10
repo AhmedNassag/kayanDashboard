@@ -9,7 +9,7 @@ class SubCategory extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     //start raletions
     public function category()
@@ -25,5 +25,10 @@ class SubCategory extends Model
     public function virtualStocks()
     {
         return $this->hasMany(VirtualStock::class);
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
     }
 }

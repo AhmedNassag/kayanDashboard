@@ -66,11 +66,21 @@ class PermissionSeeder extends Seeder
             ['name' => 'product create', 'role' => 'management'],
             ['name' => 'product edit', 'role' => 'management'],
             ['name' => 'product delete', 'role' => 'management'],
-            //saleMethods
-            ['name' => 'saleMethods read', 'role' => 'management'],
-            ['name' => 'saleMethods create', 'role' => 'management'],
-            ['name' => 'saleMethods edit', 'role' => 'management'],
-            ['name' => 'saleMethods delete', 'role' => 'management'],
+            //price
+            ['name' => 'price read', 'role' => 'management'],
+            ['name' => 'price create', 'role' => 'management'],
+            ['name' => 'price edit', 'role' => 'management'],
+            ['name' => 'price delete', 'role' => 'management'],
+            //kayanPrice
+            ['name' => 'kayanPrice read', 'role' => 'management'],
+            ['name' => 'kayanPrice create', 'role' => 'management'],
+            ['name' => 'kayanPrice edit', 'role' => 'management'],
+            ['name' => 'kayanPrice delete', 'role' => 'management'],
+            //sellingMethods
+            ['name' => 'sellingMethod read', 'role' => 'management'],
+            ['name' => 'sellingMethod create', 'role' => 'management'],
+            ['name' => 'sellingMethod edit', 'role' => 'management'],
+            ['name' => 'sellingMethod delete', 'role' => 'management'],
             //shift
             ['name' => 'shift read', 'role' => 'management'],
             ['name' => 'shift create', 'role' => 'management'],

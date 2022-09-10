@@ -33,6 +33,11 @@ class Supplier extends Model
         return $this->hasMany(VirtualStock::class);
     }
 
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
+    }
+
 
     //
     public function purchases(){

@@ -9,7 +9,7 @@ class StoreProduct extends Model
 {
     use HasFactory;
 
-    protected $guarded=['id'];
+    protected $guarded=[];
 
     public function examinationRecord(){
         return $this->belongsTo(ExaminationRecord::class,'examination_record_id');

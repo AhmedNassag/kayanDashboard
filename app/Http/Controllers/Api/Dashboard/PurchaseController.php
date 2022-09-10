@@ -4,12 +4,9 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Company;
-use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseProduct;
 use App\Models\Stock;
-use App\Models\Store;
 use App\Models\Supplier;
 use App\Traits\Message;
 use Illuminate\Http\Request;
@@ -95,7 +92,17 @@ class PurchaseController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $purchase = Purchase::create($request->all());
+            // $purchase = Purchase::create($request->all());
+            $purchase = Purchase::create([
+                'stock_id'            => $request->stock_id,
+                'supplier_id'         => $request->supplier_id,
+                'discount_percentage' => $request->discount_percentage,
+                'discount_value'      => $request->discount_value,
+                'other_discounts'     => $request->other_discounts,
+                'transfer_price'      => $request->transfer_price,
+                'note'                => $request->note,
+                'price'               => $request->price,
+            ]);
 
             foreach ($request->product as $product){
                 PurchaseProduct::create([
