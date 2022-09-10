@@ -112,19 +112,27 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // product
             Route::resource('product', 'ProductController')->except(['show']);
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');
+
+            // price
+            Route::resource('price', 'PriceController')->except(['show']);
+
+            // kayan price
+            Route::resource('kayanPrice', 'KayanPriceController')->except(['show']);
+            Route::get('kayanPrice/getProduct', 'KayanPriceController@getProduct');
+
             //
             Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
 
             // relations routes
-            Route::get('getCategories', 'ProductController@getCategories');
-            Route::get('getSubCategories', 'ProductController@getSubCategories');
-            Route::get('getCompanies', 'ProductController@getCompanies');
-            Route::get('getTaxes', 'ProductController@getTaxes');
-            Route::get('getUnits', 'ProductController@getUnits');
+            // Route::get('getCategories','ProductController@getCategories');
+            // Route::get('getSubCategories','ProductController@getSubCategories');
+            // Route::get('getCompanies','ProductController@getCompanies');
+            // Route::get('getTaxes','ProductController@getTaxes');
+            // Route::get('getUnits','ProductController@getUnits');
 
-            // sale method
-            Route::resource('saleMethod', 'SaleMethodsController')->except(['show']);
-            Route::get('activationSaleMethod/{id}', 'SaleMethodsController@activationSaleMethod');
+            // selling method
+            Route::resource('sellingMethod', 'SellingMethodController')->except(['show']);
+            Route::get('activationSellingMethod/{id}', 'SellingMethodController@activationSaleMethod');
 
             // shift
             Route::resource('shift', 'ShiftController')->except(['show']);
@@ -143,9 +151,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('purchase', 'PurchaseController')->except(['show']);
             // relations routes
             // Route::get('getCategories','PurchaseController@getCategories');
-            Route::get('getSuppliers', 'PurchaseController@getSuppliers');
-            Route::get('getProducts', 'PurchaseController@getProducts');
-            Route::get('getEmployees', 'PurchaseController@getEmployees');
+            // Route::get('getSuppliers','PurchaseController@getSuppliers');
+            // Route::get('getProducts','PurchaseController@getProducts');
+            // Route::get('getEmployees','PurchaseController@getEmployees');
 
             // refused
             Route::resource('refused', 'RefusedController')->except(['show']);

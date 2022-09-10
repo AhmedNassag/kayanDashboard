@@ -432,6 +432,7 @@ export default {
             adminApi.get(`/v1/dashboard/purchaseInvoice/${id.value}/edit`)
                 .then((res) => {
                     let l = res.data.data;
+                    console.log(l);
                     categories.value = l.categories;
                     suppliers.value = l.suppliers;
                     stores.value = l.stores;
@@ -445,27 +446,6 @@ export default {
                     addJob.data.price = l.purchase.price;
 
                     l.purchase.purchase_products.forEach((el,index)=>{
-                        addJob.data.product.push({
-                            price_before_discount:el.price_before_discount,
-                            price_after_discount:el.price_after_discount,
-                            production_date:el.production_date,
-                            expiry_date:el.expiry_date,
-                            quantity:el.quantity,
-                            count_unit:el.count_unit,
-                            product_id:el.product_id,
-                            category_id:el.product.category_id,
-                            sub_category_id:el.product.sub_category_id,
-                            subUnitMeasurement:el.product.sub_measurement_unit.name,
-                            mainUnitMeasurement:el.product.main_measurement_unit.name,
-                        });
-
-                        addJob.subCategory.push({subCategory:[]});
-                        addJob.products.push({products:[],send:true,sendProductionDate:true,sendExpiryDate:true});
-                        getSubCategory(el.product.category_id,index);
-
-                        getProduct(el.product.category_id,el.product.sub_category_id,index);
-
-                        // getMeasurementUnit(el.product_id,index);
 
                         productValidation.value.push({
                             price_before_discount: {
@@ -500,6 +480,29 @@ export default {
                                 required
                             }
                         });
+                        
+                        addJob.data.product.push({
+                            price_before_discount:el.price_before_discount,
+                            price_after_discount:el.price_after_discount,
+                            production_date:el.production_date,
+                            expiry_date:el.expiry_date,
+                            quantity:el.quantity,
+                            count_unit:el.count_unit,
+                            product_id:el.product_id,
+                            category_id:el.product.category_id,
+                            sub_category_id:el.product.sub_category_id,
+                            subUnitMeasurement:el.product.sub_measurement_unit.name,
+                            mainUnitMeasurement:el.product.main_measurement_unit.name,
+                        });
+
+                        addJob.subCategory.push({subCategory:[]});
+                        addJob.products.push({products:[],send:true,sendProductionDate:true,sendExpiryDate:true});
+                        getSubCategory(el.product.category_id,index);
+
+                        getProduct(el.product.category_id,el.product.sub_category_id,index);
+
+                        getMeasurementUnit(el.product_id,index);
+
                         totalProductPrice.value += parseFloat(el.price_after_discount) * parseInt(el.quantity);
                         totalProductQuantity.value += parseInt(el.quantity);
                     });

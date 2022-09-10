@@ -74,7 +74,7 @@
                             <label for="validationCustom07">
                                 {{ $t("global.Category") }}
                             </label>
-                            <select class="form-control" v-model.trim="v$.category_id.$model">
+                            <select @change="getSubCategory(v$.category_id.$model)" class="form-control" v-model.trim="v$.category_id.$model">
                                 <option v-for="category in categories" :key="category.id" :value="category.id">
                                     {{ category.name }}
                                 </option>
@@ -300,23 +300,38 @@ export default {
 
     //start design
     let addVirtualStock = reactive({
-      data: {
-        productQuantity: "",
-        pharmacyPrice: "",
-        publicPrice: "",
-        pharmacyDiscount: "",
-        kayanDiscount:"",
-        supplier_id: id.value,
-        category_id:"",
-        sub_category_id:"",
-        productName_id:"",
-        nameExist: false,
-      },
+        data: {
+            productQuantity: "",
+            pharmacyPrice: "",
+            publicPrice: "",
+            pharmacyDiscount: "",
+            kayanDiscount:"",
+            supplier_id: id.value,
+            category_id:"",
+            sub_category_id:"",
+            productName_id:"",
+            nameExist: false,
+        },
     });
 
     getProductNames();
     getCategories();
-    getSubCategories();
+    // getSubCategories();
+    let getSubCategory= (id) => {
+        loading.value = true;
+
+        adminApi.get(`/v1/dashboard/category/${id}`)
+            .then((res) => {
+                let l = res.data.data;
+                subCategories.value = l.subCategories;
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+            .finally(() => {
+                loading.value = false;
+            })
+    };
 
     const rules = computed(() => {
       return {
@@ -383,24 +398,24 @@ export default {
         });
     }
 
-    function getSubCategories()
-    {
-        adminApi
-        .get(`/v1/dashboard/getSubCategories`)
-        .then((res) => {
-            subCategories.value =res.data.data.subCategories ;
-        })
-        .catch((err) => {
-            console.log(err.response.data);
-        })
-        .finally(() => {
-            loading.value = false;
-        });
-    }
+    // function getSubCategories()
+    // {
+    //     adminApi
+    //     .get(`/v1/dashboard/getSubCategories`)
+    //     .then((res) => {
+    //         subCategories.value =res.data.data.subCategories ;
+    //     })
+    //     .catch((err) => {
+    //         console.log(err.response.data);
+    //     })
+    //     .finally(() => {
+    //         loading.value = false;
+    //     });
+    // }
     //end common
 
 
-    return { id, loading, ...toRefs(addVirtualStock), v$, categories, subCategories, productNames };
+    return { id, loading, ...toRefs(addVirtualStock), v$,getSubCategory, categories, subCategories, productNames };
 
   },
   methods: {
@@ -416,7 +431,7 @@ export default {
         formData.append("publicPrice", this.data.publicPrice);
         formData.append("pharmacyDiscount", this.data.pharmacyDiscount);
         formData.append("kayanDiscount", this.data.kayanDiscount);
-        // formData.append("supplier_id", this.data.supplier_id);
+        formData.append("supplier_id", this.data.supplier_id);
         formData.append("category_id", this.data.category_id);
         formData.append("sub_category_id", this.data.sub_category_id);
         formData.append("productName_id", this.data.productName_id);

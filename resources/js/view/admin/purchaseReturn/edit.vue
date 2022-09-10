@@ -246,13 +246,13 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-3 mb-3">
+                                                        <!-- <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.subUnitMeasurement')}}</label>
                                                             <input type="text" disabled class="form-control"
                                                                    v-model="data.product[index].subUnitMeasurement"
                                                                    @input="DebitAmount"
                                                             >
-                                                        </div>
+                                                        </div> -->
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.priceBeforeDiscount')}}</label>
@@ -465,7 +465,7 @@ export default {
 
                         getProduct(el.product.category_id,el.product.sub_category_id,index);
 
-                        // getMeasurementUnit(el.product_id,index);
+                        getMeasurementUnit(el.product_id,index);
 
                         productValidation.value.push({
                             price_before_discount: {

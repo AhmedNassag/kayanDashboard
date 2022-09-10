@@ -13,15 +13,15 @@
       <div class="page-header">
         <div class="row align-items-center">
           <div class="col">
-            <h3 class="page-title">{{ $t("global.Product Names") }}</h3>
+            <h3 class="page-title">{{ $t("global.Sale Methods") }}</h3>
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
-                <router-link :to="{ name: 'indexProductName' }">
-                    {{ $t("global.Product Names") }}
+                <router-link :to="{ name: 'indexSaleMethod' }">
+                    {{ $t("global.Sale Methods") }}
                 </router-link>
               </li>
               <li class="breadcrumb-item active">
-                {{ $t("productName.CreateProductName") }}
+                {{ $t("saleMethod.CreateSaleMethod") }}
               </li>
             </ul>
           </div>
@@ -36,7 +36,7 @@
             <div class="card-body">
               <div class="card-header pt-0 mb-4">
                 <router-link
-                  :to="{ name: 'indexProductName' }"
+                  :to="{ name: 'indexSaleMethod' }"
                   class="btn btn-custom btn-dark"
                 >
                   {{ $t("global.back") }}
@@ -48,53 +48,53 @@
                     {{ t("global.Exist", {field:t("global.Name")}) }}<br />
                   </div>
                   <form
-                    @submit.prevent="storeProductName"
+                    @submit.prevent="storeSaleMethod"
                     class="needs-validation"
                   >
                     <div class="form-row row">
 
-                      <!--Start NameAr-->
+                      <!--Start Name-->
                       <div class="col-md-6 mb-3">
                         <label for="validationCustom01">
-                            {{ $t("global.NameAr") }}
+                            {{ $t("global.Name") }}
                         </label>
                         <input
                           type="text"
                           class="form-control"
-                          v-model.trim="v$.nameAr.$model"
+                          v-model.trim="v$.name.$model"
                           id="validationCustom01"
-                          :placeholder="$t('global.NameAr')"
+                          :placeholder="$t('global.Name')"
                           :class="{
-                            'is-invalid': v$.nameAr.$error || data.nameExist,
-                            'is-valid': !v$.nameAr.$invalid,
+                            'is-invalid': v$.name.$error || data.nameExist,
+                            'is-valid': !v$.name.$invalid,
                           }"
                         />
                         <div class="valid-feedback">
                             {{ $t("global.LooksGood") }}
                         </div>
                         <div class="invalid-feedback">
-                          <span v-if="v$.nameAr.required.$invalid">
+                          <span v-if="v$.name.required.$invalid">
                             {{ $t("global.NameIsRequired") }}
                             <br/>
                           </span>
-                          <span v-if="v$.nameAr.maxLength.$invalid">
+                          <span v-if="v$.name.maxLength.$invalid">
                             {{ $t("global.NameIsMustHaveAtLeast") }}
-                            {{ v$.nameAr.minLength.$params.min }}
+                            {{ v$.name.minLength.$params.min }}
                             {{ $t("global.Letters") }}
                             <br/>
                           </span>
-                          <span v-if="v$.nameAr.minLength.$invalid">
+                          <span v-if="v$.name.minLength.$invalid">
                             {{ $t("global.NameIsMustHaveAtMost") }}
-                            {{ v$.nameAr.maxLength.$params.max }}
+                            {{ v$.name.maxLength.$params.max }}
                             {{ $t("global.Letters") }}
                             <br/>
                           </span>
-                          <span v-if="!v$.nameAr.$invalid && data.nameExist">
+                          <span v-if="!v$.name.$invalid && data.nameExist">
                            {{ $t("global.NameIsExist") }}
                           </span>
                         </div>
                       </div>
-                      <!--End NameAr-->
+                      <!--End Name-->
 
                       <!--Start NameEn-->
                       <div class="col-md-6 mb-3">
@@ -155,7 +155,6 @@
 </template>
 
 <script>
-//
 import { computed, onMounted, reactive, toRefs, inject, ref } from "vue";
 import useVuelidate from "@vuelidate/core";
 import {
@@ -171,22 +170,21 @@ import { notify } from "@kyvg/vue3-notification";
 import { useI18n } from "vue-i18n";
 
 export default {
-  name: "createProductName",
+  name: "createSaleMethod",
   data() {
     return {
       errors: {},
     };
   },
   setup() {
-    //
     const emitter = inject("emitter");
     const { t } = useI18n({});
     let loading = ref(false);
 
     //start design
-    let addProductName = reactive({
+    let addSaleMethod = reactive({
       data: {
-        nameAr: "",
+        name: "",
         nameEn: "",
         nameExist: false,
       },
@@ -194,7 +192,7 @@ export default {
 
     const rules = computed(() => {
       return {
-        nameAr: {
+        name: {
           minLength: minLength(3),
           maxLength: maxLength(70),
           required,
@@ -207,24 +205,24 @@ export default {
       };
     });
 
-    const v$ = useVuelidate(rules, addProductName.data);
+    const v$ = useVuelidate(rules, addSaleMethod.data);
 
-    return { loading, ...toRefs(addProductName), v$ };
+    return { loading, ...toRefs(addSaleMethod), v$ };
 
   },
   methods: {
-    storeProductName() {
+    storeSaleMethod() {
       this.v$.$validate();
 
       if (!this.v$.$error) {
         this.loading = true;
         this.errors = {};
         let formData = new FormData();
-        formData.append("nameAr", this.data.nameAr);
+        formData.append("name", this.data.name);
         formData.append("nameEn", this.data.nameEn);
 
         adminApi
-          .post(`/v1/dashboard/productName`, formData)
+          .post(`/v1/dashboard/saleMethod`, formData)
           .then((res) => {
             notify({
               title: `تم الإضافة بنجاح <i class="fas fa-check-circle"></i>`,
@@ -247,7 +245,7 @@ export default {
       }
     },
     resetForm() {
-      this.data.nameAr = "";
+      this.data.name = "";
       this.data.nameEn = "";
     },
   },

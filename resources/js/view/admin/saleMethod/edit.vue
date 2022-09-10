@@ -14,10 +14,10 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">{{ $t("global.Product Names") }}</h3>
+                        <h3 class="page-title">{{ $t("global.Sale Methods") }}</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><router-link :to="{name: 'indexProductName'}">{{ $t("global.Product Names") }}</router-link></li>
-                            <li class="breadcrumb-item active">{{ $t("productName.EditProductName") }}</li>
+                            <li class="breadcrumb-item"><router-link :to="{name: 'indexSaleMethod'}">{{ $t("global.Sale Methods") }}</router-link></li>
+                            <li class="breadcrumb-item active">{{ $t("productName.EditSaleMethod") }}</li>
                         </ul>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <div class="card-header pt-0 mb-4">
                                 <router-link
-                                    :to="{name: 'indexProductName'}"
+                                    :to="{name: 'indexSaleMethod'}"
                                     class="btn btn-custom btn-dark"
                                 >
                                     {{ $t("global.back") }}
@@ -45,44 +45,26 @@
                                     >
                                         {{ t("global.Exist", {field:t("global.Name")}) }} <br />
                                     </div>
-                                    <form @submit.prevent="editProductName" class="needs-validation">
+                                    <form @submit.prevent="editSaleMethod" class="needs-validation">
                                         <div class="form-row row">
 
-                                            <!--Start NameAr-->
+                                            <!--Start Name-->
                                             <div class="col-md-6 mb-3">
-                                                <label for="validationCustom01">{{$t("global.NameAr")}}</label>
+                                                <label for="validationCustom01">{{$t("global.Name")}}</label>
                                                 <input type="text" class="form-control"
-                                                       v-model.trim="v$.nameAr.$model"
+                                                       v-model.trim="v$.name.$model"
                                                        id="validationCustom01"
-                                                       :placeholder="$t('global.NameAr')"
-                                                       :class="{'is-invalid':v$.nameAr.$error,'is-valid':!v$.nameAr.$invalid}"
+                                                       :placeholder="$t('global.Name')"
+                                                       :class="{'is-invalid':v$.name.$error,'is-valid':!v$.name.$invalid}"
                                                 >
                                                 <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.nameAr.required.$invalid">{{ $t("global.NameIsRequired") }} <br/> </span>
-                                                    <span v-if="v$.nameAr.maxLength.$invalid">{{ $t("global.NameIsMustHaveAtLeast") }} {{ v$.nameAr.minLength.$params.min }} {{ $t("global.Letters") }} <br/></span>
-                                                    <span v-if="v$.nameAr.minLength.$invalid">{{ $t("global.NameIsMustHaveAtMost") }} {{ v$.nameAr.maxLength.$params.max }} {{ $t("global.Letters") }}</span>
+                                                    <span v-if="v$.name.required.$invalid">{{ $t("global.NameIsRequired") }} <br/> </span>
+                                                    <span v-if="v$.name.maxLength.$invalid">{{ $t("global.NameIsMustHaveAtLeast") }} {{ v$.name.minLength.$params.min }} {{ $t("global.Letters") }} <br/></span>
+                                                    <span v-if="v$.name.minLength.$invalid">{{ $t("global.NameIsMustHaveAtMost") }} {{ v$.name.maxLength.$params.max }} {{ $t("global.Letters") }}</span>
                                                 </div>
                                             </div>
-                                            <!--End NameAr-->
-
-                                            <!--Start NameEn-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom01">{{$t("global.NameEn")}}</label>
-                                                <input type="text" class="form-control"
-                                                       v-model.trim="v$.nameEn.$model"
-                                                       id="validationCustom01"
-                                                       :placeholder="$t('global.NameEn')"
-                                                       :class="{'is-invalid':v$.nameEn.$error,'is-valid':!v$.nameEn.$invalid}"
-                                                >
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.nameEn.required.$invalid">{{ $t("global.NameIsRequired") }} <br/> </span>
-                                                    <span v-if="v$.nameEn.maxLength.$invalid">{{ $t("global.NameIsMustHaveAtLeast") }} {{ v$.nameEn.minLength.$params.min }} {{ $t("global.Letters") }} <br/></span>
-                                                    <span v-if="v$.nameEn.minLength.$invalid">{{ $t("global.NameIsMustHaveAtMost") }} {{ v$.nameEn.maxLength.$params.max }} {{ $t("global.Letters") }}</span>
-                                                </div>
-                                            </div>
-                                            <!--End NameEn-->
+                                            <!--End Name-->
 
                                         </div>
 
@@ -108,7 +90,7 @@ import { notify } from "@kyvg/vue3-notification";
 import { useI18n } from "vue-i18n";
 
 export default {
-    name: "editProductName",
+    name: "editSaleMethod",
     data(){
         return {
             errors:{}
@@ -123,15 +105,14 @@ export default {
         // get create Package
         let loading = ref(false);
 
-        let getProductName = () => {
+        let getSaleMethod = () => {
             loading.value = true;
 
-            adminApi.get(`/v1/dashboard/productName/${id.value}/edit`)
+            adminApi.get(`/v1/dashboard/saleMethod/${id.value}/edit`)
                 .then((res) => {
                     let l = res.data.data;
 
-                    addProductName.data.nameAr = l.ProductName.nameAr;
-                    addProductName.data.nameEn = l.ProductName.nameEn;
+                    addSaleMethod.data.name = l.saleMethod.name;
                 })
                 .catch((err) => {
                     console.log(err.response);
@@ -142,25 +123,19 @@ export default {
         }
 
         onMounted(() => {
-            getProductName();
+            getSaleMethod();
         });
 
         //start design
-        let addProductName =  reactive({
+        let addSaleMethod =  reactive({
             data:{
-                nameAr : '',
-                nameEn : '',
+                name : '',
             }
         });
 
         const rules = computed(() => {
             return {
-                nameAr: {
-                    minLength: minLength(3),
-                    maxLength:maxLength(70),
-                    required
-                },
-                nameEn: {
+                name: {
                     minLength: minLength(3),
                     maxLength:maxLength(70),
                     required
@@ -168,12 +143,12 @@ export default {
             };
         });
 
-        const v$ = useVuelidate(rules,addProductName.data);
+        const v$ = useVuelidate(rules,addSaleMethod.data);
 
-        return {id,loading,...toRefs(addProductName),v$};
+        return {id,loading,...toRefs(addSaleMethod),v$};
     },
     methods: {
-        editProductName(){
+        editSaleMethod(){
             this.v$.$validate();
 
             if(!this.v$.$error){
@@ -182,11 +157,10 @@ export default {
                 this.errors = {};
 
                 let formData = new FormData();
-                formData.append('nameAr',this.data.nameAr);
-                formData.append('nameEn',this.data.nameEn);
+                formData.append('name',this.data.name);
                 formData.append('_method','PUT');
 
-                adminApi.post(`/v1/dashboard/productName/${this.id}`,formData)
+                adminApi.post(`/v1/dashboard/saleMethod/${this.id}`,formData)
                 .then((res) => {
                     notify({
                         title: `تم التعديل بنجاح <i class="fas fa-check-circle"></i>`,

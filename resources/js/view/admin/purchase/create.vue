@@ -310,9 +310,7 @@
 </template>
 
 <script>
-//
 import { computed, onMounted, reactive, toRefs, inject, ref } from "vue";
-//
 import useVuelidate from "@vuelidate/core";
 import {
   required,
@@ -324,9 +322,7 @@ import {
 } from "@vuelidate/validators";
 import adminApi from "../../../api/adminAxios";
 import { notify } from "@kyvg/vue3-notification";
-//
 import { useI18n } from "vue-i18n";
-//
 
 export default {
   name: "createPurchase",
@@ -336,10 +332,8 @@ export default {
     };
   },
   setup() {
-    //
     const emitter = inject("emitter");
     const { t } = useI18n({});
-    //
     let loading = ref(false);
     let categories = ref([]);
     let suppliers = ref([]);
@@ -365,12 +359,10 @@ export default {
       },
     });
 
-    //
     getCategories();
     getSuppliers();
     getProducts();
     getEmployees();
-    //
 
 
     const rules = computed(() => {

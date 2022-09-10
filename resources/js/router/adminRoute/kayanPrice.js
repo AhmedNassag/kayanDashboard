@@ -1,56 +1,59 @@
-import indexSaleMethod from "../../view/admin/saleMethod/index";
-import createSaleMethod from "../../view/admin/saleMethod/create";
-import editSaleMethod from "../../view/admin/saleMethod/edit";
+import indexKayanPrice from "../../view/admin/kayanPrice/index";
+import createKayanPrice from "../../view/admin/kayanPrice/create";
+import editKayanPrice from "../../view/admin/kayanPrice/edit";
 import store from "../../store/admin";
 
 export default [
     {
-        path: 'saleMethod',
+        path: 'kayanPrice',
         component:  {
             template:'<router-view />',
         },
         children:[
             {
                 path: '',
-                name: 'indexSaleMethod',
-                component: indexSaleMethod,
+                name: 'indexKayanPrice',
+                component: indexKayanPrice,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('saleMethods read')){
+                    if(permission.includes('kayanPrice read')){
                         return next();
                     }else{
                         return next({name:'Page404'});
                     }
+                    return next();
                 }
             },
             {
                 path: 'create',
-                name: 'createSaleMethod',
-                component: createSaleMethod,
+                name: 'createKayanPrice',
+                component: createKayanPrice,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('saleMethods create')){
+                    if(permission.includes('kayanPrice create')){
                         return next();
                     }else{
                         return next({name:'Page404'});
                     }
+                    return next();
                 }
             },
             {
                 path: 'edit/:id(\\d+)',
-                name: 'editSaleMethod',
-                component: editSaleMethod,
+                name: 'editKayanPrice',
+                component: editKayanPrice,
                 props: true,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('saleMethods edit')){
+                    if(permission.includes('kayanPrice edit')){
                         return next();
                     }else{
                         return next({name:'Page404'});
                     }
+                    return next();
                 }
             },
         ]
