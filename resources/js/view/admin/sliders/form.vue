@@ -265,8 +265,8 @@ export default {
         formData.append("id", props.selectedSlider.id);
       }
       formData.append("title", form.title);
-      formData.append("url", form.url);
-      formData.append("product_id", form.product_id);
+      if (form.url) formData.append("url", form.url);
+      if (form.product_id) formData.append("product_id", form.product_id);
       formData.append("external", form.external);
       let product = getProduct();
       formData.append("product_name_ar", product ? product.product_name.nameAr : "");
