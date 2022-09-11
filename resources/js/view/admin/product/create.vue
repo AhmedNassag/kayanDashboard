@@ -641,6 +641,7 @@ export default {
         },
 
         storeProduct(){
+            console.log("Tested Here !!!!")
             this.v$.$validate();
 
             if(!this.v$.$error){

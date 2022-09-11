@@ -13,10 +13,10 @@ class KayanPrice extends Model
     protected $table = 'kayan_prices';
 
     //start raletions
-    // public function product()
-    // {
-    //     return $this->belongsTo(Product::class,'product_id');
-    // }
+    public function product()
+    {
+        return $this->belongsTo(Product::class,'product_id');
+    }
 
     public function productName()
     {

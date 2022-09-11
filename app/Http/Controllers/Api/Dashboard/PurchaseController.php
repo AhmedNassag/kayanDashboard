@@ -172,7 +172,7 @@ class PurchaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+        // try {
 
             DB::beginTransaction();
 
@@ -223,11 +223,11 @@ class PurchaseController extends Controller
             DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
+        // } catch (\Exception $e) {
 
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+        //     DB::rollBack();
+        //     return $this->sendError('An error occurred in the system');
+        // }
     }
 
     /**

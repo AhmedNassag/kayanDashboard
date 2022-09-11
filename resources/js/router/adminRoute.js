@@ -15,6 +15,7 @@ import shift from './adminRoute/shift';
 import stock from './adminRoute/stock';
 import virtualStock from './adminRoute/virtualStock';
 import purchase from './adminRoute/purchase';
+import storage from './adminRoute/storage';
 import refused from './adminRoute/refused';
 import job from './adminRoute/job';
 import role from './adminRoute/role';
@@ -116,6 +117,7 @@ const routes = [
             ...simpleAdvertise,
             ...virtualStock,
             ...purchase,
+            ...storage,
             ...refused,
             ...unit,
             ...newsletter,
