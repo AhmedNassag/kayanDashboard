@@ -250,6 +250,8 @@
         "Maximum Limit" : "أقصى كمية للمخزن",
         "ReOrder Limit" : "حد إعادة الطلب",
         "Products Prices" : "أسعار المنتجات",
+        "Storages" : "الخزن",
+        "Storage" : "الخزنة",
         "Successfully added": "تم الاضافة بنجاح",
         "PriceIsRequired": "السعر مطلوب .",
         "DescriptionArIsRequired": "الوصف باللغة العربية مطلوب .",
@@ -423,8 +425,8 @@
         "MaxMount": "أقصى كمية",
         "Shifts":"الشيفتات",
         "Shift":"شيفت",
-        "Stocks":"المخازن",
-        "Stock":"مخزن",
+        "Stocks":"مخازن كيان",
+        "Stock":"مخزن كيان",
         "Type":"النوع",
         "Morning":"صباحى",
         "Evening":"مسائى",
@@ -690,6 +692,10 @@
     "company": {
         "CreateCompany": "اضافة شركة",
         "EditCompany": "تعديل شركة"
+    },
+    "storage": {
+        "CreateStorage": "اضافة خزنة",
+        "EditStorage": "تعديل خزنة"
     },
     "saleMethod": {
         "CreateSaleMethod": "اضافة طريقة بيع",

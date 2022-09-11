@@ -93,7 +93,7 @@
                         >
                           <i class="far fa-edit"></i>
                         </router-link>
-                        <!-- <a
+                        <a
                           href="#"
                           @click="deleteProductName(item.id, index)"
                           v-if="permission.includes('productName delete')"
@@ -101,7 +101,7 @@
                           class="btn btn-sm btn-danger me-2"
                         >
                           <i class="far fa-trash-alt"></i>
-                        </a> -->
+                        </a>
                       </td>
                     </tr>
                   </tbody>

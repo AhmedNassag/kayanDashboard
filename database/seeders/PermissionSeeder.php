@@ -101,6 +101,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'purchase create', 'role' => 'management'],
             ['name' => 'purchase edit', 'role' => 'management'],
             ['name' => 'purchase delete', 'role' => 'management'],
+            //storage
+            ['name' => 'storage read', 'role' => 'management'],
+            ['name' => 'storage create', 'role' => 'management'],
+            ['name' => 'storage edit', 'role' => 'management'],
+            ['name' => 'storage delete', 'role' => 'management'],
             //refused
             ['name' => 'refused read', 'role' => 'management'],
             ['name' => 'refused create', 'role' => 'management'],

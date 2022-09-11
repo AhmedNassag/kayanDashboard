@@ -152,7 +152,7 @@ class ProductController extends Controller
             // picture move
             $request->image->storeAs('product', $image,'general');
 
-        $data = $request->only(['description','barcode','maximum_product','Re_order_limit','image','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id','sub_measurement_unit_id','count_unit']);
+            $data = $request->only(['description','barcode','maximum_product','Re_order_limit','image','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id','sub_measurement_unit_id','count_unit']);
 
             // $data['sub_measurement_unit_id'] = 1;
 
