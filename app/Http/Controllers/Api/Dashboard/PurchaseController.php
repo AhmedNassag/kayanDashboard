@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Client;
 use App\Models\Purchase;
 use App\Models\PurchaseProduct;
 use App\Models\Stock;
@@ -55,7 +56,8 @@ class PurchaseController extends Controller
         ])->get();
         $stores = Stock::get();
         $suppliers = Supplier::get();
-        return $this->sendResponse(['categories' => $categories,'stores'=>$stores,'suppliers'=>$suppliers], 'Data exited successfully');
+        $clients = Client::with('user')->get();
+        return $this->sendResponse(['categories'=> $categories, 'stores'=>$stores, 'suppliers'=>$suppliers, 'clients'=>$clients], 'Data exited successfully');
     }
 
     /**
@@ -223,6 +225,7 @@ class PurchaseController extends Controller
             DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
+
         // } catch (\Exception $e) {
 
         //     DB::rollBack();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Client;
 use App\Models\Company;
 use App\Models\Media;
 use App\Models\Product;
@@ -92,6 +93,7 @@ class ProductController extends Controller
             $sellingMethods = SellingMethod::select('id','name')->get();
             $productNames = ProductName::select('id','nameAr')->get();
             $suppliers = Supplier::select('id','name')->get();
+            $clients = Client::with('user')->get();
 
             return $this->sendResponse([
                 'companies' => $companies,
@@ -203,6 +205,13 @@ class ProductController extends Controller
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
+    }
+
+
+    public function show($id)
+    {
+        $products = Product::where('sub_category_id	',$id)->get();
+        return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
 
 
@@ -562,12 +571,6 @@ class ProductController extends Controller
     //     //     DB::rollBack();
     //     //     return $this->sendError('An error occurred in the system');
     //     // }
-    // }
-
-
-    // public function show($id)
-    // {
-    //     //
     // }
 
 

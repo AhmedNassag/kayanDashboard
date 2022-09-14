@@ -110,7 +110,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('activationProductName/{id}', 'ProductNameController@activationProductName');
 
             // product
-            Route::resource('product', 'ProductController')->except(['show']);
+            Route::resource('product', 'ProductController');
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');
 
             // price
@@ -140,6 +140,16 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // storage
             Route::resource('storage', 'StorageController')->except(['show']);
 
+            // Sale Invoice
+            Route::resource('saleInvoice', 'SaleController');
+
+            // sale Record
+            Route::resource('saleRecord', 'SaleRecordController');
+
+            // sale Return
+            Route::resource('saleReturn', 'SaleReturnController');
+
+
             //
             Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
 
@@ -158,6 +168,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('getSuppliers', 'PurchaseController@getSuppliers');
             Route::get('getProducts', 'PurchaseController@getProducts');
             Route::get('getStocks', 'RefusedController@getStocks');
+            Route::get('getClientBalance/{id}', 'SaleController@getClientBalance');
 
 
             //start logout
