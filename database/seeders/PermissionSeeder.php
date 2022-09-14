@@ -101,6 +101,16 @@ class PermissionSeeder extends Seeder
             ['name' => 'purchase create', 'role' => 'management'],
             ['name' => 'purchase edit', 'role' => 'management'],
             ['name' => 'purchase delete', 'role' => 'management'],
+            //saleInvoice
+            ['name' => 'SaleInvoice read', 'role' => 'buy'],
+            ['name' => 'SaleInvoice create', 'role' => 'buy'],
+            ['name' => 'SaleInvoice edit', 'role' => 'buy'],
+            ['name' => 'SaleInvoice delete', 'role' => 'buy'],
+            ['name' => 'SaleReturn read', 'role' => 'buy'],
+            //Sale Records
+            ['name' => 'saleRecords read', 'role' => 'buy'],
+            ['name' => 'saleRecords create', 'role' => 'buy'],
+            ['name' => 'saleRecords edit', 'role' => 'buy'],
             //storage
             ['name' => 'storage read', 'role' => 'management'],
             ['name' => 'storage create', 'role' => 'management'],
@@ -158,7 +168,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'PurchaseInvoice edit', 'role' => 'buy'],
             ['name' => 'PurchaseInvoice delete', 'role' => 'buy'],
             ['name' => 'PurchaseReturn read', 'role' => 'buy'],
-            //Examination Recpords
+            //Examination Records
             ['name' => 'examinationRecords read', 'role' => 'buy'],
             ['name' => 'examinationRecords create', 'role' => 'buy'],
             ['name' => 'examinationRecords edit', 'role' => 'buy'],

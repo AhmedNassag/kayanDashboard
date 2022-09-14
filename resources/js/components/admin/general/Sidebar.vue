@@ -176,16 +176,42 @@
                     </li>
                 </ul>
             </li>
-            <!--End Purchase-->
+            <!--End Purchase Links-->
 
-            <!--Start Storage-->
+            <!--Start Sales Links-->
+            <li class="submenu" v-if="permission.includes('buy')">
+                <a href="#" ><i class="fas fa-home"></i> <span> {{ $t('global.Sale Management') }}</span>  <span :class="['menu-arrow menu-arrow-ar']"></span></a>
+
+                <ul>
+                    <li :class="[$route.name == 'indexSaleInvoice'? 'active': '']" v-if="permission.includes('SaleInvoice read')">
+                        <router-link :to="{name:'indexSaleInvoice'}" :class="['sidebar-menu-rtl']">
+                            {{ $t('global.Sale Invoice') }}
+                        </router-link>
+                    </li>
+
+                    <!-- <li :class="[$route.name == 'indexSaleRecord'? 'active': '']" v-if="permission.includes('saleRecords read')">
+                        <router-link :to="{name:'indexSaleRecord'}" :class="['sidebar-menu-rtl']">
+                            {{ $t('global.saleRecords') }}
+                        </router-link>
+                    </li>
+
+                    <li :class="[$route.name == 'indexSaleReturn'? 'active': '']" v-if="permission.includes('saleReturn read')">
+                        <router-link :to="{name:'indexSaleReturn'}" :class="['sidebar-menu-rtl']">
+                            {{ $t('global.Sale Return') }}
+                        </router-link>
+                    </li> -->
+                </ul>
+            </li>
+            <!--End Sales Links-->
+
+            <!--Start Storage Links-->
             <li v-if="permission.includes('storage read')" :class="[$route.name == 'indexStorage' ? 'active' : '']">
                 <router-link :to="{ name: 'indexStorage' }">
                     <i class="fa fa-home" aria-hidden="true"></i>
                     <span>{{ $t("global.Storages") }}</span>
                 </router-link>
             </li>
-            <!--End Storage-->
+            <!--End Storage Links-->
 
           <li
             v-if="permission.includes('unit read')"

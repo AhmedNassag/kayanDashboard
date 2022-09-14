@@ -627,7 +627,7 @@ export default {
     methods: {
         myFunction()
         {
-            this.data.barcode = Math.random()*100;
+            this.data.barcode = Math.round(Math.random()*10000000000);
         },
         showCompany()
         {
