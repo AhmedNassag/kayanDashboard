@@ -24,8 +24,8 @@ class UpdateUnitRequest extends FormRequest
     public function rules()
     {
         return [
-            "id"=>"required",
-            "name" => "required|unique:units,name," . $this->id
+            "id" => "required",
+            "name" => "required|unique:units,name," . $this->id,
         ];
     }
 }
