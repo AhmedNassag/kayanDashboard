@@ -111,6 +111,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'unit create', 'role' => ''],
             ['name' => 'unit edit', 'role' => ''],
             ['name' => 'unit delete', 'role' => ''],
+            //Know us ways
+            ['name' => 'know-us-way read', 'role' => ''],
+            ['name' => 'know-us-way create', 'role' => ''],
+            ['name' => 'know-us-way edit', 'role' => ''],
+            ['name' => 'know-us-way delete', 'role' => ''],
             //Offer
             ['name' => 'offer read', 'role' => ''],
             ['name' => 'offer create', 'role' => ''],
@@ -164,11 +169,19 @@ class PermissionSeeder extends Seeder
             ['name' => 'slider create', 'role' => ''],
             ['name' => 'slider edit', 'role' => ''],
             ['name' => 'slider delete', 'role' => ''],
-            //SimpleAdvertise
+            //Simple advertises
             ['name' => 'simple-advertise read', 'role' => ''],
             ['name' => 'simple-advertise create', 'role' => ''],
             ['name' => 'simple-advertise edit', 'role' => ''],
             ['name' => 'simple-advertise delete', 'role' => ''],
+            //Cities
+            ['name' => 'city read', 'role' => 'places'],
+            ['name' => 'city create', 'role' => 'places'],
+            ['name' => 'city edit', 'role' => 'places'],
+            //Areas
+            ['name' => 'area read', 'role' => 'places'],
+            ['name' => 'area create', 'role' => 'places'],
+            ['name' => 'area edit', 'role' => 'places'],
         ];
 
         $notifies = [

@@ -49,8 +49,20 @@
                   <div class="row">
                     <div class="col-lg-12">
                       <div class="form-group">
+                        <label for="head">{{ $t("global.Color") }}</label>
+                        <br />
+                        <input type="color" v-model="v$.color.$model" />
+                        <div class="invalid-feedback">
+                          <div v-for="error in v$.color.$errors" :key="error">
+                            {{ $t("global.Model") + " " + $t(error.$validator) }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="form-group">
                         <label for="exampleInputEmail1">{{ $t("global.Title") }}</label>
-                        <input
+                         <input
                           type="text"
                           class="form-control"
                           v-model="v$.title.$model"
@@ -157,9 +169,11 @@ export default {
       url: "",
       external: true,
       product_id: null,
+      color: "",
     });
     const rules = {
       title: { required },
+      color: { required },
       product_id: {
         required(value) {
           return !form.external ? value : true;
@@ -265,6 +279,7 @@ export default {
         formData.append("id", props.selectedSlider.id);
       }
       formData.append("title", form.title);
+      formData.append("color", form.color);
       if (form.url) formData.append("url", form.url);
       if (form.product_id) formData.append("product_id", form.product_id);
       formData.append("external", form.external);
@@ -280,6 +295,7 @@ export default {
       v$.value.$reset();
       form.product_id = getProductId();
       form.title = props.selectedSlider ? props.selectedSlider.title : "";
+      form.color = props.selectedSlider ? props.selectedSlider.color : "";
       form.url = props.selectedSlider ? props.selectedSlider.url : "";
       form.external =
         props.selectedSlider && props.selectedSlider.external ? true : false;

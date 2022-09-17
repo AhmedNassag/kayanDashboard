@@ -26,6 +26,7 @@ class UpdateSliderRequest extends FormRequest
         $rules = [
             "id" => "required",
             "title" => "required",
+            "color" => "required",
             "image" => "nullable|image",
             "external" => "required|in:true,false"
         ];

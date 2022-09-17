@@ -30,6 +30,9 @@ import login from "../view/admin/login";
 import forgetPassword from "../view/admin/forgetPassword";
 import resetPassword from "../view/admin/resetPassword";
 import unit from './adminRoute/unit';
+import city from './adminRoute/city';
+import area from './adminRoute/area';
+import knowUsWay from './adminRoute/know-us-way';
 import simpleAdvertise from './adminRoute/simple-advertise';
 import slider from './adminRoute/slider';
 import clientGroup from './adminRoute/client-group';
@@ -118,6 +121,9 @@ const routes = [
             ...purchase,
             ...refused,
             ...unit,
+            ...city,
+            ...area,
+            ...knowUsWay,
             ...newsletter,
             ...offer,
             ...shipping,
