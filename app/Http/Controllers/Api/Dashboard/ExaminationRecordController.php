@@ -50,7 +50,8 @@ class ExaminationRecordController extends Controller
         return $this->sendResponse(['purchases' => $purchases], 'Data exited successfully');
     }
 
-    public function create(){
+    public function create()
+    {
       //
     }
 

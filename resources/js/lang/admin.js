@@ -5,7 +5,8 @@ import ar from "../locales/admin/ar.json";
 
 const i18n = createI18n({
     locale: 'ar', // set locale
-    fallbackLocale: 'en', // set fallback locale
+    fallbackLocale: 'en', // set fallback locale,
+    legacy:false,
     messages: {
         ar
     }

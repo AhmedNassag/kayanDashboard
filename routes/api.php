@@ -110,7 +110,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('activationProductName/{id}', 'ProductNameController@activationProductName');
 
             // product
-            Route::resource('product', 'ProductController')->except(['show']);
+            Route::resource('product', 'ProductController');
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');
 
             // price
@@ -119,16 +119,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // kayan price
             Route::resource('kayanPrice', 'KayanPriceController')->except(['show']);
             Route::get('kayanPrice/getProduct', 'KayanPriceController@getProduct');
-
-            //
-            Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
-
-            // relations routes
-            // Route::get('getCategories','ProductController@getCategories');
-            // Route::get('getSubCategories','ProductController@getSubCategories');
-            // Route::get('getCompanies','ProductController@getCompanies');
-            // Route::get('getTaxes','ProductController@getTaxes');
-            // Route::get('getUnits','ProductController@getUnits');
 
             // selling method
             Route::resource('sellingMethod', 'SellingMethodController')->except(['show']);
@@ -140,20 +130,28 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
             // stock
             Route::resource('stock', 'StockController')->except(['show']);
-            // relations routes
-            // Route::get('getEmpolyees','StockController@getEmpolyees');
-            // Route::get('getShifts','StockController@getShifts');
 
             // virtual stock
             Route::resource('virtualStock', 'VirtualStockController')->except(['show']);
 
             // purchase
             Route::resource('purchase', 'PurchaseController')->except(['show']);
-            // relations routes
-            // Route::get('getCategories','PurchaseController@getCategories');
-            // Route::get('getSuppliers','PurchaseController@getSuppliers');
-            // Route::get('getProducts','PurchaseController@getProducts');
-            // Route::get('getEmployees','PurchaseController@getEmployees');
+
+            // storage
+            Route::resource('storage', 'StorageController')->except(['show']);
+
+            // Sale Invoice
+            Route::resource('saleInvoice', 'SaleController');
+
+            // sale Record
+            Route::resource('saleRecord', 'SaleRecordController');
+
+            // sale Return
+            Route::resource('saleReturn', 'SaleReturnController');
+
+
+            //
+            Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
 
             // refused
             Route::resource('refused', 'RefusedController')->except(['show']);
@@ -169,8 +167,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('getShifts', 'StockController@getShifts');
             Route::get('getSuppliers', 'PurchaseController@getSuppliers');
             Route::get('getProducts', 'PurchaseController@getProducts');
-            // Route::get('getEmployees','PurchaseController@getEmployees');
             Route::get('getStocks', 'RefusedController@getStocks');
+            Route::get('getClientBalance/{id}', 'SaleController@getClientBalance');
 
 
             //start logout

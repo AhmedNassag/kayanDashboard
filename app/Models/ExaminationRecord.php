@@ -23,5 +23,4 @@ class ExaminationRecord extends Model
         return $this->hasMany(StoreProduct::class,'examination_record_id');
     }
 
-
 }
