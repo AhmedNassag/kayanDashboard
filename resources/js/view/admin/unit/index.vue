@@ -4,7 +4,7 @@
     :class="[
       'page-wrapper',
       this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
-    ]"
+  ]"
   >
     <UnitForm
       :selectedUnit="selectedUnit"

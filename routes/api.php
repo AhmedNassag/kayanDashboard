@@ -226,6 +226,29 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::delete("{id}", "UnitController@delete");
             });
 
+            //Cities
+            Route::prefix("cities")->group(function () {
+                Route::get("", "CityController@index");
+                Route::post("", "CityController@store");
+                Route::put("", "CityController@update");
+            });
+
+            //Areas
+            Route::prefix("areas")->group(function () {
+                Route::get("", "AreaController@index");
+                Route::get("cities", "AreaController@getCities");
+                Route::post("", "AreaController@store");
+                Route::put("", "AreaController@update");
+            });
+
+            //Know us ways
+            Route::prefix("know-us-ways")->group(function () {
+                Route::get("", "KnowUsWayController@index");
+                Route::post("", "KnowUsWayController@store");
+                Route::put("", "KnowUsWayController@update");
+                Route::delete("{id}", "KnowUsWayController@delete");
+            });
+
             //Newsletters
             Route::prefix("newsletters")->group(function () {
                 Route::get("", 'NewsletterController@index');

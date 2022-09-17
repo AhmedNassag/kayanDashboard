@@ -19,6 +19,7 @@ class SliderRepository
         $slider = Slider::find($sliderInput["id"]);
         $oldImage = $slider->image;
         $slider->title = $sliderInput["title"];
+        $slider->color = $sliderInput["color"];
         $slider->url = $sliderInput["url"] ?? null;
         $slider->product_id = $sliderInput["product_id"] ?? null;
         $slider->external = $sliderInput["external"] ?? null;

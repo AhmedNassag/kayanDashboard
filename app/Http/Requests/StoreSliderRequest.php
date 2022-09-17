@@ -25,6 +25,7 @@ class StoreSliderRequest extends FormRequest
     {
         $rules = [
             "title" => "required",
+            "color" => "required",
             "image" => "required|image",
             "external" => "required|alpha|in:true,false"
         ];
