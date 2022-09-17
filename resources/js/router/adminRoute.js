@@ -15,6 +15,10 @@ import shift from './adminRoute/shift';
 import stock from './adminRoute/stock';
 import virtualStock from './adminRoute/virtualStock';
 import purchase from './adminRoute/purchase';
+import saleInvoice from './adminRoute/saleInvoice';
+import saleRecord from './adminRoute/saleRecord';
+import saleReturn from './adminRoute/saleReturn';
+import storage from './adminRoute/storage';
 import refused from './adminRoute/refused';
 import job from './adminRoute/job';
 import role from './adminRoute/role';
@@ -119,6 +123,10 @@ const routes = [
             ...simpleAdvertise,
             ...virtualStock,
             ...purchase,
+            ...saleInvoice,
+            ...saleRecord,
+            ...saleReturn,
+            ...storage,
             ...refused,
             ...unit,
             ...city,

@@ -627,7 +627,7 @@ export default {
     methods: {
         myFunction()
         {
-            this.data.barcode = Math.random()*100;
+            this.data.barcode = Math.round(Math.random()*10000000000);
         },
         showCompany()
         {
@@ -641,6 +641,7 @@ export default {
         },
 
         storeProduct(){
+            console.log("Tested Here !!!!")
             this.v$.$validate();
 
             if(!this.v$.$error){

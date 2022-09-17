@@ -74,14 +74,15 @@
                                     <tbody v-if="kayanPrices.length">
                                     <tr v-for="(item,index) in kayanPrices" :key="item.id">
                                         <td class="text-center">{{ index + 1 }}</td>
-                                        <td class="text-center">{{ item.productName.nameAr }}</td>
+                                        <td class="text-center">{{ item.product_name.nameAr }}</td>
                                         <td class="text-center">{{ item.category.name }}</td>
                                         <td class="text-center">{{ item.sub_category.name }}</td>
                                         <td class="text-center" v-if="item.company_id">{{ item.company.name }}</td>
                                         <td class="text-center" v-else>---</td>
                                         <td class="text-center" v-if="item.supplier_id">{{ item.supplier.name }}</td>
                                         <td class="text-center" v-else>---</td>
-                                        <td class="text-center">{{ item.productPrice }}</td>
+                                        <td class="text-center" v-if="item.productPrice">{{ item.productPrice }}</td>
+                                        <td class="text-center" v-else>---</td>
                                         <td class="text-center">{{ item.productDiscount }}</td>
                                         <td class="text-center">{{ item.pharmacyPrice }}</td>
                                         <td class="text-center">{{ item.publicPrice }}</td>
@@ -92,9 +93,9 @@
                                         <td class="text-center">{{ item.collectionKayanProfit }}</td>
                                         <td class="text-center">{{ item.partialKayanProfit }}</td>
                                         <td class="text-center">{{ item.destributionKayanProfit }}</td>
-                                        <td class="text-center">{{ item.collectionPercentageKayanProfit }}</td>
-                                        <td class="text-center">{{ item.partialPercentageKayanProfit }}</td>
-                                        <td class="text-center">{{ item.destributionPercentageKayanProfit }}</td>
+                                        <td class="text-center">{{ item.collectionPercentageKayanProfit }}%</td>
+                                        <td class="text-center">{{ item.partialPercentageKayanProfit }}%</td>
+                                        <td class="text-center">{{ item.destributionPercentageKayanProfit }}%</td>
                                         <td class="text-center">{{ item.maximumLimit }}</td>
                                         <td class="text-center">{{ item.reOrderLimit }}</td>
 
