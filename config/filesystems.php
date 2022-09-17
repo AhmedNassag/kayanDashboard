@@ -42,7 +42,7 @@ return [
         ],
         'general' => [
             'driver' => 'local',
-            'root' => public_path('upload'),
+            'root' =>"../public/upload",
         ],
 
         's3' => [

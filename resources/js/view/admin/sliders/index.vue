@@ -199,6 +199,7 @@ export default {
       data.loading = true;
       sliderClient.getProducts().then((response) => {
         data.products = response.data;
+        data.loading = false;
       });
     }
     function onCreated(event) {
