@@ -53,48 +53,48 @@
                   >
                     <div class="form-row row">
 
-                      <!--Start Name-->
-                      <div class="col-md-6 mb-3">
-                        <label for="validationCustom01">
-                            {{ $t("global.Name") }}
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          v-model.trim="v$.name.$model"
-                          id="validationCustom01"
-                          :placeholder="$t('global.Name')"
-                          :class="{
-                            'is-invalid': v$.name.$error || data.nameExist,
-                            'is-valid': !v$.name.$invalid,
-                          }"
-                        />
-                        <div class="valid-feedback">
-                            {{ $t("global.LooksGood") }}
+                        <!--Start Name-->
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom01">
+                                {{ $t("global.Name") }}
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model.trim="v$.name.$model"
+                                id="validationCustom01"
+                                :placeholder="$t('global.Name')"
+                                :class="{
+                                    'is-invalid': v$.name.$error || data.nameExist,
+                                    'is-valid': !v$.name.$invalid,
+                                }"
+                            />
+                            <div class="valid-feedback">
+                                {{ $t("global.LooksGood") }}
+                            </div>
+                            <div class="invalid-feedback">
+                                <span v-if="v$.name.required.$invalid">
+                                    {{ $t("global.NameIsRequired") }}
+                                    <br/>
+                                </span>
+                                <span v-if="v$.name.maxLength.$invalid">
+                                    {{ $t("global.NameIsMustHaveAtLeast") }}
+                                    {{ v$.name.minLength.$params.min }}
+                                    {{ $t("global.Letters") }}
+                                    <br/>
+                                </span>
+                                <span v-if="v$.name.minLength.$invalid">
+                                    {{ $t("global.NameIsMustHaveAtMost") }}
+                                    {{ v$.name.maxLength.$params.max }}
+                                    {{ $t("global.Letters") }}
+                                    <br/>
+                                </span>
+                                <span v-if="!v$.name.$invalid && data.nameExist">
+                                    {{ $t("global.NameIsExist") }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="invalid-feedback">
-                          <span v-if="v$.name.required.$invalid">
-                            {{ $t("global.NameIsRequired") }}
-                            <br/>
-                          </span>
-                          <span v-if="v$.name.maxLength.$invalid">
-                            {{ $t("global.NameIsMustHaveAtLeast") }}
-                            {{ v$.name.minLength.$params.min }}
-                            {{ $t("global.Letters") }}
-                            <br/>
-                          </span>
-                          <span v-if="v$.name.minLength.$invalid">
-                            {{ $t("global.NameIsMustHaveAtMost") }}
-                            {{ v$.name.maxLength.$params.max }}
-                            {{ $t("global.Letters") }}
-                            <br/>
-                          </span>
-                          <span v-if="!v$.name.$invalid && data.nameExist">
-                           {{ $t("global.NameIsExist") }}
-                          </span>
-                        </div>
-                      </div>
-                      <!--End Name-->
+                        <!--End Name-->
 
                     </div>
 

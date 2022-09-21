@@ -55,7 +55,7 @@
                       <th class="text-center">{{ $t("global.Supplier") }}</th>
                       <th class="text-center">{{ $t("global.Category") }}</th>
                       <th class="text-center">{{ $t("global.SubCategory") }}</th>
-                      <th class="text-center">{{ $t("global.Product Name") }}</th>
+                      <th class="text-center">{{ $t("global.Product") }}</th>
                       <th class="text-center">{{ $t("global.Product Quantity") }}</th>
                       <th class="text-center">{{ $t("global.Pharmacy Price") }}</th>
                       <th class="text-center">{{ $t("global.Public Price") }}</th>
@@ -70,7 +70,7 @@
                       <td class="text-center">{{ item.supplier.name }}</td>
                       <td class="text-center">{{ item.category.name }}</td>
                       <td class="text-center">{{ item.sub_category.name }}</td>
-                      <td class="text-center">{{ item.product_name.nameAr }}</td>
+                      <td class="text-center">{{ item.product.product_name.nameAr }}</td>
                       <td class="text-center">{{ item.productQuantity }}</td>
                       <td class="text-center">{{ item.pharmacyPrice }}</td>
                       <td class="text-center">{{ item.publicPrice }}</td>

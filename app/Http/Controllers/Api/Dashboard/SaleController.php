@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Batch;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Sale;
@@ -55,7 +56,11 @@ class SaleController extends Controller
                 });
             })->latest()->paginate(5);
 
-        return $this->sendResponse(['sales' => $sales], 'Data exited successfully');
+        $saleInvoices       = Sale::all();
+        $taxSaleInvoices    = Sale::where('purchase_type','Tax')->get();
+        $notTaxSaleInvoices = Sale::where('purchase_type','Not Tax')->get();
+
+        return $this->sendResponse(['sales' => $sales,'saleInvoices'=> $saleInvoices, 'taxSaleInvoices' => $taxSaleInvoices, 'notTaxSaleInvoices' => $notTaxSaleInvoices], 'Data exited successfully');
     }
 
     /**
@@ -105,6 +110,9 @@ class SaleController extends Controller
                 'product.*.quantity'              => 'required|integer',
                 'product.*.price_before_discount' => 'required|numeric',
                 'product.*.price_after_discount'  => 'required|numeric|lte:product.*.price_before_discount',
+                
+                // 'batch.*.money'                   => 'required|integer',
+                // 'batch.*.due_date'                => 'required',
             ]);
 
             if ($v->fails())
@@ -143,6 +151,22 @@ class SaleController extends Controller
                 ]);
             }
 
+            //
+            if($request->batch)
+            {
+                foreach ($request->batch as $batch)
+                {
+                    if($batch['money'] != null && $batch['due_date'] != null)
+                    Batch::create
+                    ([
+                        'sale_id'  => $sale['id'],
+                        'money'    => $batch['money'],
+                        'due_date' => $batch['due_date'],
+                    ]);
+                }
+            }
+            //
+
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
 
@@ -175,7 +199,7 @@ class SaleController extends Controller
     {
         try
         {
-            $sale = Sale::with(['saleProducts'=>function($q)
+            $sale = Sale::with(['batches'])->with(['saleProducts'=>function($q)
             {
                 $q->with(['product' =>function($qu)
                 {
@@ -236,7 +260,23 @@ class SaleController extends Controller
 
             $sale = Sale::find($id);
 
-            $sale->update($request->all());
+            $sale->update([
+                'type'                 => $request->type,
+                'client_id'            => $request->client_id,
+                'stock_id'             => $request->stock_id,
+                'payment_method'       => $request->payment_method,
+                'purchase_type'        => $request->purchase_type,
+                'price'                => $request->price,
+                'visa_percentage'      => $request->visa_percentage,
+                'visa_value'           => $request->visa_value,
+                'added_tax_percentage' => $request->added_tax_percentage,
+                'added_tax_value'      => $request->added_tax_value,
+                'discount_percentage'  => $request->discount_percentage,
+                'discount_value'       => $request->discount_value,
+                'other_discounts'      => $request->other_discounts,
+                'transfer_price'       => $request->transfer_price,
+                'note'                 => $request->note,
+            ]);
 
             foreach ($sale->saleProducts as $data)
             {
@@ -254,6 +294,23 @@ class SaleController extends Controller
                     'price_after_discount'  => $product['price_after_discount'],
                 ]);
             }
+
+            //
+            foreach ($sale->batches as $data)
+            {
+                $data->delete();
+            }
+            foreach ($request->batch as $batch)
+            {
+                if($batch['money'] != null && $batch['due_date'] != null)
+                Batch::create
+                ([
+                    'sale_id'  => $sale['id'],
+                    'money'    => $batch['money'],
+                    'due_date' => $batch['due_date'],
+                ]);
+            }
+            //
 
             DB::commit();
 
@@ -276,7 +333,7 @@ class SaleController extends Controller
     public function destroy($id)
     {
         $sale=Sale::find($id);
-        if ($sale->saleReturns == null && $sale->examinationRecord == null)
+        if ($sale->saleReturns == null && $sale->saleRecord == null)
         {
             $sale->delete();
             return $this->sendResponse([],'Deleted successfully');

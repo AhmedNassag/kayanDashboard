@@ -96,7 +96,7 @@
                                                             <input type="text" disabled class="form-control" v-model="data.product[index].RequiredQuantity">
                                                         </div>
 
-                                                        <div class="col-md-3 mb-3">
+                                                        <!-- <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.productionDate')}}</label>
                                                             <input type="date" class="form-control" disabled v-model="data.product[index].production_date">
                                                         </div>
@@ -104,23 +104,24 @@
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.expiryDate')}}</label>
                                                             <input type="date" class="form-control" disabled v-model="data.product[index].expiry_date">
-                                                        </div>
+                                                        </div> -->
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.mainUnitMeasurement')}}</label>
                                                             <input type="text" disabled class="form-control" v-model="data.product[index].mainUnitMeasurement">
                                                         </div>
 
-                                                        <div class="col-md-3 mb-3">
+                                                        <!-- <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.countUnits')}}</label>
                                                             <input type="text" disabled class="form-control" v-model="data.product[index].count_unit">
-                                                        </div>
+                                                        </div> -->
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.productStatus') }}</label>
-                                                            <select  v-model="data.product[index].product_status_id " :class="['form-select',{'is-invalid':v$.product[index].product_status_id.$error,'is-valid':!v$.product[index].product_status_id.$invalid}]">
+                                                            <Select2 v-model="data.product[index].product_status_id" :options="productStatuses" :settings="{ width: '100%' }" />
+                                                            <!-- <select  v-model="data.product[index].product_status_id" :class="['form-select',{'is-invalid':v$.product[index].product_status_id.$error,'is-valid':!v$.product[index].product_status_id.$invalid}]">
                                                                 <option v-for="status in productStatuses" :key="status.id" :value="status.id">{{status.name}}</option>
-                                                            </select>
+                                                            </select> -->
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
                                                                 <span v-if="v$.product[index].product_status_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br/></span>
@@ -160,12 +161,10 @@
                                                         <div class="col-md-3 mb-3" v-if="data.product[index].return_quantity">
                                                             <label>{{$t('global.ReasonForReturn')}}</label>
                                                             <textarea rows="4" cols="5" v-model.trim="data.product[index].note" :class="['form-control text-height']"></textarea>
-
                                                         </div>
 
                                                     </div>
                                                 </div>
-
                                             </div>
 
                                             <div class="col-md-12 mt-5">

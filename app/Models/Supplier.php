@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Supplier extends Model
 {
     protected $guarded = ["shippings_ids"];
+
+    protected $appends=['text'];
+
+    public function getTextAttribute()
+    {
+        return $this->name;
+    }
+    
     public function shippings()
     {
         return $this->belongsToMany(Shipping::class);

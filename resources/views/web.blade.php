@@ -37,6 +37,8 @@
     <link rel="stylesheet" href="{{asset('admin/css/vanillatoasts.css')}}">
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -83,6 +85,7 @@
     <script src="{{asset('admin/js/printThis.js')}}"></script>
 
     <script src="{{mix('js/app.js')}}"></script>
+
 </body>
 
 </html>

@@ -20,6 +20,43 @@
             </div>
             <!-- /Page Header -->
 
+            <!--Start Statistics-->
+            <div class="row">
+                <div class="col-md-12">
+                    <!--/Wizard-->
+                    <div class="row">
+                        <div class="col-md-4 d-flex">
+                            <div class="card wizard-card flex-fill">
+                                <div class="card-body text-center">
+                                    <p class="text-primary mt-0 mb-2">{{ $t("global.Sale Invoice") }}</p>
+                                    <h5>{{saleInvoices.length}}</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 d-flex">
+                            <div class="card wizard-card flex-fill">
+                                <div class="card-body text-center">
+                                    <p class="text-primary mt-0 mb-2">{{ $t("global.Tax Sale Invoice") }}</p>
+                                    <h5>{{taxSaleInvoices.length}}</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 d-flex">
+                            <div class="card wizard-card flex-fill">
+                                <div class="card-body text-center">
+                                    <p class="text-primary mt-0 mb-2">{{ $t("global.Not Tax Sale Invoice") }}</p>
+                                    <h5>{{notTaxSaleInvoices.length}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Wizard-->
+                </div>
+            </div>
+            <!--End Statistics-->
+
             <!-- Table -->
             <div class="row">
                 <div class="col-lg-12">
@@ -117,7 +154,7 @@
                                                 <a v-if="item.is_received == 1" href="javascript:void(0);"
                                                     class="btn btn-sm btn-success me-2"
                                                 >
-                                                    <i class="fas fa-check-circle"></i> {{$t('global.ItWasReceived')}}
+                                                    <i class="fas fa-check-circle"></i> {{$t('global.ItWasSold')}}
                                                 </a>
                                             </td>
 
@@ -266,6 +303,9 @@ export default {
         let store = useStore();
         let permission = computed(() => store.getters['authAdmin/permission']);
         let sales = ref([]);
+        let saleInvoices = ref([]);
+        let taxSaleInvoices = ref([]);
+        let notTaxSaleInvoices = ref([]);
         let fromDate = ref('');
         let toDate = ref('');
         let sale_id = ref('');
@@ -287,6 +327,9 @@ export default {
                 let l = res.data.data;
                 salesPaginate.value = l.sales;
                 sales.value = l.sales.data;
+                saleInvoices.value = l.saleInvoices;
+                taxSaleInvoices.value = l.taxSaleInvoices;
+                notTaxSaleInvoices.value = l.notTaxSaleInvoices;
             })
             .catch((err) => {
                 console.log(err.response.data);
@@ -358,7 +401,24 @@ export default {
             location.reload();
         }
 
-        return {salesPaginate,search,permission,sale_id,fromDate,toDate,sales, loading,deleteJob,dateFormat,printData, getIncome,close};
+        return {
+                salesPaginate,
+                search,
+                permission,
+                sale_id,
+                fromDate,
+                toDate,
+                sales,
+                saleInvoices,
+                taxSaleInvoices,
+                notTaxSaleInvoices,
+                loading,
+                deleteJob,
+                dateFormat,
+                printData,
+                getIncome,
+                close
+            };
 
     },
     data() {

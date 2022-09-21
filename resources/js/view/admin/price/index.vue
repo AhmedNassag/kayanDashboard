@@ -47,7 +47,7 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th class="text-center">{{ $t("global.Product Name") }}</th>
+                                        <th class="text-center">{{ $t("global.Product") }}</th>
                                         <th class="text-center">{{ $t("global.MainCategory") }}</th>
                                         <th class="text-center">{{ $t("global.SubCategory") }}</th>
                                         <th class="text-center">{{ $t("global.Company") }}</th>
@@ -63,7 +63,7 @@
                                     <tbody v-if="prices.length">
                                     <tr v-for="(item,index) in prices"  :key="item.id">
                                         <td class="text-center">{{ index + 1 }}</td>
-                                        <td class="text-center">{{ item.product_name.nameAr }}</td>
+                                        <td class="text-center">{{ item.product.product_name.nameAr }}</td>
                                         <td class="text-center">{{ item.category.name }}</td>
                                         <td class="text-center">{{ item.sub_category.name }}</td>
                                         <td class="text-center" v-if="item.company_id">{{ item.company.name }}</td>
@@ -76,14 +76,13 @@
                                         <td class="text-center">{{ item.kayanDiscount }}</td>
                                         <td class="text-center">{{ item.kayanProfit }}</td>
                                         <td class="text-center">
-                                            <!-- v-if="permission.includes('product edit')" -->
                                             <router-link
                                                 :to="{name: 'editPrice',params:{id:item.id}}"
+                                                v-if="permission.includes('product edit')"
                                                 class="btn btn-sm btn-success me-2">
                                                 <i class="far fa-edit"></i>
                                             </router-link>
-                                            <!-- v-if="permission.includes('product delete')" -->
-                                            <a href="#" @click="deletePrice(item.id,index)"
+                                            <a href="#" @click="deletePrice(item.id,index)" v-if="permission.includes('product delete')"
                                                 data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2">
                                                 <i class="far fa-trash-alt"></i>
                                             </a>

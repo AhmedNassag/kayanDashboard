@@ -12,9 +12,9 @@ class Price extends Model
     protected $guarded = [];
     
     //start raletions
-    public function productName()
+    public function product()
     {
-        return $this->belongsTo(ProductName::class,'productName_id');
+        return $this->belongsTo(Product::class,'product_id');
     }
 
     public function category()

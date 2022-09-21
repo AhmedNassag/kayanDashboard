@@ -245,11 +245,12 @@
                                                 <label for="validationCustom07">
                                                     {{ $t("global.Empolyee Name") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.employee_id.$model">
+                                                <Select2 v-model.trim="v$.employee_id.$model" :options="employees" :settings="{ width: '100%' }" />
+                                                <!-- <select class="form-control" v-model.trim="v$.employee_id.$model">
                                                     <option v-for="employee in employees" :key="employee.id" :value="employee.id">
                                                         {{ employee.user.name }}
                                                     </option>
-                                                </select>
+                                                </select> -->
                                             </div>
                                             <!--End Employee Select-->
 
@@ -258,11 +259,12 @@
                                                 <label for="validationCustom08">
                                                     {{ $t("global.Shift Name") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.shift_id.$model">
+                                                <Select2 v-model.trim="v$.shift_id.$model" :options="shifts" :settings="{ width: '100%' }" />
+                                                <!-- <select class="form-control" v-model.trim="v$.shift_id.$model">
                                                     <option v-for="shift in shifts" :key="shift.id" :value="shift.id">
                                                         {{ shift.name }}
                                                     </option>
-                                                </select>
+                                                </select> -->
                                             </div>
                                             <!--End Shift Select-->
 

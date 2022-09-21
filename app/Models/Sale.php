@@ -13,7 +13,7 @@ class Sale extends Model
 
     public function getIsReceivedAttribute()
     {
-        if ($this->examinationRecord != null || $this->purchaseReturns != null)
+        if ($this->saleRecord != null || $this->saleReturns != null)
         {
             return 1;
         }
@@ -38,6 +38,11 @@ class Sale extends Model
         return $this->hasMany(SaleProduct::class);
     }
 
+    public function batches()
+    {
+        return $this->hasMany(Batch::class);
+    }
+
     public function store()
     {
         return $this->belongsTo(Stock::class,'stock_id');
@@ -53,8 +58,8 @@ class Sale extends Model
         return $this->hasOne(SaleRecord::class,'sale_id');
     }
 
-    // public function purchaseReturns()
-    // {
-    //     return $this->hasOne(PurchaseReturn::class,'purchase_id');
-    // }
+    public function saleReturns()
+    {
+        return $this->hasOne(SaleReturn::class,'sale_id');
+    }
 }

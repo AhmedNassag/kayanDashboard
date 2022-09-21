@@ -115,7 +115,7 @@ class EmployeeController extends Controller
     {
         DB::beginTransaction();
 
-        try {
+        // try {
 
             // Validator request
             $v = Validator::make($request->all(), [
@@ -189,10 +189,10 @@ class EmployeeController extends Controller
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+        // } catch (\Exception $e) {
+        //     DB::rollBack();
+        //     return $this->sendError('An error occurred in the system');
+        // }
     }
 
     public function edit($id)

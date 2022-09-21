@@ -28,7 +28,7 @@ class SaleRecordController extends Controller
         {
             $qu->with(['mainMeasurementUnit','subMeasurementUnit']);
         },
-        'store','client','saleRecord'=>function($qu)
+        'store','client.user','saleRecord'=>function($qu)
         {
             $qu->with(['storeProducts','user']);
         },
@@ -38,8 +38,8 @@ class SaleRecordController extends Controller
             {
                 return
                 $q->where('	note', 'like', '%' . $request->search . '%')
-                ->orWhereRelation('store','name','like','%'.$request->search.'%');
-                // ->orWhereRelation('client','client.user.name','like','%'.$request->search.'%');
+                ->orWhereRelation('store','name','like','%'.$request->search.'%')
+                ->orWhereRelation('client','client.user.name','like','%'.$request->search.'%');
             });
         })
         ->where(function ($q) use ($request)
@@ -88,7 +88,7 @@ class SaleRecordController extends Controller
             [
                 'sale_id'                     => 'required|integer|exists:sales,id',
                 'stock_id'                    => 'required|integer|exists:stocks,id',
-                'client_id'                   => 'required|integer|exists:cients,id',
+                'client_id'                   => 'required|integer|exists:clients,id',
                 'notes_received'              => 'nullable|string|min:5',
                 'notes_return'                => 'nullable|string|min:5',
                 'product.*.product_id'        => 'required|integer|exists:products,id',
@@ -197,7 +197,7 @@ class SaleRecordController extends Controller
         $sale = Sale::with(['saleProducts.product'=>function($qu)
         {
             $qu->with(['mainMeasurementUnit','subMeasurementUnit']);
-        },'store','client'])->find($id);
+        },'store','client.user'])->find($id);
 
         $productStatuses = StatusProduct::all();
 
@@ -218,7 +218,7 @@ class SaleRecordController extends Controller
             $sale = Sale::with(['saleProducts.product'=>function($qu)
             {
                 $qu->with(['mainMeasurementUnit','subMeasurementUnit']);
-            },'store','client','saleRecord.storeProducts','saleReturns.returnProducts'])->find($id);
+            },'store','client.user','saleRecord.storeProducts','saleReturns.returnProducts'])->find($id);
 
             $productStatuses = StatusProduct::all();
 

@@ -15,8 +15,14 @@ class Product extends Model
     // ];
 
     protected $appends = [
-        'name',
+        'name','text'
     ];
+
+
+    public function getTextAttribute()
+    {
+        return $this->productName->nameAr;
+    }
 
 
     public function getNameAttribute(){
@@ -28,18 +34,20 @@ class Product extends Model
     {
         return $this->morphMany(Media::class,'mediable');
     }
+
     public function selling_methods()
     {
         return $this->belongsToMany(SellingMethod::class);
     }
-    // public function media()
-    // {
-    //     return $this->morphOne(Media::class,'mediable');
-    // }
 
     public function productName()
     {
         return $this->belongsTo(ProductName::class,'productName_id');
+    }
+
+    public function pharmacistForm()
+    {
+        return $this->belongsTo(PharmacistForm::class,'pharmacistForm_id');
     }
 
     public function category()
@@ -104,4 +112,10 @@ class Product extends Model
         return $this->hasMany(PurchaseProduct::class);
     }
     //
+
+    // public function media()
+    // {
+    //     return $this->morphOne(Media::class,'mediable');
+    // }
+
 }

@@ -49,6 +49,7 @@
                                         <th>#</th>
                                         <th>{{ $t("global.Name") }}</th>
                                         <th> {{ $t("global.Category") }}</th>
+                                        <th> {{ $t("global.Pharmacist Form") }}</th>
                                         <th>{{ $t("global.Company") }}</th>
                                         <th>{{ $t("global.Supplier") }}</th>
                                         <th>{{ $t("global.Tax") }}</th>
@@ -62,6 +63,7 @@
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ item.name }}</td>
                                         <td>{{ item.category.name }}</td>
+                                        <td>{{ item.pharmacist_form.name }}</td>
                                         <td v-if="item.company_id">{{ item.company.name }}</td>
                                         <td v-else>---</td>
                                         <td v-if="item.supplier_id">{{ item.supplier.name }}</td>

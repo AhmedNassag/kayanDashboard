@@ -11,6 +11,13 @@ class ProductName extends Model
 
     protected $guarded = [];
 
+    protected $appends=['text'];
+
+    public function getTextAttribute()
+    {
+        return $this->nameAr;
+    }
+
     //start raletions
     public function products()
     {
