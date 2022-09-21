@@ -53,28 +53,26 @@
 
                                             <div class="col-md-6 mb-3">
                                                 <label>{{ $t('global.ChooseStore') }}</label>
-
-                                                <select v-model="data.stock_id" :class="['form-select',{'is-invalid':v$.stock_id.$error,'is-valid':!v$.stock_id.$invalid}]">
+                                                <Select2 v-model="data.stock_id" :options="stores" :settings="{ width: '100%' }" />
+                                                <!-- <select v-model="data.stock_id" :class="['form-select',{'is-invalid':v$.stock_id.$error,'is-valid':!v$.stock_id.$invalid}]">
                                                     <option v-for="store in stores" :key="store.id" :value="store.id">{{store.name}}</option>
-                                                </select>
+                                                </select> -->
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.stock_id.required.$invalid">{{$t('global.StoreIsRequired')}}<br /> </span>
                                                 </div>
-
                                             </div>
 
                                             <div class="col-md-6 mb-3">
                                                 <label>{{ $t('global.ChooseSupplier') }}</label>
-
-                                                <select v-model="data.supplier_id" :class="['form-select',{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}]">
+                                                <Select2 v-model="data.supplier_id" :options="suppliers" :settings="{ width: '100%' }" />
+                                                <!-- <select v-model="data.supplier_id" :class="['form-select',{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}]">
                                                     <option v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">{{supplier.name}}</option>
-                                                </select>
+                                                </select> -->
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.supplier_id.required.$invalid">{{$t('global.supplierIsRequired')}}<br /> </span>
                                                 </div>
-
                                             </div>
 
                                             <div class="col-md-6 mb-3">
@@ -175,7 +173,7 @@
                                                     <div v-for="(it,index) in data.product" :key="it.id" class="col-md-12 mb-12 body-account row">
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.mainCategory') }}</label>
-
+                                                            <!-- <Select2 @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :options="categories" :settings="{ width: '100%' }" /> -->
                                                             <select @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :class="['form-select',{'is-invalid':v$.product[index].category_id.$error,'is-valid':!v$.product[index].category_id.$invalid}]">
                                                                 <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
                                                             </select>
@@ -186,7 +184,7 @@
                                                         </div>
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.subCategory') }}</label>
-
+                                                            <!-- <Select2 @change="getProduct(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :options="subCategory[index].subCategory" :settings="{ width: '100%' }" /> -->
                                                             <select @change="getProduct(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :class="['form-select',{'is-invalid':v$.product[index].sub_category_id.$error,'is-valid':!v$.product[index].sub_category_id.$invalid}]">
                                                                 <option v-for="category in subCategory[index].subCategory" :key="category.id" :value="category.id">{{category.name}}</option>
                                                             </select>
@@ -198,7 +196,7 @@
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.Products') }}</label>
-
+                                                            <!-- <Select2 @change="getMeasurementUnit(it.product_id,index)" v-model="it.product_id" :options="products[index].products" :settings="{ width: '100%' }" /> -->
                                                             <select @change="getMeasurementUnit(it.product_id,index)" v-model="it.product_id" :class="['form-select',{'is-invalid':v$.product[index].product_id.$error,'is-valid':!v$.product[index].product_id.$invalid}]">
                                                                 <option v-for="category in products[index].products" :key="category.id" :value="category.id">{{category.name}}</option>
                                                             </select>
@@ -334,27 +332,26 @@
                                                 <div class="table-responsive">
                                                     <table class="table table-center table-hover mb-0 datatable">
                                                         <thead class="account">
-                                                        <tr class="text-center">
-                                                            <th>{{ $t('global.TotalPriceBeforeDiscount') }}</th>
-                                                            <th>{{ $t('global.TotalPriceAfterDiscount') }}</th>
-                                                            <th>{{ $t('global.TotalProductPrice') }}</th>
-                                                            <th>{{ $t('global.TotalQuantityPrice') }}</th>
-
-                                                        </tr>
+                                                            <tr class="text-center">
+                                                                <th>{{ $t('global.TotalPriceBeforeDiscount') }}</th>
+                                                                <th>{{ $t('global.TotalPriceAfterDiscount') }}</th>
+                                                                <th>{{ $t('global.TotalProductPrice') }}</th>
+                                                                <th>{{ $t('global.TotalQuantityPrice') }}</th>
+                                                            </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr class="text-center">
-                                                            <td>{{data.price ? parseFloat(data.price) + parseFloat(data.transfer_price) : 0}}</td>
-                                                            <td>{{data.price ? (parseFloat(data.price) + parseFloat(data.transfer_price)) - (parseFloat(data.discount_value) + parseFloat(data.other_discounts)) : 0}}</td>
-                                                            <td>{{totalProductPrice ? totalProductPrice : 0}}</td>
-                                                            <td>{{totalProductQuantity ? totalProductQuantity : 0}}</td>
-                                                        </tr>
-                                                        <tr class="text-center">
-                                                            <td>{{ $t('global.Notes') }}</td>
-                                                            <td colspan="9" v-if="totalProductPrice < (parseFloat(data.price) + parseFloat(data.transfer_price)) - (parseFloat(data.discount_value) + parseFloat(data.other_discounts))"> {{$t('global.The total price of the products is less than the total price of the purchase invoice')}}</td>
-                                                            <td colspan="9" v-else-if="totalProductPrice == (parseFloat(data.price) + parseFloat(data.transfer_price)) - (parseFloat(data.discount_value) + parseFloat(data.other_discounts))">{{$t('global.The total price of the products is equal to the total price of the purchase invoice')}}</td>
-                                                            <td colspan="9" v-else>{{$t('global.The total price of the products is greater than the total price of the purchase invoice')}}</td>
-                                                        </tr>
+                                                            <tr class="text-center">
+                                                                <td>{{data.price ? parseFloat(data.price) + parseFloat(data.transfer_price) : 0}}</td>
+                                                                <td>{{data.price ? (parseFloat(data.price) + parseFloat(data.transfer_price)) - (parseFloat(data.discount_value) + parseFloat(data.other_discounts)) : 0}}</td>
+                                                                <td>{{totalProductPrice ? totalProductPrice : 0}}</td>
+                                                                <td>{{totalProductQuantity ? totalProductQuantity : 0}}</td>
+                                                            </tr>
+                                                            <tr class="text-center">
+                                                                <td>{{ $t('global.Notes') }}</td>
+                                                                <td colspan="9" v-if="totalProductPrice < (parseFloat(data.price) + parseFloat(data.transfer_price)) - (parseFloat(data.discount_value) + parseFloat(data.other_discounts))"> {{$t('global.The total price of the products is less than the total price of the purchase invoice')}}</td>
+                                                                <td colspan="9" v-else-if="totalProductPrice == (parseFloat(data.price) + parseFloat(data.transfer_price)) - (parseFloat(data.discount_value) + parseFloat(data.other_discounts))">{{$t('global.The total price of the products is equal to the total price of the purchase invoice')}}</td>
+                                                                <td colspan="9" v-else>{{$t('global.The total price of the products is greater than the total price of the purchase invoice')}}</td>
+                                                            </tr>
                                                         </tbody>
 
                                                     </table>
@@ -480,7 +477,7 @@ export default {
                                 required
                             }
                         });
-                        
+
                         addJob.data.product.push({
                             price_before_discount:el.price_before_discount,
                             price_after_discount:el.price_after_discount,

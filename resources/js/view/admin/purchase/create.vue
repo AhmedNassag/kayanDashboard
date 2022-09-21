@@ -247,11 +247,12 @@
                             <label for="validationCustom08">
                                 {{ $t("global.MainCategory") }}
                             </label>
-                            <select class="form-control" v-model.trim="v$.category_id.$model">
+                            <Select2 v-model.trim="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" />
+                            <!-- <select class="form-control" v-model.trim="v$.category_id.$model">
                                 <option v-for="category in categories" :key="category.id" :value="category.id">
                                     {{ category.name }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
                         <!--End Category Select-->
 
@@ -260,11 +261,12 @@
                             <label for="validationCustom09">
                                 {{ $t("global.Supplier") }}
                             </label>
-                            <select class="form-control" v-model.trim="v$.supplier_id.$model">
+                            <Select2 v-model.trim="v$.supplier_id.$model" :options="suppliers" :settings="{ width: '100%' }" />
+                            <!-- <select class="form-control" v-model.trim="v$.supplier_id.$model">
                                 <option v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">
                                     {{ supplier.name }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
                         <!--End Supplier Select-->
 
@@ -273,11 +275,12 @@
                             <label for="validationCustom10">
                                 {{ $t("global.Product") }}
                             </label>
-                            <select class="form-control" v-model.trim="v$.product_id.$model">
+                            <Select2 v-model.trim="v$.product_id.$model" :options="products" :settings="{ width: '100%' }" />
+                            <!-- <select class="form-control" v-model.trim="v$.product_id.$model">
                                 <option v-for="product in products" :key="product.id" :value="product.id">
                                     {{ product.productName_id }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
                         <!--End Product Select-->
 
@@ -286,11 +289,12 @@
                             <label for="validationCustom10">
                                 {{ $t("global.Employee") }}
                             </label>
-                            <select class="form-control" v-model.trim="v$.employee_id.$model">
+                            <Select2 v-model.trim="v$.employee_id.$model" :options="employees" :settings="{ width: '100%' }" />
+                            <!-- <select class="form-control" v-model.trim="v$.employee_id.$model">
                                 <option v-for="employee in employees" :key="employee.id" :value="employee.id">
                                     {{ employee.user.name }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
                         <!--End Employee Select-->
 

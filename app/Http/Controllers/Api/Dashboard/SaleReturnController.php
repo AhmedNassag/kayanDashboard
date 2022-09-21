@@ -18,13 +18,13 @@ class SaleReturnController extends Controller
      */
     public function index(Request $request)
     {
-        $sales = SaleReturn::with(['user','client','returnProducts'=>function($qu)
+        $sales = SaleReturn::with(['user','client.user','returnProducts'=>function($qu)
         {
             $qu->with(['product','saleProduct']);
         },
         'store','sale'=>function($qu)
         {
-            $qu->with(['saleProducts.product.mainMeasurementUnit','store','client']);
+            $qu->with(['saleProducts.product.mainMeasurementUnit','store','client.user']);
         }])
         ->where(function ($q) use ($request)
         {
@@ -34,7 +34,7 @@ class SaleReturnController extends Controller
                 $q->orWhereRelation('user','name','like','%'.$request->search.'%')
                 ->orWhere('	note', 'like', '%' . $request->search . '%')
                 ->orWhereRelation('store','name','like','%'.$request->search.'%')
-                ->orWhereRelation('client','user.name','like','%'.$request->search.'%');
+                ->orWhereRelation('client','client.user.name','like','%'.$request->search.'%');
             });
         })
         ->where(function ($q) use ($request)

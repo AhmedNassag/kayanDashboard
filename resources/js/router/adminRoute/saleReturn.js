@@ -1,6 +1,6 @@
 import indexSaleReturn from "../../view/admin/saleReturn/index";
-// import createSaleReturn from "../../view/admin/saleReturn/create";
-// import editSaleReturn from "../../view/admin/saleReturn/edit";
+import createSaleReturn from "../../view/admin/saleReturn/create";
+import editSaleReturn from "../../view/admin/saleReturn/edit";
 import store from "../../store/admin";
 
 export default [
@@ -17,7 +17,7 @@ export default [
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('saleReturn read')){
+                    if(permission.includes('SaleReturn read')){
                         return next();
                     }else{
                         return next({name:'Page404'});
