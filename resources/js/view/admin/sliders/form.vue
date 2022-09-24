@@ -62,7 +62,7 @@
                     <div class="col-lg-12">
                       <div class="form-group">
                         <label for="exampleInputEmail1">{{ $t("global.Title") }}</label>
-                         <input
+                        <input
                           type="text"
                           class="form-control"
                           v-model="v$.title.$model"
@@ -169,7 +169,7 @@ export default {
       url: "",
       external: true,
       product_id: null,
-      color: "",
+      color: "#fff",
     });
     const rules = {
       title: { required },
@@ -295,7 +295,7 @@ export default {
       v$.value.$reset();
       form.product_id = getProductId();
       form.title = props.selectedSlider ? props.selectedSlider.title : "";
-      form.color = props.selectedSlider ? props.selectedSlider.color : "";
+      form.color = props.selectedSlider ? props.selectedSlider.color : "#fff";
       form.url = props.selectedSlider ? props.selectedSlider.url : "";
       form.external =
         props.selectedSlider && props.selectedSlider.external ? true : false;

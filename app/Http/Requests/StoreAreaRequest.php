@@ -25,7 +25,6 @@ class StoreAreaRequest extends FormRequest
     {
         return [
             "name" => "required|unique:areas",
-            "available" => "required|boolean",
             "city_id" => "required|numeric"
         ];
     }

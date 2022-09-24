@@ -328,7 +328,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::delete("{id}", "SliderController@delete");
             });
 
-            //Sliders
+            //Simple Advertises
             Route::prefix("simple-advertises")->group(function () {
                 Route::get("", "SimpleAdvertiseController@index");
                 Route::get("products", "SimpleAdvertiseController@getProducts");
@@ -336,7 +336,10 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::post("update", "SimpleAdvertiseController@update");
                 Route::delete("{id}", "SimpleAdvertiseController@delete");
             });
-
+            Route::prefix("unavailable-cities-clients")->group(function () {
+                Route::get("", "UnavailableCityClientController@getUnavailableCitiesClients");
+                Route::get("all", "UnavailableCityClientController@getAllUnavailableCitiesClients");
+            });
 
             //start logout
             Route::post('logout', 'AuthDashboardController@logout');

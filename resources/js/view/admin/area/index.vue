@@ -59,7 +59,6 @@
                     <tr>
                       <th>#</th>
                       <th>{{ $t("global.Name") }}</th>
-                      <th>{{ $t("global.Available") }}</th>
                       <th>{{ $t("global.City") }}</th>
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
@@ -68,7 +67,6 @@
                     <tr v-for="(area, index) in areas" :key="area.id">
                       <td>{{ index + 1 }}</td>
                       <td>{{ area.name }}</td>
-                      <td>{{ $t(area.available ? "global.Yeas" : "global.No") }}</td>
                       <td>{{ area.city.name }}</td>
                       <td>
                         <a

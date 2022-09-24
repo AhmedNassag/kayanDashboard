@@ -42,20 +42,6 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="custom-control custom-checkbox mr-sm-2">
-                      <input
-                        id="workflow"
-                        name="workflow"
-                        class="custom-control-input"
-                        type="checkbox"
-                        v-model="available"
-                      />
-                      <label class="custom-control-label" for="workflow">{{
-                        $t("global.Available")
-                      }}</label>
-                    </div>
-                  </div>
                 </div>
                 <div class="col-12">
                   <div class="form-group">
@@ -114,7 +100,6 @@ export default {
       id: null,
       name: "",
       city_id: null,
-      available: true,
     });
     const rules = {
       name: { required },
@@ -179,7 +164,6 @@ export default {
       return {
         id: props.selectedArea ? props.selectedArea.id : null,
         name: form.name,
-        available: form.available,
         city_id: form.city_id,
         city_name: getCurrentCityName(),
       };
@@ -187,7 +171,6 @@ export default {
     function setForm() {
       v$.value.$reset();
       form.name = props.selectedArea ? props.selectedArea.name : "";
-      form.available = props.selectedArea ? Boolean(props.selectedArea.available) : true;
       form.city_id = getCurrentCityId();
       data.nameExist = false;
     }
