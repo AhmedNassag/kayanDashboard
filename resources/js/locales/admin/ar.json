@@ -12,6 +12,8 @@
         "Dashboard": "الرئيسيه"
     },
     "sidebar": {
+        "UnvailableCitiesClients":"عملاء المحافظات الغير متاحة",
+        "ProductNames":"اسماء المنجات",
         "Cities":"المحافظات",
         "Areas":"المناطق",
         "KnowUsWays":"طرق التعرف علينا",
@@ -73,6 +75,7 @@
         "Percentage": "نسبة"
     },
     "global": {
+        "UnvailableCitiesClients":"عملاء المحافظات الغير متاحة",
         "SimpleAdvertises":"الاعلانات",
         "Cities":"المحافظات",
         "Areas":"المناطق",

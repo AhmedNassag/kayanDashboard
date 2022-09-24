@@ -34,6 +34,7 @@ import login from "../view/admin/login";
 import forgetPassword from "../view/admin/forgetPassword";
 import resetPassword from "../view/admin/resetPassword";
 import unit from './adminRoute/unit';
+import unavailable_city_user from './adminRoute/unavailable-city-client';
 import city from './adminRoute/city';
 import area from './adminRoute/area';
 import knowUsWay from './adminRoute/know-us-way';
@@ -129,6 +130,7 @@ const routes = [
             ...storage,
             ...refused,
             ...unit,
+            ...unavailable_city_user,
             ...city,
             ...area,
             ...knowUsWay,

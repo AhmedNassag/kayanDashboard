@@ -301,7 +301,7 @@ export default {
     }
     //Watchers
     watch(
-      () => {
+    () => {
         simple_advertise_store.onFormShow;
       },
       (value) => {
