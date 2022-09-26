@@ -309,6 +309,9 @@
                                                 <label for="validationCustom0">
                                                     {{ $t("global.Payment Method") }}
                                                 </label>
+                                                <!-- <br>
+                                                <button class="btn btn-custom btn-dark" value="Cach" @click="hideBatch()">{{ $t("global.Cach") }}</button>
+                                                <button class="btn btn-custom btn-dark m-3" value="Delay" @click="showBatch()">{{ $t("global.Delay") }}</button> -->
                                                 <select class="form-select batch" v-model.trim="v$.payment_method.$model">
                                                     <option value="Cach">
                                                         {{ $t("global.Cach") }}
@@ -322,7 +325,7 @@
 
 
                                             <!--Start Batches-->
-                                            <div class="col-md-12 mb-3 batch-option">
+                                            <div class="col-md-12 mb-3 batch-option" id="batch" v-if="batchShow == true">
                                                 <div class="row account">
                                                     <div class="col-md-12 mb-12 head-account">
                                                         <h3>{{ $t('global.Batches') }}</h3>
@@ -570,6 +573,7 @@ export default {
     data(){
         return {
             errors:{},
+            batchShow:true,
         }
     },
     setup(){
@@ -842,6 +846,15 @@ export default {
         return {t,validateLTE,getProduct,getMeasurementUnit,getSubCategory,categories,clients,stores,loading,...toRefs(addJob),v$,totalProductQuantity,totalProductPrice,productValidation,DebitAmount,validateDueDate,batchValidation};
     },
     methods: {
+        hideBatch()
+        {
+            this.batchShow = false;
+        },
+        showBatch()
+        {
+            this.batchShow = true;
+        },
+
         storeJob(){
             this.v$.$validate();
 
