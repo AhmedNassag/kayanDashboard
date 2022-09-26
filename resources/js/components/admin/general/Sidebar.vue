@@ -20,7 +20,15 @@
               <span>{{ $t("global.Shifts") }}</span>
             </router-link>
           </li>
-
+          <!-- Start Shift Links -->
+          <li
+            :class="[$route.name == 'DealIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'DealIndex' }">
+              <i class="fa fa-home" aria-hidden="true"></i>
+              <span>{{ $t("sidebar.Deals") }}</span>
+            </router-link>
+          </li>
           <!-- Start Stocks Links -->
           <li class="submenu" v-if="permission.includes('management')">
             <a href="#">
