@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\Supplier;
 use App\Models\VirtualStock;
 use App\Traits\Message;
 use Illuminate\Http\Request;
@@ -19,7 +22,7 @@ class VirtualStockController extends Controller
      */
     public function index(Request $request)
     {
-        $virtualStocks = VirtualStock::with('productName')->with('category')->with('subCategory')->with('supplier')
+        $virtualStocks = VirtualStock::with('product.productName')->with('category')->with('subCategory')->with('supplier')
             ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
@@ -58,13 +61,13 @@ class VirtualStockController extends Controller
                 'supplier_id' => 'required',
                 'category_id' => 'required',
                 'sub_category_id' => 'required',
-                'productName_id' => 'required',
+                'product_id' => 'required',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $data = $request->only(['productQuantity','pharmacyPrice','publicPrice','pharmacyDiscount','kayanDiscount','category_id','sub_category_id','productName_id','supplier_id']);
+            $data = $request->only(['productQuantity','pharmacyPrice','publicPrice','pharmacyDiscount','kayanDiscount','category_id','sub_category_id','product_id','supplier_id']);
             $virtualStock = VirtualStock::create($data);
 
             DB::commit();
@@ -98,8 +101,17 @@ class VirtualStockController extends Controller
     {
         try
         {
-            $virtualStock = VirtualStock::with('productName')->with('category')->with('subCategory')->with('supplier')->find($id);
-            return $this->sendResponse(['virtualStock' => $virtualStock], 'Data exited successfully');
+            $virtualStock = VirtualStock::with('product.productName')->with('category')->with('subCategory')->with('supplier')->find($id);
+            $products       = Product::with('productName')->get();
+            $suppliers      = Supplier::select('id','name')->get();
+            $categories     = Category::select('id','name')->get();
+            return $this->sendResponse
+            ([
+                'virtualStock' => $virtualStock,
+                'products'     => $products,
+                'suppliers'    => $suppliers,
+                'categories'   => $categories,
+            ], 'Data exited successfully');
         }
         catch (\Exception $e)
         {
@@ -128,17 +140,16 @@ class VirtualStockController extends Controller
                 'publicPrice' => 'required',
                 'pharmacyDiscount' => 'required',
                 'kayanDiscount' => 'required',
-                // 'supplier_id' => 'required',
                 'category_id' => 'required',
                 'sub_category_id' => 'required',
-                'productName_id' => 'required',
+                'product_id' => 'required',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['productQuantity','pharmacyPrice','publicPrice','pharmacyDiscount','kayanDiscount','category_id','sub_category_id','productName_id']);
+            $data = $request->only(['productQuantity','pharmacyPrice','publicPrice','pharmacyDiscount','kayanDiscount','category_id','sub_category_id','product_id']);
 
             $virtualStock->update($data);
 

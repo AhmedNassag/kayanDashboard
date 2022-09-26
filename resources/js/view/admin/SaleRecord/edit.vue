@@ -49,9 +49,7 @@
 
                                             <div class="col-md-3 mb-3">
                                                 <label>{{$t('global.Store')}}</label>
-                                                <input type="text" disabled class="form-control"
-                                                       v-model="storeName"
-                                                >
+                                                <input type="text" disabled class="form-control" v-model="storeName">
                                             </div>
 
                                             <div class="col-md-3 mb-3">
@@ -107,9 +105,10 @@
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.productStatus') }}</label>
-                                                            <select  v-model="data.product[index].product_status_id " :class="['form-select',{'is-invalid':v$.product[index].product_status_id.$error,'is-valid':!v$.product[index].product_status_id.$invalid}]">
+                                                            <Select2 v-model="data.product[index].product_status_id" :options="productStatuses" :settings="{ width: '100%' }" />
+                                                            <!-- <select  v-model="data.product[index].product_status_id " :class="['form-select',{'is-invalid':v$.product[index].product_status_id.$error,'is-valid':!v$.product[index].product_status_id.$invalid}]">
                                                                 <option v-for="status in productStatuses" :key="status.id" :value="status.id">{{status.name}}</option>
-                                                            </select>
+                                                            </select> -->
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
                                                                 <span v-if="v$.product[index].product_status_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>

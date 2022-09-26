@@ -168,21 +168,25 @@
                                                                                         <th>{{ $t('global.Quantity') }}</th>
                                                                                         <th>{{ $t('global.productionDate') }}</th>
                                                                                         <th>{{ $t('global.expiryDate') }}</th>
-                                                                                        <th v-if="item.is_received == 0">{{ $t('global.ProductDetails') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.priceBeforeDiscount') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.priceAfterDiscount') }}</th>
+                                                                                        <!-- <th v-if="item.is_received == 0">{{ $t('global.ProductDetails') }}</th>
                                                                                         <th v-if="item.is_received == 1">{{ $t('global.quantityReceived') }}</th>
-                                                                                        <th v-if="item.is_received == 1">{{ $t('global.returnQuantity') }}</th>
+                                                                                        <th v-if="item.is_received == 1">{{ $t('global.returnQuantity') }}</th> -->
                                                                                     </tr>
                                                                                     </thead>
                                                                                     <tbody v-if="item.purchase_products">
                                                                                         <tr v-for="(it,index) in item.purchase_products" :key="it.id">
                                                                                             <td>{{ index +1}}</td>
                                                                                             <td>{{ it.product.name }}</td>
-                                                                                            <td>{{ it.quantity }} <!--( {{it.product.main_measurement_unit.name}} )--></td>
+                                                                                            <td>{{ it.quantity }} ( {{it.product.main_measurement_unit.name}} )</td>
                                                                                             <td>{{ it.production_date }}</td>
                                                                                             <td>{{ it.expiry_date }}</td>
-                                                                                            <td v-if="item.is_received == 0">{{it.product.main_measurement_unit.name}} {{$t('global.ThereIs')}} {{it.count_unit}} {{it.product.sub_measurement_unit.name}}</td>
+                                                                                            <td class="text-center">{{ it.price_before_discount }}</td>
+                                                                                            <td class="text-center">{{ it.price_after_discount }}</td>
+                                                                                            <!-- <td v-if="item.is_received == 0">{{it.product.main_measurement_unit.name}} {{$t('global.ThereIs')}} {{it.count_unit}} {{it.product.sub_measurement_unit.name}}</td>
                                                                                             <td v-if="item.is_received == 1">{{ it.quantity_received }}</td>
-                                                                                            <td v-if="item.is_received == 1">{{ it.return_quantity }}</td>
+                                                                                            <td v-if="item.is_received == 1">{{ it.return_quantity }}</td> -->
                                                                                         </tr>
                                                                                         <!-- <tr v-else>
                                                                                             <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>

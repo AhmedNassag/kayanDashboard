@@ -11,6 +11,13 @@ class Shift extends Model
 
     protected $guarded = [];
 
+    protected $appends=['text'];
+
+    public function getTextAttribute()
+    {
+        return $this->name;
+    }
+
     //start relations
     public function stocks()
     {

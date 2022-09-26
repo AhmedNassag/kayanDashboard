@@ -60,7 +60,7 @@
                                                 <label for="validationCustom0">
                                                     {{ $t("global.Type") }}
                                                 </label>
-                                                <select class="form-select" v-model.trim="v$.type.$model">
+                                                <select class="form-select" v-model.trim="v$.type.$model" disabled>
                                                     <option value="Sale Invoice">
                                                         {{ $t("global.Sales Invoice") }}
                                                     </option>
@@ -80,12 +80,14 @@
                                             <!--Start Client Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label>{{ $t('global.Client') }}</label>
-                                                <select
+                                                <Select2 v-model="data.client_id" :options="clients" :settings="{ width: '100%' }" />
+                                                <!-- <select
                                                     v-model="data.client_id"
                                                     :class="['form-select',{'is-invalid':v$.client_id.$error,'is-valid':!v$.client_id.$invalid}]"
-                                                >
+                                                    data-live-search="true"
+                                                    >
                                                     <option v-for="client in clients" :key="client.id" :value="client.id">{{client.user.name}}</option>
-                                                </select>
+                                                </select> -->
                                                 <router-link :to="{ name: 'ClientIndex' }">
                                                     <i class="fa fa-user" aria-hidden="true"></i>
                                                     <span> {{ $t("sidebar.New Client") }} </span>
@@ -100,38 +102,17 @@
                                             <!--Start Stock Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label>{{ $t('global.ChooseStore') }}</label>
-
-                                                <select v-model="data.stock_id"
+                                                <Select2 v-model="data.stock_id" :options="stores" :settings="{ width: '100%' }" />
+                                                <!-- <select v-model="data.stock_id"
                                                     :class="['form-select',{'is-invalid':v$.stock_id.$error,'is-valid':!v$.stock_id.$invalid}]">
                                                     <option v-for="store in stores" :key="store.id" :value="store.id">{{store.name}}</option>
-                                                </select>
+                                                </select> -->
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.stock_id.required.$invalid">{{$t('global.StoreIsRequired')}}<br /> </span>
                                                 </div>
-
                                             </div>
                                             <!--End Stock Select-->
-
-                                            <!--Start Payment Method Select-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom0">
-                                                    {{ $t("global.Payment Method") }}
-                                                </label>
-                                                <select class="form-select" v-model.trim="v$.payment_method.$model">
-                                                    <option value="Cach">
-                                                        {{ $t("global.Cach") }}
-                                                    </option>
-                                                    <option value="Delay">
-                                                        {{ $t("global.Delay") }}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <!--End Payment Method Select-->
-
-
-                                            <!--Put Batches Here-->
-
 
                                             <!--Start Purchase Type Select-->
                                             <div class="col-md-6 mb-3">
@@ -323,6 +304,79 @@
                                             </div>
                                             <!--End Notes-->
 
+                                            <!--Start Payment Method Select-->
+                                            <div class="col-md-6 mb-3 pd-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.Payment Method") }}
+                                                </label>
+                                                <select class="form-select batch" v-model.trim="v$.payment_method.$model">
+                                                    <option value="Cach">
+                                                        {{ $t("global.Cach") }}
+                                                    </option>
+                                                    <option value="Delay">
+                                                        {{ $t("global.Delay") }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <!--End Payment Method Select-->
+
+
+                                            <!--Start Batches-->
+                                            <div class="col-md-12 mb-3 batch-option">
+                                                <div class="row account">
+                                                    <div class="col-md-12 mb-12 head-account">
+                                                        <h3>{{ $t('global.Batches') }}</h3>
+                                                    </div>
+                                                    <div v-for="(it,index) in data.batch" :key="it.id" class="col-md-12 mb-12 body-account row">
+
+                                                        <!--Start Money :class="{'is-invalid':v$.batch[index].money.$error || !batches[index].send,'is-valid':!v$.batch[index].money.$invalid && batches[index].send}"-->
+                                                        <div class="col-md-4 mb-4">
+                                                            <label>{{$t('global.Money')}}</label>
+                                                            <input type="number" step="0.1" class="form-control"
+                                                                   @input="validateLTE(index)"
+                                                                   v-model.number="v$.batch[index].money.$model"
+                                                                   :placeholder="$t('global.Money')"
+
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <!-- <div class="invalid-feedback">
+                                                                <span v-if="v$.batch[index].money.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br/></span>
+                                                                <span v-if="v$.batch[index].money.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br/></span>
+                                                            </div> -->
+                                                        </div>
+                                                        <!--End Money-->
+
+                                                        <!--Start Due Date :class="{'is-invalid':v$.batch[index].due_date.$error || !batches[index].sendDueDate,'is-valid':!v$.batch[index].due_date.$invalid && batches[index].sendDueDate}"-->
+                                                        <div class="col-md-4 mb-4">
+                                                            <label>{{$t('global.Due Date')}}</label>
+                                                            <input type="date" class="form-control"
+                                                                @change="validateDueDate(index)"
+                                                                v-model="v$.batch[index].due_date.$model"
+                                                                :placeholder="$t('global.Due Date')"
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <!-- <div class="invalid-feedback">
+                                                                <span v-if="v$.batch[index].due_date.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br/></span>
+                                                                <span v-if="!batches[index].sendDueDate">{{$t('global.DueDateMastGreaterThanToday')}}<br/></span>
+                                                            </div> -->
+                                                        </div>
+                                                        <!--End Due Date-->
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <button @click.prevent="addBatch" v-if="(data.batch.length-1) == index"
+                                                                class="btn btn-sm btn-success me-2 mt-5">
+                                                                <i class="fas fa-clipboard-list"></i> {{$t('global.AddANewLine')}}
+                                                            </button>
+                                                            <button v-if="index" @click.prevent="deleteBatch(index)" data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2 mt-5">
+                                                                <i class="far fa-trash-alt"></i> {{$t('global.Delete')}}
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Batches-->
+
                                             <!--Start Sale Products-->
                                             <div class="col-md-12 mb-12">
                                                 <div class="row account">
@@ -334,6 +388,7 @@
                                                         <!--Start Category-->
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.mainCategory') }}</label>
+                                                            <!-- <Select2 @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :options="categories" :settings="{ width: '100%' }" /> -->
                                                             <select @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :class="['form-select',{'is-invalid':v$.product[index].category_id.$error,'is-valid':!v$.product[index].category_id.$invalid}]">
                                                                 <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
                                                             </select>
@@ -347,6 +402,7 @@
                                                         <!--Start Sub Categoy-->
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.subCategory') }}</label>
+                                                            <!-- <Select2 @change="getProduct(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :options="subCategory[index].subCategory" :settings="{ width: '100%' }" /> -->
                                                             <select @change="getProduct(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :class="['form-select',{'is-invalid':v$.product[index].sub_category_id.$error,'is-valid':!v$.product[index].sub_category_id.$invalid}]">
                                                                 <option v-for="category in subCategory[index].subCategory" :key="category.id" :value="category.id">{{category.name}}</option>
                                                             </select>
@@ -360,6 +416,7 @@
                                                         <!--Start Product-->
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.Products') }}</label>
+                                                            <!-- <Select2 @change="getMeasurementUnit(it.product_id,index)" v-model="it.product_id" :options="subCategory[index].subCategory" :settings="{ width: '100%' }" /> -->
                                                             <select @change="getMeasurementUnit(it.product_id,index)" v-model="it.product_id" :class="['form-select',{'is-invalid':v$.product[index].product_id.$error,'is-valid':!v$.product[index].product_id.$invalid}]">
                                                                 <option v-for="category in products[index].products" :key="category.id" :value="category.id">{{category.name}}</option>
                                                             </select>
@@ -418,6 +475,7 @@
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.priceAfterDiscount')}}</label>
                                                             <input type="number" step="0.1" class="form-control"
+                                                                @change="getProductPrice(it.product_id,index)"
                                                                 @input="validateLTE(index)"
                                                                 v-model.number="v$.product[index].price_after_discount.$model"
                                                                 :placeholder="$t('global.priceAfterDiscount')"
@@ -511,7 +569,7 @@ export default {
     name: "create",
     data(){
         return {
-            errors:{}
+            errors:{},
         }
     },
     setup(){
@@ -543,12 +601,25 @@ export default {
                 numeric
             },
         }]);
-
+        //
+        let batchValidation = ref([{
+            money:{
+                // required,
+                // numeric
+            },
+            due_date:{
+                // required
+            },
+        }]);
+        //
         let totalProductPrice = ref(0);
         let totalProductQuantity = ref(0);
         let validateLTE = (index) =>{
             addJob.products[index].send = addJob.data.product[index].price_before_discount >= addJob.data.product[index].price_after_discount;
             DebitAmount();
+        }
+        let validateDueDate = (index) =>{
+            addJob.batches[index].sendDueDate = addJob.data.batch[index].due_date > new Date().toISOString().split('T')[0];
         }
 
         let DebitAmount = () => {
@@ -625,6 +696,14 @@ export default {
 
         let addJob =  reactive({
             data:{
+                //
+                batch:[
+                    {
+                        money:'',
+                        due_date:'',
+                    }
+                ],
+                //
                 product:[
                     {
                         category_id:'',
@@ -636,7 +715,7 @@ export default {
                         price_after_discount:'',
                     }
                 ],
-                type:'',
+                type:'Sale Invoice',
                 client_id:'',
                 stock_id:'',
                 payment_method:'',
@@ -657,11 +736,22 @@ export default {
             ],
             products:[
                 {products:[],send:true}
+            ],
+            //
+            batches:[
+                {batches:[],send:true}
             ]
+            //
         });
 
         const rules = computed(() => {
             return {
+                //
+                batch:[
+                    ...batchValidation.value
+                ],
+                //
+
                 product:[
                     ...productValidation.value
                 ],
@@ -749,7 +839,7 @@ export default {
             addJob.data.discount_percentage =   (after*100)/addJob.data.price;
         });
 
-        return {t,validateLTE,getProduct,getMeasurementUnit,getSubCategory,categories,clients,stores,loading,...toRefs(addJob),v$,totalProductQuantity,totalProductPrice,productValidation,DebitAmount};
+        return {t,validateLTE,getProduct,getMeasurementUnit,getSubCategory,categories,clients,stores,loading,...toRefs(addJob),v$,totalProductQuantity,totalProductPrice,productValidation,DebitAmount,validateDueDate,batchValidation};
     },
     methods: {
         storeJob(){
@@ -827,8 +917,35 @@ export default {
             this.$nextTick(() => { this.v$.$reset() });
             this.DebitAmount();
         },
+        //
+        addBatch(){
+            this.data.batch.push({
+                money:'',
+                due_date:'',
+            });
+            this.batchValidation.push({
+                money:{
+                    // required,
+                    // numeric
+                },
+                due_date:{
+                    // required
+                },
+            });
+
+            this.batches.push({batches:[],send:true});
+            this.$nextTick(() => { this.v$.$reset() });
+        },
+        deleteBatch(index){
+            this.data.batch.splice(index,1);
+            this.batchValidation.splice(index,1);
+            this.batches.splice(index,1);
+            this.$nextTick(() => { this.v$.$reset() });
+            this.DebitAmount();
+        },
+        //
         resetForm(){
-            this.type = '';
+            this.type = 'Sale Invoice';
             this.client_id = '';
             this.data.stock_id = '';
             this.payment_method = '';
@@ -851,6 +968,12 @@ export default {
                 price_before_discount:null,
                 price_after_discount:null,
             }];
+            //
+            this.data.batch = [{
+                money:'',
+                due_date:'',
+            }];
+            //
         }
     }
 }

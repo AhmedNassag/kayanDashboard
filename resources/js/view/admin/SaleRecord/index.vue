@@ -97,7 +97,7 @@
 
                                                 <a v-if="item.is_received == 1" href="javascript:void(0);"
                                                     class="btn btn-sm btn-success me-2">
-                                                    <i class="fas fa-check-circle"></i> {{$t('global.ItWasReceived')}}
+                                                    <i class="fas fa-check-circle"></i> {{$t('global.ItWasSold')}}
                                                 </a>
 
                                             </td>
@@ -151,7 +151,7 @@
                                                                                     </div>
                                                                                     <div class="col-md-6">
                                                                                         <p>{{$t('global.DateOrder')}} : {{dateFormat(item.created_at)}}</p>
-                                                                                        <p>{{$t('global.Supplier')}} : {{ item.supplier.name }}</p>
+                                                                                        <p>{{$t('global.Supplier')}} : {{ item.client.user.name }}</p>
                                                                                     </div>
 
                                                                                 </div>
@@ -161,6 +161,8 @@
                                                                                         <th class="text-center">#</th>
                                                                                         <th class="text-center">{{ $t('global.Products') }}</th>
                                                                                         <th class="text-center">{{ $t('global.Quantity') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.priceBeforeDiscount') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.priceAfterDiscount') }}</th>
                                                                                         <th class="text-center" v-if="item.is_received == 0">{{ $t('global.ProductDetails') }}</th>
                                                                                         <th class="text-center" v-if="item.is_received == 1">{{ $t('global.quantityReceived') }}</th>
                                                                                         <th class="text-center" v-if="item.is_received == 1">{{ $t('global.returnQuantity') }}</th>
@@ -171,7 +173,9 @@
                                                                                             <td class="text-center">{{ index +1}}</td>
                                                                                             <td class="text-center">{{ it.product.name }}</td>
                                                                                             <td class="text-center">{{ it.quantity }} ( {{it.product.main_measurement_unit.name}} )</td>
-                                                                                            <td class="text-center" v-if="item.is_received == 0">{{it.product.main_measurement_unit.name}}</td>
+                                                                                            <td class="text-center">{{ it.price_before_discount }}</td>
+                                                                                            <td class="text-center">{{ it.price_after_discount }}</td>
+                                                                                            <td class="text-center" v-if="item.is_received == 0">{{it.product.main_measurement_unit.name}} {{$t('global.ThereIs')}} {{it.count_unit}} {{it.product.sub_measurement_unit.name}}</td>
                                                                                             <td class="text-center" v-if="item.is_received == 1">{{ it.quantity_received }}</td>
                                                                                             <td class="text-center" v-if="item.is_received == 1">{{ it.return_quantity }}</td>
                                                                                         </tr>
@@ -282,7 +286,6 @@ export default {
                                 });
                             }
                             if(pr.sale_returns) {
-
                                 pr.sale_returns.return_products.forEach((elmen) => {
                                     if (elmen.product_id == el.product_id) {
                                         return_quantity = elmen.quantity
@@ -333,7 +336,7 @@ export default {
             location.reload();
         }
 
-        return {salesPaginate,search,permission,sale_id,fromDate,toDate,sales, loading,dateFormat,printData, getIncome,close};
+        return {salesPaginate,search,permission,sale_id,fromDate,toDate,sales,loading,dateFormat,printData,getIncome,close};
 
     },
     data() {

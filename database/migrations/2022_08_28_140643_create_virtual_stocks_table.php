@@ -21,10 +21,12 @@ class CreateVirtualStocksTable extends Migration
             $table->string('pharmacyDiscount')->nullable();
             $table->string('kayanDiscount')->nullable();
 
-            $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete()->nullable();
+            $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->cascadeOnDelete();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->foreignId('sub_category_id')->constrained('sub_categories')->cascadeOnDelete();
-            $table->foreignId('productName_id')->constrained('product_names')->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+            // $table->foreignId('productName_id')->constrained('product_names')->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

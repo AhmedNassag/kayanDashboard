@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Media;
+use App\Models\PharmacistForm;
 use App\Models\Product;
 use App\Models\ProductName;
 use App\Models\SellingMethod;
@@ -32,8 +33,9 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::with('company:id,name', 'supplier:id,name', 'category:id,name', 'tax:id,name')
-            ->when($request->search, function ($q) use ($request) {
+        $products = Product::
+        with('company:id,name','supplier:id,name','category:id,name','tax:id,name','pharmacistForm:id,name')
+        ->when($request->search,function ($q) use ($request){
 
                 return $q->where('name', 'like', "%" . $request->search . "%");
             })->latest()->paginate(15);
@@ -84,23 +86,26 @@ class ProductController extends Controller
     {
         try {
 
-            $companies = Company::select('id', 'name')->get();
-            $categories = Category::select('id', 'name')->get();
-            $measures = Unit::select('id', 'name')->get();
-            $tax = Tax::select('id', 'name')->get();
-            $sellingMethods = SellingMethod::select('id', 'name')->get();
-            $productNames = ProductName::select('id', 'nameAr')->get();
-            $suppliers = Supplier::select('id', 'name')->get();
-            $clients = Client::with('user')->get();
+            $companies       = Company::select('id','name')->get();
+            $categories      = Category::select('id','name')->get();
+            $measures        = Unit::select('id','name')->get();
+            $tax             = Tax::select('id','name')->get();
+            $sellingMethods  = SellingMethod::select('id','name')->get();
+            $productNames    = ProductName::select('id','nameAr')->get();
+            $suppliers       = Supplier::select('id','name')->get();
+            $pharmacistForms = PharmacistForm::select('id','name')->get();
+            $clients         = Client::with('user')->get();
 
             return $this->sendResponse([
-                'companies' => $companies,
-                'categories' => $categories,
-                'measures' => $measures,
-                'taxes' => $tax,
-                'sellingMethods' => $sellingMethods,
-                'productNames' => $productNames,
-                'suppliers' => $suppliers
+                'companies'       => $companies,
+                'categories'      => $categories,
+                'measures'        => $measures,
+                'taxes'           => $tax,
+                'sellingMethods'  => $sellingMethods,
+                'productNames'    => $productNames,
+                'suppliers'       => $suppliers,
+                'pharmacistForms' => $pharmacistForms,
+                'clients'         => $clients
             ], 'Data exited successfully');
         } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
@@ -122,11 +127,13 @@ class ProductController extends Controller
             // Validator request
             $v = Validator::make($request->all(), [
                 'description'               => 'nullable',
+                'effectiveMaterial'         => 'required',
                 'barcode'                   => 'required|integer|unique:products,barcode',
                 'maximum_product'           => 'required|integer',
                 'Re_order_limit'            => 'required|integer',
                 'image'                     => 'required|file|mimes:png,jpg,jpeg',
                 'productName_id'            => 'required|integer|exists:product_names,id',
+                'pharmacistForm_id'         => 'required|exists:pharmacist_forms,id',
                 'category_id'               => 'required|integer|exists:categories,id',
                 'sub_category_id'           => 'required|integer|exists:sub_categories,id',
                 // 'company_id'                => 'required|integer|exists:companies,id',
@@ -148,7 +155,7 @@ class ProductController extends Controller
             // picture move
             $request->image->storeAs('product', $image, 'general');
 
-            $data = $request->only(['description', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'productName_id', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'tax_id', 'main_measurement_unit_id', 'sub_measurement_unit_id', 'count_unit']);
+            $data = $request->only(['description','effectiveMaterial','barcode','maximum_product','Re_order_limit','image','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id','sub_measurement_unit_id','pharmacistForm_id','count_unit']);
 
             // $data['sub_measurement_unit_id'] = 1;
 
@@ -211,14 +218,15 @@ class ProductController extends Controller
     public function edit($id)
     {
         try {
-            $product        = Product::with('media:mediable_id,file_name,id')->find($id);
-            $productNames   = ProductName::select('id', 'nameAr')->get();
-            $suppliers      = Supplier::select('id', 'name')->get();
-            $companies      = Company::select('id', 'name')->get();
-            $categories     = Category::select('id', 'name')->get();
-            $measures       = Unit::select('id', 'name')->get();
-            $taxes          = Tax::select('id', 'name')->get();
-            $sellingMethods = SellingMethod::select('id', 'name')->get();
+            $product         = Product::with('media:mediable_id,file_name,id')->find($id);
+            $productNames    = ProductName::select('id','nameAr')->get();
+            $suppliers       = Supplier::select('id','name')->get();
+            $companies       = Company::select('id','name')->get();
+            $categories      = Category::select('id','name')->get();
+            $measures        = Unit::select('id','name')->get();
+            $taxes           = Tax::select('id','name')->get();
+            $pharmacistForms = PharmacistForm::select('id','name')->get();
+            $sellingMethods  = SellingMethod::select('id','name')->get();
             $sellingMethodChange = $product->selling_methods;
 
             return $this->sendResponse([
@@ -229,6 +237,7 @@ class ProductController extends Controller
                 'categories'          => $categories,
                 'measures'            => $measures,
                 'taxes'               => $taxes,
+                'pharmacistForms'     => $pharmacistForms,
                 'sellingMethods'      => $sellingMethods,
                 'sellingMethodChange' => $sellingMethodChange
             ], 'Data exited successfully');
@@ -254,10 +263,12 @@ class ProductController extends Controller
             // Validator request
             $v = Validator::make($request->all(), [
                 'description'               => 'nullable',
-                'barcode'                   => 'required|integer|unique:products,barcode,' . $product->id,
+                'effectiveMaterial'         => 'required',
+                'barcode'                   => 'required|integer|unique:products,barcode,'.$product->id,
                 'maximum_product'           => 'required|integer',
                 'Re_order_limit'            => 'required|integer',
                 'productName_id'            => 'required|integer|exists:product_names,id',
+                'pharmacistForm_id'         => 'required|exists:pharmacist_forms,id',
                 'category_id'               => 'required|integer|exists:categories,id',
                 'sub_category_id'           => 'required|integer|exists:sub_categories,id',
                 // 'company_id'                => 'required|integer|exists:companies,id',
@@ -278,7 +289,7 @@ class ProductController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['description', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'productName_id', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'tax_id', 'main_measurement_unit_id'/*,'sub_measurement_unit_id','count_unit'*/]);
+            $data = $request->only(['description','effectiveMaterial','barcode','maximum_product','Re_order_limit','image','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id','pharmacistForm_id'/*,'sub_measurement_unit_id','count_unit'*/]);
 
             if ($data['company_id'] != "null") {
                 //unset($data['supplier_id']);
@@ -422,296 +433,5 @@ class ProductController extends Controller
         $units = Unit::all();
         return $this->sendResponse(['units' => $units], 'Data exited successfully');
     }
+
 }
-
-// namespace App\Http\Controllers\Api\Dashboard;
-
-// use App\Http\Controllers\Controller;
-// use App\Models\Category;
-// use App\Models\Company;
-// use Illuminate\Http\Request;
-// use App\Models\Product;
-// use App\Models\ProductName;
-// use App\Models\SubCategory;
-// use App\Models\Tax;
-// use App\Models\Unit;
-// use App\Traits\Message;
-// use Illuminate\Support\Facades\DB;
-// use Illuminate\Support\Facades\File;
-// use Illuminate\Support\Facades\Validator;
-
-// class ProductController extends Controller
-// {
-//     use Message;
-
-//     public function index(Request $request)
-    // {
-    //     $products = Product::with('media:file_name,mediable_id')->with('productName')->with('category')->with('subCategory')->with('company')->with('supplier')->with('tax')->with('unit')->with('mainMeasurementUnit')
-    //         ->when($request->search, function ($q) use ($request) {
-    //         return $q->where('name', 'like', '%' . $request->search . '%');
-    //     })->latest()->paginate(10);
-    //     foreach($products as $product)
-    //     {
-    //         $product->setAttribute('added_at',$product->created_at->format('Y-m-d'));
-    //     }
-
-    //     return $this->sendResponse(['products' => $products], 'Data exited successfully');
-    // }
-
-
-    // public function activationProduct($id)
-    // {
-    //     $product = Product::find($id);
-
-    //     if ($product->status == 1)
-    //     {
-    //         $product->update([
-    //             "status" => 0
-    //         ]);
-    //     }else{
-    //         $product->update([
-    //             "status" => 1
-    //         ]);
-    //     }
-    //     return $this->sendResponse([], 'Data exited successfully');
-    // }
-
-
-    // public function create()
-    // {
-    //     //
-    // }
-
-
-    // public function store(Request $request)
-    // {
-    //     // try {
-    //         DB::beginTransaction();
-
-    //         // Validator request
-    //         $v = Validator::make($request->all(), [
-    //             'description' => 'required',
-    //             'charge' => 'required',
-    //             'maxMount' => 'required',
-    //             'barCode' => 'required',
-    //             'file' => 'required|file|mimes:png,jpg,jpeg',
-    //             'productName_id' => 'required',
-    //             'category_id' => 'required',
-    //             'sub_category_id' => 'required',
-    //             // 'company_id' => 'required',
-    //             // 'supplier_id' => 'required',
-    //             'tax_id' => 'required',
-    //             'main_measurement_unit_id' => 'required',
-    //             'saleMethods' => 'required',
-    //         ]);
-
-    //         if ($v->fails()) {
-    //             return $this->sendError('There is an error in the data', $v->errors());
-    //         }
-    //         $data = $request->only(['description','charge','maxMount','barCode','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id','saleMethods']);
-    //         if($data['supplier_id'] != "null")
-    //         {
-    //             //unset($data['company_id']);
-    //             $data['company_id'] = null;
-    //         }
-    //         else
-    //         {
-    //             //unset($data['supplier_id']);
-    //             $data['supplier_id'] = null;
-    //         }
-
-
-    //         $product = Product::create($data);
-
-    //         if($request->hasFile('file')){
-    //             $file_size = $request->file->getSize();
-    //             $file_type = $request->file->getMimeType();
-    //             $image = time().'.'. $request->file->getClientOriginalName();
-
-    //             // picture move
-    //             $request->file->storeAs('product', $image,'general');
-
-    //             $product->media()->create([
-    //                 'file_name' => $image ,
-    //                 'file_size' => $file_size,
-    //                 'file_type' => $file_type,
-    //                 'file_sort' => 1
-    //             ]);
-
-    //         }
-
-    //         DB::commit();
-
-    //         return $this->sendResponse([], 'Data exited successfully');
-
-    //     // } catch (\Exception $e) {
-    //     //     DB::rollBack();
-    //     //     return $this->sendError('An error occurred in the system');
-    //     // }
-    // }
-
-
-    // public function edit($id)
-    // {
-    //     try {
-
-    //         $product = Product::with('media:file_name,mediable_id')->find($id);
-
-    //         return $this->sendResponse(['product' => $product], 'Data exited successfully');
-
-    //     } catch (\Exception $e) {
-
-    //         return $this->sendError('An error occurred in the system');
-
-    //     }
-    // }
-
-
-    // public function update(Request $request, $id)
-    // {
-    //     DB::beginTransaction();
-    //     // try {
-
-    //         $product = Product::find($id);
-
-    //         // Validator request
-    //         $v = Validator::make($request->all(), [
-    //             'description' => 'required',
-    //             'charge' => 'required',
-    //             'maxMount' => 'required',
-    //             'barCode' => 'required',
-    //             'file' => 'nullable'.($request->hasFile('file')?'|file|mimes:jpeg,jpg,png':''),
-    //             'productName_id' => 'required',
-    //             'category_id' => 'required',
-    //             'sub_category_id' => 'required',
-    //             // 'company_id' => 'required',
-    //             // 'supplier_id' => 'required',
-    //             'tax_id' => 'required',
-    //             'main_measurement_unit_id' => 'required',
-    //             'saleMethods' => 'required',
-
-    //         ]);
-
-    //         if ($v->fails()) {
-    //             return $this->sendError('There is an error in the data', $v->errors());
-    //         }
-
-    //         $data = $request->only(['description','charge','maxMount','barCode','productName_id','category_id','sub_category_id','company_id','supplier_id','tax_id','main_measurement_unit_id','saleMethods']);
-    //         if($data['supplier_id'] != "null")
-    //         {
-    //             //unset($data['company_id']);
-    //             $data['company_id'] = null;
-    //         }
-    //         else
-    //         {
-    //             //unset($data['supplier_id']);
-    //             $data['supplier_id'] = null;
-    //         }
-
-    //         $product->update($data);
-
-    //         if($request->hasFile('file')){
-
-    //             if(File::exists('upload/product/'.$product->media->file_name)){
-    //                 unlink('upload/product/'. $product->media->file_name);
-    //             }
-    //             $product->media->delete();
-
-    //             $file_size = $request->file->getSize();
-    //             $file_type = $request->file->getMimeType();
-    //             $image = time().'.'. $request->file->getClientOriginalName();
-
-    //             // picture move
-    //             $request->file->storeAs('product', $image,'general');
-
-    //             $product->media()->create([
-    //                 'file_name' => $image ,
-    //                 'file_size' => $file_size,
-    //                 'file_type' => $file_type,
-    //                 'file_sort' => 1
-    //             ]);
-
-    //         }
-
-    //         DB::commit();
-    //         return $this->sendResponse([],'Data exited successfully');
-    //     // }catch (\Exception $e){
-
-    //     //     DB::rollBack();
-    //     //     return $this->sendError('An error occurred in the system');
-    //     // }
-    // }
-
-
-    // public function destroy($id)
-    // {
-    //     try {
-    //         $product = Product::find($id);
-    //         if ($product){
-
-    //             if(File::exists('upload/product/'. $product->media->file_name)){
-    //                 unlink('upload/product/'. $product->media->file_name);
-    //             }
-    //             $product->media->delete();
-
-    //             $product->delete();
-    //             return $this->sendResponse([],'Deleted successfully');
-    //         }else{
-    //             return $this->sendError('ID is not exist');
-    //         }
-
-    //     }catch (\Exception $e){
-    //         return $this->sendError('An error occurred in the system');
-    //     }
-    // }
-
-
-    // //start relations functions
-    // public function getProductNames()
-    // {
-    //     $productNames = ProductName::all();
-    //     return $this->sendResponse(['productNames' => $productNames], 'Data exited successfully');
-    // }
-
-    // public function getCategories()
-    // {
-    //     $categories = Category::all();
-    //     return $this->sendResponse(['categories' => $categories], 'Data exited successfully');
-    // }
-
-    // public function getSubCategories()
-    // {
-    //     $subCategories = SubCategory::all();
-    //     return $this->sendResponse(['subCategories' => $subCategories], 'Data exited successfully');
-    // }
-
-    // public function getCompanies()
-    // {
-    //     $companies = Company::all();
-    //     return $this->sendResponse(['companies' => $companies], 'Data exited successfully');
-    // }
-
-    // public function getTaxes()
-    // {
-    //     $taxes = Tax::all();
-    //     return $this->sendResponse(['taxes' => $taxes], 'Data exited successfully');
-    // }
-
-    // public function getUnits()
-    // {
-    //     $units = Unit::all();
-    //     return $this->sendResponse(['units' => $units], 'Data exited successfully');
-    // }
-
-
-    // public function purchaseInvoiceProduct(Request $request)
-    // {
-    //     $products = Product::where([
-    //         ['status', 1],
-    //         ['category_id', $request->category_id],
-    //         ['sub_category_id', $request->sub_category_id]
-    //     ])->with('mainMeasurementUnit','subMeasurementUnit','company')->get();
-
-    //     return $this->sendResponse(['products' => $products], 'Data exited successfully');
-    // }
-// }

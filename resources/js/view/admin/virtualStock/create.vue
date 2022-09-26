@@ -53,32 +53,17 @@
                   >
                     <div class="form-row row">
 
-                        <!--Start Supplier Id-->
-                        <!-- <div class="col-md-6 mb-3">
-                            <input
-                            type="hidden"
-                            class="form-control"
-                            v-model.trim="v$.supplier_id.$model"
-                            id="validationCustom05"
-                            :placeholder="$t('global.Product Quantity')"
-                            :class="{
-                                'is-invalid': v$.supplier_id.$error,
-                                'is-valid': !v$.supplier_id.$invalid,
-                            }"
-                            />
-                        </div> -->
-                        <!--End Supplier ID-->
-
                         <!--Start Category Select-->
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom07">
                                 {{ $t("global.Category") }}
                             </label>
-                            <select @change="getSubCategory(v$.category_id.$model)" class="form-control" v-model.trim="v$.category_id.$model">
+                            <Select2 @change="getSubCategory(v$.category_id.$model)" v-model.trim="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" />
+                            <!-- <select @change="getSubCategory(v$.category_id.$model)" v-model.trim="v$.category_id.$model" class="form-select">
                                 <option v-for="category in categories" :key="category.id" :value="category.id">
                                     {{ category.name }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
                         <!--End Category Select-->
 
@@ -87,24 +72,26 @@
                             <label for="validationCustom0">
                                 {{ $t("global.SubCategory") }}
                             </label>
-                            <select class="form-control" v-model.trim="v$.sub_category_id.$model">
+                            <Select2 v-model.trim="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" />
+                            <!-- <select class="form-select" v-model.trim="v$.sub_category_id.$model">
                                 <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
                                     {{ subCategory.name }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
                         <!--End SubCategory Select-->
 
-                        <!--Start Product Name Select-->
+                        <!--Start Product Select-->
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom00">
-                                {{ $t("global.Product Name") }}
+                                {{ $t("global.Product") }}
                             </label>
-                            <select class="form-control" v-model.trim="v$.productName_id.$model">
-                                <option v-for="productName in productNames" :key="productName.id" :value="productName.id">
-                                {{ productName.nameAr }}
+                            <Select2 v-model.trim="v$.product_id.$model" :options="products" :settings="{ width: '100%' }" />
+                            <!-- <select class="form-select" v-model.trim="v$.product_id.$model">
+                                <option v-for="product in products" :key="product.id" :value="product.id">
+                                {{ product.product_name.nameAr }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
                         <!--End Product Name Select-->
 
@@ -293,7 +280,7 @@ export default {
     const { t } = useI18n({});
     const { id } = toRefs(props);
     let loading = ref(false);
-    let productNames = ref([]);
+    let products = ref([]);
     let categories = ref([]);
     let subCategories = ref([]);
 
@@ -309,12 +296,12 @@ export default {
             supplier_id: id.value,
             category_id:"",
             sub_category_id:"",
-            productName_id:"",
+            product_id:"",
             nameExist: false,
         },
     });
 
-    getProductNames();
+    getProducts();
     getCategories();
     // getSubCategories();
     let getSubCategory= (id) => {
@@ -356,7 +343,7 @@ export default {
         sub_category_id:{
             required,
         },
-        productName_id:{
+        product_id:{
             required,
         },
         // supplier_id:{
@@ -368,12 +355,12 @@ export default {
     const v$ = useVuelidate(rules, addVirtualStock.data);
 
     //Commons
-    function getProductNames()
+    function getProducts()
     {
         adminApi
-        .get(`/v1/dashboard/getProductNames`)
+        .get(`/v1/dashboard/getProducts`)
         .then((res) => {
-            productNames.value =res.data.data.productNames ;
+            products.value =res.data.data.products ;
         })
         .catch((err) => {
             console.log(err.response.data);
@@ -415,7 +402,7 @@ export default {
     //end common
 
 
-    return { id, loading, ...toRefs(addVirtualStock), v$,getSubCategory, categories, subCategories, productNames };
+    return { id, loading, ...toRefs(addVirtualStock), v$,getSubCategory, categories, subCategories, products };
 
   },
   methods: {
@@ -434,7 +421,7 @@ export default {
         formData.append("supplier_id", this.data.supplier_id);
         formData.append("category_id", this.data.category_id);
         formData.append("sub_category_id", this.data.sub_category_id);
-        formData.append("productName_id", this.data.productName_id);
+        formData.append("product_id", this.data.product_id);
 
         adminApi
           .post(`/v1/dashboard/virtualStock`, formData)
@@ -467,7 +454,7 @@ export default {
       this.data.kayanDiscount = "";
       this.data.category_id = "";
       this.data.sub_category_id = "";
-      this.data.productName_id = "";
+      this.data.product_id = "";
     //   this.data.supplier_id = "";
 
     },

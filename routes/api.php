@@ -15,19 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
-    // check token
-
-
-    // start Dashboard auth
+    // Start Dashboard Auth
     Route::group(['prefix' => 'auth', 'namespace' => 'Dashboard'], function () {
 
         // start login
-
         Route::post('login', 'AuthDashboardController@login');
-
+        
         // check token
-
-
         Route::get('checkToken',  'AuthDashboardController@authorizeUser');
     });
 
@@ -35,9 +29,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
     Route::middleware(['auth:api'])->group(function () {
 
-        // start Dashboard
+        // Start Dashboard
         Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard'], function () {
-
 
             // start Notification
             //            Route::get('getAllNot','NotificationController@getAllNot');
@@ -45,18 +38,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             //            Route::post('clearItem/{id}','NotificationController@clearItem');
             //            Route::post('getNotNotRead','NotificationController@clearAll');
 
-            // examination Record
+            // examination record
             Route::resource('examinationRecord', 'ExaminationRecordController');
 
-            // Purchase Return
+            // purchase return
             Route::resource('purchaseReturn', 'PurchaseReturnController');
 
-            // Purchase Invoice
+            // purchase invoice
             Route::resource('purchaseInvoice', 'PurchaseController');
-
-
-
-
 
             // start User
             Route::apiResource('user', 'UserController');
@@ -105,10 +94,13 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('company', 'CompanyController')->except(['show']);
             Route::get('activationCompany/{id}', 'CompanyController@activationCompany');
 
-            //product Name
+            // product name
             Route::resource('productName', 'ProductNameController')->except(['show']);
             Route::get('activationProductName/{id}', 'ProductNameController@activationProductName');
-
+           
+            // pharmacist form
+            Route::resource('pharmacistForm', 'PharmacistFormController')->except(['show']);
+            
             // product
             Route::resource('product', 'ProductController');
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');
@@ -140,15 +132,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // storage
             Route::resource('storage', 'StorageController')->except(['show']);
 
-            // Sale Invoice
+            // sale invoice
             Route::resource('saleInvoice', 'SaleController');
 
             // sale Record
             Route::resource('saleRecord', 'SaleRecordController');
 
-            // sale Return
+            // sale return
             Route::resource('saleReturn', 'SaleReturnController');
-
 
             //
             Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
@@ -167,6 +158,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('getShifts', 'StockController@getShifts');
             Route::get('getSuppliers', 'PurchaseController@getSuppliers');
             Route::get('getProducts', 'PurchaseController@getProducts');
+            Route::get('productPrice/{id}','PurchaseController@productPrice');
             Route::get('getStocks', 'RefusedController@getStocks');
             Route::get('getClientBalance/{id}', 'SaleController@getClientBalance');
 

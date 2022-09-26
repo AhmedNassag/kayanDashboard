@@ -66,6 +66,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'product create', 'role' => 'management'],
             ['name' => 'product edit', 'role' => 'management'],
             ['name' => 'product delete', 'role' => 'management'],
+            //Pharmacist Form
+            ['name' => 'pharmacistForm read', 'role' => 'management'],
+            ['name' => 'pharmacistForm create', 'role' => 'management'],
+            ['name' => 'pharmacistForm edit', 'role' => 'management'],
+            ['name' => 'pharmacistForm delete', 'role' => 'management'],
             //price
             ['name' => 'price read', 'role' => 'management'],
             ['name' => 'price create', 'role' => 'management'],
