@@ -7,6 +7,10 @@ import Admin from "./Admin.vue";
 import mitt from 'mitt';
 import Notifications from '@kyvg/vue3-notification';
 import i18n from './lang/admin';
+import Select2 from 'vue3-select2-component';
+
+
+
 const emitter = mitt();
 
 const admin = createApp(Admin);
@@ -18,10 +22,13 @@ import LaravelVuePagination from 'laravel-vue-pagination';
 
 admin.component('loader', loader);
 admin.component('Pagination', LaravelVuePagination);
+admin.component('Select2', Select2);
 
 admin.use(i18n)
     .use(store)
     .use(router).use(Notifications).mount('#admin');
+
+    
 
 
 

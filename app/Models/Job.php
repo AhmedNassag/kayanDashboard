@@ -11,6 +11,13 @@ class Job extends Model
 
     protected $guarded = ['id'];
 
+    protected $appends=['text'];
+
+    public function getTextAttribute()
+    {
+        return $this->name;
+    }
+
     public function employees()
     {
         return $this->hasMany(Employee::class);

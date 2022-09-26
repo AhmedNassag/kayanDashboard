@@ -11,6 +11,13 @@ class StatusProduct extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['text'];
+
+    public function getTextAttribute()
+    {
+        return $this->name;
+    }
+
     public function storeProducts(){
         return $this->hasMany(ProductStore::class,'product_status_id');
     }

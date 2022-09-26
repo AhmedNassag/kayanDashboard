@@ -8,7 +8,8 @@ const i18n = createI18n({
     fallbackLocale: 'en', // set fallback locale,
     messages: {
         ar
-    }
+    },
+    legacy:false
 });
 
 

@@ -28,21 +28,6 @@ class CreateStocksTable extends Migration
             $table->foreignId('shift_id')->constrained('shifts')->cascadeOnDelete();
 
             $table->timestamps();
-
-            // $table->unsignedBigInteger('empolyee_id');
-            // $table->index(["empolyee_id"], 'empolyee_id');
-            // $table->foreign('empolyee_id', 'empolyee_id')
-            //       ->references('id')->on('empolyees')
-            //       ->onDelete('cascade')
-            //       ->onUpdate('cascade');
-
-            // $table->unsignedBigInteger('shift_id');
-            // $table->index(["shift_id"], 'shift_id');
-            // $table->foreign('shift_id', 'shift_id')
-            //       ->references('id')->on('shifts')
-            //       ->onDelete('cascade')
-            //       ->onUpdate('cascade');
-
         });
     }
 

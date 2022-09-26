@@ -383,12 +383,13 @@
                         >
                           <option
                             v-for="department in mainDepartment"
-                            :kay="department.id"
+                            :key="department.id"
                             :value="department.id"
                           >
                             {{ department.name }}
                           </option>
                         </select>
+
                         <div class="valid-feedback">
                           {{ $t("global.LooksGood") }}
                         </div>
@@ -414,7 +415,7 @@
                         >
                           <option
                             v-for="job in mainJob"
-                            :kay="job.id"
+                            :key="job.id"
                             :value="job.id"
                           >
                             {{ job.name }}
@@ -610,7 +611,7 @@
                             >
                               <option
                                 v-for="role in mainRole"
-                                :kay="role.id"
+                                :key="role.id"
                                 :value="role.name"
                               >
                                 {{ role.name }}

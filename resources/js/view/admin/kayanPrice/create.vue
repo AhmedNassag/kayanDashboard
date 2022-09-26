@@ -40,9 +40,10 @@
                                                 <!--Start Company Select-->
                                                 <div id="company" class="col-md-12 mb-3" v-if="companyShow == true">
                                                     <label >{{ $t("global.Company") }}</label>
-                                                    <select
+                                                    <Select2 v-model="v$.company_id.$model" :options="companies" :settings="{ width: '100%' }" />
+                                                    <!-- <select
                                                         name="type"
-                                                        class="form-control"
+                                                        class="form-select"
                                                         v-model="v$.company_id.$model"
                                                         :class="{'is-invalid':v$.company_id.$error,'is-valid':!v$.company_id.$invalid}"
                                                     >
@@ -50,7 +51,7 @@
                                                         <option v-for="company in companies" :key="company.id" :value="company.id">
                                                             {{ company.name }}
                                                         </option>
-                                                    </select>
+                                                    </select> -->
                                                     <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                     <div class="invalid-feedback">
                                                         <!-- <span v-if="v$.company_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
@@ -64,9 +65,10 @@
                                                     <label for="validationCustom0">
                                                         {{ $t("global.Supplier") }}
                                                     </label>
-                                                    <select
+                                                    <Select2 v-model="v$.supplier_id.$model" :options="suppliers" :settings="{ width: '100%' }" />
+                                                    <!-- <select
                                                         name="type"
-                                                        class="form-control"
+                                                        class="form-select"
                                                         v-model.trim="v$.supplier_id.$model"
                                                         :class="{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}"
                                                     >
@@ -74,7 +76,7 @@
                                                         <option id="supplier-option" v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">
                                                             {{ supplier.name }}
                                                         </option>
-                                                    </select>
+                                                    </select> -->
                                                     <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                     <div class="invalid-feedback">
                                                         <!-- <span v-if="v$.supplier_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
@@ -89,6 +91,7 @@
                                             <!--Start Category Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label >{{ $t("global.MainCategory") }}</label>
+                                                <!-- <Select2 @change="getSubCategory(v$.category_id.$model)" v-model="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" /> -->
                                                 <select @change="getSubCategory(v$.category_id.$model)"
                                                     name="type"
                                                     class="form-control"
@@ -110,7 +113,8 @@
                                             <!--Start SubCategory Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label >{{ $t("global.SubCategory") }}</label>
-                                                <select
+                                                <Select2 v-model="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" />
+                                                <!-- <select
                                                     name="type"
                                                     class="form-control"
                                                     v-model="v$.sub_category_id.$model"
@@ -120,7 +124,7 @@
                                                     <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id" >
                                                         {{ subCategory.name }}
                                                     </option>
-                                                </select>
+                                                </select> -->
                                                 <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.sub_category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
@@ -131,13 +135,14 @@
                                             <!--Start Product Name Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationCustom00">
-                                                    {{ $t("global.Product Name") }}
+                                                    {{ $t("global.Product") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.productName_id.$model">
+                                                <Select2 v-model.trim="v$.product_id.$model" :options="products" :settings="{ width: '100%' }" />
+                                                <!-- <select class="form-control" v-model.trim="v$.productName_id.$model">
                                                     <option v-for="productName in productNames" :key="productName.id" :value="productName.id">
                                                         {{ productName.nameAr }}
                                                     </option>
-                                                </select>
+                                                </select> -->
                                             </div>
                                             <!--End Product Name Select-->
 
@@ -319,7 +324,7 @@ export default {
     },
     setup(){
         let loading = ref(false);
-        let productNames = ref([]);
+        let products = ref([]);
         let suppliers = ref([]);
         let companies = ref([]);
         let categories = ref([]);
@@ -329,7 +334,7 @@ export default {
         let addKayanPrice =  reactive({
             data:{
                 nullValue: null,
-                productName_id: null,
+                product_id: null,
                 supplier_id: null,
                 category_id: null,
                 sub_category_id: null,
@@ -351,7 +356,7 @@ export default {
             adminApi.get(`/v1/dashboard/kayanPrice/create`)
                 .then((res) => {
                     let l = res.data.data;
-                    productNames.value = l.productNames;
+                    products.value = l.products;
                     suppliers.value = l.suppliers;
                     companies.value = l.companies;
                     categories.value = l.categories;
@@ -397,7 +402,7 @@ export default {
 
         const rules = computed(() => {
             return {
-                productName_id: {
+                product_id: {
                     required,
                 },
                 supplier_id: {
@@ -451,7 +456,7 @@ export default {
             loading,
             ...toRefs(addKayanPrice),
             v$,
-            productNames,
+            products,
             suppliers,
             companies,
             categories,
@@ -481,7 +486,7 @@ export default {
                 this.errors = {};
                 let formData = new FormData();
 
-                formData.append("productName_id", this.data.productName_id);
+                formData.append("product_id", this.data.product_id);
                 formData.append("supplier_id", this.data.supplier_id);
                 formData.append('company_id',this.data.company_id);
                 formData.append('category_id',this.data.category_id);
@@ -520,7 +525,7 @@ export default {
             }
         },
         resetForm(){
-            this.data.productName_id = null;
+            this.data.product_id = null;
             this.data.company_id = null;
             this.data.supplier_id = null;
             this.data.category_id = null;

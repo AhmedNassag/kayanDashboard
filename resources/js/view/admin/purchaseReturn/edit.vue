@@ -53,28 +53,26 @@
 
                                             <div class="col-md-6 mb-3">
                                                 <label>{{ $t('global.ChooseStore') }}</label>
-
-                                                <select v-model="data.store_id" :class="['form-select',{'is-invalid':v$.store_id.$error,'is-valid':!v$.store_id.$invalid}]">
+                                                <Select2 v-model="data.store_id" :options="stores" :settings="{ width: '100%' }" />
+                                                <!-- <select v-model="data.store_id" :class="['form-select',{'is-invalid':v$.store_id.$error,'is-valid':!v$.store_id.$invalid}]">
                                                     <option v-for="store in stores" :key="store.id" :value="store.id">{{store.name}}</option>
-                                                </select>
+                                                </select> -->
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.store_id.required.$invalid">{{$t('global.StoreIsRequired')}}<br /> </span>
                                                 </div>
-
                                             </div>
 
                                             <div class="col-md-6 mb-3">
                                                 <label>{{ $t('global.ChooseSupplier') }}</label>
-
-                                                <select v-model="data.supplier_id" :class="['form-select',{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}]">
+                                                <Select2 v-model="data.supplier_id" :options="suppliers" :settings="{ width: '100%' }" />
+                                                <!-- <select v-model="data.supplier_id" :class="['form-select',{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}]">
                                                     <option v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">{{supplier.name}}</option>
-                                                </select>
+                                                </select> -->
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.supplier_id.required.$invalid">{{$t('global.supplierIsRequired')}}<br /> </span>
                                                 </div>
-
                                             </div>
 
                                             <div class="col-md-6 mb-3">
@@ -175,10 +173,10 @@
                                                     <div v-for="(it,index) in data.product" :key="it.id" class="col-md-12 mb-12 body-account row">
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.mainCategory') }}</label>
-
-                                                            <select @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :class="['form-select',{'is-invalid':v$.product[index].category_id.$error,'is-valid':!v$.product[index].category_id.$invalid}]">
+                                                            <Select2 @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :options="categories" :settings="{ width: '100%' }" />
+                                                            <!-- <select @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :class="['form-select',{'is-invalid':v$.product[index].category_id.$error,'is-valid':!v$.product[index].category_id.$invalid}]">
                                                                 <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
-                                                            </select>
+                                                            </select> -->
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
                                                                 <span v-if="v$.product[index].category_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
@@ -186,10 +184,10 @@
                                                         </div>
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.subCategory') }}</label>
-
-                                                            <select @change="getProduct(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :class="['form-select',{'is-invalid':v$.product[index].sub_category_id.$error,'is-valid':!v$.product[index].sub_category_id.$invalid}]">
+                                                            <Select2 @change="getProduct(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :options="categories" :settings="{ width: '100%' }" />
+                                                            <!-- <select @change="getProduct(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :class="['form-select',{'is-invalid':v$.product[index].sub_category_id.$error,'is-valid':!v$.product[index].sub_category_id.$invalid}]">
                                                                 <option v-for="category in subCategory[index].subCategory" :key="category.id" :value="category.id">{{category.name}}</option>
-                                                            </select>
+                                                            </select> -->
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
                                                                 <span v-if="v$.product[index].sub_category_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
@@ -198,10 +196,10 @@
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.Products') }}</label>
-
-                                                            <select @change="getMeasurementUnit(it.product_id,index)" v-model="it.product_id" :class="['form-select',{'is-invalid':v$.product[index].product_id.$error,'is-valid':!v$.product[index].product_id.$invalid}]">
+                                                            <Select2 @change="getMeasurementUnit(it.product_id,index)" v-model="it.product_id" :options="categories" :settings="{ width: '100%' }" />
+                                                            <!-- <select @change="getMeasurementUnit(it.product_id,index)" v-model="it.product_id" :class="['form-select',{'is-invalid':v$.product[index].product_id.$error,'is-valid':!v$.product[index].product_id.$invalid}]">
                                                                 <option v-for="category in products[index].products" :key="category.id" :value="category.id">{{category.name}}</option>
-                                                            </select>
+                                                            </select> -->
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
                                                                 <span v-if="v$.product[index].product_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>

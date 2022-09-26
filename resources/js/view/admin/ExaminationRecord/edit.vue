@@ -150,7 +150,7 @@
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.productStatus') }}</label>
-
+                                                            <!-- <Select2 v-model="data.product[index].product_status_id" :options="productStatuses" :settings="{ width: '100%' }" /> -->
                                                             <select  v-model="data.product[index].product_status_id " :class="['form-select',{'is-invalid':v$.product[index].product_status_id.$error,'is-valid':!v$.product[index].product_status_id.$invalid}]">
                                                                 <option v-for="status in productStatuses" :key="status.id" :value="status.id">{{status.name}}</option>
                                                             </select>

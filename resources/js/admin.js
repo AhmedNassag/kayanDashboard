@@ -17,7 +17,9 @@ admin.provide('emitter', emitter);
 import loader from './components/loader';
 import LaravelVuePagination from 'laravel-vue-pagination';
 import breadcrumb from "./view/admin/projectsManagement/utilize/breadcrumb";
+import Select2 from 'vue3-select2-component';
 
+admin.component('Select2', Select2)
 admin.component('loader', loader);
 admin.component('Pagination', LaravelVuePagination);
 admin.component('Breadcrumb', breadcrumb);

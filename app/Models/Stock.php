@@ -10,6 +10,13 @@ class Stock extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $appends=['text'];
+
+    public function getTextAttribute()
+    {
+        return $this->name;
+    }
+
     //start raletions
     public function employee()
     {

@@ -8,6 +8,7 @@ import usersCategory from './adminRoute/usersCategory';
 import tax from './adminRoute/tax';
 import company from './adminRoute/company';
 import product from './adminRoute/product';
+import pharmacistForm from './adminRoute/pharmacistForm';
 import price from './adminRoute/price';
 import kayanPrice from './adminRoute/kayanPrice';
 import sellingMethod from './adminRoute/sellingMethod';
@@ -110,6 +111,7 @@ const routes = [
             ...employee,
             ...role,
             ...productName,
+            ...pharmacistForm,
             ...category,
             ...subCategory,
             ...usersCategory,

@@ -69,11 +69,12 @@
                                                 <label for="validationCustom0">
                                                     {{ $t("global.MainCategory") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.category_id.$model">
+                                                <Select2 v-model.trim="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" />
+                                                <!-- <select class="form-select" v-model.trim="v$.category_id.$model">
                                                     <option v-for="category in categories" :key="category.id" :value="category.id">
                                                     {{ category.name }}
                                                     </option>
-                                                </select>
+                                                </select> -->
                                             </div>
                                             <!--End Category Select-->
 

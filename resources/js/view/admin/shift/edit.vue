@@ -69,7 +69,7 @@
                                                 <label for="validationCustom0">
                                                     {{ $t("global.Type") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.type.$model">
+                                                <select class="form-select" v-model.trim="v$.type.$model">
                                                     <option value="صباحى">
                                                         {{ $t("global.Morning") }}
                                                     </option>

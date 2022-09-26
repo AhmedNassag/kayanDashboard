@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseProduct;
 use App\Models\Stock;
@@ -203,7 +204,17 @@ class PurchaseController extends Controller
 
             $purchase = Purchase::find($id);
 
-            $purchase->update($request->all());
+            // $purchase->update($request->all());
+            $purchase->update([
+                'stock_id'            => $request->stock_id,
+                'supplier_id'         => $request->supplier_id,
+                'discount_percentage' => $request->discount_percentage,
+                'discount_value'      => $request->discount_value,
+                'other_discounts'     => $request->other_discounts,
+                'transfer_price'      => $request->transfer_price,
+                'note'                => $request->note,
+                'price'               => $request->price,
+            ]);
 
             foreach ($purchase->purchaseProducts as $data){
                 $data->delete();
@@ -257,5 +268,17 @@ class PurchaseController extends Controller
     {
         $suppliers = Supplier::all();
         return $this->sendResponse(['suppliers' => $suppliers], 'Data exited successfully');
+    }
+
+    public function productPrice($id)
+    {
+        $productPrice = PurchaseProduct::where('product_id',$id)->select('price_after_discount')->latest()->get();
+        return $this->sendResponse(['productPrice' => $productPrice], 'Data exited successfully');
+    }
+
+    public function getProducts()
+    {
+        $products = Product::with('productName')->get();
+        return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
 }

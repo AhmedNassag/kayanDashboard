@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Price;
-use App\Models\ProductName;
+use App\Models\Product;
 use App\Models\Supplier;
 use App\Traits\Message;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class PriceController extends Controller
      */
     public function index(Request $request)
     {
-        $prices = Price::with('productName:id,nameAr', 'company:id,name', 'supplier:id,name', 'category:id,name', 'subCategory:id,name')
+        $prices = Price::with('product.productName:id,nameAr', 'company:id,name', 'supplier:id,name', 'category:id,name', 'subCategory:id,name')
             ->when($request->search, function ($q) use ($request) {
                 return $q->where('name', 'like', "%" . $request->search . "%");
             })->latest()->paginate(15);
@@ -41,13 +41,13 @@ class PriceController extends Controller
     {
         try
         {
-            $productNames = ProductName::select('id', 'nameAr')->get();
+            $products     = Product::with('productName')->get();
             $suppliers    = Supplier::select('id', 'name')->get();
             $companies    = Company::select('id', 'name')->get();
             $categories   = Category::select('id', 'name')->get();
 
             return $this->sendResponse([
-                'productNames'   => $productNames,
+                'products'   => $products,
                 'suppliers'  => $suppliers,
                 'companies'  => $companies,
                 'categories' => $categories,
@@ -74,7 +74,7 @@ class PriceController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'productName_id'     => 'required|integer|exists:product_names,id',
+                'product_id'     => 'required|integer|exists:products,id',
                 'category_id'    => 'required|integer|exists:categories,id',
                 'sub_category_id' => 'required|integer|exists:sub_categories,id',
                 // 'company_id'     => 'required|integer|exists:companies,id',
@@ -91,7 +91,7 @@ class PriceController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['productName_id', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount'/*, 'kayanProfit'*/]);
+            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount'/*, 'kayanProfit'*/]);
 
             $data['kayanProfit'] = $data['kayanDiscount'] - $data['clientDiscount'];
 
@@ -138,14 +138,14 @@ class PriceController extends Controller
     {
         try {
             $price          = Price::find($id);
-            $productNames   = ProductName::select('id','nameAr')->get();
+            $products       = Product::with('productName')->get();
             $suppliers      = Supplier::select('id','name')->get();
             $companies      = Company::select('id','name')->get();
             $categories     = Category::select('id','name')->get();
 
             return $this->sendResponse([
                 'price'               => $price,
-                'productNames'        => $productNames,
+                'products'            => $products,
                 'suppliers'           => $suppliers,
                 'companies'           => $companies,
                 'categories'          => $categories,
@@ -173,7 +173,7 @@ class PriceController extends Controller
             // Validator request
             $v = Validator::make($request->all(),
             [
-                'productName_id'     => 'required|integer|exists:product_names,id',
+                'product_id'     => 'required|integer|exists:products,id',
                 'category_id'    => 'required|integer|exists:categories,id',
                 'sub_category_id' => 'required|integer|exists:sub_categories,id',
                 // 'company_id'     => 'required|integer|exists:companies,id',
@@ -189,7 +189,7 @@ class PriceController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['productName_id', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount', 'kayanProfit']);
+            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount', 'kayanProfit']);
 
             $data['kayanProfit'] = $data['kayanDiscount'] - $data['clientDiscount'];
 
