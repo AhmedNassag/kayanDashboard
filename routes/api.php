@@ -336,6 +336,15 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::post("update", "SimpleAdvertiseController@update");
                 Route::delete("{id}", "SimpleAdvertiseController@delete");
             });
+
+            //Deal
+            Route::prefix("deal")->group(function () {
+                Route::post("", "DealController@insertDeal");
+                Route::get("", "DealController@getDeal");
+                Route::get("products", "DealController@getProducts");
+            });
+
+
             Route::prefix("unavailable-cities-clients")->group(function () {
                 Route::get("", "UnavailableCityClientController@getUnavailableCitiesClients");
                 Route::get("all", "UnavailableCityClientController@getAllUnavailableCitiesClients");

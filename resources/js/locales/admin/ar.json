@@ -3,7 +3,7 @@
     "minCurrentDate": "يجب ان يكون على الاقل يساوي {date}",
     "afterDate": "يجب ان يكون اكبر من {date}",
     "minValue": "يجب ان يكون على الاقل {minValue}",
-    "maxDiscountRatio": "يجب ان يكون على الاكثر {maxValue}",
+    "maxValue": "يجب ان يكون على الاكثر {maxValue}",
     "phone": "غير صحيح",
     "email": "غير صحيح",
     "sameAsPassword": "غير متطابقة",
@@ -12,6 +12,7 @@
         "Dashboard": "الرئيسيه"
     },
     "sidebar": {
+        "Deals":"افضل العروض",
         "UnvailableCitiesClients":"عملاء المحافظات الغير متاحة",
         "ProductNames":"اسماء المنجات",
         "Cities":"المحافظات",
@@ -75,6 +76,8 @@
         "Percentage": "نسبة"
     },
     "global": {
+        "EndAt":"وقت الانتهاء",
+        "Deals":"افضل العروض",
         "UnvailableCitiesClients":"عملاء المحافظات الغير متاحة",
         "SimpleAdvertises":"الاعلانات",
         "Cities":"المحافظات",
