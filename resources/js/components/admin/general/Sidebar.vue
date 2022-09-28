@@ -262,35 +262,6 @@
 
                     <!------------------------------------------------------------------------------------------------------------------------------------------>
                     <!------------------------------------------------------------------------------------------------------------------------------------------>
-                    <li class="submenu" v-if="permission.includes('places')">
-                        <a href="#">
-                            <i class="fas fa-home"></i>
-                            <span>{{ $t("sidebar.Places") }}</span>
-                            <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
-                        </a>
-                        <ul>
-                            <li v-if="permission.includes('city read')"
-                                :class="[$route.name == 'CityIndex' ? 'active' : '']">
-                                <router-link :to="{ name: 'CityIndex' }" :class="['sidebar-menu-rtl']">
-                                    {{ $t("sidebar.Cities") }}
-                                </router-link>
-                            </li>
-                            <li v-if="permission.includes('area read')"
-                                :class="[$route.name == 'AreaIndex' ? 'active' : '']">
-                                <router-link :to="{ name: 'AreaIndex' }" :class="['sidebar-menu-rtl']">
-                                    {{ $t("sidebar.Areas") }}
-                                </router-link>
-                            </li>
-                            <li v-if="permission.includes('unavailable-city-client read')"
-                                :class="[$route.name == 'UnvailableCityClientIndex' ? 'active' : '']">
-                                <router-link :to="{ name: 'UnvailableCityClientIndex' }" :class="['sidebar-menu-rtl']">
-                                    {{ $t("sidebar.UnvailableCitiesClients") }}
-                                </router-link>
-                            </li>
-                        </ul>
-                    </li>
-
-
                     <li v-if="permission.includes('unit read')" :class="[$route.name == 'UnitIndex' ? 'active' : '']">
                         <router-link :to="{ name: 'UnitIndex' }">
                             <i class="fa fa-balance-scale" aria-hidden="true"></i>
@@ -384,6 +355,33 @@
                             <i class="fa fa-users" aria-hidden="true"></i>
                             <span>{{ $t("sidebar.Newsletters") }}</span>
                         </router-link>
+                    </li>
+
+
+                    <li class="submenu" v-if="permission.includes('places')">
+                        <a href="#">
+                            <i class="fas fa-truck"></i>
+                            <span>{{ $t("sidebar.Places") }}</span>
+                            <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
+                        </a>
+                        <ul>
+                            <li v-if="permission.includes('city read')" :class="[$route.name == 'CityIndex' ? 'active' : '']">
+                                <router-link :to="{ name: 'CityIndex' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("sidebar.Cities") }}
+                                </router-link>
+                            </li>
+                            <li v-if="permission.includes('area read')" :class="[$route.name == 'AreaIndex' ? 'active' : '']">
+                                <router-link :to="{ name: 'AreaIndex' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("sidebar.Areas") }}
+                                </router-link>
+                            </li>
+                            <li v-if="permission.includes('unavailable-city-client read')"
+                                :class="[$route.name == 'UnvailableCityClientIndex' ? 'active' : '']">
+                                <router-link :to="{ name: 'UnvailableCityClientIndex' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("sidebar.UnvailableCitiesClients") }}
+                                </router-link>
+                            </li>
+                        </ul>
                     </li>
 
 
