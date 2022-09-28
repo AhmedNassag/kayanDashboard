@@ -206,7 +206,7 @@ export default {
       discount: {
         required,
         minValue: minValue(data.minDiscount),
-        maxDiscountRatio(value) {
+        maxValue(value) {
           return !value || form.ratio ? value <= 100 : true;
         },
       },

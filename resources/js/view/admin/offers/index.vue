@@ -1,10 +1,7 @@
 <template>
   <div
     class="offer-container"
-    :class="[
-      'page-wrapper',
-      this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
-    ]"
+    :class="['page-wrapper', this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '']"
   >
     <OfferForm
       :selectedOffer="selectedOffer"
@@ -81,12 +78,7 @@
                           :disabled="!permission.includes('offer edit')"
                           href="#"
                           @click="
-                            toggleActivation(
-                              offer.id,
-                              offer.name,
-                              offer.active,
-                              index
-                            )
+                            toggleActivation(offer.id, offer.name, offer.active, index)
                           "
                         >
                           <span
@@ -315,9 +307,7 @@ export default {
           Swal.fire({
             icon: "success",
             title: `${
-              active
-                ? t("global.InactiveSuccessfully")
-                : t("global.ActiveSuccessfully")
+              active ? t("global.InactiveSuccessfully") : t("global.ActiveSuccessfully")
             }`,
             showConfirmButton: false,
             timer: 1500,
@@ -370,9 +360,9 @@ export default {
     .btn {
       color: #fff;
     }
-    .active{
+    .active {
       background: none;
-      border:none;
+      border: none;
     }
   }
 }

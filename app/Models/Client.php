@@ -19,4 +19,12 @@ class Client extends Model
     {
         return $this->belongsTo(User::class);
     }
+    function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+    function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
 }

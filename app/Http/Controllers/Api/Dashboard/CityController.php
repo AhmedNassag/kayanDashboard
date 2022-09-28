@@ -17,6 +17,7 @@ class CityController extends Controller
         $this->middleware('permission:city create', ['only' => ['store']]);
         $this->middleware('permission:city edit', ['only' => ['update']]);
     }
+    
     public function store(StoreCityRequest $request)
     {
         return $this->cityRepository->store($request->input());

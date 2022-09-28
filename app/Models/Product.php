@@ -115,11 +115,4 @@ class Product extends Model
     {
         return $this->hasMany(PurchaseProduct::class);
     }
-    //
-
-    // public function media()
-    // {
-    //     return $this->morphOne(Media::class,'mediable');
-    // }
-
 }
