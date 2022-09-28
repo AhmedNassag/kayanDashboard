@@ -33,7 +33,7 @@ class AreaController extends Controller
         $text = isset(request()->text) ? request()->text : '';
         return $this->areaRepository->getPage(request()->page_size, $text);
     }
-    
+
     public function getCities()
     {
         return $this->areaRepository->getCities();

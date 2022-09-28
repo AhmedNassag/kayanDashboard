@@ -26,7 +26,6 @@ class UpdateAreaRequest extends FormRequest
         return [
             "id" => "required",
             "name" => "required|unique:areas,name," . $this->id,
-            "available" => "required|boolean"
         ];
     }
 }
