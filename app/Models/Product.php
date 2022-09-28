@@ -10,20 +10,15 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
-    // protected $casts = [
-    //     'saleMethods' => 'array'
-    // ];
+    // protected $casts = ['saleMethods' => 'array'];
 
-    protected $appends = [
-        'name','text'
-    ];
+    protected $appends = ['name','text'];
 
 
     public function getTextAttribute()
     {
         return $this->productName->nameAr;
     }
-
 
     public function getNameAttribute(){
         return $this->productName->nameAr;
@@ -90,25 +85,34 @@ class Product extends Model
         return $this->hasMany(Refused::class);
     }
 
+    public function alternativeDetails()
+    {
+        return $this->hasMany(AlternativeDetail::class);
+    }
+
     //
-    public function mainMeasurementUnit(){
+    public function mainMeasurementUnit()
+    {
         return $this->belongsTo(Unit::class,'main_measurement_unit_id');
     }
 
-    public function subMeasurementUnit(){
+    public function subMeasurementUnit()
+    {
         return $this->belongsTo(Unit::class,'sub_measurement_unit_id');
     }
 
-    public function storeProducts(){
+    public function storeProducts()
+    {
         return $this->hasMany(StoreProduct::class,'product_id');
     }
 
-    public function returnProducts(){
+    public function returnProducts()
+    {
         return $this->hasMany(ReturnProduct::class,'product_id');
     }
 
-    public function purchaseProducts(){
-
+    public function purchaseProducts()
+    {
         return $this->hasMany(PurchaseProduct::class);
     }
     //

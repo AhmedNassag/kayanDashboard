@@ -414,96 +414,46 @@
                                             <!--End Multiple Images-->
 
 
-                                            <!--Start Alternatives-->
-                                            <div class="col-md-12 mb-3 alternative-option" id="alternative">
+                                            <!--Start Alternative Details-->
+                                            <div class="col-md-12 mb-3 mt-5 alternativeDetail-option" id="alternativeDetail">
                                                 <div class="row account">
                                                     <div class="col-md-12 mb-12 head-account">
-                                                        <h3>{{ $t('global.Alternatives') }}</h3>
+                                                        <h3>{{ $t('global.alternatives') }}</h3>
                                                     </div>
-                                                    <div v-for="(it,index) in data.alternative" :key="it.id" class="col-md-12 mb-12 body-account row">
-
-                                                        <!--Start NameAr-->
-                                                        <div class="col-md-4 mb-4">
-                                                            <label>{{$t('global.NameAr')}}</label>
-                                                            <input type="text" step="0.1" class="form-control" v-model.trim="v$.alternative[index].nameAr.$model"
-                                                                :placeholder="$t('global.NameAr')">
-                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                    <div v-for="(it,index) in data.alternativeDetail" :key="it.id" class="col-md-12 mb-12 body-account row">
+                                                        <!--Start Alternative-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{ $t('global.Alternative') }}</label>
+                                                            <Select2 v-model.trim="it.alternative_id" :options="alternatives" :settings="{ width: '100%' }" />
                                                         </div>
-                                                        <!--End NameAr-->
-
-                                                        <!--Start NameEn-->
-                                                        <div class="col-md-4 mb-4">
-                                                            <label>{{$t('global.NameEn')}}</label>
-                                                            <input type="text" class="form-control" v-model="v$.alternative[index].nameEn.$model"
-                                                                :placeholder="$t('global.NameEn')">
-                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
-                                                        </div>
-                                                        <!--End NameEn-->
+                                                        <!--End Alternative-->
 
                                                         <!--Start Discount-->
                                                         <div class="col-md-4 mb-4">
-                                                            <label>{{$t('global.Discount Percentage')}}</label>
-                                                            <input type="number" class="form-control" v-model="v$.alternative[index].discount.$model"
-                                                                :placeholder="$t('global.Discount Percentage')">
-                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <label>{{$t('global.Discount')}}</label>
+                                                            <input type="number" step="0.1" class="form-control" v-model.number="it.discount" :placeholder="$t('global.Discount')">
                                                         </div>
                                                         <!--End Discount-->
 
                                                         <!--Start Pharmacy Price-->
                                                         <div class="col-md-4 mb-4">
                                                             <label>{{$t('global.Pharmacy Price')}}</label>
-                                                            <input type="number" class="form-control" v-model="v$.alternative[index].pharmacyPrice.$model"
-                                                                :placeholder="$t('global.Pharmacy Price')">
-                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <input type="number" step="0.1" class="form-control" v-model.number="it.pharmacyPrice" :placeholder="$t('global.Pharmacy Price')">
                                                         </div>
                                                         <!--End Pharmacy Price-->
 
                                                         <!--Start Public Price-->
                                                         <div class="col-md-4 mb-4">
                                                             <label>{{$t('global.Public Price')}}</label>
-                                                            <input type="number" class="form-control" v-model="v$.alternative[index].publicPrice.$model"
-                                                                :placeholder="$t('global.Public Price')">
-                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <input type="number" step="0.1" class="form-control" v-model.number="it.publicPrice" :placeholder="$t('global.Public Price')">
                                                         </div>
                                                         <!--End Public Price-->
 
-                                                        <!--Start Image-->
-                                                        <div class="col-md-12 row flex-fill">
-                                                            <div class="btn btn-outline-primary waves-effect">
-                                                                <span style="background-color:black">
-                                                                    {{ $t("global.ChooseImage") }}
-                                                                    <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
-                                                                </span>
-                                                                <input name="mediaPackage" type="file" @change="preview" id="mediaPackage"
-                                                                    accept="image/png,jepg,jpg" />
-                                                            </div>
-                                                            <span class="text-danger text-center">{{ $t("global.ImageValidation")}}</span>
-                                                            <p class="num-of-files" style="color:black">
-                                                                {{
-                                                                numberOfImage
-                                                                ? numberOfImage + " Files Selected"
-                                                                : "No Files Chosen"
-                                                                }}
-                                                            </p>
-                                                            <div class="container-images" id="container-images"
-                                                                v-show="v$.alternative[index].file && numberOfImage"></div>
-                                                            <div class="container-images" v-show="!numberOfImage">
-                                                                <figure>
-                                                                    <figcaption>
-                                                                        <img :src="`/admin/img/company/img-1.png`" />
-                                                                    </figcaption>
-                                                                </figure>
-                                                            </div>
-                                                        </div>
-                                                        <!--End Image-->
-
                                                         <div class="col-md-3 mb-3">
-                                                            <button @click.prevent="addAlternative" v-if="(data.alternative.length-1) == index"
-                                                                class="btn btn-sm btn-success me-2 mt-5">
+                                                            <button @click.prevent="addAlternativeDetail" v-if="(data.alternativeDetail.length-1) == index" class="btn btn-sm btn-success me-2 mt-5">
                                                                 <i class="fas fa-clipboard-list"></i> {{$t('global.AddANewLine')}}
                                                             </button>
-                                                            <button v-if="index" @click.prevent="deleteAlternative(index)" data-bs-target="#staticBackdrop"
-                                                                class="btn btn-sm btn-danger me-2 mt-5">
+                                                            <button v-if="index" @click.prevent="deleteAlternativeDetail(index)" data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2 mt-5">
                                                                 <i class="far fa-trash-alt"></i> {{$t('global.Delete')}}
                                                             </button>
                                                         </div>
@@ -511,7 +461,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--End Alternatives-->
+                                            <!--End Alternative Details-->
 
                                         </div>
 
@@ -556,37 +506,41 @@ export default {
         let taxes = ref([]);
         let pharmacistForms = ref([]);
         let sellingMethods = ref([]);
-        let alternativeValidation = ref([{
-            nameAr: {
+        //
+        let alternatives = ref([]);
+        let alternativeDetailValidation = ref([{
+            alternative_id: {
                 // required,
-            },
-            nameEn: {
-                // required
+                // numeric
             },
             discount: {
                 // required,
+                // numeric
             },
             pharmacyPrice: {
-                // required
+                // required,
+                // numeric
             },
             publicPrice: {
                 // required,
-            },
+                // numeric
+            }
         }]);
+        //
 
         //start design
         let addProduct =  reactive({
             data:{
-                alternative: [
+                //
+                alternativeDetail: [
                     {
-                        nameAr: '',
-                        nameEn: '',
+                        alternative_id: null,
                         discount: null,
                         pharmacyPrice: null,
                         publicPrice: null,
-                        file: {},
                     }
                 ],
+                //
                 nullValue: null,
                 productName_id: null,
                 supplier_id: null,
@@ -606,10 +560,12 @@ export default {
                 // sub_measurement_unit_id: null,
                 tax_id: null,
                 selling_methods: [],
-            },
-            alternatives: [
-                { alternatives: [], send: true }
-            ]
+                //
+                alternativeDetails: [
+                    { alternativeDetails: [], send: true }
+                ]
+                //
+            }
         });
 
         let getProduct= () => {
@@ -626,6 +582,9 @@ export default {
                     taxes.value = l.taxes;
                     pharmacistForms.value = l.pharmacistForms;
                     sellingMethods.value = l.sellingMethods;
+                    //
+                    alternatives.value = l.alternatives;
+                    //
                 })
                 .catch((err) => {
                     console.log(err.response);
@@ -653,9 +612,11 @@ export default {
 
         const rules = computed(() => {
             return {
-                alternative: [
-                    ...alternativeValidation.value
+                //
+                alternativeDetail: [
+                    ...alternativeDetailValidation.value
                 ],
+                //
                 productName_id: {
                     required,
                 },
@@ -716,7 +677,12 @@ export default {
                 },
                 selling_methods: {
                     required
+                },
+                //
+                alternativeDetail: {
+                    // required
                 }
+                //
             }
         });
 
@@ -785,40 +751,8 @@ export default {
 
         };
 
-
-        let preview3 = (e) => {
-
-            let containerImages = document.querySelector('#container-images');
-            if (numberOfImage.value) {
-                containerImages.innerHTML = '';
-            }
-            addProduct.data.alternative.file = {};
-
-            numberOfImage.value = e.target.files.length;
-
-            addProduct.data.alternative.file = e.target.files[0];
-
-            let reader = new FileReader();
-            let figure = document.createElement('figure');
-            let figcap = document.createElement('figcaption');
-
-            figcap.innerText = addProduct.data.alternative.file.name;
-            figure.appendChild(figcap);
-
-            reader.onload = () => {
-                let img = document.createElement('img');
-                img.setAttribute('src', reader.result);
-                figure.insertBefore(img, figcap);
-            }
-
-            containerImages.appendChild(figure);
-            reader.readAsDataURL(addProduct.data.image);
-
-        };
-
         const numberOfImage = ref(0);
         const numberOfImage1 = ref(0);
-        const numberOfImage2 = ref(0);
 
 
         onMounted(() => {
@@ -833,7 +767,6 @@ export default {
             preview2,
             numberOfImage,
             numberOfImage1,
-            numberOfImage2,
             companies,
             categories,
             measures,
@@ -844,15 +777,13 @@ export default {
             suppliers,
             pharmacistForms,
             getSubCategory,
+            //
+            alternatives,
+            alternativeDetailValidation,
+            //
         };
     },
     methods: {
-        hideAlternative() {
-            this.alternativeShow = false;
-        },
-        showAlternative() {
-            this.alternativeShow = true;
-        },
         myFunction()
         {
             this.data.barcode = Math.round(Math.random()*10000000000);
@@ -869,7 +800,6 @@ export default {
         },
 
         storeProduct(){
-            console.log("Tested Here !!!!")
             this.v$.$validate();
 
             if(!this.v$.$error){
@@ -894,71 +824,72 @@ export default {
                 formData.append('tax_id',this.data.tax_id);
                 formData.append('image',this.data.image);
                 formData.append('selling_methods',this.data.selling_methods);
+                formData.append('alternativeDetail', JSON.stringify(this.data.alternativeDetail));
                 for( var i = 0; i < this.numberOfImage1; i++ ){
                     let file = this.data.files[i];
                     formData.append('files[' + i + ']', file);
                 }
 
                 adminApi.post(`/v1/dashboard/product`,formData)
-                    .then((res) => {
+                //
+                // adminApi.post(`/v1/dashboard/product`, this.data)
+                
+                .then((res) => {
 
-                        notify({
-                            title: `تم الاضافه بنجاح <i class="fas fa-check-circle"></i>`,
-                            type: "success",
-                            duration: 5000,
-                            speed: 2000
-                        });
-
-                        this.resetForm();
-                        this.$nextTick(() => { this.v$.$reset() });
-                    })
-                    .catch((err) => {
-                        this.errors = err.response.data.errors;
-                        console.log(err.response);
-                    })
-                    .finally(() => {
-                        this.loading = false;
+                    notify({
+                        title: `تم الاضافه بنجاح <i class="fas fa-check-circle"></i>`,
+                        type: "success",
+                        duration: 5000,
+                        speed: 2000
                     });
+
+                    this.resetForm();
+                    this.$nextTick(() => { this.v$.$reset() });
+                })
+                .catch((err) => {
+                    this.errors = err.response.data.errors;
+                    console.log(err.response);
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
 
             }
         },
-        addAlternative() {
-            this.data.alternative.push({
-                nameAr: '',
-                nameEn: '',
-                discount: '',
+        //
+        addAlternativeDetail() {
+            this.data.alternativeDetail.push({
+                alternative_id: null,
+                discount: null,
                 pharmacyPrice: null,
                 publicPrice: null,
-                file: {},
             });
-            this.alternativeValidation.push({
-                nameAr: {
-                    required
-                },
-                nameEn: {
-                    required
+            this.alternativeDetailValidation.push({
+                alternative_id: {
+                    // required,
+                    // numeric
                 },
                 discount: {
-                    required
+                    // required,
+                    // numeric
                 },
                 pharmacyPrice: {
-                    required,
+                    // required,
+                    // numeric
                 },
                 publicPrice: {
-                    required,
-                },
-                file: {
-                    required,
-                },
+                    // required,
+                    // numeric
+                }
             });
 
-            this.alternatives.push({ alternatives: [], send: true });
+            this.alternativeDetails.push({ alternativeDetails: [], send: true });
             this.$nextTick(() => { this.v$.$reset() });
         },
-        deleteAlternative(index) {
-            this.data.alternative.splice(index, 1);
-            this.alternativeValidation.splice(index, 1);
-            this.alternatives.splice(index, 1);
+        deleteAlternativeDetail(index) {
+            this.data.alternativeDetail.splice(index, 1);
+            this.alternativeDetailValidation.splice(index, 1);
+            this.alternativeDetails.splice(index, 1);
             this.$nextTick(() => { this.v$.$reset() });
         },
         //
@@ -967,7 +898,6 @@ export default {
             document.querySelector('#container-images1').innerHTML = '';
             this.numberOfImage = 0;
             this.numberOfImage1 = 0;
-            this.numberOfImage2 = 0;
             this.data.productName_id = null;
             this.data.pharmacistForm_id = null;
             this.data.supplier_id = null;
@@ -986,14 +916,16 @@ export default {
             // this.data.sub_measurement_unit_id = null;
             this.data.tax_id = null;
             this.data.selling_methods = [];
-            this.data.alternative = [{
-                nameAr: '',
-                nameEn: '',
-                discount: '',
-                pharmacyPrice: null,
-                publicPrice: null,
-                file: {},
-            }];
+            //
+            this.data.alternativeDetail = [
+                {
+                    alternative_id: null,
+                    discount: null,
+                    pharmacyPrice: null,
+                    publicPrice: null,
+                }
+            ];
+            //
         }
     }
 }
@@ -1003,7 +935,8 @@ export default {
 .coustom-select {
     height: 100px;
 }
-.card{
+
+.card {
     position: relative;
 }
 
@@ -1035,7 +968,7 @@ input[type="file"] {
     opacity: 0;
 }
 
-.num-of-files{
+.num-of-files {
     text-align: center;
     margin: 20px 0 30px;
 }
@@ -1052,6 +985,7 @@ input[type="file"] {
     border-radius: 20px;
     background-color: #f7f7f7;
 }
+
 .custom-textarea {
     height: 150px;
 }

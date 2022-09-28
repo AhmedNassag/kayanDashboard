@@ -61,6 +61,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'productName create', 'role' => 'management'],
             ['name' => 'productName edit', 'role' => 'management'],
             ['name' => 'productName delete', 'role' => 'management'],
+            //alternative
+            ['name' => 'alternative read', 'role' => 'management'],
+            ['name' => 'alternative create', 'role' => 'management'],
+            ['name' => 'alternative edit', 'role' => 'management'],
+            ['name' => 'alternative delete', 'role' => 'management'],
             //product
             ['name' => 'product read', 'role' => 'management'],
             ['name' => 'product create', 'role' => 'management'],

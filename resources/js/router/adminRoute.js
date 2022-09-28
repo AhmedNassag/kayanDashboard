@@ -2,12 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Index from '../view/admin/Dashboard.vue';
 import department from './adminRoute/department';
 import productName from './adminRoute/productName';
+import alternative from './adminRoute/alternative';
+import product from './adminRoute/product';
 import category from './adminRoute/category';
 import subCategory from './adminRoute/subCategory';
 import usersCategory from './adminRoute/usersCategory';
 import tax from './adminRoute/tax';
 import company from './adminRoute/company';
-import product from './adminRoute/product';
 import pharmacistForm from './adminRoute/pharmacistForm';
 import price from './adminRoute/price';
 import kayanPrice from './adminRoute/kayanPrice';
@@ -108,13 +109,14 @@ const routes = [
             ...job,
             ...employee,
             ...role,
-            ...productName,
             ...pharmacistForm,
             ...category,
             ...subCategory,
             ...usersCategory,
             ...tax,
             ...company,
+            ...productName,
+            ...alternative,
             ...product,
             ...price,
             ...kayanPrice,
