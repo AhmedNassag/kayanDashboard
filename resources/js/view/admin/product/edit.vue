@@ -423,6 +423,61 @@
                                             </div>
                                             <!--End Multiple Images-->
 
+
+                                            <!--Start Alternative Details-->
+                                            <div class="col-md-12 mb-3 mt-5 alternativeDetail-option" id="alternativeDetail">
+                                                <div class="row account">
+                                                    <div class="col-md-12 mb-12 head-account">
+                                                        <h3>{{ $t('global.alternatives') }}</h3>
+                                                    </div>
+                                                    <div v-for="(it,index) in data.alternativeDetail" :key="it.id" class="col-md-12 mb-12 body-account row">
+                                                        <!--Start Alternative-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{ $t('global.Alternative') }}</label>
+                                                            <Select2 v-model.trim="it.alternative_id" :options="alternatives" :settings="{ width: '100%' }" />
+                                                        </div>
+                                                        <!--End Alternative-->
+                                            
+                                                        <!--Start Discount-->
+                                                        <div class="col-md-4 mb-4">
+                                                            <label>{{$t('global.Discount')}}</label>
+                                                            <input type="number" step="0.1" class="form-control" v-model.number="it.discount"
+                                                                :placeholder="$t('global.Discount')">
+                                                        </div>
+                                                        <!--End Discount-->
+                                            
+                                                        <!--Start Pharmacy Price-->
+                                                        <div class="col-md-4 mb-4">
+                                                            <label>{{$t('global.Pharmacy Price')}}</label>
+                                                            <input type="number" step="0.1" class="form-control" v-model.number="it.pharmacyPrice"
+                                                                :placeholder="$t('global.Pharmacy Price')">
+                                                        </div>
+                                                        <!--End Pharmacy Price-->
+                                            
+                                                        <!--Start Public Price-->
+                                                        <div class="col-md-4 mb-4">
+                                                            <label>{{$t('global.Public Price')}}</label>
+                                                            <input type="number" step="0.1" class="form-control" v-model.number="it.publicPrice"
+                                                                :placeholder="$t('global.Public Price')">
+                                                        </div>
+                                                        <!--End Public Price-->
+                                            
+                                                        <div class="col-md-3 mb-3">
+                                                            <button @click.prevent="addAlternativeDetail" v-if="(data.alternativeDetail.length-1) == index"
+                                                                class="btn btn-sm btn-success me-2 mt-5">
+                                                                <i class="fas fa-clipboard-list"></i> {{$t('global.AddANewLine')}}
+                                                            </button>
+                                                            <button v-if="index" @click.prevent="deleteAlternativeDetail(index)" data-bs-target="#staticBackdrop"
+                                                                class="btn btn-sm btn-danger me-2 mt-5">
+                                                                <i class="far fa-trash-alt"></i> {{$t('global.Delete')}}
+                                                            </button>
+                                                        </div>
+                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Alternative Details-->
+
                                         </div>
 
                                         <button class="btn btn-primary" type="submit">تعديل</button>
@@ -472,10 +527,41 @@ export default {
         let sellingMethods = ref([]);
         let images = ref([]);
         let image = ref('');
+        //
+        let alternatives = ref([]);
+        let alternativeDetailValidation = ref([{
+            alternative_id: {
+                // required,
+                // numeric
+            },
+            discount: {
+                // required,
+                // numeric
+            },
+            pharmacyPrice: {
+                // required,
+                // numeric
+            },
+            publicPrice: {
+                // required,
+                // numeric
+            }
+        }]);
+        //
 
         //start design
         let addProduct =  reactive({
             data:{
+                //
+                alternativeDetail: [
+                    {
+                        alternative_id: null,
+                        discount: null,
+                        pharmacyPrice: null,
+                        publicPrice: null,
+                    }
+                ],
+                //
                 nullValue: null,
                 productName_id: null,
                 pharmacistForm_id: null,
@@ -495,6 +581,11 @@ export default {
                 // sub_measurement_unit_id: null,
                 tax_id: null,
                 selling_methods: [],
+                //
+                alternativeDetails: [
+                    { alternativeDetails: [], send: true }
+                ]
+                //
             }
         });
 
@@ -527,7 +618,10 @@ export default {
                     categories.value = l.categories;
                     measures.value = l.measures;
                     taxes.value = l.taxes;
-                    pharmacistForms.value = l.pharmacistForms
+                    pharmacistForms.value = l.pharmacistForms;
+                    //
+                    alternatives.value = l.alternatives;
+                    //
                     sellingMethods.value = l.sellingMethods;
                     l.sellingMethodChange.forEach((e) => {
                         addProduct.data.selling_methods.push(e.id);
@@ -565,6 +659,11 @@ export default {
 
         const rules = computed(() => {
             return {
+                //
+                alternativeDetail: [
+                    ...alternativeDetailValidation.value
+                ],
+                //
                 productName_id: {
                     required,
                 },
@@ -625,7 +724,12 @@ export default {
                 },
                 selling_methods: {
                     required
+                },
+                //
+                alternativeDetail: {
+                    // required
                 }
+                //
             }
         });
 
@@ -731,6 +835,10 @@ export default {
             deleteOne,
             subCategories,
             getSubCategory,
+            //
+            alternatives,
+            alternativeDetailValidation,
+            //
             id
 
         };
@@ -749,6 +857,43 @@ export default {
             this.supplierShow = true;
             this.companyShow = false;
         },
+        //
+        addAlternativeDetail() {
+            this.data.alternativeDetail.push({
+                alternative_id: null,
+                discount: null,
+                pharmacyPrice: null,
+                publicPrice: null,
+            });
+            this.alternativeDetailValidation.push({
+                alternative_id: {
+                    // required,
+                    // numeric
+                },
+                discount: {
+                    // required,
+                    // numeric
+                },
+                pharmacyPrice: {
+                    // required,
+                    // numeric
+                },
+                publicPrice: {
+                    // required,
+                    // numeric
+                }
+            });
+
+            this.alternativeDetails.push({ alternativeDetails: [], send: true });
+            this.$nextTick(() => { this.v$.$reset() });
+        },
+        deleteAlternativeDetail(index) {
+            this.data.alternativeDetail.splice(index, 1);
+            this.alternativeDetailValidation.splice(index, 1);
+            this.alternativeDetails.splice(index, 1);
+            this.$nextTick(() => { this.v$.$reset() });
+        },
+        //
 
         editProduct(){
             this.v$.$validate();
@@ -775,7 +920,8 @@ export default {
                 formData.append('main_measurement_unit_id',this.data.main_measurement_unit_id);
                 formData.append('tax_id',this.data.tax_id);
                 formData.append('image',this.data.image);
-                formData.append('selling_methods',this.data.selling_methods);
+                formData.append('selling_methods', this.data.selling_methods);
+                formData.append('alternativeDetail', JSON.stringify(this.data.alternativeDetail));
                 formData.append('_method','PUT');
 
                 for( var i = 0; i < this.numberOfImage1; i++ ){
@@ -814,7 +960,6 @@ export default {
 .card{
     position: relative;
 }
-
 .waves-effect {
     position: relative;
     overflow: hidden;
@@ -842,12 +987,10 @@ input[type="file"] {
     filter: alpha(opacity=0);
     opacity: 0;
 }
-
 .num-of-files{
     text-align: center;
     margin: 20px 0 30px;
 }
-
 .container-images {
     width: 90%;
     position: relative;
@@ -860,7 +1003,6 @@ input[type="file"] {
     border-radius: 20px;
     background-color: #f7f7f7;
 }
-
 .delete {
     position: absolute;
     top: 6px;
@@ -870,5 +1012,34 @@ input[type="file"] {
     text-align: center;
     border: 1px solid;
     border-radius: 50%;
+}
+.custom-textarea {
+    height: 150px;
+}
+.account {
+    background-color: #fcb00c;
+    color: #000000 !important;
+    border-radius: 5px;
+}
+.head-account {
+    display: flex;
+    justify-content: center;
+}
+.head-account h3 {
+    color: #000000 !important;
+    font-weight: bold;
+}
+.body-account {
+    border-top: 3px solid #000000;
+    margin: 0 !important;
+}
+.text-height {
+    height: 46px !important;
+}
+.error-amount {
+    display: flex;
+    justify-content: center;
+    color: red;
+    margin: 10px;
 }
 </style>

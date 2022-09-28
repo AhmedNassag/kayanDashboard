@@ -20,7 +20,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
         // start login
         Route::post('login', 'AuthDashboardController@login');
-        
+
         // check token
         Route::get('checkToken',  'AuthDashboardController@authorizeUser');
     });
@@ -94,13 +94,17 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('company', 'CompanyController')->except(['show']);
             Route::get('activationCompany/{id}', 'CompanyController@activationCompany');
 
+            // pharmacist form
+            Route::resource('pharmacistForm', 'PharmacistFormController')->except(['show']);
+
             // product name
             Route::resource('productName', 'ProductNameController')->except(['show']);
             Route::get('activationProductName/{id}', 'ProductNameController@activationProductName');
-           
-            // pharmacist form
-            Route::resource('pharmacistForm', 'PharmacistFormController')->except(['show']);
-            
+
+            // alternative
+            Route::resource('alternative', 'AlternativeController')->except(['show']);
+            Route::get('activationAlternative/{id}', 'AlternativeController@activationAlternative');
+
             // product
             Route::resource('product', 'ProductController');
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');

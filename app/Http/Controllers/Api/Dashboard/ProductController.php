@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alternative;
+use App\Models\AlternativeDetail;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Company;
@@ -95,6 +97,7 @@ class ProductController extends Controller
             $productNames    = ProductName::select('id','nameAr')->get();
             $suppliers       = Supplier::select('id','name')->get();
             $pharmacistForms = PharmacistForm::select('id','name')->get();
+            $alternatives    = Alternative::select('id','nameAr')->get();
             $clients         = Client::with('user')->get();
 
             return $this->sendResponse([
@@ -106,6 +109,7 @@ class ProductController extends Controller
                 'productNames'    => $productNames,
                 'suppliers'       => $suppliers,
                 'pharmacistForms' => $pharmacistForms,
+                'alternatives'    => $alternatives,
                 'clients'         => $clients
             ], 'Data exited successfully');
 
@@ -203,6 +207,22 @@ class ProductController extends Controller
                 }
             }
 
+            if($request->alternativeDetail)
+            {
+                $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
+                foreach($request->alternativeDetail as $alternativeDetail)
+                {
+                    AlternativeDetail::create
+                    ([
+                        'product_id'     => $product['id'],
+                        'alternative_id' => $alternativeDetail->alternative_id,
+                        'discount'       => $alternativeDetail->discount,
+                        'pharmacyPrice'  => $alternativeDetail->pharmacyPrice,
+                        'publicPrice'    => $alternativeDetail->publicPrice,
+                    ]);
+                }
+            }
+
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
         }
@@ -230,7 +250,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         try {
-            $product         = Product::with('media:mediable_id,file_name,id')->find($id);
+            $product         = Product::with(['media:mediable_id,file_name,id', 'alternativeDetails'])->find($id);
             $productNames    = ProductName::select('id','nameAr')->get();
             $suppliers       = Supplier::select('id','name')->get();
             $companies       = Company::select('id','name')->get();
@@ -239,6 +259,7 @@ class ProductController extends Controller
             $taxes           = Tax::select('id','name')->get();
             $pharmacistForms = PharmacistForm::select('id','name')->get();
             $sellingMethods  = SellingMethod::select('id','name')->get();
+            $alternatives    = Alternative::select('id', 'nameAr')->get();
             $sellingMethodChange = $product->selling_methods;
 
             return $this->sendResponse([
@@ -251,6 +272,7 @@ class ProductController extends Controller
                 'taxes'               => $taxes,
                 'pharmacistForms'     => $pharmacistForms,
                 'sellingMethods'      => $sellingMethods,
+                'alternatives'        => $alternatives,
                 'sellingMethodChange' => $sellingMethodChange
             ], 'Data exited successfully');
 
@@ -269,7 +291,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         DB::beginTransaction();
-        try {
+        // try {
 
             $product = Product::find($id);
 
@@ -350,14 +372,35 @@ class ProductController extends Controller
                 }
             }
 
+            if ($request->alternativeDetail != null)
+            {
+                $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
+                foreach ($request->alternativeDetail as $alternativeDetail) {
+                    if($alternativeDetail->alternative_id != null && $alternativeDetail->discount != null && $alternativeDetail->pharmacyPrice != null && $alternativeDetail->publicPrice != null)
+                    {
+                        foreach ($product->alternativeDetails as $data)
+                        {
+                            $data->delete();
+                        }
+                        AlternativeDetail::create([
+                            'product_id'     => $product['id'],
+                            'alternative_id' => $alternativeDetail->alternative_id,
+                            'discount'       => $alternativeDetail->discount,
+                            'pharmacyPrice'  => $alternativeDetail->pharmacyPrice,
+                            'publicPrice'    => $alternativeDetail->publicPrice,
+                        ]);
+                    }
+                }
+            }
+
             DB::commit();
             return $this->sendResponse([],'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+        // }
+        // catch (\Exception $e)
+        // {
+        //     DB::rollBack();
+        //     return $this->sendError('An error occurred in the system');
+        // }
     }
 
 

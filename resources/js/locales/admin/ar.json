@@ -353,7 +353,7 @@
         "AccountName": "أسم الحساب",
         "RestrictionDescription": "وصف القيد",
         "Delete": "حذف",
-        "AddANewLine": "اضافة سطر جديد ",
+        "AddANewLine": "إضافة جديدة ",
         "The total of the debit must be equal to the total of the creditor after posting all the accounting entries in all the previous operations": "یجب ان یكون اجمالي المدین یساوي اجمالي الدائن بعد ترحیل كافة القیود المحاسبیة فى كل العملیات السابقة",
         "TotalDebit": "اجمالى المدين",
         "TotalCreditor": "اجمالى الدائن",
@@ -431,7 +431,9 @@
         "Product Details": "تفاصيل المنتج",
         "Product Names": "اسم المنتجات",
         "Product Name": "اسم المنتج",
-        "Alternatives": "البدائل",
+        "alternatives": "البدائل",
+        "Alternatives": "بدائل المنتجات",
+        "Alternative": "بديل المنتج",
         "Product Prices": "أسعار المنتجات",
         "Product Price": "سعر المنتج",
         "BarCode": "بار كود",
@@ -710,6 +712,14 @@
         "CreateProductName": "اضافة اسم المنتج",
         "EditProductName": "تعديل اسم المنتج"
     },
+     "alternative": {
+        "CreateAlternative": "اضافة بديل منتج",
+        "EditAlternative": "تعديل بديل المنتج"
+    },
+    "product": {
+        "CreateProduct": "اضافة منتج",
+        "EditProduct": "تعديل منتج "
+    },
     "pharmacistForm": {
         "CreatePharmacistForm": "اضافة شكل صيدلى ",
         "EditPharmacistForm": "تعديل شكل صيدلى "
@@ -726,10 +736,6 @@
     "usersCategory": {
         "CreateUsersCategory": "اضافة فئة مستخدم",
         "EditUsersCategory": "تعديل فئة المستخدم"
-    },
-    "product": {
-        "CreateProduct": "اضافة منتج",
-        "EditProduct": "تعديل منتج "
     },
     "price": {
         "CreatePrice": "اضافة سعر منتج",
