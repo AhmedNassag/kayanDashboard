@@ -146,6 +146,7 @@
         "Action": "الاجراءات",
         "NotRelated": "ليست تابعة",
         "NoDataFound": "لا يوجد بيانات",
+        "Not Found": "لا يوجد",
         "DeletedSuccessfully": "تم الحذف بنجاح .",
         "YouWontBeAbleToRevertThis": "لن تتمكن من التراجع عن هذا!",
         "AreYouSureDelete": "هل انت متأكد من الحذف ؟",
@@ -607,7 +608,36 @@
         "saleRecordsDetails": "تفاصيل محضر البيع",
         "Storekeeper": "امين المخزن",
         "Signature": "التوقيع",
-        "InvoiceNumberReturn": "رقم فاتورة المرتجعات"
+        "InvoiceNumberReturn": "رقم فاتورة المرتجعات",
+        "Complaints": "الشكاوى والمقترحات",
+        "complaints": "الشكاوى والمقترحات",
+        "Complaint": "الشكوى والمقترح",
+        "Content": "المحتوى",
+        "Product Complaint": "شكوى من منتج",
+        "Application Complaint": "شكوى من التطبيق",
+        "Sales Complaint": "شكوى من مندوب",
+        "Add Reply": "إضافة رد",
+        "Reply Added": "تم الرد",
+        "Reply": "الرد",
+        "Sender": "مرسل الشكوى",
+        "Responser": "من قام بالرد",
+        "Financial Reports": "التقارير المالية",
+        "Product Reports": "تقارير المنتجات",
+        "Client Reports": "تقارير العملاء",
+        "Supplier Reports": "تقارير الموردين",
+        "Stock Reports": "تقارير المخازن",
+        "Complaint Reports": "تقارير الشكاوى",
+        "Delegate Reports": "تقارير المناديب",
+        "Region Reports": "تقارير المناطق",
+        "Purchase Reports": "تقارير المشتريات",
+        "Sale Reports": "تقارير المبيعات",
+        "Start At": "من تاريخ",
+        "End At": "إلى تاريخ",
+        "Sale Type": "نوع البيع",
+        "Sale Price": "سعر البيع",
+        "Price Before Discount": "السعر قبل الخصم",
+        "Price After Discount": "السعر بعد الخصم",
+        "Total Quantity": "إجمالى الكمية"
     },
     "treasury": {
         "TreasuryManagement": "ادارة الخزن",
@@ -791,5 +821,11 @@
     "refused": {
         "CreateRefused": "اضافة مرتجع",
         "EditRefused": "تعديل مرتجع"
+    },
+    "complaint": {
+        "CreateComplaint": "إضافة شكوى أو مقترح",
+        "EditComplaint": "تعديل شكوى أو مقترح",
+        "ReplyComplaint": "رد على شكوى أو مقترح",
+        "ShowComplaint": "عرض شكوى أو مقترح"
     }
 }

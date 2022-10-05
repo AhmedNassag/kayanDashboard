@@ -102,6 +102,26 @@
                     <!-- End Pharmacist Form Links -->
 
 
+                    <!--Start Storage Links-->
+                    <li v-if="permission.includes('storage read')" :class="[$route.name == 'indexStorage' ? 'active' : '']">
+                        <router-link :to="{ name: 'indexStorage' }">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <span>{{ $t("global.Storages") }}</span>
+                        </router-link>
+                    </li>
+                    <!--End Storage Links-->
+
+
+                    <!--Start Complaint Links-->
+                    <li v-if="permission.includes('complaint read')" :class="[$route.name == 'indexComplaint' ? 'active' : '']">
+                        <router-link :to="{ name: 'indexComplaint' }">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <span>{{ $t("global.Complaints") }}</span>
+                        </router-link>
+                    </li>
+                    <!--End Complaint Links-->
+
+
                     <!-- Start Product Links -->
                     <li class="submenu" v-if="permission.includes('management')">
                         <a href="#">
@@ -135,7 +155,7 @@
                     <!--End Product Links-->
 
 
-                    <!-- Start Stocks Links -->
+                    <!-- Start Stock Links -->
                     <li class="submenu" v-if="permission.includes('management')">
                         <a href="#">
                             <i class="fas fa-home"></i>
@@ -158,7 +178,8 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- End Stocks Links -->
+                    <!-- End Stock Links -->
+
 
                     <!--Start Purchase Links-->
                     <li class="submenu" v-if="permission.includes('buy')">
@@ -193,7 +214,7 @@
                     <!--End Purchase Links-->
 
 
-                    <!--Start Sales Links-->
+                    <!--Start Sale Links-->
                     <li class="submenu" v-if="permission.includes('buy')">
                         <a href="#">
                             <i class="fas fa-home"></i>
@@ -223,7 +244,8 @@
                             </li>
                         </ul>
                     </li>
-                    <!--End Sales Links-->
+                    <!--End Sale Links-->
+
 
                     <!--Start Price Links-->
                     <li class="submenu" v-if="permission.includes('management')">
@@ -250,18 +272,90 @@
                     </li>
                     <!--End Price Links-->
 
-                    <!--Start Storage Links-->
-                    <li v-if="permission.includes('storage read')"
-                        :class="[$route.name == 'indexStorage' ? 'active' : '']">
-                        <router-link :to="{ name: 'indexStorage' }">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            <span>{{ $t("global.Storages") }}</span>
-                        </router-link>
-                    </li>
-                    <!--End Storage Links-->
 
-                    <!------------------------------------------------------------------------------------------------------------------------------------------>
-                    <!------------------------------------------------------------------------------------------------------------------------------------------>
+                    <!--Start Report Links-->
+                    <li class="submenu" v-if="permission.includes('management')">
+                        <a href="#">
+                            <i class="fas fa-home"></i>
+                            <span>{{ $t("global.Reports") }}</span>
+                            <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
+                        </a>
+                        <ul>
+                            <li v-if="permission.includes('financialReport read')"
+                                :class="[$route.name == 'indexFinancialReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexFinancialReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Financial Reports") }}
+                                </router-link>
+                            </li>
+
+                            <li v-if="permission.includes('productReport read')"
+                                :class="[$route.name == 'indexProductReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexProductReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Product Reports") }}
+                                </router-link>
+                            </li>
+
+                            <li v-if="permission.includes('clientReport read')"
+                                :class="[$route.name == 'indexClientReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexClientReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Client Reports") }}
+                                </router-link>
+                            </li>
+
+                            <li v-if="permission.includes('supplierReport read')"
+                                :class="[$route.name == 'indexSupplierReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexSupplierReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Supplier Reports") }}
+                                </router-link>
+                            </li>
+
+                            <li v-if="permission.includes('stockReport read')"
+                                :class="[$route.name == 'indexStockReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexStockReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Stock Reports") }}
+                                </router-link>
+                            </li>
+
+                            <li v-if="permission.includes('complaintReport read')"
+                                :class="[$route.name == 'indexComplaintReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexComplaintReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Complaint Reports") }}
+                                </router-link>
+                            </li>
+
+                            <!--### <li v-if="permission.includes('delegateReport read')"
+                                :class="[$route.name == 'indexDelegateReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexDelegateReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Delegate Reports") }}
+                                </router-link>
+                            </li> ###-->
+
+                            <li v-if="permission.includes('regionReport read')"
+                                :class="[$route.name == 'indexRegionReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexRegionReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Region Reports") }}
+                                </router-link>
+                            </li>
+
+                            <li v-if="permission.includes('purchaseReport read')"
+                                :class="[$route.name == 'indexPurchaseReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexPurchaseReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Purchase Reports") }}
+                                </router-link>
+                            </li>
+
+                            <li v-if="permission.includes('saleReport read')"
+                                :class="[$route.name == 'indexSaleReport' ? 'active' : '']">
+                                <router-link :to="{ name: 'indexSaleReport' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Sale Reports") }}
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--End Report Links-->
+
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
                     <li v-if="permission.includes('unit read')" :class="[$route.name == 'UnitIndex' ? 'active' : '']">
                         <router-link :to="{ name: 'UnitIndex' }">
                             <i class="fa fa-balance-scale" aria-hidden="true"></i>
@@ -428,8 +522,8 @@
                         </ul>
                     </li>
 
-                    <!------------------------------------------------------------------------------------------------------------------------------------------>
-                    <!------------------------------------------------------------------------------------------------------------------------------------------>
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
                 </ul>
             </div>

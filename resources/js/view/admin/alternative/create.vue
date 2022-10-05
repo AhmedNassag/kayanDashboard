@@ -268,8 +268,8 @@ export default {
         this.loading = true;
         this.errors = {};
         let formData = new FormData();
-        formData.append("nameAr", this.data.name);
-        formData.append("nameEn", this.data.name);
+        formData.append("nameAr", this.data.nameAr);
+        formData.append("nameEn", this.data.nameEn);
         formData.append("file", this.data.file);
 
         adminApi
