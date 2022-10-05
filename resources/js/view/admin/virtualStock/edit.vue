@@ -53,12 +53,12 @@
                                                 <label for="validationCustom07">
                                                     {{ $t("global.Category") }}
                                                 </label>
-                                                <Select2 @change="getSubCategory(v$.category_id.$model)" v-model.trim="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" />
-                                                <!-- <select @change="getSubCategory(v$.category_id.$model)" class="form-select" v-model.trim="v$.category_id.$model">
+                                                <!-- <Select2 @change="getSubCategory(v$.category_id.$model)" v-model.trim="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" /> -->
+                                                <select @change="getSubCategory(v$.category_id.$model)" class="form-select" v-model.trim="v$.category_id.$model">
                                                     <option v-for="category in categories" :key="category.id" :value="category.id">
                                                         {{ category.name }}
                                                     </option>
-                                                </select> -->
+                                                </select>
                                             </div>
                                             <!--End Category Select-->
 

@@ -145,6 +145,20 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // sale return
             Route::resource('saleReturn', 'SaleReturnController');
 
+            // complaint
+            Route::resource('complaint', 'ComplaintController');
+            Route::Post('replycomplaint/{id}', 'ComplaintController@reply');
+            Route::get('showcomplaint/{id}', 'ComplaintController@show');
+
+
+            // reports
+            Route::resource('complaintReport', 'ComplaintReportController');
+            Route::resource('saleReport', 'SaleReportController');
+            Route::get('saleReportByProduct', 'SaleReportController@saleReportByProduct');
+            Route::get('saleReportByCategory', 'SaleReportController@saleReportByCategory');
+            Route::get('saleReportByReturn', 'SaleReportController@saleReportByReturn');
+
+
             //
             Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
 

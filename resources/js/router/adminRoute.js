@@ -21,6 +21,19 @@ import saleInvoice from './adminRoute/saleInvoice';
 import saleRecord from './adminRoute/saleRecord';
 import saleReturn from './adminRoute/saleReturn';
 import storage from './adminRoute/storage';
+import complaint from './adminRoute/complaint';
+//
+import financialReport from './adminRoute/financialReport';
+import productReport from './adminRoute/productReport';
+import customerReport from './adminRoute/clientReport';
+import supplierReport from './adminRoute/supplierReport';
+import stockReport from './adminRoute/stockReport';
+import complaintReport from './adminRoute/complaintReport';
+import delegateReport from './adminRoute/delegateReport';
+import regionReport from './adminRoute/regionReport';
+import purchaseReport from './adminRoute/purchaseReport';
+import saleReport from './adminRoute/saleReport';
+//
 import refused from './adminRoute/refused';
 import job from './adminRoute/job';
 import role from './adminRoute/role';
@@ -133,6 +146,19 @@ const routes = [
             ...saleRecord,
             ...saleReturn,
             ...storage,
+            ...complaint,
+            //
+            ...financialReport,
+            ...productReport,
+            ...customerReport,
+            ...supplierReport,
+            ...stockReport,
+            ...complaintReport,
+            ...delegateReport,
+            ...regionReport,
+            ...purchaseReport,
+            ...saleReport,
+            //
             ...refused,
             ...unit,
             ...deal,
