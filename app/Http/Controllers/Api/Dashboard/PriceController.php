@@ -24,7 +24,7 @@ class PriceController extends Controller
      */
     public function index(Request $request)
     {
-        $prices = Price::with('product.productName:id,nameAr', 'company:id,name', 'supplier:id,name', 'category:id,name', 'subCategory:id,name')
+        $prices = Price::with('product.productName:id,nameAr', 'supplier:id,name', 'category:id,name','subCategory:id,name'/*, 'company:id,name'*/)
             ->when($request->search, function ($q) use ($request) {
                 return $q->where('name', 'like', "%" . $request->search . "%");
             })->latest()->paginate(15);
@@ -43,13 +43,13 @@ class PriceController extends Controller
         {
             $products     = Product::with('productName')->get();
             $suppliers    = Supplier::select('id', 'name')->get();
-            $companies    = Company::select('id', 'name')->get();
+            // $companies    = Company::select('id', 'name')->get();
             $categories   = Category::select('id', 'name')->get();
 
             return $this->sendResponse([
                 'products'   => $products,
                 'suppliers'  => $suppliers,
-                'companies'  => $companies,
+                // 'companies'  => $companies,
                 'categories' => $categories,
             ], 'Data exited successfully');
 
@@ -77,9 +77,9 @@ class PriceController extends Controller
                 'product_id'     => 'required|integer|exists:products,id',
                 'category_id'    => 'required|integer|exists:categories,id',
                 'sub_category_id' => 'required|integer|exists:sub_categories,id',
+                'supplier_id'    => 'required|integer|exists:suppliers,id',
                 // 'company_id'     => 'required|integer|exists:companies,id',
-                // 'supplier_id'    => 'required|integer|exists:suppliers,id',
-                'pharmacyPrice'  => 'required',
+                // 'pharmacyPrice'  => 'required',
                 'publicPrice'    => 'required',
                 'clientDiscount' => 'required',
                 'kayanDiscount'  => 'required',
@@ -91,18 +91,20 @@ class PriceController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount'/*, 'kayanProfit'*/]);
+            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount','kayanDiscount', 'supplier_id', /*'company_id', 'kayanProfit'*/]);
+
+            $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->clientDiscount / 100));
 
             $data['kayanProfit'] = $data['kayanDiscount'] - $data['clientDiscount'];
 
-            if ($data['company_id'] != "null")
-            {
-                $data['supplier_id'] = null;
-            }
-            else
-            {
-                $data['company_id'] = null;
-            }
+            // if ($data['company_id'] != "null")
+            // {
+            //     $data['supplier_id'] = null;
+            // }
+            // else
+            // {
+            //     $data['company_id'] = null;
+            // }
 
             $price = Price::create($data);
 
@@ -140,14 +142,14 @@ class PriceController extends Controller
             $price          = Price::find($id);
             $products       = Product::with('productName')->get();
             $suppliers      = Supplier::select('id','name')->get();
-            $companies      = Company::select('id','name')->get();
+            // $companies      = Company::select('id','name')->get();
             $categories     = Category::select('id','name')->get();
 
             return $this->sendResponse([
                 'price'               => $price,
                 'products'            => $products,
                 'suppliers'           => $suppliers,
-                'companies'           => $companies,
+                // 'companies'           => $companies,
                 'categories'          => $categories,
             ], 'Data exited successfully');
 
@@ -176,9 +178,9 @@ class PriceController extends Controller
                 'product_id'     => 'required|integer|exists:products,id',
                 'category_id'    => 'required|integer|exists:categories,id',
                 'sub_category_id' => 'required|integer|exists:sub_categories,id',
+                'supplier_id'    => 'required|integer|exists:suppliers,id',
                 // 'company_id'     => 'required|integer|exists:companies,id',
-                // 'supplier_id'    => 'required|integer|exists:suppliers,id',
-                'pharmacyPrice'  => 'required',
+                // 'pharmacyPrice'  => 'required',
                 'publicPrice'    => 'required',
                 'clientDiscount' => 'required',
                 'kayanDiscount'  => 'required',
@@ -189,18 +191,20 @@ class PriceController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount', 'kayanProfit']);
+            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount','kayanProfit', 'supplier_id'/*, 'company_id'*/]);
+
+            $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->clientDiscount / 100));
 
             $data['kayanProfit'] = $data['kayanDiscount'] - $data['clientDiscount'];
 
-            if ($data['company_id'] != "null")
-            {
-                $data['supplier_id'] = null;
-            }
-            else
-            {
-                $data['company_id'] = null;
-            }
+            // if ($data['company_id'] != "null")
+            // {
+            //     $data['supplier_id'] = null;
+            // }
+            // else
+            // {
+            //     $data['company_id'] = null;
+            // }
 
             $price->update($data);
 

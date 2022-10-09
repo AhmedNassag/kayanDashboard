@@ -119,7 +119,7 @@
                                             <!--End Product Quantity-->
 
                                             <!--Start Pharmacy Price-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label for="validationCustom05">
                                                     {{ $t("global.Pharmacy Price") }}
                                                 </label>
@@ -143,7 +143,7 @@
                                                         <br/>
                                                     </span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Pharmacy Price-->
 
                                             <!--Start Public Price-->
@@ -280,7 +280,7 @@ export default {
                     let l = res.data.data;
 
                     addVirtualStock.data.productQuantity = l.virtualStock.productQuantity;
-                    addVirtualStock.data.pharmacyPrice = l.virtualStock.pharmacyPrice;
+                    // addVirtualStock.data.pharmacyPrice = l.virtualStock.pharmacyPrice;
                     addVirtualStock.data.publicPrice = l.virtualStock.publicPrice;
                     addVirtualStock.data.pharmacyDiscount = l.virtualStock.pharmacyDiscount;
                     addVirtualStock.data.kayanDiscount = l.virtualStock.kayanDiscount;
@@ -309,7 +309,7 @@ export default {
         let addVirtualStock =  reactive({
             data:{
                 productQuantity: "",
-                pharmacyPrice: "",
+                // pharmacyPrice: "",
                 publicPrice: "",
                 pharmacyDiscount: "",
                 kayanDiscount:"",
@@ -344,9 +344,9 @@ export default {
                 productQuantity: {
                     required,
                 },
-                pharmacyPrice: {
-                    required,
-                },
+                // pharmacyPrice: {
+                //     required,
+                // },
                 publicPrice: {
                     required,
                 },
@@ -434,7 +434,7 @@ export default {
 
                 let formData = new FormData();
                 formData.append("productQuantity", this.data.productQuantity);
-                formData.append("pharmacyPrice", this.data.pharmacyPrice);
+                // formData.append("pharmacyPrice", this.data.pharmacyPrice);
                 formData.append("publicPrice", this.data.publicPrice);
                 formData.append("pharmacyDiscount", this.data.pharmacyDiscount);
                 formData.append("kayanDiscount", this.data.kayanDiscount);

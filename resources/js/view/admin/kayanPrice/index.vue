@@ -50,7 +50,7 @@
                                         <th class="text-center">{{ $t("global.Product Name") }}</th>
                                         <th class="text-center">{{ $t("global.MainCategory") }}</th>
                                         <th class="text-center">{{ $t("global.SubCategory") }}</th>
-                                        <th class="text-center">{{ $t("global.Company") }}</th>
+                                        <!-- <th class="text-center">{{ $t("global.Company") }}</th> -->
                                         <th class="text-center">{{ $t("global.Supplier") }}</th>
                                         <th class="text-center">{{ $t("global.Product Price") }}</th>
                                         <th class="text-center">{{ $t("global.Product Discount") }}</th>
@@ -77,8 +77,8 @@
                                         <td class="text-center">{{ item.product.product_name.nameAr }}</td>
                                         <td class="text-center">{{ item.category.name }}</td>
                                         <td class="text-center">{{ item.sub_category.name }}</td>
-                                        <td class="text-center" v-if="item.company_id">{{ item.company.name }}</td>
-                                        <td class="text-center" v-else>---</td>
+                                        <!-- <td class="text-center" v-if="item.company_id">{{ item.company.name }}</td>
+                                        <td class="text-center" v-else>---</td> -->
                                         <td class="text-center" v-if="item.supplier_id">{{ item.supplier.name }}</td>
                                         <td class="text-center" v-else>---</td>
                                         <td class="text-center" v-if="item.productPrice">{{ item.productPrice }}</td>

@@ -54,7 +54,7 @@ class VirtualStockController extends Controller
             // Validator request
             $v = Validator::make($request->all(), [
                 'productQuantity' => 'required',
-                'pharmacyPrice' => 'required',
+                // 'pharmacyPrice' => 'required',
                 'publicPrice' => 'required',
                 'pharmacyDiscount' => 'required',
                 'kayanDiscount' => 'required',
@@ -68,6 +68,7 @@ class VirtualStockController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
             $data = $request->only(['productQuantity','pharmacyPrice','publicPrice','pharmacyDiscount','kayanDiscount','category_id','sub_category_id','product_id','supplier_id']);
+            $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->pharmacyDiscount/100));
             $virtualStock = VirtualStock::create($data);
 
             DB::commit();
@@ -136,7 +137,7 @@ class VirtualStockController extends Controller
             // Validator request
             $v = Validator::make($request->all(), [
                 'productQuantity' => 'required',
-                'pharmacyPrice' => 'required',
+                // 'pharmacyPrice' => 'required',
                 'publicPrice' => 'required',
                 'pharmacyDiscount' => 'required',
                 'kayanDiscount' => 'required',
@@ -150,7 +151,7 @@ class VirtualStockController extends Controller
             }
 
             $data = $request->only(['productQuantity','pharmacyPrice','publicPrice','pharmacyDiscount','kayanDiscount','category_id','sub_category_id','product_id']);
-
+            $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->pharmacyDiscount/100));
             $virtualStock->update($data);
 
             DB::commit();

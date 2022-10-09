@@ -174,6 +174,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('getUnits', 'ProductController@getUnits');
             Route::get('getEmployees', 'StockController@getEmployees');
             Route::get('getShifts', 'StockController@getShifts');
+            Route::get('getCities', 'StockController@getCities');
+            Route::get('getAreas', 'StockController@getAreas');
             Route::get('getSuppliers', 'PurchaseController@getSuppliers');
             Route::get('getProducts', 'PurchaseController@getProducts');
             Route::get('productPrice/{id}','PurchaseController@productPrice');

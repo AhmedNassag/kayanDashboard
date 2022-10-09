@@ -23,6 +23,16 @@ class Stock extends Model
         return $this->belongsTo(Employee::class,'employee_id');
     }
 
+    public function city()
+    {
+        return $this->belongsTo(City::class,'city_id');
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class, 'area_id');
+    }
+
     public function shift()
     {
         return $this->belongsTo(Shift::class,'shift_id');

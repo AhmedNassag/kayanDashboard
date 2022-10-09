@@ -60,13 +60,13 @@
 
 
                     <!-- Start Company Links -->
-                    <li v-if="permission.includes('company read')"
+                    <!-- <li v-if="permission.includes('company read')"
                         :class="[$route.name == 'indexCompany' ? 'active' : '']">
                         <router-link :to="{ name: 'indexCompany' }">
                             <i class="fa fa-home" aria-hidden="true"></i>
                             <span>{{ $t("global.Companies") }}</span>
                         </router-link>
-                    </li>
+                    </li> -->
                     <!-- End Company Links -->
 
 
@@ -130,12 +130,12 @@
                             <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
                         </a>
                         <ul>
-                            <li v-if="permission.includes('productName read')"
+                            <!-- <li v-if="permission.includes('productName read')"
                                 :class="[$route.name == 'indexProductName' ? 'active' : '']">
                                 <router-link :to="{ name: 'indexProductName' }" :class="['sidebar-menu-rtl']">
                                     {{ $t("global.Product Names") }}
                                 </router-link>
-                            </li>
+                            </li> -->
 
                             <li v-if="permission.includes('alternative read')"
                                 :class="[$route.name == 'indexAlternative' ? 'active' : '']">
@@ -356,6 +356,7 @@
 
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+
                     <li v-if="permission.includes('unit read')" :class="[$route.name == 'UnitIndex' ? 'active' : '']">
                         <router-link :to="{ name: 'UnitIndex' }">
                             <i class="fa fa-balance-scale" aria-hidden="true"></i>
