@@ -54,7 +54,7 @@ class SalePointRepository
     {
         return Category::where("status", 1)->with(["subCategories" => function ($q) {
             $q->where("status", 1)->with(["products" => function ($q) {
-                $q->where("status", 1)->with("productName");
+                $q->where("status", 1);
             }]);
         }])->get();
     }

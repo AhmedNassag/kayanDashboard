@@ -567,7 +567,6 @@ export default {
             adminApi.get(`/v1/dashboard/product/${id.value}/edit`)
                 .then((res) => {
                     let l = res.data.data;
-                    // addProduct.data.productName_id = l.product.productName_id;
                     addProduct.data.nameAr = l.product.nameAr;
                     addProduct.data.nameEn = l.product.nameEn;
                     addProduct.data.pharmacistForm_id = l.product.pharmacistForm_id;

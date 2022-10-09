@@ -89,7 +89,7 @@
                             <Select2 v-model.trim="v$.product_id.$model" :options="products" :settings="{ width: '100%' }" />
                             <!-- <select class="form-select" v-model.trim="v$.product_id.$model">
                                 <option v-for="product in products" :key="product.id" :value="product.id">
-                                {{ product.product_name.nameAr }}
+                                {{ product.nameAr }}
                                 </option>
                             </select> -->
                         </div>

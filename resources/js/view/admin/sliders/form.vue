@@ -106,7 +106,7 @@
                             v-for="product in products"
                             :key="product.id"
                           >
-                            {{ product.product_name.nameAr }}
+                            {{ product.nameAr }}
                           </option>
                         </select>
                       </div>
@@ -284,8 +284,8 @@ export default {
       if (form.product_id) formData.append("product_id", form.product_id);
       formData.append("external", form.external);
       let product = getProduct();
-      formData.append("product_name_ar", product ? product.product_name.nameAr : "");
-      formData.append("product_name_en", product ? product.product_name.nameEn : "");
+      formData.append("product_name_ar", product ? product.nameAr : "");
+      formData.append("product_name_en", product ? product.nameEn : "");
       if (data.uploadedImage) {
         formData.append("image", data.uploadedImage);
       }

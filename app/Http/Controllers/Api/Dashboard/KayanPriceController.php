@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Company;
 use App\Models\KayanPrice;
 use App\Models\Product;
-use App\Models\ProductName;
 use App\Models\PurchaseProduct;
 use App\Models\Supplier;
 use App\Traits\Message;
@@ -272,17 +270,5 @@ class KayanPriceController extends Controller
         }
     }
 
-    // public function getProduct(Request $request)
-    // {
-    //     $products = Product::where([
-    //         ['status', 1],
-    //         ['category_id', $request->category_id],
-    //         ['sub_category_id', $request->sub_category_id],
-    //         ['supplier_id', $request->supplier_id],
-    //         ['company_id', $request->company_id]
-    //     ])->with('productName')->get();
-
-    //     return $this->sendResponse(['products' => $products], 'Data exited successfully');
-    // }
 
 }

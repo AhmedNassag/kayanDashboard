@@ -13,7 +13,7 @@ class SliderController extends Controller
     private $sliderRepository;
     public function __construct(SliderRepository $sliderRepository)
     {
-        $this->middleware('permission:slider read', ['only' => ['index','getProducts']]);
+        $this->middleware('permission:slider read', ['only' => ['index', 'getProducts']]);
         $this->middleware('permission:slider create', ['only' => ['store']]);
         $this->middleware('permission:slider edit', ['only' => ['update']]);
         $this->middleware('permission:slider delete', ['only' => ['delete']]);

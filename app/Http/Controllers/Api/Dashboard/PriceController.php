@@ -24,7 +24,7 @@ class PriceController extends Controller
      */
     public function index(Request $request)
     {
-        $prices = Price::with('product.productName:id,nameAr', 'supplier:id,name', 'category:id,name','subCategory:id,name'/*, 'company:id,name'*/)
+        $prices = Price::with('product:id,nameAr', 'supplier:id,name', 'category:id,name','subCategory:id,name'/*, 'company:id,name'*/)
             ->when($request->search, function ($q) use ($request) {
                 return $q->where('name', 'like', "%" . $request->search . "%");
             })->latest()->paginate(15);
@@ -41,7 +41,7 @@ class PriceController extends Controller
     {
         try
         {
-            $products     = Product::with('productName')->get();
+            $products     = Product::get();
             $suppliers    = Supplier::select('id', 'name')->get();
             // $companies    = Company::select('id', 'name')->get();
             $categories   = Category::select('id', 'name')->get();
@@ -140,7 +140,7 @@ class PriceController extends Controller
     {
         try {
             $price          = Price::find($id);
-            $products       = Product::with('productName')->get();
+            $products       = Product::get();
             $suppliers      = Supplier::select('id','name')->get();
             // $companies      = Company::select('id','name')->get();
             $categories     = Category::select('id','name')->get();

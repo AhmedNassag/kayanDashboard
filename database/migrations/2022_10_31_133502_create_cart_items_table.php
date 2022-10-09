@@ -20,7 +20,6 @@ class CreateCartItemsTable extends Migration
             $table->foreignId('order_id')->nullable()->constrained('orders');
             $table->foreignId('product_id')->nullable()->constrained('products');
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers');
-            $table->foreignId('company_id')->nullable()->constrained('companies');
         });
     }
 

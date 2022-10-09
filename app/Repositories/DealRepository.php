@@ -18,7 +18,7 @@ class DealRepository
     }
     public function getProducts()
     {
-        return Product::with("productName")->where("status", 1)->get();
+        return Product::where("status", 1)->get();
     }
     //Commons
     private function deleteOldDeal()

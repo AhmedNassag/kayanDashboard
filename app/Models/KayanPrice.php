@@ -18,10 +18,6 @@ class KayanPrice extends Model
         return $this->belongsTo(Product::class,'product_id');
     }
 
-    public function productName()
-    {
-        return $this->belongsTo(ProductName::class,'productName_id');
-    }
 
     public function category()
     {

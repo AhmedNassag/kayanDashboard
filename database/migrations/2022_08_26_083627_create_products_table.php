@@ -24,7 +24,6 @@ class CreateProductsTable extends Migration
             $table->integer('maximum_product');
             $table->text('image')->nullable();
             $table->boolean('status')->default(true);
-            $table->foreignId('productName_id')->nullable()->constrained('product_names')->cascadeOnDelete();
             $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnDelete();
             $table->foreignId('sub_category_id')->nullable()->constrained('sub_categories')->cascadeOnDelete();
             $table->foreignId('tax_id')->nullable()->constrained('taxes')->cascadeOnDelete();

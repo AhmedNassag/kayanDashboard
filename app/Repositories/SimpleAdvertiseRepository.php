@@ -40,18 +40,18 @@ class SimpleAdvertiseRepository
     }
     public function getPage($pageSize, $text)
     {
-        return SimpleAdvertise::where("title", "like", "%$text%")->with("product.productName")
+        return SimpleAdvertise::where("title", "like", "%$text%")->with("product")
             ->paginate($pageSize);
     }
 
     public function getProducts()
     {
-        return Product::with("productName")->where("status", 1)->get();
+        return Product::where("status", 1)->get();
     }
     //Commons
     private function getProductName($simpleAdvertiseInput)
     {
-        return ["product_name" => [
+        return ["product" => [
             "nameAr" => $simpleAdvertiseInput["product_name_ar"] ?? "",
             "nameEn" => $simpleAdvertiseInput["product_name_en"] ?? "",
         ]];
