@@ -1,13 +1,12 @@
 <template>
   <div
     class="client-container"
-    :class="[
-      'page-wrapper',
-      this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
-    ]"
+    :class="['page-wrapper', this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '']"
   >
     <ClientForm
       :selectedClient="selectedClient"
+      :cities="cities"
+      :knowusWays="knowusWays"
       @created="onCreated"
       @updated="onUpdated"
       @loading="loading = $event"
@@ -166,6 +165,8 @@ export default {
       page: 1,
       pageSize: 5,
       loading: false,
+      cities: [],
+      knowusWays: [],
     });
     const { t, locale } = useI18n({});
     provide("client_store", clientStore);
@@ -266,6 +267,30 @@ export default {
     );
 
     //Commons
+    function getCitiesWithAreas() {
+      data.loading = true;
+      clientClient
+        .getCitiesWithAreas()
+        .then((response) => {
+          data.loading = false;
+          data.cities = response.data;
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    }
+    function knowusWays() {
+      data.loading = true;
+      clientClient  
+        .getKnowusWays()
+        .then((response) => {
+          data.loading = false;
+          data.knowusWays = response.data;
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    }
     function httpDeleteRequest(client, index) {
       data.loading = true;
       clientClient
@@ -302,9 +327,7 @@ export default {
           Swal.fire({
             icon: "success",
             title: `${
-              active
-                ? t("global.InactiveSuccessfully")
-                : t("global.ActiveSuccessfully")
+              active ? t("global.InactiveSuccessfully") : t("global.ActiveSuccessfully")
             }`,
             showConfirmButton: false,
             timer: 1500,
@@ -322,6 +345,8 @@ export default {
     }
     function created() {
       getClients();
+      getCitiesWithAreas();
+      knowusWays();
     }
     return {
       ...toRefs(data),

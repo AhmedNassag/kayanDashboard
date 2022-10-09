@@ -6,25 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    protected $guarded = ["shippings_ids"];
+    protected $guarded = [""];
 
-    protected $appends=['text'];
+    protected $appends = ['text'];
 
     public function getTextAttribute()
     {
         return $this->name;
     }
-    
-    public function shippings()
-    {
-        return $this->belongsToMany(Shipping::class);
-    }
-
-    //start relation
-    // public function purchases()
-    // {
-    //     return $this->hasMany(Purchase::class);
-    // }
 
     public function refuseds()
     {
@@ -46,14 +35,14 @@ class Supplier extends Model
         return $this->hasMany(Price::class);
     }
 
-
-    //
-    public function purchases(){
+    public function purchases()
+    {
 
         return $this->hasMany(Purchase::class);
     }
 
-    public function purchaseReturns(){
+    public function purchaseReturns()
+    {
         return $this->hasMany(PurchaseReturn::class);
     }
 }

@@ -24,9 +24,7 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Name")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.Name") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -44,9 +42,7 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Address")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.Address") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -64,9 +60,7 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Phone")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.Phone") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -113,9 +107,7 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.TaxCard")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.TaxCard") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -134,14 +126,30 @@
                     <label for="exampleInputEmail1">{{
                       $t("global.ResponsibleName")
                     }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="responsible_name"
-                    />
+                    <input type="text" class="form-control" v-model="responsible_name" />
                   </div>
                 </div>
-                <div class="col-12">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="inputState">{{ $t("global.Type") }}</label>
+                    <select
+                      :class="{
+                        'is-invalid': v$.type.$error,
+                      }"
+                      v-model="v$.type.$model"
+                      class="form-control"
+                    >
+                      <option value="STORE">{{ $t("global.Store") }}</option>
+                      <option value="COMPANY">{{ $t("global.Company") }}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <div v-for="error in v$.type.$errors" :key="error">
+                        {{ $t("global.Type") + " " + $t(error.$validator) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
                   <div class="form-group">
                     <label for="exampleInputEmail1">{{
                       $t("global.ResponsiblePhone")
@@ -155,238 +163,8 @@
                       v-model="v$.responsible_phone.$model"
                     />
                     <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.responsible_phone.$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.ResponsiblePhone") +
-                          " " +
-                          $t(error.$validator)
-                        }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <label for="sel1">{{ $t("global.Employees") }}</label>
-                    <select
-                      :class="{
-                        'is-invalid': v$.employee_id.$error,
-                      }"
-                      v-model="v$.employee_id.$model"
-                      class="custom-select"
-                      id="sel1"
-                    >
-                      <option
-                        :value="employee.id"
-                        v-for="employee in employees"
-                        :key="employee.id"
-                      >
-                        {{ employee.user.name }}
-                      </option>
-                    </select>
-                    <div class="invalid-feedback">
-                      <div v-for="error in v$.employee_id.$errors" :key="error">
-                        {{ $t("global.Employee") + " " + $t(error.$validator) }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="multi-select mb-2">
-                    <label>{{ $t("global.Shipping") }}</label>
-                    <div
-                      :class="{
-                        'is-invalid':
-                          shippingsTouched && getSelectedShippingsIds().length == 0,
-                      }"
-                      class="select border p-2"
-                    >
-                      <div
-                        v-for="(shipping, index) in shippings"
-                        :key="shipping.id"
-                        class="form-check"
-                      >
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          @change="toggleShippingSelection(shipping)"
-                          :id="index"
-                          :checked="shipping.selected"
-                        />
-                        <label class="form-check-label" for="flexCheckChecked">
-                          {{ shipping.name }}
-                        </label>
-                      </div>
-                    </div>
-                    <div class="invalid-feedback">
-                      {{ $t("global.Shipping") + " " + $t("required") }}
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.PaymentType")
-                    }}</label>
-                    <select
-                      v-model="v$.payment_type.$model"
-                      :class="{
-                        'is-invalid': v$.payment_type.$error,
-                      }"
-                      class="custom-select"
-                      id="sel1"
-                    >
-                      <option value="BANK_TRANSFER">
-                        {{ $t("global.BankTransfer") }}
-                      </option>
-                      <option value="WALLET">{{ $t("global.Wallet") }}</option>
-                      <option value="CASH">{{ $t("global.Cash") }}</option>
-                    </select>
-                    <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.payment_type.$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.PaymentType") + " " + $t(error.$validator)
-                        }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="payment_type == 'BANK_TRANSFER'" class="col-12">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.AccountNumber")
-                    }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="v$.account_number.$model"
-                      :class="{
-                        'is-invalid': v$.account_number.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.account_number.$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.AccountNumber") +
-                          " " +
-                          $t(error.$validator)
-                        }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="payment_type == 'WALLET'" class="col-12">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.PaymentPhone")
-                    }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="v$.payment_phone.$model"
-                      :class="{
-                        'is-invalid': v$.payment_phone.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.payment_phone.$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.PaymentPhone") + " " + $t(error.$validator)
-                        }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="payment_type == 'CASH'" class="col-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.PaymentResponsibleName")
-                    }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="v$.payment_responsible_name.$model"
-                      :class="{
-                        'is-invalid': v$.payment_responsible_name.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.payment_responsible_name.$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.PaymentResponsibleName") +
-                          " " +
-                          $t(error.$validator)
-                        }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="payment_type == 'CASH'" class="col-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.PaymentResponsiblePhone")
-                    }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="v$.payment_responsible_phone.$model"
-                      :class="{
-                        'is-invalid': v$.payment_responsible_phone.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.payment_responsible_phone.$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.PaymentResponsiblePhone") +
-                          " " +
-                          $t(error.$validator)
-                        }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="payment_type == 'CASH'" class="col-12">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.PaymentResponsibleCardNumber")
-                    }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="v$.payment_responsible_card_number.$model"
-                      :class="{
-                        'is-invalid': v$.payment_responsible_card_number.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.payment_responsible_card_number
-                          .$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.PaymentResponsibleCardNumber") +
-                          " " +
-                          $t(error.$validator)
-                        }}
+                      <div v-for="error in v$.responsible_phone.$errors" :key="error">
+                        {{ $t("global.ResponsiblePhone") + " " + $t(error.$validator) }}
                       </div>
                     </div>
                   </div>
@@ -397,11 +175,7 @@
               <button type="submit" class="btn btn-primary">
                 {{ $t("global.Submit") }}
               </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
                 {{ $t("global.Close") }}
               </button>
             </div>
@@ -428,7 +202,6 @@ export default {
       phoneExist: false,
       taxCardExist: false,
       commericalRegisterExist: false,
-      shippingsTouched: false,
     });
     const form = reactive({
       id: null,
@@ -439,18 +212,11 @@ export default {
       tax_card: "",
       responsible_name: "",
       responsible_phone: "",
-      payment_type: "BANK_TRANSFER",
-      account_number: "",
-      payment_phone: "",
-      payment_responsible_name: "",
-      payment_responsible_phone: "",
-      payment_responsible_card_number: "",
-      employee_id: null,
+      type: "STORE",
     });
     const rules = {
       name: { required },
       address: { required },
-      employee_id: { required },
       phone: {
         required,
         phone(value) {
@@ -462,56 +228,13 @@ export default {
           return phone(value);
         },
       },
-      payment_type: { required },
-      account_number: {
-        required(value) {
-          return form.payment_type == "BANK_TRANSFER" ? value : true;
-        },
-      },
-      payment_phone: {
-        required(value) {
-          return form.payment_type == "WALLET" ? value : true;
-        },
-        phone(value) {
-          return form.payment_type == "WALLET" ? phone(value) : true;
-        },
-      },
-      payment_responsible_name: {
-        required(value) {
-          return form.payment_type == "CASH" ? value : true;
-        },
-      },
-      payment_responsible_phone: {
-        required(value) {
-          return form.payment_type == "CASH" ? value : true;
-        },
-        phone(value) {
-          return form.payment_type == "CASH" ? phone(value) : true;
-        },
-      },
-      payment_responsible_card_number: {
-        required(value) {
-          return form.payment_type == "CASH" ? value : true;
-        },
-      },
+      type: { required },
     };
     const v$ = useVuelidate(rules, form);
     //Methods
-    function toggleShippingSelection(shipping) {
-      shipping.selected = !shipping.selected;
-      data.shippingsTouched = true;
-    }
-    function getSelectedShippingsIds() {
-      return props.shippings
-        .filter((shipping) => {
-          return shipping.selected;
-        })
-        .map((shipping) => shipping.id);
-    }
     function save() {
-      if (v$.value.$invalid || getSelectedShippingsIds().length == 0) {
+      if (v$.value.$invalid) {
         v$.value.$touch();
-        data.shippingsTouched = true;
         return;
       }
       if (!props.selectedSupplier) {
@@ -521,17 +244,6 @@ export default {
       }
     }
     //Commons
-    function setSelectedShippings() {
-      if (props.selectedSupplier) {
-        props.shippings.forEach((shipping) => {
-          shipping.selected = props.selectedSupplier.shippings
-            .map((_shipping) => (_shipping.id ? _shipping.id : _shipping))
-            .includes(shipping.id);
-        });
-      } else {
-        props.shippings.forEach((shipping) => (shipping.selected = false));
-      }
-    }
     function alertMessage(message) {
       notify({
         title: `${t(message)} <i class="fas fa-check-circle"></i>`,
@@ -555,11 +267,8 @@ export default {
         })
         .catch((error) => {
           data.phoneExist = error.response.data.errors.phone ? true : false;
-          data.taxCardExist = error.response.data.errors.tax_card
-            ? true
-            : false;
-          data.commericalRegisterExist = error.response.data.errors
-            .commerical_register
+          data.taxCardExist = error.response.data.errors.tax_card ? true : false;
+          data.commericalRegisterExist = error.response.data.errors.commerical_register
             ? true
             : false;
           context.emit("loading", false);
@@ -580,11 +289,8 @@ export default {
         })
         .catch((error) => {
           data.phoneExist = error.response.data.errors.phone ? true : false;
-          data.taxCardExist = error.response.data.errors.tax_card
-            ? true
-            : false;
-          data.commericalRegisterExist = error.response.data.errors
-            .commerical_register
+          data.taxCardExist = error.response.data.errors.tax_card ? true : false;
+          data.commericalRegisterExist = error.response.data.errors.commerical_register
             ? true
             : false;
           context.emit("loading", false);
@@ -601,61 +307,25 @@ export default {
         tax_card: form.tax_card,
         responsible_name: form.responsible_name,
         responsible_phone: form.responsible_phone,
-        payment_type: form.payment_type,
-        account_number: form.account_number,
-        payment_phone: form.payment_phone,
-        payment_responsible_name: form.payment_responsible_name,
-        payment_responsible_phone: form.payment_responsible_phone,
-        payment_responsible_card_number: form.payment_responsible_card_number,
-        shippings_ids: getSelectedShippingsIds(),
+        type: form.type,
       };
     }
     function setForm() {
       v$.value.$reset();
-      data.shippingsTouched = false;
       form.name = props.selectedSupplier ? props.selectedSupplier.name : "";
-      form.address = props.selectedSupplier
-        ? props.selectedSupplier.address
-        : "";
+      form.address = props.selectedSupplier ? props.selectedSupplier.address : "";
       form.phone = props.selectedSupplier ? props.selectedSupplier.phone : "";
       form.commerical_register = props.selectedSupplier
         ? props.selectedSupplier.commerical_register
         : "";
-      form.tax_card = props.selectedSupplier
-        ? props.selectedSupplier.tax_card
-        : "";
+      form.tax_card = props.selectedSupplier ? props.selectedSupplier.tax_card : "";
       form.responsible_name = props.selectedSupplier
         ? props.selectedSupplier.responsible_name
         : "";
       form.responsible_phone = props.selectedSupplier
         ? props.selectedSupplier.responsible_phone
         : "";
-      form.payment_type = props.selectedSupplier
-        ? props.selectedSupplier.payment_type
-        : "BANK_TRANSFER";
-      form.account_number = props.selectedSupplier
-        ? props.selectedSupplier.account_number
-        : "";
-      form.payment_phone = props.selectedSupplier
-        ? props.selectedSupplier.payment_phone
-        : "";
-      form.payment_responsible_name = props.selectedSupplier
-        ? props.selectedSupplier.payment_responsible_name
-        : "";
-      form.payment_responsible_phone = props.selectedSupplier
-        ? props.selectedSupplier.payment_responsible_phone
-        : "";
-      form.payment_responsible_card_number = props.selectedSupplier
-        ? props.selectedSupplier.payment_responsible_card_number
-        : "";
-      let firstEmployeeId =
-        props.employees && props.employees.length > 0
-          ? props.employees[0].id
-          : null;
-      form.employee_id = props.selectedSupplier
-        ? props.selectedSupplier.employee_id
-        : firstEmployeeId;
-      setSelectedShippings();
+      form.type = props.selectedSupplier ? props.selectedSupplier.type : "STORE";
       data.phoneExist = false;
       data.commericalRegisterExist = false;
       data.taxCardExist = false;
@@ -673,16 +343,12 @@ export default {
     return {
       ...toRefs(data),
       ...toRefs(form),
-      toggleShippingSelection,
-      getSelectedShippingsIds,
       v$,
       locale,
       save,
-      employees: props.employees,
-      shippings: props.shippings,
     };
   },
-  props: ["selectedSupplier", "employees", "shippings"],
+  props: ["selectedSupplier"],
 };
 </script>
 
@@ -694,7 +360,7 @@ export default {
     overflow: auto;
   }
   .form-control {
-    padding: 10px;
+    padding: 10px !important;
   }
   .form-group {
     margin-bottom: 10px;

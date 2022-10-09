@@ -21,7 +21,10 @@
             </router-link>
           </li>
           <!-- Start Shift Links -->
-          <li :class="[$route.name == 'DealIndex' ? 'active' : '']">
+          <li
+            v-if="permission.includes('deal insert')"
+            :class="[$route.name == 'DealIndex' ? 'active' : '']"
+          >
             <router-link :to="{ name: 'DealIndex' }">
               <i class="fa fa-home" aria-hidden="true"></i>
               <span>{{ $t("sidebar.Deals") }}</span>

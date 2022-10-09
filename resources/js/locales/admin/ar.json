@@ -77,7 +77,9 @@
     },
     "global": {
         "EndAt":"وقت الانتهاء",
+        "KnowusWay":"كيف تعرفت علينا",
         "Deals":"افضل العروض",
+        "NotAvailableNow":"غير متاح حاليا",
         "UnvailableCitiesClients":"عملاء المحافظات الغير متاحة",
         "SimpleAdvertises":"الاعلانات",
         "Cities":"المحافظات",

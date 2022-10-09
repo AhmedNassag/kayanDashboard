@@ -212,7 +212,7 @@ export default {
 
 <style scoped lang="scss">
 .area-form {
-  .form-control {
+  .form-control,.custom-select {
     padding: 10px;
   }
   .form-group {

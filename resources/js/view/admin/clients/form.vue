@@ -22,11 +22,9 @@
             </div>
             <div class="modal-body">
               <div class="row">
-                <div class="col-12">
+                <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Name")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.Name") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -44,9 +42,7 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Email")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.Email") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -67,9 +63,7 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Phone")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.Phone") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -88,12 +82,36 @@
                     </div>
                   </div>
                 </div>
-                
                 <div class="col-6">
                   <div class="form-group">
                     <label for="exampleInputEmail1">{{
-                      $t("global.StoreName")
+                      $t("global.WhatsupPhone")
                     }}</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="v$.whatsup_phone.$model"
+                      :class="{
+                        'is-invalid': v$.whatsup_phone.$error || whatsupPhoneExist,
+                      }"
+                    />
+                    <div class="invalid-feedback">
+                      <div v-for="error in v$.whatsup_phone.$errors" :key="error">
+                        {{ $t("global.WhatsupPhone") + " " + $t(error.$validator) }}
+                      </div>
+                      <div v-if="!v$.whatsup_phone.$invalid && whatsupPhoneExist">
+                        {{
+                          $t("global.Exist", {
+                            field: $t("global.WhatsupPhone"),
+                          })
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">{{ $t("global.StoreName") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -104,48 +122,46 @@
                     />
                     <div class="invalid-feedback">
                       <div v-for="error in v$.store_name.$errors" :key="error">
-                        {{
-                          $t("global.StoreName") + " " + $t(error.$validator)
-                        }}
+                        {{ $t("global.StoreName") + " " + $t(error.$validator) }}
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Country")
-                    }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="v$.country.$model"
-                      :class="{
-                        'is-invalid': v$.country.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div v-for="error in v$.country.$errors" :key="error">
-                        {{ $t("global.Country") + " " + $t(error.$validator) }}
-                      </div>
+                    <label>{{ $t("global.KnowusWay") }}</label>
+                    <div class="select-wrapper">
+                      <select
+                        class="form-control ps-form__input"
+                        v-model="know_us_way_id"
+                      >
+                        <option
+                          v-for="knowusWay in knowusWays"
+                          :key="knowusWay.id"
+                          :value="knowusWay.id"
+                        >
+                          {{ knowusWay.name }}
+                        </option>
+                      </select>
                     </div>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.City")
-                    }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="v$.city.$model"
-                      :class="{
-                        'is-invalid': v$.city.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div v-for="error in v$.city.$errors" :key="error">
+                    <label>{{ $t("global.City") }}</label>
+                    <div class="select-wrapper">
+                      <select
+                        @change="onCitySelected"
+                        class="form-control ps-form__input"
+                        v-model="v$.city_id.$model"
+                      >
+                        <option v-for="city in cities" :key="city.id" :value="city.id">
+                          {{ city.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="text-danger">
+                      <div v-for="error in v$.city_id.$errors" :key="error">
                         {{ $t("global.City") + " " + $t(error.$validator) }}
                       </div>
                     </div>
@@ -153,9 +169,27 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Address")
-                    }}</label>
+                    <label>{{ $t("global.Area") }}</label>
+                    <div class="select-wrapper">
+                      <select
+                        class="form-control ps-form__input"
+                        v-model="v$.area_id.$model"
+                      >
+                        <option v-for="area in areas" :key="area.id" :value="area.id">
+                          {{ area.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="text-danger">
+                      <div v-for="error in v$.area_id.$errors" :key="error">
+                        {{ $t("global.Area") + " " + $t(error.$validator) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">{{ $t("global.Address") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -173,9 +207,7 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Location")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.Location") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -194,61 +226,6 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="exampleInputEmail1">{{
-                      $t("global.Area")
-                    }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="v$.area.$model"
-                      :class="{
-                        'is-invalid': v$.area.$error,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div v-for="error in v$.area.$errors" :key="error">
-                        {{ $t("global.Area") + " " + $t(error.$validator) }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.WhatsupPhone")
-                    }}</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="v$.whatsup_phone.$model"
-                      :class="{
-                        'is-invalid':
-                          v$.whatsup_phone.$error || whatsupPhoneExist,
-                      }"
-                    />
-                    <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.whatsup_phone.$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.WhatsupPhone") + " " + $t(error.$validator)
-                        }}
-                      </div>
-                      <div
-                        v-if="!v$.whatsup_phone.$invalid && whatsupPhoneExist"
-                      >
-                        {{
-                          $t("global.Exist", {
-                            field: $t("global.WhatsupPhone"),
-                          })
-                        }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">{{
                       $t("global.ResponsibleName")
                     }}</label>
                     <input
@@ -260,15 +237,8 @@
                       }"
                     />
                     <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.responsible_name.$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.ResponsibleName") +
-                          " " +
-                          $t(error.$validator)
-                        }}
+                      <div v-for="error in v$.responsible_name.$errors" :key="error">
+                        {{ $t("global.ResponsibleName") + " " + $t(error.$validator) }}
                       </div>
                     </div>
                   </div>
@@ -287,15 +257,8 @@
                       }"
                     />
                     <div class="invalid-feedback">
-                      <div
-                        v-for="error in v$.responsible_phone.$errors"
-                        :key="error"
-                      >
-                        {{
-                          $t("global.ResponsiblePhone") +
-                          " " +
-                          $t(error.$validator)
-                        }}
+                      <div v-for="error in v$.responsible_phone.$errors" :key="error">
+                        {{ $t("global.ResponsiblePhone") + " " + $t(error.$validator) }}
                       </div>
                     </div>
                   </div>
@@ -314,34 +277,52 @@
                 <template v-if="!same_address_shipping">
                   <div class="col-6">
                     <div class="form-group">
-                      <label for="exampleInputEmail1">{{
-                        $t("global.Country")
-                      }}</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        v-model="v$.shipping_country.$model"
-                        :class="{
-                          'is-invalid': v$.shipping_country.$error,
-                        }"
-                      />
-                      <div class="invalid-feedback">
-                        <div
-                          v-for="error in v$.shipping_country.$errors"
-                          :key="error"
+                      <label>{{ $t("global.City") }}</label>
+                      <div class="select-wrapper">
+                        <select
+                          @change="onShippingCitySelected"
+                          class="form-control ps-form__input"
+                          v-model="v$.shipping_city_id.$model"
                         >
-                          {{
-                            $t("global.Country") + " " + $t(error.$validator)
-                          }}
+                          <option v-for="city in cities" :key="city.id" :value="city.id">
+                            {{ city.name }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="text-danger">
+                        <div v-for="error in v$.shipping_city_id.$errors" :key="error">
+                          {{ $t("global.City") + " " + $t(error.$validator) }}
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-6">
                     <div class="form-group">
-                      <label for="exampleInputEmail1">{{
-                        $t("global.Address")
-                      }}</label>
+                      <label>{{ $t("global.Area") }}</label>
+                      <div class="select-wrapper">
+                        <select
+                          class="form-control ps-form__input"
+                          v-model="v$.shipping_area_id.$model"
+                        >
+                          <option
+                            v-for="area in shipping_areas"
+                            :key="area.id"
+                            :value="area.id"
+                          >
+                            {{ area.name }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="text-danger">
+                        <div v-for="error in v$.shipping_area_id.$errors" :key="error">
+                          {{ $t("global.Area") + " " + $t(error.$validator) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">{{ $t("global.Address") }}</label>
                       <input
                         type="text"
                         class="form-control"
@@ -351,22 +332,15 @@
                         }"
                       />
                       <div class="invalid-feedback">
-                        <div
-                          v-for="error in v$.shipping_address.$errors"
-                          :key="error"
-                        >
-                          {{
-                            $t("global.Address") + " " + $t(error.$validator)
-                          }}
+                        <div v-for="error in v$.shipping_address.$errors" :key="error">
+                          {{ $t("global.Address") + " " + $t(error.$validator) }}
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-6">
                     <div class="form-group">
-                      <label for="exampleInputEmail1">{{
-                        $t("global.Location")
-                      }}</label>
+                      <label for="exampleInputEmail1">{{ $t("global.Location") }}</label>
                       <input
                         type="text"
                         class="form-control"
@@ -376,59 +350,8 @@
                         }"
                       />
                       <div class="invalid-feedback">
-                        <div
-                          v-for="error in v$.shipping_location.$errors"
-                          :key="error"
-                        >
-                          {{
-                            $t("global.Location") + " " + $t(error.$validator)
-                          }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">{{
-                        $t("global.Area")
-                      }}</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        v-model="v$.shipping_area.$model"
-                        :class="{
-                          'is-invalid': v$.shipping_area.$error,
-                        }"
-                      />
-                      <div class="invalid-feedback">
-                        <div
-                          v-for="error in v$.shipping_area.$errors"
-                          :key="error"
-                        >
-                          {{ $t("global.Area") + " " + $t(error.$validator) }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">{{
-                        $t("global.City")
-                      }}</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        v-model="v$.shipping_city.$model"
-                        :class="{
-                          'is-invalid': v$.shipping_city.$error,
-                        }"
-                      />
-                      <div class="invalid-feedback">
-                        <div
-                          v-for="error in v$.shipping_city.$errors"
-                          :key="error"
-                        >
-                          {{ $t("global.City") + " " + $t(error.$validator) }}
+                        <div v-for="error in v$.shipping_location.$errors" :key="error">
+                          {{ $t("global.Location") + " " + $t(error.$validator) }}
                         </div>
                       </div>
                     </div>
@@ -440,11 +363,7 @@
               <button type="submit" class="btn btn-primary">
                 {{ $t("global.Submit") }}
               </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
                 {{ $t("global.Close") }}
               </button>
             </div>
@@ -471,6 +390,8 @@ export default {
       whatsupPhoneExist: false,
       phoneExist: false,
       emailExist: false,
+      areas: [],
+      shipping_areas: [],
     });
     const form = reactive({
       id: null,
@@ -479,20 +400,19 @@ export default {
       phone: "",
       email: "",
       store_name: "",
-      country: "",
-      city: "",
+      city_id: null,
+      area_id: null,
       address: "",
       location: "",
-      area: "",
       whatsup_phone: "",
       responsible_name: "",
       responsible_phone: "",
       same_address_shipping: true,
-      shipping_country: "",
       shipping_address: "",
       shipping_location: "",
-      shipping_area: "",
-      shipping_city: "",
+      shipping_area_id: null,
+      shipping_city_id: null,
+      know_us_way_id: null,
     });
     const rules = {
       name: { required },
@@ -504,11 +424,10 @@ export default {
       },
       email: { required, email },
       store_name: { required },
-      country: { required },
-      city: { required },
+      city_id: { required },
+      area_id: { required },
       address: { required },
       location: { required },
-      area: { required },
       whatsup_phone: {
         required,
         phone(value) {
@@ -522,11 +441,6 @@ export default {
           return phone(value);
         },
       },
-      shipping_country: {
-        required(value) {
-          return !form.same_address_shipping ? value : true;
-        },
-      },
       shipping_address: {
         required(value) {
           return !form.same_address_shipping ? value : true;
@@ -537,12 +451,12 @@ export default {
           return !form.same_address_shipping ? value : true;
         },
       },
-      shipping_area: {
+      shipping_area_id: {
         required(value) {
           return !form.same_address_shipping ? value : true;
         },
       },
-      shipping_city: {
+      shipping_city_id: {
         required(value) {
           return !form.same_address_shipping ? value : true;
         },
@@ -561,11 +475,43 @@ export default {
         update();
       }
     }
+    function onCitySelected() {
+      let city = getSelectedCity();
+      if (city) {
+        data.areas = city.areas;
+        if (!city.available) alertMessage(t("global.NotAvailableNow"), "warn");
+      }
+    }
+    function onShippingCitySelected() {
+      let city = getSelectedShippingCity();
+      if (city) {
+        data.shipping_areas = city.areas;
+        if (!city.available) alertMessage(t("global.NotAvailableNow"), "warn");
+      }
+    }
     //Commons
-    function alertMessage(message) {
+    function getSelectedCity() {
+      let city = null;
+      props.cities.forEach((_city) => {
+        if (form.city_id == _city.id) {
+          return (city = _city);
+        }
+      });
+      return city;
+    }
+    function getSelectedShippingCity() {
+      let city = null;
+      props.cities.forEach((_city) => {
+        if (form.shipping_city_id == _city.id) {
+          return (city = _city);
+        }
+      });
+      return city;
+    }
+    function alertMessage(message, type = "success") {
       notify({
         title: `${t(message)} <i class="fas fa-check-circle"></i>`,
-        type: "success",
+        type: type,
         duration: 5000,
         speed: 2000,
       });
@@ -619,20 +565,19 @@ export default {
         phone: form.phone,
         email: form.email,
         store_name: form.store_name,
-        country: form.country,
-        city: form.city,
+        city_id: form.city_id,
+        area_id: form.area_id,
         address: form.address,
         location: form.location,
-        area: form.area,
         whatsup_phone: form.whatsup_phone,
         responsible_name: form.responsible_name,
         responsible_phone: form.responsible_phone,
         same_address_shipping: form.same_address_shipping,
-        shipping_country: form.shipping_country,
         shipping_address: form.shipping_address,
         shipping_location: form.shipping_location,
-        shipping_area: form.shipping_area,
-        shipping_city: form.shipping_city,
+        shipping_area_id: form.shipping_area_id,
+        shipping_city_id: form.shipping_city_id,
+        know_us_way_id: form.know_us_way_id,
       };
     }
     function setForm() {
@@ -640,25 +585,18 @@ export default {
       form.name = props.selectedClient ? props.selectedClient.user.name : "";
       form.phone = props.selectedClient ? props.selectedClient.user.phone : "";
       form.email = props.selectedClient ? props.selectedClient.user.email : "";
-      form.store_name = props.selectedClient
-        ? props.selectedClient.store_name
-        : "";
-      form.country = props.selectedClient ? props.selectedClient.country : "";
-      form.city = props.selectedClient ? props.selectedClient.city : "";
+      form.store_name = props.selectedClient ? props.selectedClient.store_name : "";
       form.address = props.selectedClient ? props.selectedClient.address : "";
       form.location = props.selectedClient ? props.selectedClient.location : "";
-      form.area = props.selectedClient ? props.selectedClient.area : "";
-      form.whatsup_phone = props.selectedClient
-        ? props.selectedClient.whatsup_phone
-        : "";
+      form.whatsup_phone = props.selectedClient ? props.selectedClient.whatsup_phone : "";
+      form.city_id = props.selectedClient ? props.selectedClient.city_id : null;
+      onCitySelected();
+      form.area_id = props.selectedClient ? props.selectedClient.area_id : null;
       form.responsible_name = props.selectedClient
         ? props.selectedClient.responsible_name
         : "";
       form.responsible_phone = props.selectedClient
         ? props.selectedClient.responsible_phone
-        : "";
-      form.shipping_country = props.selectedClient
-        ? props.selectedClient.shipping_country
         : "";
       form.shipping_address = props.selectedClient
         ? props.selectedClient.shipping_address
@@ -666,19 +604,24 @@ export default {
       form.shipping_location = props.selectedClient
         ? props.selectedClient.shipping_location
         : "";
-      form.shipping_area = props.selectedClient
-        ? props.selectedClient.shipping_area
-        : "";
-      form.shipping_city = props.selectedClient
-        ? props.selectedClient.shipping_city
-        : "";
       form.same_address_shipping = props.selectedClient
         ? Boolean(props.selectedClient.same_address_shipping)
         : true;
+      form.shipping_city_id = props.selectedClient
+        ? props.selectedClient.shipping_city_id
+        : null;
+      onShippingCitySelected();
+      form.shipping_area_id = props.selectedClient
+        ? props.selectedClient.shipping_area_id
+        : null;
+      form.know_us_way_id = props.selectedClient
+        ? props.selectedClient.know_us_way_id
+        : null;
       data.phoneExist = false;
       data.whatsupPhoneExist = false;
       data.emailExist = false;
     }
+
     //Watchers
     watch(
       () => {
@@ -695,9 +638,13 @@ export default {
       v$,
       locale,
       save,
+      onCitySelected,
+      onShippingCitySelected,
+      cities: props.cities,
+      knowusWays: props.knowusWays,
     };
   },
-  props: ["selectedClient"],
+  props: ["selectedClient", "cities", "knowusWays"],
 };
 </script>
 
