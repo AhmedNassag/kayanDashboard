@@ -292,6 +292,18 @@
                                             </div>
                                             <!--End Transfer Price-->
 
+                                             <!--Start knowledge Wayknowledge Way-->
+                                            <!-- <div class="col-md-6 mb-3">
+                                                <label>{{$t('global.Notes')}}</label>
+                                                <textarea rows="4" cols="5" v-model.trim="v$.knowledgeWay.$model" :class="['form-control text-height',{'is-invalid':v$.knowledgeWay.$error,'is-valid':!v$.knowledgeWay.$invalid}]" :placeholder="$t('global.KnowUsWays')"></textarea>
+                                                <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.knowledgeWayknowledgeWay.required.$invalid">{{$t('global.DescriptionIsRequired')}}<br /> </span>
+                                                    <span v-if="v$.knowledgeWayknowledgeWay.minLength.$invalid">{{$t('global.DescriptionIsMustHaveAtLeast')}} {{ v$.knowledgeWay.minLength.$params.max }} {{$t('global.Letters')}} <br /></span>
+                                                </div>
+                                            </div> -->
+                                            <!--End knowledge Way-->
+
                                             <!--Start Notes-->
                                             <div class="col-md-6 mb-3">
                                                 <label>{{$t('global.Notes')}}</label>

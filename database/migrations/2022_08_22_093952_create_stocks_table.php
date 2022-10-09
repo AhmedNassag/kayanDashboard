@@ -16,14 +16,16 @@ class CreateStocksTable extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('governorate')->nullable();
-            $table->string('region')->nullable();
+            // $table->string('governorate')->nullable();
+            // $table->string('region')->nullable();
             $table->string('title')->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
 
+            $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete();
+            $table->foreignId('area_id')->nullable()->constrained('areas')->cascadeOnDelete();
             $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->foreignId('shift_id')->constrained('shifts')->cascadeOnDelete();
 

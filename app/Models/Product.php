@@ -17,11 +17,11 @@ class Product extends Model
 
     public function getTextAttribute()
     {
-        return $this->productName->nameAr;
+        return $this->nameAr;
     }
 
     public function getNameAttribute(){
-        return $this->productName->nameAr;
+        return $this->nameAr;
     }
 
     //start raletions
@@ -55,15 +55,15 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class,'sub_category_id');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class,'company_id');
-    }
+    // public function company()
+    // {
+    //     return $this->belongsTo(Company::class,'company_id');
+    // }
 
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class,'supplier_id');
-    }
+    // public function supplier()
+    // {
+    //     return $this->belongsTo(Supplier::class,'supplier_id');
+    // }
 
     public function tax()
     {

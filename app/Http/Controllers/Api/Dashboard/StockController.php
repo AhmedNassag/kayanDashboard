@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Area;
+use App\Models\City;
 use App\Models\Employee;
 use App\Models\Shift;
 use App\Traits\Message;
@@ -40,9 +42,13 @@ class StockController extends Controller
         try {
 
             $shifts    = Shift::select('id','name')->get();
+            $cities    = City::select('id', 'name')->get();
+            $areas     = Area::select('id', 'name')->get();
             $employees = Employee::with('user')->get();
 
             return $this->sendResponse([
+                'cities' => $cities,
+                'areas'  => $areas,
                 'shifts' => $shifts,
                 'employees' => $employees,
             ], 'Data exited successfully');
@@ -66,8 +72,8 @@ class StockController extends Controller
             // Validator request
             $v = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'governorate' => 'required',
-                'region' => 'required',
+                'city_id' => 'required',
+                'area_id' => 'required',
                 'title' => 'required',
                 // 'latitude'=> 'required',
                 // 'longitude' => 'required',
@@ -80,7 +86,7 @@ class StockController extends Controller
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $data = $request->only(['name','governorate','region','title',/*'latitude','longitude',*/'phone','email','employee_id','shift_id']);
+            $data = $request->only(['name','city_id','area_id','title',/*'latitude','longitude',*/'phone','email','employee_id','shift_id']);
 
             $stock = Stock::create($data);
 
@@ -116,8 +122,18 @@ class StockController extends Controller
         try {
 
             $stock = Stock::find($id);
+            $shifts    = Shift::select('id', 'name')->get();
+            $cities    = City::select('id', 'name')->get();
+            $areas     = Area::select('id', 'name')->get();
+            $employees = Employee::with('user')->get();
 
-            return $this->sendResponse(['stock' => $stock], 'Data exited successfully');
+            return $this->sendResponse([
+                'stock' => $stock,
+                'cities' => $cities,
+                'areas'  => $areas,
+                'shifts' => $shifts,
+                'employees' => $employees,
+            ], 'Data exited successfully');
 
         } catch (\Exception $e) {
 
@@ -143,8 +159,8 @@ class StockController extends Controller
             // Validator request
             $v = Validator::make($request->all(), [
                 'name' => 'required|string',
-                'governorate' => 'required',
-                'region' => 'required',
+                'city_id' => 'required',
+                'area_id' => 'required',
                 'title' => 'required',
                 // 'latitude'=> 'required',
                 // 'longitude' => 'required',
@@ -158,7 +174,7 @@ class StockController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['name','governorate','region','title',/*'latitude','longitude',*/'phone','email','employee_id','shift_id']);
+            $data = $request->only(['name','city_id','area_id','title',/*'latitude','longitude',*/'phone','email','employee_id','shift_id']);
 
             $stock->update($data);
 
@@ -205,5 +221,17 @@ class StockController extends Controller
     {
         $shifts = Shift::all();
         return $this->sendResponse(['shifts' => $shifts], 'Data exited successfully');
+    }
+
+    public function getCities()
+    {
+        $cities = City::all();
+        return $this->sendResponse(['cities' => $cities], 'Data exited successfully');
+    }
+
+    public function getAreas()
+    {
+        $areas = Area::all();
+        return $this->sendResponse(['areas' => $areas], 'Data exited successfully');
     }
 }
