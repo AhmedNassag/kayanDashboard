@@ -51,9 +51,9 @@ class SimpleAdvertiseRepository
     //Commons
     private function getProductName($simpleAdvertiseInput)
     {
-        return ["product" => [
+        return [
             "nameAr" => $simpleAdvertiseInput["product_name_ar"] ?? "",
             "nameEn" => $simpleAdvertiseInput["product_name_en"] ?? "",
-        ]];
+        ];
     }
 }

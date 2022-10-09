@@ -51,7 +51,7 @@
                         'is-invalid': v$.city_id.$error,
                       }"
                       v-model="v$.city_id.$model"
-                      class="custom-select"
+                      class="form-control"
                       id="sel1"
                     >
                       <option :value="city.id" v-for="city in cities" :key="city.id">
@@ -212,8 +212,8 @@ export default {
 
 <style scoped lang="scss">
 .area-form {
-  .form-control,.custom-select {
-    padding: 10px;
+  .form-control{
+    padding: 10px!important;
   }
   .form-group {
     margin-bottom: 10px;

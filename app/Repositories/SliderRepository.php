@@ -51,9 +51,9 @@ class SliderRepository
     }
     private function getProductName($sliderInput)
     {
-        return ["product" => [
+        return [
             "nameAr" => $sliderInput["product_name_ar"] ?? "",
             "nameEn" => $sliderInput["product_name_en"] ?? "",
-        ]];
+        ];
     }
 }
