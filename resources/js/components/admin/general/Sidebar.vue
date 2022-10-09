@@ -4,18 +4,14 @@
     <div class="sidebar-inner slimscroll">
       <div id="sidebar-menu" class="sidebar-menu">
         <ul>
+            
           <li :class="[$route.name == 'dashboard' ? 'active' : '']">
             <router-link :to="{ name: 'dashboard' }">
               <i class="fa fa-home" aria-hidden="true"></i>
               <span>{{ $t("sidebar.Dashboard") }}</span>
             </router-link>
           </li>
-          <li :class="[$route.name == 'DealIndex' ? 'active' : '']">
-            <router-link :to="{ name: 'DealIndex' }">
-              <i class="fa fa-home" aria-hidden="true"></i>
-              <span>{{ $t("sidebar.Deals") }}</span>
-            </router-link>
-          </li>
+
 
           <!-- Start Category Links -->
           <li class="submenu" v-if="permission.includes('management')">
@@ -52,6 +48,7 @@
           </li>
           <!-- End Category Links -->
 
+
           <!-- Start Users Category Links -->
           <li
             v-if="permission.includes('usersCategory read')"
@@ -63,6 +60,7 @@
             </router-link>
           </li>
           <!-- End Users Category Links -->
+
 
           <!-- Start Tax Links -->
           <li
@@ -76,6 +74,7 @@
           </li>
           <!-- End Tax Links -->
 
+
           <!-- Start Shift Links -->
           <li
             v-if="permission.includes('shift read')"
@@ -87,6 +86,7 @@
             </router-link>
           </li>
           <!-- End Shift Links -->
+
 
           <!-- Start Selling Method Links -->
           <li
@@ -100,6 +100,7 @@
           </li>
           <!-- End Selling Method Links -->
 
+
           <!-- Start Pharmacist Form Links -->
           <li
             v-if="permission.includes('pharmacistForm read')"
@@ -111,6 +112,7 @@
             </router-link>
           </li>
           <!-- End Pharmacist Form Links -->
+
 
           <!--Start Storage Links-->
           <li
@@ -124,6 +126,7 @@
           </li>
           <!--End Storage Links-->
 
+
           <!--Start Complaint Links-->
           <li
             v-if="permission.includes('complaint read')"
@@ -135,6 +138,7 @@
             </router-link>
           </li>
           <!--End Complaint Links-->
+
 
           <!-- Start Product Links -->
           <li class="submenu" v-if="permission.includes('management')">
@@ -168,6 +172,7 @@
           </li>
           <!--End Product Links-->
 
+
           <!-- Start Stock Links -->
           <li class="submenu" v-if="permission.includes('management')">
             <a href="#">
@@ -199,6 +204,7 @@
             </ul>
           </li>
           <!-- End Stock Links -->
+
 
           <!--Start Purchase Links-->
           <li class="submenu" v-if="permission.includes('buy')">
@@ -247,6 +253,7 @@
           </li>
           <!--End Purchase Links-->
 
+
           <!--Start Sale Links-->
           <li class="submenu" v-if="permission.includes('buy')">
             <a href="#">
@@ -294,6 +301,7 @@
           </li>
           <!--End Sale Links-->
 
+
           <!--Start Price Links-->
           <li class="submenu" v-if="permission.includes('management')">
             <a href="#">
@@ -325,6 +333,7 @@
             </ul>
           </li>
           <!--End Price Links-->
+
 
           <!--Start Report Links-->
           <li class="submenu" v-if="permission.includes('management')">
@@ -455,6 +464,13 @@
             <router-link :to="{ name: 'UnitIndex' }">
               <i class="fa fa-balance-scale" aria-hidden="true"></i>
               <span>{{ $t("sidebar.Units") }}</span>
+            </router-link>
+          </li>
+
+          <li :class="[$route.name == 'DealIndex' ? 'active' : '']">
+            <router-link :to="{ name: 'DealIndex' }">
+              <i class="fa fa-home" aria-hidden="true"></i>
+              <span>{{ $t("sidebar.Deals") }}</span>
             </router-link>
           </li>
 
