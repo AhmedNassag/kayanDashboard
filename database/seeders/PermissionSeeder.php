@@ -204,6 +204,9 @@ class PermissionSeeder extends Seeder
             ['name' => 'area edit', 'role' => 'places'],
             //Unavailable places users
             ['name' => 'unavailable-city-client read', 'role' => 'places'],
+            //Deals
+            ['name' => 'deal insert', 'role' => ''],
+
         ];
 
         $notifies = [

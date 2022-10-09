@@ -2,7 +2,7 @@
 
 namespace App\Commons\Consts;
 
-class PaymentType
+class ClientType
 {
     const DIRECT_SALE = "DIRECT_SALE";
     const MOBILE = "MOBILE";

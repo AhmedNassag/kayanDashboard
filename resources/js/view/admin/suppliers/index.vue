@@ -7,8 +7,6 @@
     ]"
   >
     <SupplierForm
-      :shippings="shippings"
-      :employees="employees"
       :selectedSupplier="selectedSupplier"
       @created="onCreated"
       @updated="onUpdated"
@@ -192,8 +190,6 @@ export default {
       page: 1,
       pageSize: 5,
       loading: false,
-      employees: [],
-      shippings: [],
     });
     const { t, locale } = useI18n({});
     provide("supplier_store", supplierStore);
@@ -293,28 +289,6 @@ export default {
       }
     );
     //Commons
-    function getAllEmployees() {
-      data.loading = true;
-      supplierClient
-        .getAllEmployees()
-        .then((response) => {
-          data.loading = false;
-          data.employees = response.data;
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    }
-    function getAllShippings() {
-      data.loading = true;
-      supplierClient
-        .getAllShippings()
-        .then((response) => {
-          data.loading = false;
-          data.shippings = response.data;
-        })
-        .catch((error) => {});
-    }
     function httpDeleteRequest(supplier, index) {
       data.loading = true;
       supplierClient
@@ -371,8 +345,6 @@ export default {
     }
     function created() {
       getSuppliers();
-      getAllEmployees();
-      getAllShippings();
     }
     return {
       ...toRefs(data),

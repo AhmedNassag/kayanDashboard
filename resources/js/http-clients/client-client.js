@@ -17,4 +17,10 @@ export default {
     getPage(pageNo, pageSize, text) {
         return adminApi.get(`${BASE_URL}?page=${pageNo}&page_size=${pageSize}&text=${text}`);
     },
+    getCitiesWithAreas(){
+        return adminApi.get(`${BASE_URL}/cities-with-areas`);
+    },
+    getKnowusWays(){
+        return adminApi.get(`${BASE_URL}/know-us-ways`);
+    }
 }

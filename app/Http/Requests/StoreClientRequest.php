@@ -28,22 +28,20 @@ class StoreClientRequest extends FormRequest
             "phone" => "required|unique:users|regex:/^01[0125][0-9]{8}$/",
             "email" => "required|email|unique:users",
             "store_name" => "required",
-            "country" => "required",
-            "city" => "required",
+            "city_id" => "required",
+            "area_id" => "required",
             "address" => "required",
             "location" => "required",
-            "area" => "required",
             "whatsup_phone" => "required|unique:clients|regex:/^01[0125][0-9]{8}$/",
             "responsible_name" => "required",
             "responsible_phone" => "required|regex:/^01[0125][0-9]{8}$/",
             "same_address_shipping" => "boolean|required",
         ];
         if (!$this->same_address_shipping) {
-            $validators["shipping_country"] = "required";
-            $validators["shipping_city"] = "required";
+            $validators["shipping_city_id"] = "required";
+            $validators["shipping_area_id"] = "required";
             $validators["shipping_address"] = "required";
             $validators["shipping_location"] = "required";
-            $validators["shipping_area"] = "required";
         }
         return $validators;
     }

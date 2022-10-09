@@ -12,6 +12,7 @@ class DealController extends Controller
 
     public function __construct(DealRepository $dealRepository)
     {
+        $this->middleware('permission:deal insert');
         $this->dealRepository = $dealRepository;
     }
 
@@ -19,10 +20,12 @@ class DealController extends Controller
     {
         $this->dealRepository->insertDeal($request->validated());
     }
+
     public function getDeal()
     {
         return $this->dealRepository->getDeal();
     }
+
     public function getProducts()
     {
         return $this->dealRepository->getProducts();

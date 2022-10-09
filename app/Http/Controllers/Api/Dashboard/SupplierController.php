@@ -10,9 +10,7 @@ use App\Repositories\SupplierRepository;
 
 class SupplierController extends Controller
 {
-
     private $supplierRepository;
-    private $shippingRepository;
 
     public function __construct(
         SupplierRepository $supplierRepository,
@@ -52,12 +50,5 @@ class SupplierController extends Controller
     {
         $this->supplierRepository->toggleActivation($id);
     }
-    public function getAllEmployees()
-    {
-        return $this->supplierRepository->getAllEmployees();
-    }
-    public function getAllShippings()
-    {
-        return $this->shippingRepository->getAllShippings();
-    }
+   
 }

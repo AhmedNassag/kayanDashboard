@@ -24,9 +24,7 @@
               <div class="row">
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Name")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.Name") }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -47,9 +45,7 @@
                 </div>
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{
-                      $t("global.Description")
-                    }}</label>
+                    <label for="exampleInputEmail1">{{ $t("global.Description") }}</label>
                     <textarea
                       rows="4"
                       type="text"
@@ -62,9 +58,7 @@
                     </textarea>
                     <div class="invalid-feedback">
                       <div v-for="error in v$.description.$errors" :key="error">
-                        {{
-                          $t("global.Description") + " " + $t(error.$validator)
-                        }}
+                        {{ $t("global.Description") + " " + $t(error.$validator) }}
                       </div>
                     </div>
                   </div>
@@ -75,11 +69,7 @@
               <button type="submit" class="btn btn-primary">
                 {{ $t("global.Submit") }}
               </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
                 {{ $t("global.Close") }}
               </button>
             </div>
@@ -164,7 +154,7 @@ export default {
           alertMessage("global.EditSuccessfully");
         })
         .catch((error) => {
-          console.log(error.response)
+          console.log(error.response);
           data.nameExist = error.response.data.errors.name ? true : false;
           context.emit("loading", false);
         });
@@ -179,9 +169,7 @@ export default {
     function setForm() {
       v$.value.$reset();
       form.name = props.selectedShipping ? props.selectedShipping.name : "";
-      form.description = props.selectedShipping
-        ? props.selectedShipping.description
-        : "";
+      form.description = props.selectedShipping ? props.selectedShipping.description : "";
       data.nameExist = false;
     }
     //Watchers

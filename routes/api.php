@@ -268,8 +268,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             //Suppliers
             Route::prefix("suppliers")->group(function () {
                 Route::get("", "SupplierController@index");
-                Route::get("employees", "SupplierController@getAllEmployees");
-                Route::get("shippings", "SupplierController@getAllShippings");
                 Route::post("", "SupplierController@store");
                 Route::put("", "SupplierController@update");
                 Route::delete("{id}", "SupplierController@delete");
@@ -288,6 +286,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             //Client Groups
             Route::prefix("clients")->group(function () {
                 Route::get("", "ClientController@index");
+                Route::get("cities-with-areas", "ClientController@getCitiesWithAreas");
+                Route::get("know-us-ways", "ClientController@getKnowusWays");
                 Route::post("", "ClientController@store");
                 Route::put("", "ClientController@update");
                 Route::get("toggle-activation/{id}", "ClientController@toggleActivation");
