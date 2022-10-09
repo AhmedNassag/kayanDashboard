@@ -97,10 +97,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // pharmacist form
             Route::resource('pharmacistForm', 'PharmacistFormController')->except(['show']);
 
-            // product name
-            Route::resource('productName', 'ProductNameController')->except(['show']);
-            Route::get('activationProductName/{id}', 'ProductNameController@activationProductName');
-
             // alternative
             Route::resource('alternative', 'AlternativeController')->except(['show']);
             Route::get('activationAlternative/{id}', 'AlternativeController@activationAlternative');
@@ -166,8 +162,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('refused', 'RefusedController')->except(['show']);
 
             // relations routes
-            Route::get('getProductNames', 'ProductController@getProductNames');
-            Route::get('getCategories', 'ProductController@getCategories');
+        Route::get('getCategories', 'ProductController@getCategories');
             Route::get('getSubCategories', 'ProductController@getSubCategories');
             Route::get('getCompanies', 'ProductController@getCompanies');
             Route::get('getTaxes', 'ProductController@getTaxes');

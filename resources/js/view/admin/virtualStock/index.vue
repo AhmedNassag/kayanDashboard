@@ -1,10 +1,5 @@
 <template>
-  <div
-    :class="[
-      'page-wrapper',
-      this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
-    ]"
-  >
+  <div :class="['page-wrapper', this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '']">
     <div class="content container-fluid">
       <!-- Page Header -->
       <div class="page-header">
@@ -70,7 +65,7 @@
                       <td class="text-center">{{ item.supplier.name }}</td>
                       <td class="text-center">{{ item.category.name }}</td>
                       <td class="text-center">{{ item.sub_category.name }}</td>
-                      <td class="text-center">{{ item.product.product_name.nameAr }}</td>
+                      <td class="text-center">{{ item.product.nameAr }}</td>
                       <td class="text-center">{{ item.productQuantity }}</td>
                       <td class="text-center">{{ item.pharmacyPrice }}</td>
                       <td class="text-center">{{ item.publicPrice }}</td>
@@ -133,10 +128,7 @@
       </div>
       <!-- /Table -->
       <!-- start Pagination -->
-      <Pagination
-        :data="virtualStocksPaginate"
-        @pagination-change-page="getVirtualStock"
-      >
+      <Pagination :data="virtualStocksPaginate" @pagination-change-page="getVirtualStock">
         <template #prev-nav>
           <span>&lt; {{ $t("global.Previous") }}</span>
         </template>
@@ -159,7 +151,6 @@ import adminApi from "../../../api/adminAxios";
 export default {
   name: "index",
   setup() {
-
     const emitter = inject("emitter");
     const { t } = useI18n({});
 
@@ -289,7 +280,7 @@ export default {
       permission,
       search,
       deleteVirtualStock,
-    //   activationStock,
+      //   activationStock,
       virtualStocksPaginate,
       virtualStocks,
     };

@@ -96,7 +96,7 @@
                                                 <!-- <Select2 @change="getSubCategory(v$.category_id.$model)" v-model="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" /> -->
                                                 <select @change="getSubCategory(v$.category_id.$model)"
                                                     name="type"
-                                                    class="form-select"
+                                                    class="custom-select"
                                                     v-model="v$.category_id.$model"
                                                     :class="{'is-invalid':v$.category_id.$error,'is-valid':!v$.category_id.$invalid}"
                                                 >

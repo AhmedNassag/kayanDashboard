@@ -459,9 +459,6 @@ export default {
     },
     setup(){
         let loading = ref(false);
-        // let productNames = ref([]);
-        // let suppliers = ref([]);
-        // let companies = ref([]);
         let categories = ref([]);
         let subCategories = ref([]);
         let measures = ref([]);

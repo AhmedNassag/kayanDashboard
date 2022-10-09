@@ -22,7 +22,7 @@ class VirtualStockController extends Controller
      */
     public function index(Request $request)
     {
-        $virtualStocks = VirtualStock::with('product.productName')->with('category')->with('subCategory')->with('supplier')
+        $virtualStocks = VirtualStock::with('product')->with('category')->with('subCategory')->with('supplier')
             ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
@@ -102,8 +102,8 @@ class VirtualStockController extends Controller
     {
         try
         {
-            $virtualStock = VirtualStock::with('product.productName')->with('category')->with('subCategory')->with('supplier')->find($id);
-            $products       = Product::with('productName')->get();
+            $virtualStock = VirtualStock::with('product')->with('category')->with('subCategory')->with('supplier')->find($id);
+            $products       = Product::get();
             $suppliers      = Supplier::select('id','name')->get();
             $categories     = Category::select('id','name')->get();
             return $this->sendResponse

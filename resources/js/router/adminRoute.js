@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Index from '../view/admin/Dashboard.vue';
 import department from './adminRoute/department';
-import productName from './adminRoute/productName';
 import alternative from './adminRoute/alternative';
 import product from './adminRoute/product';
 import category from './adminRoute/category';
@@ -130,7 +129,6 @@ const routes = [
             ...usersCategory,
             ...tax,
             ...company,
-            ...productName,
             ...alternative,
             ...product,
             ...price,

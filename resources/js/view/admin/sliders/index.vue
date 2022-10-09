@@ -77,10 +77,10 @@
                       <td>{{ $t(slider.external ? "global.Yeas" : "global.No") }}</td>
                       <td>{{ slider.external ? slider.url : "" }}</td>
                       <td>
-                        {{ !slider.external ? slider.product.product_name.nameAr : "" }}
+                        {{ !slider.external ? slider.product.nameAr : "" }}
                       </td>
                       <td>
-                        {{ !slider.external ? slider.product.product_name.nameEn : "" }}
+                        {{ !slider.external ? slider.product.nameEn : "" }}
                       </td>
                       <td>
                         <a

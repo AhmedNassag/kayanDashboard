@@ -7,14 +7,11 @@ use App\Models\Alternative;
 use App\Models\AlternativeDetail;
 use App\Models\Category;
 use App\Models\Client;
-use App\Models\Company;
 use App\Models\Media;
 use App\Models\PharmacistForm;
 use App\Models\Product;
-use App\Models\ProductName;
 use App\Models\SellingMethod;
 use App\Models\SubCategory;
-use App\Models\Supplier;
 use App\Models\Tax;
 use App\Models\Unit;
 use App\Traits\Message;
@@ -35,7 +32,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::with(/*'company:id,name', 'supplier:id,name',*/ 'category:id,name', 'tax:id,name', 'pharmacistForm:id,name')
+    $products = Product::with(/*'company:id,name', 'supplier:id,name',*/ 'category:id,name', 'tax:id,name', 'pharmacistForm:id,name')
             ->when($request->search, function ($q) use ($request) {
 
                 return $q->where('name', 'like', "%" . $request->search . "%");
@@ -93,15 +90,11 @@ class ProductController extends Controller
             $measures        = Unit::select('id', 'name')->get();
             $tax             = Tax::select('id', 'name')->get();
             $sellingMethods  = SellingMethod::select('id', 'name')->get();
-            // $productNames    = ProductName::select('id', 'nameAr')->get();
             $pharmacistForms = PharmacistForm::select('id', 'name')->get();
             $alternatives    = Alternative::select('id', 'nameAr')->get();
             $clients         = Client::with('user')->get();
 
             return $this->sendResponse([
-                // 'companies'       => $companies,
-                // 'suppliers'       => $suppliers,
-                // 'productNames'    => $productNames,
                 'categories'      => $categories,
                 'measures'        => $measures,
                 'taxes'           => $tax,
@@ -137,17 +130,11 @@ class ProductController extends Controller
                 'maximum_product'           => 'required|integer',
                 'Re_order_limit'            => 'required|integer',
                 'image'                     => 'required|file|mimes:png,jpg,jpeg',
-                // 'productName_id'            => 'required|integer|exists:product_names,id',
-                // 'company_id'                => 'required|integer|exists:companies,id',
-                // 'supplier_id'               => 'required|integer|exists:suppliers,id',
                 'pharmacistForm_id'         => 'required|exists:pharmacist_forms,id',
                 'category_id'               => 'required|integer|exists:categories,id',
                 'sub_category_id'           => 'required|integer|exists:sub_categories,id',
                 'tax_id'                    => 'required|integer|exists:taxes,id',
                 'main_measurement_unit_id'  => 'required|integer|exists:units,id',
-                // 'sub_measurement_unit_id'   => 'required|integer|exists:units,id',
-                // 'count_unit'                => 'required|integer',
-
                 'files'                     => 'required|array',
                 'files.*'                   => 'required|file|mimes:png,jpg,jpeg',
                 'selling_methods'           => 'required',
@@ -163,7 +150,7 @@ class ProductController extends Controller
             // picture move
             $request->image->storeAs('product', $image, 'general');
 
-            $data = $request->only(['nameAr','nameEn','description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'sub_measurement_unit_id', 'pharmacistForm_id','count_unit'/*, 'productName_id', 'company_id', 'supplier_id'*/]);
+            $data = $request->only(['nameAr','nameEn','description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'sub_measurement_unit_id', 'pharmacistForm_id','count_unit']);
 
             // $data['sub_measurement_unit_id'] = 1;
 
@@ -240,9 +227,6 @@ class ProductController extends Controller
     {
         try {
             $product         = Product::with(['media:mediable_id,file_name,id', 'alternativeDetails'])->find($id);
-            // $productNames    = ProductName::select('id', 'nameAr')->get();
-            // $suppliers       = Supplier::select('id', 'name')->get();
-            // $companies       = Company::select('id', 'name')->get();
             $categories      = Category::select('id', 'name')->get();
             $measures        = Unit::select('id', 'name')->get();
             $taxes           = Tax::select('id', 'name')->get();
@@ -253,9 +237,6 @@ class ProductController extends Controller
 
             return $this->sendResponse([
                 'product'             => $product,
-                // 'productNames'        => $productNames,
-                // 'suppliers'           => $suppliers,
-                // 'companies'           => $companies,
                 'categories'          => $categories,
                 'measures'            => $measures,
                 'taxes'               => $taxes,
@@ -292,9 +273,6 @@ class ProductController extends Controller
             'barcode'                   => 'required|integer|unique:products,barcode,' . $product->id,
             'maximum_product'           => 'required|integer',
             'Re_order_limit'            => 'required|integer',
-            // 'productName_id'            => 'required|integer|exists:product_names,id',
-            // 'company_id'                => 'required|integer|exists:companies,id',
-            // 'supplier_id'               => 'required|integer|exists:suppliers,id',
             'pharmacistForm_id'         => 'required|exists:pharmacist_forms,id',
             'category_id'               => 'required|integer|exists:categories,id',
             'sub_category_id'           => 'required|integer|exists:sub_categories,id',
@@ -314,7 +292,7 @@ class ProductController extends Controller
             return $this->sendError('There is an error in the data', $v->errors());
         }
 
-        $data = $request->only(['nameAr','nameEn','description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'pharmacistForm_id'/*, 'productName_id','sub_measurement_unit_id','count_unit', 'company_id', 'supplier_id'*/]);
+        $data = $request->only(['nameAr','nameEn','description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'pharmacistForm_id']);
 
         // if ($data['company_id'] != "null") {
         //     //unset($data['supplier_id']);
@@ -440,13 +418,6 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
-    }
-
-    //start relations functions
-    public function getProductNames()
-    {
-        // $productNames = ProductName::all();
-        // return $this->sendResponse(['productNames' => $productNames], 'Data exited successfully');
     }
 
     public function getCategories()

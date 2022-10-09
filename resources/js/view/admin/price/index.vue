@@ -63,7 +63,7 @@
                                     <tbody v-if="prices.length">
                                     <tr v-for="(item,index) in prices"  :key="item.id">
                                         <td class="text-center">{{ index + 1 }}</td>
-                                        <td class="text-center">{{ item.product.product_name.nameAr }}</td>
+                                        <td class="text-center">{{ item.product.nameAr }}</td>
                                         <td class="text-center">{{ item.category.name }}</td>
                                         <td class="text-center">{{ item.sub_category.name }}</td>
                                         <!-- <td class="text-center" v-if="item.company_id">{{ item.company.name }}</td>

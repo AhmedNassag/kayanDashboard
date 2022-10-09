@@ -37,11 +37,6 @@ class Product extends Model
         return $this->belongsToMany(SellingMethod::class);
     }
 
-    public function productName()
-    {
-        return $this->belongsTo(ProductName::class, 'productName_id');
-    }
-
     public function pharmacistForm()
     {
         return $this->belongsTo(PharmacistForm::class, 'pharmacistForm_id');

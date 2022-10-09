@@ -41,18 +41,17 @@ class SliderRepository
     }
     public function getPage($pageSize, $text)
     {
-        return Slider::where("title", "like", "%$text%")->with("product.productName")
+        return Slider::where("title", "like", "%$text%")->with("product")
             ->paginate($pageSize);
     }
 
     public function getProducts()
     {
-        return Product::with("productName")->where("status", 1)->get();
+        return Product::where("status", 1)->get();
     }
-    //Commons
     private function getProductName($sliderInput)
     {
-        return ["product_name" => [
+        return ["product" => [
             "nameAr" => $sliderInput["product_name_ar"] ?? "",
             "nameEn" => $sliderInput["product_name_en"] ?? "",
         ]];

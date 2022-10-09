@@ -188,7 +188,7 @@
                         v-for="product in products"
                         :key="product.id"
                       >
-                        {{ product.product_name.nameAr }}
+                        {{ product.nameAr }}
                       </option>
                     </select>
                     <div class="invalid-feedback">

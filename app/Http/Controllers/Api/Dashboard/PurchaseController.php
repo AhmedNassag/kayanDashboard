@@ -278,7 +278,7 @@ class PurchaseController extends Controller
 
     public function getProducts()
     {
-        $products = Product::with('productName')->get();
+        $products = Product::get();
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
 }

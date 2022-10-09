@@ -65,29 +65,13 @@ class SaleReportController extends Controller
     public function saleReportByProduct(Request $request)
     {
         if ($request->product_id != null) {
-            $saleProducts = SaleProduct::with(['product.productName', 'sale', 'returnProducts', 'storeProducts'])
-            // ->where(function ($q) use ($request) {
-            //     $q->when($request->search, function ($q) use ($request) {
-            //         $q->where('quantity', 'like', '%' . $request->search . '%')
-            //         ->orWhere('price_before_discount', 'like', '%' . $request->search . '%')
-            //         ->orWhere('price_after_discount', 'like', '%' . $request->search . '%')
-            //         ->orWhereRelation('product', 'productName.nameAr', 'like', '%' . $request->search . '%')
-            //         ->orWhereRelation('sale', 'type', 'like', '%' . $request->search . '%');
-            //     });
-            // })
+            $saleProducts = SaleProduct::with(['product', 'sale', 'returnProducts', 'storeProducts'])
             ->where(function ($q) use ($request) {
                 $q->when($request->product_id, function ($q) use ($request) {
                     $q->where('product_id', $request->product_id);
                 });
             })
             ->latest()->paginate(5);
-
-            // $totalPrice = SaleProduct::with('sale')->where(function ($q) use ($request) {
-            //     $q->when($request->product_id, function ($q) use ($request) {
-            //         $q->where('product_id', $request->product_id);
-            //     });
-            // })->sum('sale.price');
-
             $totalQuantity = SaleProduct::where(function ($q) use ($request) {
                 $q->when($request->product_id, function ($q) use ($request) {
                     $q->where('product_id', $request->product_id);
@@ -102,7 +86,7 @@ class SaleReportController extends Controller
     public function saleReportByCategory(Request $request)
     {
         if ($request->category_id != null) {
-            $saleCategories = SaleProduct::with(['product.productName', 'sale', 'returnProducts', 'storeProducts'])
+            $saleCategories = SaleProduct::with(['product', 'sale', 'returnProducts', 'storeProducts'])
             ->where(function ($q) use ($request) {
                 $q->when($request->category_id, function ($q) use ($request) {
                     $q->whereRelation('product','category_id', $request->category_id);
@@ -150,7 +134,7 @@ class SaleReportController extends Controller
      */
     public function create()
     {
-        $products = Product::with('productName')->get();
+        $products = Product::get();
         $categories = Category::with('products')->get();
         return $this->sendResponse(['products' => $products, 'categories'=> $categories], 'Data exited successfully');
     }

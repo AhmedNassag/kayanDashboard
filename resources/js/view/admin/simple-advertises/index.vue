@@ -84,14 +84,14 @@
                       <td>
                         {{
                           !simpleAdvertise.external
-                            ? simpleAdvertise.product.product_name.nameAr
+                            ? simpleAdvertise.product.nameAr
                             : ""
                         }}
                       </td>
                       <td>
                         {{
                           !simpleAdvertise.external
-                            ? simpleAdvertise.product.product_name.nameEn
+                            ? simpleAdvertise.product.nameEn
                             : ""
                         }}
                       </td>

@@ -25,7 +25,6 @@ class CreateVirtualStocksTable extends Migration
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->foreignId('sub_category_id')->constrained('sub_categories')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            // $table->foreignId('productName_id')->constrained('product_names')->cascadeOnDelete();
 
             $table->timestamps();
         });
