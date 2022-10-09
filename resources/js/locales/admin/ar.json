@@ -12,6 +12,7 @@
         "Dashboard": "الرئيسيه"
     },
     "sidebar": {
+        "ProductsDefination":"تعريف المنتجات",
         "Deals":"افضل العروض",
         "UnvailableCitiesClients":"عملاء المحافظات الغير متاحة",
         "ProductNames":"اسماء المنجات",
