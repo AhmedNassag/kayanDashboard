@@ -47,11 +47,12 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>{{ $t("global.Name") }}</th>
+                                        <th>{{ $t("global.NameAr") }}</th>
+                                        <th>{{ $t("global.NameEn") }}</th>
                                         <th> {{ $t("global.Category") }}</th>
                                         <th> {{ $t("global.Pharmacist Form") }}</th>
-                                        <th>{{ $t("global.Company") }}</th>
-                                        <th>{{ $t("global.Supplier") }}</th>
+                                        <!-- <th>{{ $t("global.Company") }}</th>
+                                        <th>{{ $t("global.Supplier") }}</th> -->
                                         <th>{{ $t("global.Tax") }}</th>
                                         <th>{{ $t("global.Image") }}</th>
                                         <th>{{ $t("global.Status") }}</th>
@@ -59,15 +60,18 @@
                                     </tr>
                                     </thead>
                                     <tbody v-if="products.length">
-                                    <tr v-for="(item,index) in products"  :key="item.id">
+                                    <tr v-for="(item,index) in products" :key="item.id">
                                         <td>{{ index + 1 }}</td>
-                                        <td>{{ item.name }}</td>
+                                        <td v-if="item.nameAr">{{ item.nameAr }}</td>
+                                        <td v-else>---</td>
+                                        <td v-if="item.nameEn">{{ item.nameEn }}</td>
+                                        <td v-else>---</td>
                                         <td>{{ item.category.name }}</td>
                                         <td>{{ item.pharmacist_form.name }}</td>
-                                        <td v-if="item.company_id">{{ item.company.name }}</td>
+                                        <!-- <td v-if="item.company_id">{{ item.company.name }}</td>
                                         <td v-else>---</td>
                                         <td v-if="item.supplier_id">{{ item.supplier.name }}</td>
-                                        <td v-else>---</td>
+                                        <td v-else>---</td> -->
                                         <td>{{ item.tax.name }}</td>
                                         <td>
                                             <img
@@ -95,7 +99,6 @@
                                                 <i class="far fa-trash-alt"></i>
                                             </a>
                                         </td>
-
                                     </tr>
                                     </tbody>
                                     <tbody v-else>

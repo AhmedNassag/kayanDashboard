@@ -2,12 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Index from '../view/admin/Dashboard.vue';
 import department from './adminRoute/department';
 import productName from './adminRoute/productName';
+import alternative from './adminRoute/alternative';
+import product from './adminRoute/product';
 import category from './adminRoute/category';
 import subCategory from './adminRoute/subCategory';
 import usersCategory from './adminRoute/usersCategory';
 import tax from './adminRoute/tax';
 import company from './adminRoute/company';
-import product from './adminRoute/product';
 import pharmacistForm from './adminRoute/pharmacistForm';
 import price from './adminRoute/price';
 import kayanPrice from './adminRoute/kayanPrice';
@@ -20,6 +21,19 @@ import saleInvoice from './adminRoute/saleInvoice';
 import saleRecord from './adminRoute/saleRecord';
 import saleReturn from './adminRoute/saleReturn';
 import storage from './adminRoute/storage';
+import complaint from './adminRoute/complaint';
+//
+import financialReport from './adminRoute/financialReport';
+import productReport from './adminRoute/productReport';
+import customerReport from './adminRoute/clientReport';
+import supplierReport from './adminRoute/supplierReport';
+import stockReport from './adminRoute/stockReport';
+import complaintReport from './adminRoute/complaintReport';
+import delegateReport from './adminRoute/delegateReport';
+import regionReport from './adminRoute/regionReport';
+import purchaseReport from './adminRoute/purchaseReport';
+import saleReport from './adminRoute/saleReport';
+//
 import refused from './adminRoute/refused';
 import job from './adminRoute/job';
 import role from './adminRoute/role';
@@ -110,13 +124,14 @@ const routes = [
             ...job,
             ...employee,
             ...role,
-            ...productName,
             ...pharmacistForm,
             ...category,
             ...subCategory,
             ...usersCategory,
             ...tax,
             ...company,
+            ...productName,
+            ...alternative,
             ...product,
             ...price,
             ...kayanPrice,
@@ -131,6 +146,19 @@ const routes = [
             ...saleRecord,
             ...saleReturn,
             ...storage,
+            ...complaint,
+            //
+            ...financialReport,
+            ...productReport,
+            ...customerReport,
+            ...supplierReport,
+            ...stockReport,
+            ...complaintReport,
+            ...delegateReport,
+            ...regionReport,
+            ...purchaseReport,
+            ...saleReport,
+            //
             ...refused,
             ...unit,
             ...deal,

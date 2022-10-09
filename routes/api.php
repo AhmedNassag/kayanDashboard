@@ -20,7 +20,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
         // start login
         Route::post('login', 'AuthDashboardController@login');
-        
+
         // check token
         Route::get('checkToken',  'AuthDashboardController@authorizeUser');
     });
@@ -94,13 +94,17 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('company', 'CompanyController')->except(['show']);
             Route::get('activationCompany/{id}', 'CompanyController@activationCompany');
 
+            // pharmacist form
+            Route::resource('pharmacistForm', 'PharmacistFormController')->except(['show']);
+
             // product name
             Route::resource('productName', 'ProductNameController')->except(['show']);
             Route::get('activationProductName/{id}', 'ProductNameController@activationProductName');
-           
-            // pharmacist form
-            Route::resource('pharmacistForm', 'PharmacistFormController')->except(['show']);
-            
+
+            // alternative
+            Route::resource('alternative', 'AlternativeController')->except(['show']);
+            Route::get('activationAlternative/{id}', 'AlternativeController@activationAlternative');
+
             // product
             Route::resource('product', 'ProductController');
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');
@@ -141,6 +145,20 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // sale return
             Route::resource('saleReturn', 'SaleReturnController');
 
+            // complaint
+            Route::resource('complaint', 'ComplaintController');
+            Route::Post('replycomplaint/{id}', 'ComplaintController@reply');
+            Route::get('showcomplaint/{id}', 'ComplaintController@show');
+
+
+            // reports
+            Route::resource('complaintReport', 'ComplaintReportController');
+            Route::resource('saleReport', 'SaleReportController');
+            Route::get('saleReportByProduct', 'SaleReportController@saleReportByProduct');
+            Route::get('saleReportByCategory', 'SaleReportController@saleReportByCategory');
+            Route::get('saleReportByReturn', 'SaleReportController@saleReportByReturn');
+
+
             //
             Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
 
@@ -156,6 +174,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('getUnits', 'ProductController@getUnits');
             Route::get('getEmployees', 'StockController@getEmployees');
             Route::get('getShifts', 'StockController@getShifts');
+            Route::get('getCities', 'StockController@getCities');
+            Route::get('getAreas', 'StockController@getAreas');
             Route::get('getSuppliers', 'PurchaseController@getSuppliers');
             Route::get('getProducts', 'PurchaseController@getProducts');
             Route::get('productPrice/{id}','PurchaseController@productPrice');

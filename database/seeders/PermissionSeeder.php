@@ -61,6 +61,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'productName create', 'role' => 'management'],
             ['name' => 'productName edit', 'role' => 'management'],
             ['name' => 'productName delete', 'role' => 'management'],
+            //alternative
+            ['name' => 'alternative read', 'role' => 'management'],
+            ['name' => 'alternative create', 'role' => 'management'],
+            ['name' => 'alternative edit', 'role' => 'management'],
+            ['name' => 'alternative delete', 'role' => 'management'],
             //product
             ['name' => 'product read', 'role' => 'management'],
             ['name' => 'product create', 'role' => 'management'],
@@ -121,6 +126,63 @@ class PermissionSeeder extends Seeder
             ['name' => 'storage create', 'role' => 'management'],
             ['name' => 'storage edit', 'role' => 'management'],
             ['name' => 'storage delete', 'role' => 'management'],
+            //complaint
+            ['name' => 'complaint read', 'role' => 'management'],
+            ['name' => 'complaint create', 'role' => 'management'],
+            ['name' => 'complaint edit', 'role' => 'management'],
+            ['name' => 'complaint delete', 'role' => 'management'],
+
+            //financialReport
+            ['name' => 'financialReport read', 'role' => 'management'],
+            ['name' => 'financialReport create', 'role' => 'management'],
+            ['name' => 'financialReport edit', 'role' => 'management'],
+            ['name' => 'financialReport delete', 'role' => 'management'],
+            //productReport
+            ['name' => 'productReport read', 'role' => 'management'],
+            ['name' => 'productReport create', 'role' => 'management'],
+            ['name' => 'productReport edit', 'role' => 'management'],
+            ['name' => 'productReport delete', 'role' => 'management'],
+            //customerReport
+            ['name' => 'customerReport read', 'role' => 'management'],
+            ['name' => 'customerReport create', 'role' => 'management'],
+            ['name' => 'customerReport edit', 'role' => 'management'],
+            ['name' => 'customerReport delete', 'role' => 'management'],
+            //supplierReport
+            ['name' => 'supplierReport read', 'role' => 'management'],
+            ['name' => 'supplierReport create', 'role' => 'management'],
+            ['name' => 'supplierReport edit', 'role' => 'management'],
+            ['name' => 'supplierReport delete', 'role' => 'management'],
+            //stockReport
+            ['name' => 'stockReport read', 'role' => 'management'],
+            ['name' => 'stockReport create', 'role' => 'management'],
+            ['name' => 'stockReport edit', 'role' => 'management'],
+            ['name' => 'stockReport delete', 'role' => 'management'],
+            //complaintReport
+            ['name' => 'complaintReport read', 'role' => 'management'],
+            ['name' => 'complaintReport create', 'role' => 'management'],
+            ['name' => 'complaintReport edit', 'role' => 'management'],
+            ['name' => 'complaintReport delete', 'role' => 'management'],
+            //delegateReport
+            ['name' => 'delegateReport read', 'role' => 'management'],
+            ['name' => 'delegateReport create', 'role' => 'management'],
+            ['name' => 'delegateReport edit', 'role' => 'management'],
+            ['name' => 'delegateReport delete', 'role' => 'management'],
+            //regionReport
+            ['name' => 'regionReport read', 'role' => 'management'],
+            ['name' => 'regionReport create', 'role' => 'management'],
+            ['name' => 'regionReport edit', 'role' => 'management'],
+            ['name' => 'regionReport delete', 'role' => 'management'],
+            //purchaseReport
+            ['name' => 'purchaseReport read', 'role' => 'management'],
+            ['name' => 'purchaseReport create', 'role' => 'management'],
+            ['name' => 'purchaseReport edit', 'role' => 'management'],
+            ['name' => 'purchaseReport delete', 'role' => 'management'],
+            //saleReport
+            ['name' => 'saleReport read', 'role' => 'management'],
+            ['name' => 'saleReport create', 'role' => 'management'],
+            ['name' => 'saleReport edit', 'role' => 'management'],
+            ['name' => 'saleReport delete', 'role' => 'management'],
+
             //refused
             ['name' => 'refused read', 'role' => 'management'],
             ['name' => 'refused create', 'role' => 'management'],
