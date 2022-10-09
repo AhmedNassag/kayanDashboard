@@ -10,9 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
-    // protected $casts = [
-    //     'saleMethods' => 'array'
-    // ];
+    // protected $casts = ['saleMethods' => 'array'];
 
     protected $appends = [
         'name', 'text'
@@ -21,13 +19,11 @@ class Product extends Model
 
     public function getTextAttribute()
     {
-        return $this->productName->nameAr;
+        return $this->nameAr;
     }
 
-
-    public function getNameAttribute()
-    {
-        return $this->productName->nameAr;
+    public function getNameAttribute(){
+        return $this->nameAr;
     }
 
     //start raletions
@@ -61,16 +57,6 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class, 'company_id');
-    }
-
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class, 'supplier_id');
-    }
-
     public function tax()
     {
         return $this->belongsTo(Tax::class, 'tax_id');
@@ -91,30 +77,34 @@ class Product extends Model
         return $this->hasMany(Refused::class);
     }
 
+    public function alternativeDetails()
+    {
+        return $this->hasMany(AlternativeDetail::class);
+    }
+
     //
     public function mainMeasurementUnit()
     {
-        return $this->belongsTo(Unit::class, 'main_measurement_unit_id');
+        return $this->belongsTo(Unit::class,'main_measurement_unit_id');
     }
 
     public function subMeasurementUnit()
     {
-        return $this->belongsTo(Unit::class, 'sub_measurement_unit_id');
+        return $this->belongsTo(Unit::class,'sub_measurement_unit_id');
     }
 
     public function storeProducts()
     {
-        return $this->hasMany(StoreProduct::class, 'product_id');
+        return $this->hasMany(StoreProduct::class,'product_id');
     }
 
     public function returnProducts()
     {
-        return $this->hasMany(ReturnProduct::class, 'product_id');
+        return $this->hasMany(ReturnProduct::class,'product_id');
     }
 
     public function purchaseProducts()
     {
-
         return $this->hasMany(PurchaseProduct::class);
     }
 }

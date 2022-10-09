@@ -138,10 +138,9 @@
                                             <td class="text-center">{{ dateFormat(item.created_at) }}</td>
 
                                             <td class="text-center">
-                                                <a href="javascript:void(0);"
-                                                   class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
-                                                   :data-bs-target="'#edit-category'+item.id">
-                                                    <i class="fas fa-book-open"></i> {{$t('global.Show')}}
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-info me-2" data-bs-toggle="modal" :data-bs-target="'#edit-category'+item.id">
+                                                    <i class="fas fa-book-open"></i>
+                                                    {{$t('global.Show')}}
                                                 </a>
 
 

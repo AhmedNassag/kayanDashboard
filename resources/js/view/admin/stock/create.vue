@@ -101,22 +101,17 @@
                             <label for="validationCustom02">
                                 {{ $t("global.Governorate") }}
                             </label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            v-model.trim="v$.governorate.$model"
-                            id="validationCustom02"
-                            :placeholder="$t('global.Governorate')"
-                            :class="{
-                                'is-invalid': v$.governorate.$error,
-                                'is-valid': !v$.governorate.$invalid,
-                            }"
-                            />
+                            <Select2 v-model.trim="v$.city_id.$model" :options="cities" :settings="{ width: '100%' }" />
+                            <!-- <select class="form-control" v-model.trim="v$.shift_id.$model">
+                                <option v-for="shift in shifts" :key="shift.id" :value="shift.id">
+                                    {{ shift.name }}
+                                </option>
+                            </select> -->
                             <div class="valid-feedback">
                                 {{ $t("global.LooksGood") }}
                             </div>
                             <div class="invalid-feedback">
-                                <span v-if="v$.governorate.required.$invalid">
+                                <span v-if="v$.city_id.required.$invalid">
                                     {{ $t("global.NameIsRequired") }}
                                     <br/>
                                 </span>
@@ -129,22 +124,17 @@
                             <label for="validationCustom03">
                                 {{ $t("global.Region") }}
                             </label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            v-model.trim="v$.region.$model"
-                            id="validationCustom03"
-                            :placeholder="$t('global.Region')"
-                            :class="{
-                                'is-invalid': v$.region.$error,
-                                'is-valid': !v$.region.$invalid,
-                            }"
-                            />
+                            <Select2 v-model.trim="v$.area_id.$model" :options="areas" :settings="{ width: '100%' }" />
+                            <!-- <select class="form-control" v-model.trim="v$.shift_id.$model">
+                                <option v-for="shift in shifts" :key="shift.id" :value="shift.id">
+                                    {{ shift.name }}
+                                </option>
+                            </select> -->
                             <div class="valid-feedback">
                                 {{ $t("global.LooksGood") }}
                             </div>
                             <div class="invalid-feedback">
-                                <span v-if="v$.region.required.$invalid">
+                                <span v-if="v$.area_id.required.$invalid">
                                     {{ $t("global.NameIsRequired") }}
                                     <br/>
                                 </span>
@@ -292,10 +282,8 @@
 </template>
 
 <script>
-//
+
 import { computed, onMounted, reactive, toRefs, inject, ref } from "vue";
-//
-//import { computed, onMounted, reactive, toRefs, ref } from "vue";
 import useVuelidate from "@vuelidate/core";
 import {
   required,
@@ -326,14 +314,16 @@ export default {
     let loading = ref(false);
     let employees = ref([]);
     let shifts = ref([]);
+    let cities = ref([]);
+    let areas = ref([]);
 
 
     //start design
     let addStock = reactive({
       data: {
         name: "",
-        governorate: "",
-        region: "",
+        city_id: "",
+        area_id: "",
         title: "",
         // latitude:"",
         // longitude: "",
@@ -353,6 +343,8 @@ export default {
                 let l = res.data.data;
                 employees.value = l.employees;
                 shifts.value = l.shifts;
+                cities.value = l.cities;
+                areas.value = l.areas;
             })
             .catch((err) => {
                 console.log(err.response);
@@ -375,10 +367,10 @@ export default {
           maxLength: maxLength(70),
           required,
         },
-        governorate: {
+        city_id: {
           required,
         },
-        region: {
+        area_id: {
           required,
         },
         title: {
@@ -442,7 +434,8 @@ export default {
     onMounted(() => {
         getStock();
     });
-    return { loading, ...toRefs(addStock), v$, employees, shifts };
+
+    return { loading, ...toRefs(addStock), v$, employees, shifts, cities, areas };
 
   },
   methods: {
@@ -454,8 +447,8 @@ export default {
         this.errors = {};
         let formData = new FormData();
         formData.append("name", this.data.name);
-        formData.append("governorate", this.data.governorate);
-        formData.append("region", this.data.region);
+        formData.append("city_id", this.data.city_id);
+        formData.append("area_id", this.data.area_id);
         formData.append("title", this.data.title);
         // formData.append("latitude", this.data.latitude);
         // formData.append("longitude", this.data.longitude);
@@ -489,8 +482,8 @@ export default {
     },
     resetForm() {
       this.data.name = "";
-      this.data.governorate = "";
-      this.data.region = "";
+      this.data.city_id = "";
+      this.data.area_id = "";
       this.data.title = "";
     //   this.data.latitude = "";
     //   this.data.longitude = "";

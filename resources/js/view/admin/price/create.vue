@@ -38,30 +38,18 @@
                                             <div class="col-md-6 mb-3">
 
                                                 <!--Start Company Select-->
-                                                <div id="company" class="col-md-12 mb-3" v-if="companyShow == true">
+                                                <!-- <div id="company" class="col-md-12 mb-3" v-if="companyShow == true">
                                                     <label >{{ $t("global.Company") }}</label>
                                                     <Select2 v-model="v$.company_id.$model" :options="companies" :settings="{ width: '100%' }" />
-                                                    <!-- <select
-                                                        name="type"
-                                                        class="form-select"
-                                                        v-model="v$.company_id.$model"
-                                                        :class="{'is-invalid':v$.company_id.$error,'is-valid':!v$.company_id.$invalid}"
-                                                    >
-                                                        <option :value="data.nullValue">---</option>
-                                                        <option v-for="company in companies" :key="company.id" :value="company.id">
-                                                            {{ company.name }}
-                                                        </option>
-                                                    </select> -->
                                                     <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                     <div class="invalid-feedback">
-                                                        <!-- <span v-if="v$.company_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
                                                     </div>
                                                     <input id ="myButton1" class="btn btn-secondary btn-ms" type="button" v-on:click="showSupplier()" value="مورد"/>
-                                                </div>
+                                                </div> -->
                                                 <!--End Company Select-->
 
                                                 <!--Start Supplier Select-->
-                                                <div id="supplier" class="col-md-12 mb-3" v-if="supplierShow == true">
+                                                <div id="supplier" class="col-md-12 mb-3">
                                                     <label for="validationCustom0">
                                                         {{ $t("global.Supplier") }}
                                                     </label>
@@ -81,7 +69,7 @@
                                                     <div class="invalid-feedback">
                                                         <!-- <span v-if="v$.supplier_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
                                                     </div>
-                                                    <input id ="myButton2" class="btn btn-secondary btn-ms" type="button" v-on:click="showCompany()" value="شركة"/>
+                                                    <!-- <input id ="myButton2" class="btn btn-secondary btn-ms" type="button" v-on:click="showCompany()" value="شركة"/> -->
                                                 </div>
                                                 <!--End Supplier Select-->
 
@@ -147,7 +135,7 @@
                                             <!--End SubCategory Select-->
 
                                             <!--Start Pharmacy Price-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label>{{ $t("global.Pharmacy Price") }}</label>
                                                 <input
                                                     type="number" class="form-control"
@@ -159,7 +147,7 @@
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.pharmacyPrice.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Pharmacy Price-->
 
                                             <!--Start Public Price-->
@@ -241,15 +229,15 @@ export default {
     data(){
         return {
             errors:{},
-            companyShow: true,
-            supplierShow: false
+            // companyShow: true,
+            // supplierShow: false
         }
     },
     setup(){
         let loading = ref(false);
         let products = ref([]);
         let suppliers = ref([]);
-        let companies = ref([]);
+        // let companies = ref([]);
         let categories = ref([]);
         let subCategories = ref([]);
 
@@ -261,8 +249,8 @@ export default {
                 supplier_id: null,
                 category_id: null,
                 sub_category_id: null,
-                company_id: null,
-                pharmacyPrice: null,
+                // company_id: null,
+                // pharmacyPrice: null,
                 publicPrice : null,
                 clientDiscount: null,
                 kayanDiscount : null,
@@ -278,7 +266,7 @@ export default {
                     let l = res.data.data;
                     products.value = l.products;
                     suppliers.value = l.suppliers;
-                    companies.value = l.companies;
+                    // companies.value = l.companies;
                     categories.value = l.categories;
                 })
                 .catch((err) => {
@@ -313,9 +301,9 @@ export default {
                 supplier_id: {
                     //required,
                 },
-                company_id: {
-                    //required,
-                },
+                // company_id: {
+                //     //required,
+                // },
                 category_id: {
                     required,
                     integer
@@ -324,9 +312,9 @@ export default {
                     required,
                     integer
                 },
-                pharmacyPrice: {
-                    required,
-                },
+                // pharmacyPrice: {
+                //     required,
+                // },
                 publicPrice: {
                     required,
                 },
@@ -354,23 +342,23 @@ export default {
             v$,
             products,
             suppliers,
-            companies,
+            // companies,
             categories,
             subCategories,
             getSubCategory,
         };
     },
     methods: {
-        showCompany()
-        {
-            this.companyShow = true;
-            this.supplierShow = false;
-        },
-        showSupplier()
-        {
-            this.supplierShow = true;
-            this.companyShow = false;
-        },
+        // showCompany()
+        // {
+        //     this.companyShow = true;
+        //     this.supplierShow = false;
+        // },
+        // showSupplier()
+        // {
+        //     this.supplierShow = true;
+        //     this.companyShow = false;
+        // },
 
         storePrice(){
             this.v$.$validate();
@@ -382,11 +370,11 @@ export default {
                 let formData = new FormData();
                 formData.append("product_id", this.data.product_id);
                 formData.append("supplier_id", this.data.supplier_id);
-                formData.append('company_id',this.data.company_id);
+                // formData.append('company_id',this.data.company_id);
                 formData.append('category_id',this.data.category_id);
                 formData.append('sub_category_id',this.data.sub_category_id);
 
-                formData.append('pharmacyPrice',this.data.pharmacyPrice);
+                // formData.append('pharmacyPrice',this.data.pharmacyPrice);
                 formData.append('publicPrice',this.data.publicPrice);
                 formData.append('clientDiscount',this.data.clientDiscount);
                 formData.append('kayanDiscount',this.data.kayanDiscount);
@@ -417,11 +405,11 @@ export default {
         },
         resetForm(){
             this.data.product_id = null;
-            this.data.company_id = null;
+            // this.data.company_id = null;
             this.data.supplier_id = null;
             this.data.category_id = null;
             this.data.sub_category_id = null;
-            this.data.pharmacyPrice = null;
+            // this.data.pharmacyPrice = null;
             this.data.publicPrice = null;
             this.data.clientDiscount = null;
             this.data.kayanDiscount = null;
