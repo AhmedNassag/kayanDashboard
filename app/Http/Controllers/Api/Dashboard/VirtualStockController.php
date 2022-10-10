@@ -102,10 +102,10 @@ class VirtualStockController extends Controller
     {
         try
         {
-            $virtualStock = VirtualStock::with('product')->with('category')->with('subCategory')->with('supplier')->find($id);
-            $products       = Product::get();
-            $suppliers      = Supplier::select('id','name')->get();
-            $categories     = Category::select('id','name')->get();
+            $virtualStock   = VirtualStock::with('product')->with('category')->with('subCategory')->with('supplier')->find($id);
+            $products       = Product::where('status',1)->get();
+            $suppliers      = Supplier::where('active',1)->select('id','name')->get();
+            $categories     = Category::where('status',1)->select('id','name')->get();
             return $this->sendResponse
             ([
                 'virtualStock' => $virtualStock,

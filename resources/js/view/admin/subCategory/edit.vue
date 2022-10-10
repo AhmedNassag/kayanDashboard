@@ -17,7 +17,7 @@
                         <h3 class="page-title">{{ $t("global.SubCategory") }}</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><router-link :to="{name: 'indexSubCategory'}">{{ $t("global.SubCategory") }}</router-link></li>
-                            <li class="breadcrumb-item active">{{ $t("usersCategory.EditSubCategory") }}</li>
+                            <li class="breadcrumb-item active">{{ $t("subCategory.EditSubCategory") }}</li>
                         </ul>
                     </div>
                 </div>
