@@ -134,8 +134,8 @@ class SaleReportController extends Controller
      */
     public function create()
     {
-        $products = Product::get();
-        $categories = Category::with('products')->get();
+        $products = Product::where('status',1)->get();
+        $categories = Category::where('status',1)->with('products')->get();
         return $this->sendResponse(['products' => $products, 'categories'=> $categories], 'Data exited successfully');
     }
 

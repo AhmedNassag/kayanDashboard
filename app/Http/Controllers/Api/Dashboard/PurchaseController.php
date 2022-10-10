@@ -56,7 +56,7 @@ class PurchaseController extends Controller
             ['status', 1],
         ])->get();
         $stores = Stock::get();
-        $suppliers = Supplier::get();
+        $suppliers = Supplier::where('active',1)->get();
         $clients = Client::with('user')->get();
         return $this->sendResponse(['categories'=> $categories, 'stores'=>$stores, 'suppliers'=>$suppliers, 'clients'=>$clients], 'Data exited successfully');
     }
@@ -144,7 +144,7 @@ class PurchaseController extends Controller
                 ['status', 1],
             ])->get();
             $stores = Stock::get();
-            $suppliers = Supplier::get();
+            $suppliers = Supplier::where('active',1)->get();
             return $this->sendResponse(['purchase' => $purchase,'categories' => $categories,'stores'=>$stores,'suppliers'=>$suppliers], 'Data exited successfully');
 
         } catch (\Exception $e) {
@@ -175,7 +175,7 @@ class PurchaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // try {
+        try {
 
             DB::beginTransaction();
 
@@ -237,11 +237,11 @@ class PurchaseController extends Controller
 
             return $this->sendResponse([], 'Data exited successfully');
 
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     DB::rollBack();
-        //     return $this->sendError('An error occurred in the system');
-        // }
+            DB::rollBack();
+            return $this->sendError('An error occurred in the system');
+        }
     }
 
     /**
@@ -266,7 +266,7 @@ class PurchaseController extends Controller
     //start relations functions
     public function getSuppliers()
     {
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::where('active',1)->get();
         return $this->sendResponse(['suppliers' => $suppliers], 'Data exited successfully');
     }
 
@@ -278,7 +278,7 @@ class PurchaseController extends Controller
 
     public function getProducts()
     {
-        $products = Product::get();
+        $products = Product::where('status',1)->get();
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
 }

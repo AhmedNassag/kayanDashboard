@@ -41,8 +41,8 @@ class StockController extends Controller
     {
         try {
 
-            $shifts    = Shift::select('id','name')->get();
-            $cities    = City::select('id', 'name')->get();
+            $shifts    = Shift::where('status',1)->select('id','name')->get();
+            $cities    = City::where('available',1)->select('id', 'name')->get();
             $areas     = Area::select('id', 'name')->get();
             $employees = Employee::with('user')->get();
 
@@ -121,9 +121,9 @@ class StockController extends Controller
     {
         try {
 
-            $stock = Stock::find($id);
-            $shifts    = Shift::select('id', 'name')->get();
-            $cities    = City::select('id', 'name')->get();
+            $stock     = Stock::find($id);
+            $shifts    = Shift::where('status',1)->select('id', 'name')->get();
+            $cities    = City::where('available',1)->select('id', 'name')->get();
             $areas     = Area::select('id', 'name')->get();
             $employees = Employee::with('user')->get();
 
@@ -219,13 +219,13 @@ class StockController extends Controller
 
     public function getShifts()
     {
-        $shifts = Shift::all();
+        $shifts = Shift::where('status',1)->get();
         return $this->sendResponse(['shifts' => $shifts], 'Data exited successfully');
     }
 
     public function getCities()
     {
-        $cities = City::all();
+        $cities = City::where('available',1)->get();
         return $this->sendResponse(['cities' => $cities], 'Data exited successfully');
     }
 

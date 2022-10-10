@@ -41,15 +41,13 @@ class KayanPriceController extends Controller
     {
         try
         {
-            $products   = Product::all();
-            $suppliers  = Supplier::select('id', 'name')->get();
-            // $companies  = Company::select('id', 'name')->get();
-            $categories = Category::select('id', 'name')->get();
+            $products   = Product::where('status',1)->get();
+            $suppliers  = Supplier::where('active',1)->select('id', 'name')->get();
+            $categories = Category::where('status',1)->select('id', 'name')->get();
 
             return $this->sendResponse([
                 'products'   => $products,
                 'suppliers'  => $suppliers,
-                // 'companies'  => $companies,
                 'categories' => $categories,
             ], 'Data exited successfully');
 
@@ -77,8 +75,6 @@ class KayanPriceController extends Controller
                 'product_id'        => 'required|integer|exists:products,id',
                 'category_id'       => 'required|integer|exists:categories,id',
                 'sub_category_id'   => 'required|integer|exists:sub_categories,id',
-                // 'company_id'        => 'required|integer|exists:companies,id',
-                // 'supplier_id'       => 'required|integer|exists:suppliers,id',
                 'pharmacyPrice'     => 'required',
                 'publicPrice'       => 'required',
                 'productDiscount'   => 'required',
@@ -108,15 +104,6 @@ class KayanPriceController extends Controller
             $data['collectionPercentageKayanProfit']   = ($data['collectionKayanProfit'] / $data['productPrice']) * 100 ;
             $data['partialPercentageKayanProfit']      = ($data['partialKayanProfit'] / $data['productPrice']) * 100 ;
             $data['destributionPercentageKayanProfit'] = ($data['destributionKayanProfit'] / $data['productPrice']) * 100 ;
-
-            // if ($data['company_id'] != "null")
-            // {
-            //     $data['supplier_id'] = null;
-            // }
-            // else
-            // {
-            //     $data['company_id'] = null;
-            // }
 
             $kayaPrice = KayanPrice::create($data);
 
@@ -152,16 +139,14 @@ class KayanPriceController extends Controller
     {
         try {
             $kayanPrice = KayanPrice::find($id);
-            $products   = Product::all();
-            $suppliers  = Supplier::select('id', 'name')->get();
-            // $companies  = Company::select('id', 'name')->get();
-            $categories = Category::select('id', 'name')->get();
+            $products   = Product::where('status',1)->get();
+            $suppliers  = Supplier::where('active',1)->select('id', 'name')->get();
+            $categories = Category::where('status',1)->select('id', 'name')->get();
 
             return $this->sendResponse([
                 'kayanPrice' => $kayanPrice,
                 'products'   => $products,
                 'suppliers'  => $suppliers,
-                // 'companies'  => $companies,
                 'categories' => $categories,
             ], 'Data exited successfully');
 
@@ -190,8 +175,6 @@ class KayanPriceController extends Controller
                 'product_id'        => 'required|integer|exists:products,id',
                 'category_id'       => 'required|integer|exists:categories,id',
                 'sub_category_id'   => 'required|integer|exists:sub_categories,id',
-                // 'company_id'        => 'required|integer|exists:companies,id',
-                // 'supplier_id'       => 'required|integer|exists:suppliers,id',
                 'pharmacyPrice'     => 'required',
                 'publicPrice'       => 'required',
                 'productDiscount'   => 'required',
@@ -220,15 +203,6 @@ class KayanPriceController extends Controller
             $data['collectionPercentageKayanProfit']   = ($data['collectionKayanProfit'] / $data['productPrice']) * 100 ;
             $data['partialPercentageKayanProfit']      = ($data['partialKayanProfit'] / $data['productPrice']) * 100 ;
             $data['destributionPercentageKayanProfit'] = ($data['destributionKayanProfit'] / $data['productPrice']) * 100 ;
-
-            // if ($data['company_id'] != "null")
-            // {
-            //     $data['supplier_id'] = null;
-            // }
-            // else
-            // {
-            //     $data['company_id'] = null;
-            // }
 
             $kayanPrice->update($data);
 

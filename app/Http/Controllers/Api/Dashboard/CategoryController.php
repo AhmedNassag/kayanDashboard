@@ -36,7 +36,7 @@ class CategoryController extends Controller
 
         $activeCategories = Category::where('status', 1)->get();
         $notActiveCategories = Category::where('status', 0)->get();
-        $products = Product::get();
+        $products = Product::where('status',1)->get();
         return $this->sendResponse(['categories' => $categories,'activeCategories' => $activeCategories,'notActiveCategories' => $notActiveCategories, 'products' => $products], 'Data exited successfully');
     }
 
