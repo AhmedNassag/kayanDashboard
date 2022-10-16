@@ -355,7 +355,10 @@
                                                 <div class="container-images" id="container-images" v-show="data.image && numberOfImage"></div>
                                                 <div class="container-images" v-show="!numberOfImage">
                                                     <figure>
-                                                        <figcaption>
+                                                        <figcaption v-if="image">
+                                                            <img :src="`/upload/product/${image}`">
+                                                        </figcaption>
+                                                        <figcaption v-else>
                                                             <img :src="`/admin/img/company/img-1.png`">
                                                         </figcaption>
                                                     </figure>
@@ -364,7 +367,7 @@
                                             <!--End Image-->
 
                                             <!--Start Multiple Images-->
-                                            <div class="col-md-9 row flex-fill">
+                                            <!-- <div class="col-md-9 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
                                                     <span>
                                                         {{ $t("global.ChooseImage") }}
@@ -384,12 +387,15 @@
                                                 <div class="container-images" id="container-images1" v-show="data.files && numberOfImage1"></div>
                                                 <div class="container-images" v-show="!numberOfImage1">
                                                     <figure>
-                                                        <figcaption>
+                                                        <figcaption v-if="files">
+                                                            <img :src="`/upload/product/${files}`">
+                                                        </figcaption>
+                                                        <figcaption v-else>
                                                             <img :src="`/admin/img/company/img-1.png`">
                                                         </figcaption>
                                                     </figure>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Multiple Images-->
 
 

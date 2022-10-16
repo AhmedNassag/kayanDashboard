@@ -21,6 +21,12 @@ import saleRecord from './adminRoute/saleRecord';
 import saleReturn from './adminRoute/saleReturn';
 import storage from './adminRoute/storage';
 import complaint from './adminRoute/complaint';
+//crm
+import targetPlan from './adminRoute/targetPlan';
+import TargetAchived from './adminRoute/TargetAchived';
+import sellerCategory from './adminRoute/sellerCategory';
+import leadsManagement from './adminRoute/leadsManagement';
+import Leads from './adminRoute/Leads';
 //
 import financialReport from './adminRoute/financialReport';
 import productReport from './adminRoute/productReport';
@@ -157,6 +163,13 @@ const routes = [
             ...purchaseReport,
             ...saleReport,
             //
+            // ##### Start CRM #####
+            ...targetPlan,
+            ...TargetAchived,
+            ...sellerCategory,
+            ...leadsManagement,
+            ...Leads,
+            // ##### End CRM #####
             ...refused,
             ...unit,
             ...deal,

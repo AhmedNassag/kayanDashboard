@@ -69,7 +69,7 @@ class TaxController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'name' => 'required|unique:companies,name',
+                'name' => 'required|unique:taxes,name',
                 'rate' => 'required',
             ]);
 
