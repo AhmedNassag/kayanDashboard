@@ -5,10 +5,10 @@
         <!-- Logo -->
         <div :class="['header-left','header-left-ar']">
             <router-link :to="{name:'dashboard'}" class="logo">
-                <img src="/web/img/logo.png" class="big" alt="Logo">
+                <img src="/admin/img/Logo Dashboard.png" class="big" alt="Logo">
             </router-link>
             <router-link :to="{name:'dashboard'}" class="logo logo-small">
-                <img src="/web/img/logo.png" :class="['img-ar']" alt="Logo" width="30" height="30">
+                <img src="/admin/img/Logo Dashboard.png" :class="['img-ar']" alt="Logo" width="30" height="30">
             </router-link>
             <!-- Sidebar Toggle -->
             <a href="javascript:void(0);" id="toggle_btn">
@@ -34,7 +34,7 @@
             <li class="nav-item dropdown has-arrow main-drop">
                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                     <span class="user-img">
-                        <img src="/admin/img/profiles/avatar-07.jpg" alt="">
+                        <img src="/admin/img/Logo Dashboard.png" alt="">
                         <span class="status online"></span>
                     </span>
                 </a>
@@ -87,7 +87,7 @@ export default {
 
 <style>
 .big {
-    max-height: 90px !important;
+    max-height: 50px !important;
     width: auto;
 }
 .mini-sidebar .header-left .logo img.img-ar{
@@ -96,6 +96,7 @@ export default {
 }
 
 .header .header-left{
-    background: #ffeec9;
+    background: #FFF;
+    /* background: #00DD2F; */
 }
 </style>

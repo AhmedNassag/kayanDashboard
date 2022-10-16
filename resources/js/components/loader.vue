@@ -68,7 +68,8 @@ export default {
     left: 37px;
     width: 6px;
     height: 18px;
-    background-color: #fcb00c;
+    /* background-color: #fcb00c; */
+    background-color: #00DD2F;
     border-radius: 20%;
 }
 .lds-spinner div:nth-child(1) {

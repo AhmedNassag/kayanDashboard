@@ -63,6 +63,7 @@
                     <tr>
                       <th class="text-center">#</th>
                       <th class="text-center">{{ $t("global.Name") }}</th>
+                      <th class="text-center">{{ $t("global.Type") }}</th>
                       <th class="text-center">{{ $t("global.Address") }}</th>
                       <th class="text-center">{{ $t("global.Phone") }}</th>
                       <th class="text-center">{{ $t("global.Status") }}</th>
@@ -76,6 +77,8 @@
                     >
                       <td class="text-center">{{ index + 1 }}</td>
                       <td class="text-center">{{ supplier.name }}</td>
+                      <td class="text-center" v-if="supplier.type == 'STORE'">{{ $t("global.store") }}</td>
+                      <td class="text-center" v-else>{{ $t("global.company") }}</td>
                       <td class="text-center">{{ supplier.address }}</td>
                       <td class="text-center">{{ supplier.phone }}</td>
                       <td class="text-center">

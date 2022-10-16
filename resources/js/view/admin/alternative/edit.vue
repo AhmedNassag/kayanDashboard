@@ -54,10 +54,9 @@
                                                     {{ $t("global.NameAr") }}
                                                 </label>
                                                 <input type="text" class="form-control" v-model.trim="v$.nameAr.$model" id="validationCustom01"
-                                                    :placeholder="$t('global.Name')" :class="{
-                                                                                                'is-invalid': v$.nameAr.$error || data.nameExist,
-                                                                                                'is-valid': !v$.nameAr.$invalid,
-                                                                                            }" />
+                                                    :placeholder="$t('global.Name')"
+                                                    :class="{ 'is-invalid': v$.nameAr.$error || data.nameExist, 'is-valid': !v$.nameAr.$invalid }"
+                                                />
                                                 <div class="valid-feedback">
                                                     {{ $t("global.LooksGood") }}
                                                 </div>
@@ -91,10 +90,9 @@
                                                     {{ $t("global.NameEn") }}
                                                 </label>
                                                 <input type="text" class="form-control" v-model.trim="v$.nameEn.$model" id="validationCustom02"
-                                                    :placeholder="$t('global.NameEn')" :class="{
-                                                                                                                        'is-invalid': v$.nameEn.$error || data.nameExist,
-                                                                                                                        'is-valid': !v$.nameEn.$invalid,
-                                                                                                                    }" />
+                                                    :placeholder="$t('global.NameEn')"
+                                                    :class="{ 'is-invalid': v$.nameEn.$error || data.nameExist, 'is-valid': !v$.nameEn.$invalid }"
+                                                />
                                                 <div class="valid-feedback">
                                                     {{ $t("global.LooksGood") }}
                                                 </div>
@@ -142,8 +140,8 @@
                                                 <div class="container-images" id="container-images" v-show="data.file && numberOfImage"></div>
                                                 <div class="container-images" v-show="!numberOfImage">
                                                     <figure>
-                                                        <figcaption>
-                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        <figcaption v-if="image">
+                                                            <img :src="`/upload/alternative/${image}`">
                                                         </figcaption>
                                                     </figure>
                                                 </div>

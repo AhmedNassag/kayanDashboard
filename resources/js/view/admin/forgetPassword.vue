@@ -13,7 +13,7 @@
                         <div class="align-items-center justify-content-center">
                             <div class="login-right">
                                 <div class="login-header text-center">
-                                    <img src="/web/img/logo.png" alt="logo" class="img-fluid">
+                                    <img src="/admin/img/Logo Dashboard.png" alt="logo" class="img-fluid">
                                     <p>Please enter your email</p>
                                 </div>
                                 <form @submit.prevent="forgetPassword">
@@ -26,7 +26,7 @@
                                         <span class="text-danger" v-if="v$.email.email.$invalid">must be a valid email address. </span>
                                     </div>
 
-                                    <button class=" btn-color btn btn-primary btn-block btn-lg login-btn text-center" type="submit">
+                                    <button class=" btn-color btn btn-info btn-block btn-lg login-btn text-center" type="submit">
                                         FIND OUT PASSWORD
                                     </button>
                                     <div class="row form-row forget-login">
@@ -127,16 +127,20 @@ export default {
 }
 
 .login-right .dont-have a, .forget-register a:hover ,.login-register a {
-    color: #fcb00c;
+    /* color: #fcb00c; */
+    color: #0E67D0;
 }
 
 .btn-color:hover{
-    background-color: #fcb00c;
-    border-color: #fcb00c ;
+    /* background-color: #fcb00c; */
+    background-color: #0E67D0;
+    /* border-color: #fcb00c ; */
+    border-color: #0E67D0 ;
 }
 
 .login-right .dont-have a, .click-forget a:hover ,.click a{
-    color: #fcb00c;
+    /* color: #fcb00c; */
+    color: #0E67D0;
 }
 
 .click-forget{

@@ -178,6 +178,32 @@ class PermissionSeeder extends Seeder
             ['name' => 'saleReport edit', 'role' => 'management'],
             ['name' => 'saleReport delete', 'role' => 'management'],
 
+
+            //start CRM
+            ['name' => 'targetPlan read','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'targetPlan create','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'targetPlan edit','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'targetPlan delete','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'SellerCategory read','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'SellerCategory create','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'SellerCategory edit','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'SellerCategory delete','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'LeadsManagement read','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'LeadsManagement create','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'LeadsManagement edit','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'LeadsManagement delete','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'LeadsManagement changeEmployee','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'Leads read','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'Leads create','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'Leads edit','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'Leads delete','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'TargetAchieved read','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'TargetAchieved create','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'TargetAchieved edit','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'TargetAchieved delete','role' => 'CRM','category' => 'CRM'],
+            //end CRM
+
+            
             //refused
             ['name' => 'refused read', 'role' => 'management'],
             ['name' => 'refused create', 'role' => 'management'],

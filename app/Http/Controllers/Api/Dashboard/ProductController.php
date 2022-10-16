@@ -32,7 +32,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::where('status',1)->with('category:id,name', 'tax:id,name', 'pharmacistForm:id,name')
+        $products = Product::where('status',1)->with('category:id,name', 'subCategory:id,name', 'tax:id,name', 'pharmacistForm:id,name')
             ->when($request->search, function ($q) use ($request) {
                 return $q->where('name', 'like', "%" . $request->search . "%");
             })->latest()->paginate(15);
@@ -254,8 +254,8 @@ class ProductController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'nameAr'                    => 'required|unique:products,nameAr',
-                'nameEn'                    => 'required|unique:products,nameEn',
+                'nameAr'                    => 'required',
+                'nameEn'                    => 'required',
                 'description'               => 'nullable',
                 'effectiveMaterial'         => 'required',
                 'barcode'                   => 'required|integer|unique:products,barcode,' . $product->id,
@@ -280,7 +280,9 @@ class ProductController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['nameAr','nameEn','description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'pharmacistForm_id']);
+            $data = $request->only(['nameAr','nameEn','description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'pharmacistForm_id']);
+
+            $product->update($data);
 
             if ($request->hasFile('image')) {
                 if (File::exists('upload/product/' . $product->image)) {
@@ -290,8 +292,6 @@ class ProductController extends Controller
                 $request->image->storeAs('product', $image, 'general');
                 $data['image'] = $image;
             }
-
-            $product->update($data);
 
             $imageProduct = explode(',', $request->selling_methods[0]);
             $product->selling_methods()->attach($imageProduct);

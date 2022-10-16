@@ -137,7 +137,6 @@
                                                     v-model="v$.category_id.$model"
                                                     :class="{'is-invalid':v$.category_id.$error,'is-valid':!v$.category_id.$invalid}"
                                                 >
-                                                    <option value="">---</option>
                                                     <option v-for="category in categories" :key="category.id" :value="category.id" >
                                                         {{ category.name }}
                                                     </option>

@@ -76,6 +76,7 @@
         "Shippings": "طرق الشحن",
         "Percentage": "نسبة"
     },
+
     "global": {
         "EndAt":"وقت الانتهاء",
         "KnowusWay":"كيف تعرفت علينا",
@@ -452,6 +453,8 @@
         "Shifts":"الشيفتات",
         "Shift":"شيفت",
         "Stores":"المخازن",
+        "store":"مخزن",
+        "company":"شركة",
         "Stocks":"مخازن كيان",
         "Stock":"مخزن كيان",
         "Type":"النوع",
@@ -640,7 +643,34 @@
         "Sale Price": "سعر البيع",
         "Price Before Discount": "السعر قبل الخصم",
         "Price After Discount": "السعر بعد الخصم",
-        "Total Quantity": "إجمالى الكمية"
+        "Total Quantity": "إجمالى الكمية",
+        "Products Management":"إدارة المنتجات",
+        "Stocks Management":"إدارة المخازن",
+        "Prices Management":"إدارة الأسعار",
+        "Reports Management":"إدارة التقارير",
+
+        "AccountStatement": "كشف حساب",
+        "Leads": "العملاء",
+        "Comments": "التعليقات",
+        "TargetAchieved": "تحقيق الهدف",
+        "Count": "العدد",
+        "Commission": "العمولة",
+        "Add10Leads": "اضافة 10 عملاء",
+        "HasBeenAdded": "تم اضافة",
+        "NoLeadsNow": "لا يوجد عملاء الان",
+        "ThereAreNoCustomersWithoutSalesStaffAtTheMoment": "لا يوجد عملاء بدون موظفين مبيعات فى الوقت الحالى",
+        "LeadsCount": "عدد العملاء",
+        "FinishingCompanies": "شركات التشطيبات",
+        "Designers": "المصممين",
+        "Advertisers": "المعلنين",
+        "Sponsors": "الرعاه",
+        "TotalCountOfClients": "إجمالي عدد العملاء",
+        "SalesEmployeeClients": "عملاء موظفي المبيعات",
+        "NewLeadAddedBySalesStaff": "تمت إضافة عميل جديد من قبل موظفي المبيعات",
+        "LeadCommentAdded": "تمت إضافة تعليق على العميل ",
+        "Notification": "اشعار",
+        "ThereIsANewNotification": "يوجد اشعار جديد",
+        "ALeadHasBeenSentToYouByManagement": "تم إرسال عميل لك من قبل الإدارة"
     },
     "treasury": {
         "TreasuryManagement": "ادارة الخزن",

@@ -154,6 +154,35 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('saleReportByCategory', 'SaleReportController@saleReportByCategory');
             Route::get('saleReportByReturn', 'SaleReportController@saleReportByReturn');
 
+            
+
+            ######################### Start CRM #########################
+            // target plan
+            Route::resource('targetPlan','TargetPlanController');
+
+            // target
+            Route::resource('target','TargetController');
+
+            // Seller Category
+            Route::resource('sellerCategory','SellerCategoryController');
+
+            // leads
+            Route::resource('leads','LeadController');
+            Route::get('changeEmployeeLead/{id}','LeadController@changeEmployeeLead');
+            Route::put('updateEmployeeLead/{id}','LeadController@updateEmployeeLead');
+
+            // sales leads
+            Route::resource('salesLead','SalesLeadController');
+            Route::get('getTenLead/{id}','SalesLeadController@getTenLead');
+
+            // Lead Comments
+            Route::resource('leadComment','LeadCommentController');
+
+            // Target Achieved
+            Route::resource('targetAchieved','TargetAchievedController');
+            ######################### End CRM #########################
+
+
 
             //
             Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
@@ -162,7 +191,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('refused', 'RefusedController')->except(['show']);
 
             // relations routes
-        Route::get('getCategories', 'ProductController@getCategories');
+            Route::get('getCategories', 'ProductController@getCategories');
             Route::get('getSubCategories', 'ProductController@getSubCategories');
             Route::get('getCompanies', 'ProductController@getCompanies');
             Route::get('getTaxes', 'ProductController@getTaxes');
