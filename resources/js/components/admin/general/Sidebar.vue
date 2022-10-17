@@ -660,26 +660,36 @@ window.onload = (event) => {
 }
 
 .sidebar-menu li a {
-    color: white;
+    color: #FFF;
 }
 
 .sidebar-menu li a i {
-    color: #0E67D0;
+    color: #FFF;
 }
 
 .sidebar-menu li a:hover {
     /* color: #fcb00c !important; */
-    color: #0E67D0 !important;
+    color: #FFF !important;
+}
+
+.sidebar-menu li a:hover li {
+     color: #fcb00c !important;
+    /*color: #FFF !important;*/
 }
 
 .sidebar-menu li.active>a {
     /* color: #fcb00c !important; */
-    color: #0E67D0 !important;
+    color: #000 !important;
+}
+
+.sidebar-menu li.active>a i {
+    /* color: #fcb00c !important; */
+    color: #000 !important;
 }
 
 .menu-title {
     /* color: #fcb00c !important; */
-    color: #0E67D0 !important;
+    color: #FFF;
 }
 
 .show {
@@ -688,7 +698,8 @@ window.onload = (event) => {
 
 .sidebar {
     /* background-color: #fcb00c38; */
-    background-color: #0BDE36;
+    background-color: #0E67D0;
+    color: #FFF;
 }
 
 .sidebar-menu .menu-arrow.menu-arrow-ar {

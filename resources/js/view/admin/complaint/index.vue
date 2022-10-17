@@ -52,11 +52,12 @@
                   <thead>
                     <tr>
                       <th class="text-center">#</th>
-                      <th class="text-center">{{ $t("global.Name") }}</th>
+                      <th class="text-center">{{ $t("global.Sender") }}</th>
                       <th class="text-center">{{ $t("global.Phone") }}</th>
                       <th class="text-center">{{ $t("global.Type") }}</th>
                       <th class="text-center">{{ $t("global.Content") }}</th>
                       <th class="text-center">{{ $t("global.Reply") }}</th>
+                      <th class="text-center">{{ $t("global.Who Reply") }}</th>
                       <th class="text-center">{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>

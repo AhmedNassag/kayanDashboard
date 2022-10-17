@@ -253,6 +253,6 @@ input[type="file"] {
   flex-wrap: wrap;
   padding: 10px;
   border-radius: 20px;
-  background-color: #f7f7f7;
+  background-color: #0E67D0;
 }
 </style>

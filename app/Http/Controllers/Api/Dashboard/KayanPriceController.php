@@ -92,7 +92,10 @@ class KayanPriceController extends Controller
 
             $productId    = Product::where('id',$request->product_id)->where('category_id',$request->category_id)->where('sub_category_id',$request->sub_category_id)->get()->last();
             $productPrice = PurchaseProduct::where('product_id',$productId->id)->get('price_after_discount')->last();
-
+            // if(!$productPrice->price_after_discount){
+            //     return response()->json(["error"=>"ay kalam"],400);
+            //     // return $this->sendError('No Price');
+            // }
             $data['productPrice'] = $productPrice->price_after_discount;
 
             $data['collectionKayanProfit']             = ($data['collectionPrice'] - $data['productPrice']);

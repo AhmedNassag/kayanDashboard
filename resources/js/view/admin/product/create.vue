@@ -375,8 +375,11 @@
                                             <!--End Multiple Images-->
 
 
+                                            <div class="col-md-4 m-3">
+                                                <button class="btn btn-success" v-on:click="isHidden = !isHidden" v-if="isHidden">{{ $t('global.Add Alternative') }}</button>
+                                            </div>
                                             <!--Start Alternative Details-->
-                                            <div class="col-md-12 mb-3 mt-5 alternativeDetail-option" id="alternativeDetail">
+                                            <div class="col-md-12 mb-3 mt-5 alternativeDetail-option" id="alternativeDetail" v-if="!isHidden">
                                                 <div class="row account">
                                                     <div class="col-md-12 mb-12 head-account">
                                                         <h3>{{ $t('global.alternatives') }}</h3>
@@ -422,6 +425,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-4 col-offset-7 mb-3">
+                                                <button class="btn btn-danger" v-on:click="isHidden = true"  v-if="!isHidden">{{ $t('global.Cancel Alternative') }}</button>
+                                            </div>
                                             <!--End Alternative Details-->
 
                                         </div>
@@ -452,6 +458,7 @@ export default {
     data(){
         return {
             errors:{},
+            isHidden: true,
             // companyShow: true,
             // supplierShow: false
         }
@@ -966,7 +973,7 @@ input[type="file"] {
 }
 
 .account {
-    background-color: #fcb00c;
+    background-color: #0E67D0;
     color: #000000 !important;
     border-radius: 5px;
 }

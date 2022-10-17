@@ -23,7 +23,7 @@
 
             <!-- Table -->
             <div class="row">
-                <div class="col-md-6" v-for="item in targets">
+                <div class="col-md-6" v-for="item in targets" :key="item.id">
                     <div class="card">
                         <router-link v-if="permission.includes('Leads read')"
                             :to="{name: 'indexLead', params: {lang: locale || 'ar',id:item.id}}"
@@ -163,17 +163,17 @@ export default {
 }
 
 .btn-category{
-    background-color: #fcb00c;
-    border: 1px solid #fcb00c;
+    background-color: #0E67D0;
+    border: 1px solid #0E67D0;
 }
 
 .btn-category:hover{
-    background-color: #000000;
-    border: 1px solid #fcb00c;
+    background-color: #00DD2F;
+    border: 1px solid #0E67D0;
 }
 
 .btn-category:hover h3{
-    color: #fcb00c;
+    color: black;
 }
 
 </style>

@@ -294,7 +294,7 @@ export default {
 
 
 .amount{
-    background-color: #fcb00c;
+    background-color: #0E67D0;
     color: #000;
     padding: 10px;
 }
@@ -315,7 +315,7 @@ export default {
     background: #000;
 }
 .head-table h3{
-    color: #ffc107;
+    color: #0E67D0;
     text-align: center;
 }
 .total-head{
@@ -324,7 +324,7 @@ export default {
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    background-color: #fcb00c !important;
+    background-color: #0E67D0 !important;
     border-radius: 10px;
 }
 .custom-modal .close span {

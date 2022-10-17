@@ -87,8 +87,8 @@
                                                     <option v-for="client in clients" :key="client.id" :value="client.id">{{client.user.name}}</option>
                                                 </select> -->
                                                 <router-link :to="{ name: 'ClientIndex' }">
-                                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                                    <span> {{ $t("sidebar.New Client") }} </span>
+                                                    <i class="fa fa-user" aria-hidden="true" style="color: #0E67D0"></i>
+                                                    <span style="color: #0E67D0"> {{ $t("sidebar.New Client") }} </span>
                                                 </router-link>
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
@@ -999,7 +999,7 @@ export default {
     position: relative;
 }
 .account{
-    background-color: #fcb00c;
+    background-color: #0E67D0;
     color: #000000 !important;
     border-radius: 5px;
 }

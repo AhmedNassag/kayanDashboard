@@ -14,7 +14,7 @@ class Area extends Model
     {
         return $this->name;
     }
-    
+
     public function city(){
         return $this->belongsTo(City::class);
     }

@@ -302,7 +302,7 @@ export default {
 }
 
 .btn {
-  color: #fff;
+  color: #FFF;
 }
 .hover:hover {
   border: 2px solid;
