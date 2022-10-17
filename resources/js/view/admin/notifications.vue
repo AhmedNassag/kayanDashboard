@@ -244,9 +244,9 @@ export default {
 }
 
 .border-media{
-    border: 1px solid #fcb00c;
+    border: 1px solid #0E67D0;
     padding: 25px;
-    box-shadow: 0px 1px 6px 0px #fcb00c;
+    box-shadow: 0px 1px 6px 0px #0E67D0;
     border-radius: 15px;
     background-color: #fff;
 }
@@ -257,7 +257,7 @@ export default {
 }
 
 .topnav-dropdown-header .clear-noti {
-    color: #fcb00c;
+    color: #0E67D0;
     font-size: 16px;
 }
 
@@ -267,7 +267,7 @@ export default {
 }
 
 .topnav-dropdown-header {
-    border-bottom: 1px solid #fcb00c;
+    border-bottom: 1px solid #0E67D0;
     text-align: center;
 }
 

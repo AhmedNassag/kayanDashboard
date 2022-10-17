@@ -240,7 +240,7 @@ export default {
     max-width: 700px !important;
 }
 .hr-show{
-    color: #fcb00c;
+    color: #0E67D0;
     height: 5px;
 }
 .show-price{

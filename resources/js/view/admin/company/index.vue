@@ -150,7 +150,6 @@
 <script>
 import { onMounted, inject, watch, ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
-//import { onMounted, watch, ref, computed } from "vue";
 import { useStore } from "vuex";
 import adminApi from "../../../api/adminAxios";
 

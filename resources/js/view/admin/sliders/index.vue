@@ -303,7 +303,7 @@ export default {
       width: 45%;
     }
     .btn {
-      color: #fff;
+      color: #FFF;
     }
     .active {
       background: none;
