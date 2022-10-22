@@ -177,9 +177,12 @@ class PermissionSeeder extends Seeder
             ['name' => 'saleReport create', 'role' => 'management'],
             ['name' => 'saleReport edit', 'role' => 'management'],
             ['name' => 'saleReport delete', 'role' => 'management'],
-
-
-            //start CRM
+            //adOwner
+            ['name' => 'adOwner read', 'role' => 'management'],
+            ['name' => 'adOwner create', 'role' => 'management'],
+            ['name' => 'adOwner edit', 'role' => 'management'],
+            ['name' => 'adOwner delete', 'role' => 'management'],
+            //CRM
             ['name' => 'targetPlan read','role' => 'CRM','category' => 'CRM'],
             ['name' => 'targetPlan create','role' => 'CRM','category' => 'CRM'],
             ['name' => 'targetPlan edit','role' => 'CRM','category' => 'CRM'],
@@ -202,8 +205,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'TargetAchieved edit','role' => 'CRM','category' => 'CRM'],
             ['name' => 'TargetAchieved delete','role' => 'CRM','category' => 'CRM'],
             //end CRM
-
-            
             //refused
             ['name' => 'refused read', 'role' => 'management'],
             ['name' => 'refused create', 'role' => 'management'],

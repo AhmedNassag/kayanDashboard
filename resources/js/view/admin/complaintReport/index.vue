@@ -75,8 +75,9 @@
                                             <td class="text-center">{{ item.user.name }}</td>
                                             <td class="text-center" v-if="item.user.phone">{{ item.user.phone }}</td>
                                             <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                                            <td class="text-center" v-if="item.type">{{ item.type }}</td>
-                                            <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
+                                            <td class="text-center" v-if="item.type='Product Complaint'">{{ $t("global.Product Complaint") }}</td>
+                                            <td class="text-center" v-else-if="item.type='Application Complaint'">{{ $t("global.Application Complaint") }}</td>
+                                            <td class="text-center" v-else>{{ $t("global.Sales Complaint") }}</td>
                                             <td class="text-center">{{ item.content }}</td>
                                             <td class="text-center" v-if="item.reply">{{ item.reply }}</td>
                                             <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>

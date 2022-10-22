@@ -1,4 +1,4 @@
-import indexSaleReport from "../../view/admin/saleReport/index";
+import saleReportIndex from "../../view/admin/role/index";
 import store from "../../store/admin";
 
 export default [
@@ -10,18 +10,18 @@ export default [
         children:[
             {
                 path: '',
-                name: 'indexSaleReport',
-                component: indexSaleReport,
+                name: 'saleReportIndex',
+                component: saleReportIndex,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('saleReport read')){
+                    if(permission.includes('role read')){
                         return next();
                     }else{
                         return next({name:'Page404'});
                     }
                 }
-            },
+            }
         ]
     },
 ];
