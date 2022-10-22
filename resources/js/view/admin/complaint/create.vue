@@ -52,8 +52,8 @@
                     class="needs-validation"
                   >
 
-                        <input id ="myButton1" class="btn btn-secondary btn-ms m-2" type="button" v-on:click="complaint()" value="شكوى"/>
-                        <input id ="myButton2" class="btn btn-secondary btn-ms m-2" type="button" v-on:click="suggetion()" value="إقتراح"/>
+                        <input id="myButton1" class="btn btn-secondary btn-ms m-2" type="button" v-on:click="complaint()" value="شكوى"/>
+                        <input id="myButton2" class="btn btn-secondary btn-ms m-2" type="button" v-on:click="suggetion()" value="إقتراح"/>
                     <div class="form-row row">
                         <!--Start Type Select-->
                         <div class="col-md-7 mb-3" v-if="showType==true">

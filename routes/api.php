@@ -90,10 +90,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('tax', 'TaxController')->except(['show']);
             Route::get('activationTax/{id}', 'TaxController@activationTax');
 
-            // company
-            Route::resource('company', 'CompanyController')->except(['show']);
-            Route::get('activationCompany/{id}', 'CompanyController@activationCompany');
-
             // pharmacist form
             Route::resource('pharmacistForm', 'PharmacistFormController')->except(['show']);
 
@@ -141,46 +137,44 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // sale return
             Route::resource('saleReturn', 'SaleReturnController');
 
+            // company
+            Route::resource('company', 'CompanyController')->except(['show']);
+            Route::get('activationCompany/{id}', 'CompanyController@activationCompany');
+
+            // ad owner
+            Route::resource('adOwner', 'AdOwnerController')->except(['show']);
+            Route::get('activationAdOwner/{id}', 'AdOwnerController@activationAdOwner');
+
             // complaint
             Route::resource('complaint', 'ComplaintController');
             Route::Post('replycomplaint/{id}', 'ComplaintController@reply');
             Route::get('showcomplaint/{id}', 'ComplaintController@show');
 
+            // crm
+            Route::resource('targetPlan', 'TargetPlanController');
+            Route::resource('target', 'TargetController');
+            Route::resource('sellerCategory', 'SellerCategoryController');
+            Route::resource('leads', 'LeadController');
+            Route::get('changeEmployeeLead/{id}', 'LeadController@changeEmployeeLead');
+            Route::put('updateEmployeeLead/{id}', 'LeadController@updateEmployeeLead');
+            Route::resource('salesLead', 'SalesLeadController');
+            Route::get('getTenLead/{id}', 'SalesLeadController@getTenLead');
+            Route::resource('leadComment', 'LeadCommentController');
+            Route::resource('targetAchieved', 'TargetAchievedController');
 
             // reports
+            Route::get('productReport', 'ProductCategoryReportController@product');
+            Route::get('categoryReport', 'ProductCategoryReportController@category');
+            Route::get('clientOldNew', 'ClientReport@clientOldNew');
+            Route::get('clientQty', 'ClientReport@clientQty');
+            Route::get('clientPrice', 'ClientReport@clientPrice');
+            Route::get('storeReport', 'AreaReportController@storeReport');
+            // Route::get('suggestionReport', 'AreaReportController@suggestionReport');
             Route::resource('complaintReport', 'ComplaintReportController');
-            Route::resource('saleReport', 'SaleReportController');
-            Route::get('saleReportByProduct', 'SaleReportController@saleReportByProduct');
-            Route::get('saleReportByCategory', 'SaleReportController@saleReportByCategory');
-            Route::get('saleReportByReturn', 'SaleReportController@saleReportByReturn');
-
-            
-
-            ######################### Start CRM #########################
-            // target plan
-            Route::resource('targetPlan','TargetPlanController');
-
-            // target
-            Route::resource('target','TargetController');
-
-            // Seller Category
-            Route::resource('sellerCategory','SellerCategoryController');
-
-            // leads
-            Route::resource('leads','LeadController');
-            Route::get('changeEmployeeLead/{id}','LeadController@changeEmployeeLead');
-            Route::put('updateEmployeeLead/{id}','LeadController@updateEmployeeLead');
-
-            // sales leads
-            Route::resource('salesLead','SalesLeadController');
-            Route::get('getTenLead/{id}','SalesLeadController@getTenLead');
-
-            // Lead Comments
-            Route::resource('leadComment','LeadCommentController');
-
-            // Target Achieved
-            Route::resource('targetAchieved','TargetAchievedController');
-            ######################### End CRM #########################
+            // Route::resource('saleReport', 'SaleReportsController');
+            // Route::get('saleReportByProduct', 'SaleReportController@saleReportByProduct');
+            // Route::get('saleReportByCategory', 'SaleReportController@saleReportByCategory');
+            // Route::get('saleReportByReturn', 'SaleReportController@saleReportByReturn');
 
 
 

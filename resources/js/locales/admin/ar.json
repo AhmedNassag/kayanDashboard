@@ -651,7 +651,25 @@
         "Stocks Management":"إدارة المخازن",
         "Prices Management":"إدارة الأسعار",
         "Reports Management":"إدارة التقارير",
-
+        "report":"إدارة التقارير",
+        "productReport":"المنتجات",
+        "categoryReport":"الفئات",
+        "clientOldNew":"العملاء",
+        "clientQty":"كميات العملاء",
+        "clientPrice":"مبالغ العملاء",
+        "storeReport":"المخازن",
+        "suggestionClient":"شكاوى وإقتراحات العملاء",
+        "totalPurchaseReport":"إجمالى المشتريات",
+        "totalOrderReport":"إجمالى الطلبات",
+        "ChooseType":"اختر النوع",
+        "ascSale":"الأكثر",
+        "descSale":"الأقل",
+        "amount":"الكمية",
+        "amountprice":"مجموع السعر",
+        "allClient":"كل العملاء",
+        "directClient":"عملاء البيع المباشر",
+        "mobileClient":"عملاء تطبيق الموبايل",
+        "webClient":"عملاء الموقع الإلكترونى",
         "AccountStatement": "كشف حساب",
         "Leads": "العملاء",
         "Comments": "التعليقات",
@@ -673,7 +691,11 @@
         "LeadCommentAdded": "تمت إضافة تعليق على العميل ",
         "Notification": "اشعار",
         "ThereIsANewNotification": "يوجد اشعار جديد",
-        "ALeadHasBeenSentToYouByManagement": "تم إرسال عميل لك من قبل الإدارة"
+        "ALeadHasBeenSentToYouByManagement": "تم إرسال عميل لك من قبل الإدارة",
+        "Ad Owners":"المعلنين",
+        "Ad Owner":"المعلن",
+        "Commercial Record":"صورة السجل التجارى",
+        "Tax Card":"صورة البطاقة الضريبية"
     },
     "treasury": {
         "TreasuryManagement": "ادارة الخزن",
@@ -824,6 +846,10 @@
     "company": {
         "CreateCompany": "اضافة شركة",
         "EditCompany": "تعديل شركة"
+    },
+    "adOwner": {
+        "CreateAdOwner": "اضافة معلن",
+        "EditAdOwner": "تعديل معلن"
     },
     "storage": {
         "CreateStorage": "اضافة خزنة",
