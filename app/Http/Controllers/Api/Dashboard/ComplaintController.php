@@ -181,7 +181,7 @@ class ComplaintController extends Controller
     public function reply(Request $request,$id)
     {
         DB::beginTransaction();
-        // try {
+        try {
             $complaint = Complaint::find($id);
 
             // Validator request
@@ -201,9 +201,9 @@ class ComplaintController extends Controller
             DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
-        // } catch (\Exception $e) {
-        //     DB::rollBack();
-        //     return $this->sendError('An error occurred in the system');
-        // }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->sendError('An error occurred in the system');
+        }
     }
 }

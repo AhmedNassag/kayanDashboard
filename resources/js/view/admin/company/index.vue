@@ -1,23 +1,18 @@
 <template>
-  <div
-    :class="[
-      'page-wrapper',
-      this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
-    ]"
-  >
+  <div :class="['page-wrapper', this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '']">
     <div class="content container-fluid">
       <!-- Page Header -->
       <div class="page-header">
         <div class="row align-items-center">
           <div class="col">
-            <h3 class="page-title">{{ $t("global.Companies") }}</h3>
+            <h3 class="page-title">{{ $t("global.Ad Owners") }}</h3>
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
                 <router-link :to="{ name: 'dashboard' }">
                   {{ $t("dashboard.Dashboard") }}
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">{{ $t("global.Companies") }}</li>
+              <li class="breadcrumb-item active">{{ $t("global.Ad Owners") }}</li>
             </ul>
           </div>
         </div>
@@ -38,8 +33,8 @@
                   </div>
                   <div class="col-5 row justify-content-end">
                     <router-link
-                      v-if="permission.includes('company create')"
-                      :to="{ name: 'createCompany' }"
+                      v-if="permission.includes('adOwner create')"
+                      :to="{ name: 'createAdOwner' }"
                       class="btn btn-custom btn-warning"
                     >
                       {{ $t("global.Add") }}
@@ -54,28 +49,25 @@
                       <th>#</th>
                       <th>{{ $t("global.Name") }}</th>
                       <th>{{ $t("global.Image") }}</th>
-                      <th>{{ $t("global.Code Number") }}</th>
                       <th>{{ $t("global.Status") }}</th>
-                      <th>{{ $t("global.Created_At") }}</th>
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
-                  <tbody v-if="companies.length">
-                    <tr v-for="(item, index) in companies" :key="item.id">
+                  <tbody v-if="adOwners.length">
+                    <tr v-for="(item, index) in adOwners" :key="item.id">
                       <td>{{ index + 1 }}</td>
                       <td>{{ item.name }}</td>
                       <td>
                         <img
-                          :src="'/upload/company/' + item.media.file_name"
+                          :src="'/upload/adOwner/' + item.media.file_name"
                           :alt="item.name"
                           class="custom-img"
                         />
                       </td>
-                      <td>{{item.code}}</td>
                       <td>
                         <a
                           href="#"
-                          @click="activationCompany(item.id, item.status, index)"
+                          @click="activationAdOwner(item.id, item.status, index)"
                         >
                           <span
                             :class="[
@@ -91,22 +83,21 @@
                           >
                         </a>
                       </td>
-                      <td>{{ item.added_at }}</td>
                       <td>
                         <router-link
                           :to="{
-                            name: 'editCompany',
+                            name: 'editAdOwner',
                             params: { id: item.id },
                           }"
-                          v-if="permission.includes('company edit')"
+                          v-if="permission.includes('adOwner edit')"
                           class="btn btn-sm btn-success me-2"
                         >
                           <i class="far fa-edit"></i>
                         </router-link>
                         <a
                           href="#"
-                          @click="deleteCompany(item.id, index)"
-                          v-if="permission.includes('company delete')"
+                          @click="deleteAdOwner(item.id, index)"
+                          v-if="permission.includes('adOwner delete')"
                           data-bs-target="#staticBackdrop"
                           class="btn btn-sm btn-danger me-2"
                         >
@@ -131,8 +122,8 @@
       <!-- /Table -->
       <!-- start Pagination -->
       <Pagination
-        :data="companiesPaginate"
-        @pagination-change-page="getCompany"
+        :data="adOwnersPaginate"
+        @pagination-change-page="getAdOwner"
       >
         <template #prev-nav>
           <span>&lt; {{ $t("global.Previous") }}</span>
@@ -150,36 +141,33 @@
 <script>
 import { onMounted, inject, watch, ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
-//import { onMounted, watch, ref, computed } from "vue";
 import { useStore } from "vuex";
 import adminApi from "../../../api/adminAxios";
 
 export default {
   name: "index",
   setup() {
-    //
     const emitter = inject("emitter");
     const { t } = useI18n({});
-    //
 
     // get packages
-    let companies = ref([]);
-    let companiesPaginate = ref({});
+    let adOwners = ref([]);
+    let adOwnersPaginate = ref({});
     let loading = ref(false);
     const search = ref("");
     let store = useStore();
 
     let permission = computed(() => store.getters["authAdmin/permission"]);
 
-    let getCompany = (page = 1) => {
+    let getAdOwner = (page = 1) => {
       loading.value = true;
 
       adminApi
-        .get(`/v1/dashboard/company?page=${page}&search=${search.value}`)
+        .get(`/v1/dashboard/adOwner?page=${page}&search=${search.value}`)
         .then((res) => {
           let l = res.data.data;
-          companiesPaginate.value = l.companies;
-          companies.value = l.companies.data;
+          adOwnersPaginate.value = l.adOwners;
+          adOwners.value = l.adOwners.data;
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -190,22 +178,20 @@ export default {
     };
 
     onMounted(() => {
-      getCompany();
+      getAdOwner();
     });
 
-    //
     emitter.on("get_lang", () => {
       getCompany(search.value);
     });
-    //
 
     watch(search, (search, prevSearch) => {
       if (search.length >= 0) {
-        getCompany();
+        getAdOwner();
       }
     });
 
-    function deleteCompany(id, index) {
+    function deleteAdOwner(id, index) {
       Swal.fire({
         title: `${t("global.AreYouSureDelete")}`,
         text: `${t("global.YouWontBeAbleToRevertThis")}`,
@@ -218,9 +204,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           adminApi
-            .delete(`/v1/dashboard/company/${id}`)
+            .delete(`/v1/dashboard/adOwner/${id}`)
             .then((res) => {
-              companies.value.splice(index, index + 1);
+              adOwners.value.splice(index, index + 1);
 
               Swal.fire({
                 icon: "success",
@@ -240,7 +226,7 @@ export default {
       });
     }
 
-    function activationCompany(id, active, index) {
+    function activationAdOwner(id, active, index) {
       Swal.fire({
         title: `${
           active
@@ -257,7 +243,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           adminApi
-            .get(`/v1/dashboard/activationCompany/${id}`)
+            .get(`/v1/dashboard/activationAdOwner/${id}`)
             .then((res) => {
               Swal.fire({
                 icon: "success",
@@ -269,7 +255,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              companies.value[index]["status"] = active ? 0 : 1;
+              adOwners.value[index]["status"] = active ? 0 : 1;
             })
             .catch((err) => {
               Swal.fire({
@@ -283,14 +269,14 @@ export default {
     }
 
     return {
-      getCompany,
+      getAdOwner,
       loading,
       permission,
       search,
-      deleteCompany,
-      activationCompany,
-      companiesPaginate,
-      companies,
+      deleteAdOwner,
+      activationAdOwner,
+      adOwnersPaginate,
+      adOwners,
     };
   },
   data() {

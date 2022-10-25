@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Company;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -41,15 +40,13 @@ class PriceController extends Controller
     {
         try
         {
-            $products     = Product::get();
-            $suppliers    = Supplier::select('id', 'name')->get();
-            // $companies    = Company::select('id', 'name')->get();
-            $categories   = Category::select('id', 'name')->get();
+            $products     = Product::where('status',1)->get();
+            $suppliers    = Supplier::where('active',1)->select('id', 'name')->get();
+            $categories   = Category::where('status',1)->select('id', 'name')->get();
 
             return $this->sendResponse([
                 'products'   => $products,
                 'suppliers'  => $suppliers,
-                // 'companies'  => $companies,
                 'categories' => $categories,
             ], 'Data exited successfully');
 
@@ -78,7 +75,6 @@ class PriceController extends Controller
                 'category_id'    => 'required|integer|exists:categories,id',
                 'sub_category_id' => 'required|integer|exists:sub_categories,id',
                 'supplier_id'    => 'required|integer|exists:suppliers,id',
-                // 'company_id'     => 'required|integer|exists:companies,id',
                 // 'pharmacyPrice'  => 'required',
                 'publicPrice'    => 'required',
                 'clientDiscount' => 'required',
@@ -96,15 +92,6 @@ class PriceController extends Controller
             $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->clientDiscount / 100));
 
             $data['kayanProfit'] = $data['kayanDiscount'] - $data['clientDiscount'];
-
-            // if ($data['company_id'] != "null")
-            // {
-            //     $data['supplier_id'] = null;
-            // }
-            // else
-            // {
-            //     $data['company_id'] = null;
-            // }
 
             $price = Price::create($data);
 
@@ -140,16 +127,14 @@ class PriceController extends Controller
     {
         try {
             $price          = Price::find($id);
-            $products       = Product::get();
-            $suppliers      = Supplier::select('id','name')->get();
-            // $companies      = Company::select('id','name')->get();
-            $categories     = Category::select('id','name')->get();
+            $products       = Product::where('status',1)->get();
+            $suppliers      = Supplier::where('active',1)->select('id','name')->get();
+            $categories     = Category::where('status',1)->select('id','name')->get();
 
             return $this->sendResponse([
                 'price'               => $price,
                 'products'            => $products,
                 'suppliers'           => $suppliers,
-                // 'companies'           => $companies,
                 'categories'          => $categories,
             ], 'Data exited successfully');
 
@@ -179,7 +164,6 @@ class PriceController extends Controller
                 'category_id'    => 'required|integer|exists:categories,id',
                 'sub_category_id' => 'required|integer|exists:sub_categories,id',
                 'supplier_id'    => 'required|integer|exists:suppliers,id',
-                // 'company_id'     => 'required|integer|exists:companies,id',
                 // 'pharmacyPrice'  => 'required',
                 'publicPrice'    => 'required',
                 'clientDiscount' => 'required',
@@ -196,15 +180,6 @@ class PriceController extends Controller
             $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->clientDiscount / 100));
 
             $data['kayanProfit'] = $data['kayanDiscount'] - $data['clientDiscount'];
-
-            // if ($data['company_id'] != "null")
-            // {
-            //     $data['supplier_id'] = null;
-            // }
-            // else
-            // {
-            //     $data['company_id'] = null;
-            // }
 
             $price->update($data);
 

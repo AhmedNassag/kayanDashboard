@@ -52,75 +52,77 @@
                   <thead>
                     <tr>
                       <th class="text-center">#</th>
-                      <th class="text-center">{{ $t("global.Name") }}</th>
+                      <th class="text-center">{{ $t("global.Sender") }}</th>
                       <th class="text-center">{{ $t("global.Phone") }}</th>
                       <th class="text-center">{{ $t("global.Type") }}</th>
                       <th class="text-center">{{ $t("global.Content") }}</th>
                       <th class="text-center">{{ $t("global.Reply") }}</th>
+                      <th class="text-center">{{ $t("global.Who Reply") }}</th>
                       <th class="text-center">{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
                   <tbody v-if="complaints.length">
                     <tr v-for="(item, index) in complaints" :key="item.id">
-                      <td class="text-center">{{ index + 1 }}</td>
-                      <td class="text-center">{{ item.user.name }}</td>
-                      <td class="text-center" v-if="item.user.phone">{{ item.user.phone }}</td>
-                      <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                      <td class="text-center" v-if="item.type">{{ item.type }}</td>
-                      <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                      <td class="text-center">{{ item.content }}</td>
-                      <td class="text-center" v-if="item.reply">{{ item.reply }}</td>
-                      <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                      <td class="text-center" v-if="item.reply">{{ item.responser.name }}</td>
-                      <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                      <td class="text-center">
-                        <router-link
-                          :to="{
-                            name: 'editComplaint',
-                            params: { id: item.id },
-                          }"
-                          v-if="permission.includes('complaint edit')"
-                          class="btn btn-sm btn-success me-2"
-                        >
-                          {{ $t("global.Edit") }}
-                          <i class="far fa-edit"></i>
-                        </router-link>
-                        <a
-                          href="#"
-                          @click="deleteComplaint(item.id, index)"
-                          v-if="permission.includes('complaint delete')"
-                          data-bs-target="#staticBackdrop"
-                          class="btn btn-sm btn-danger me-2"
-                        >
-                            {{ $t("global.Delete") }}
-                          <i class="far fa-trash-alt"></i>
-                        </a>
-                        <!-- Start Reply -->
-                        <router-link
+                        <td class="text-center">{{ index + 1 }}</td>
+                        <td class="text-center">{{ item.user.name }}</td>
+                        <td class="text-center" v-if="item.user.phone">{{ item.user.phone }}</td>
+                        <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
+                        <td class="text-center" v-if="item.type='Product Complaint'">{{ $t("global.Product Complaint") }}</td>
+                        <td class="text-center" v-else-if="item.type='Application Complaint'">{{ $t("global.Application Complaint") }}</td>
+                        <td class="text-center" v-else>{{ $t("global.Sales Complaint") }}</td>
+                        <td class="text-center">{{ item.content }}</td>
+                        <td class="text-center" v-if="item.reply">{{ item.reply }}</td>
+                        <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
+                        <td class="text-center" v-if="item.reply">{{ item.responser.name }}</td>
+                        <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
+                        <td class="text-center">
+                            <router-link
                             :to="{
-                                name: 'showComplaint',
+                                name: 'editComplaint',
                                 params: { id: item.id },
                             }"
-                            v-if="item.reply"
-                            class="btn btn-sm btn-secondary me-2"
-                        >
-                            {{ $t("global.Reply Added") }}
-                            <i class="far fa-check-square" aria-hidden="true"></i>
-                        </router-link>
+                            v-if="permission.includes('complaint edit')"
+                            class="btn btn-sm btn-success me-2"
+                            >
+                            {{ $t("global.Edit") }}
+                            <i class="far fa-edit"></i>
+                            </router-link>
+                            <a
+                            href="#"
+                            @click="deleteComplaint(item.id, index)"
+                            v-if="permission.includes('complaint delete')"
+                            data-bs-target="#staticBackdrop"
+                            class="btn btn-sm btn-danger me-2"
+                            >
+                                {{ $t("global.Delete") }}
+                            <i class="far fa-trash-alt"></i>
+                            </a>
+                            <!-- Start Reply -->
+                            <router-link
+                                :to="{
+                                    name: 'showComplaint',
+                                    params: { id: item.id },
+                                }"
+                                v-if="item.reply"
+                                class="btn btn-sm btn-secondary me-2"
+                            >
+                                {{ $t("global.Reply Added") }}
+                                <i class="far fa-check-square" aria-hidden="true"></i>
+                            </router-link>
 
-                        <router-link
-                            :to="{
-                                name: 'replyComplaint',
-                                params: { id: item.id },
-                            }"
-                            v-else
-                            class="btn btn-sm btn-info me-2"
-                        >
-                            {{ $t("global.Add Reply") }}
-                            <i class="far fa-comment"></i>
-                        </router-link>
-                        <!-- End Reply -->
-                      </td>
+                            <router-link
+                                :to="{
+                                    name: 'replyComplaint',
+                                    params: { id: item.id },
+                                }"
+                                v-else
+                                class="btn btn-sm btn-info me-2"
+                            >
+                                {{ $t("global.Add Reply") }}
+                                <i class="far fa-comment"></i>
+                            </router-link>
+                            <!-- End Reply -->
+                        </td>
                     </tr>
                   </tbody>
                   <tbody v-else>

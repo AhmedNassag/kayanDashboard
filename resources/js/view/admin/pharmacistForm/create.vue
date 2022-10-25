@@ -122,9 +122,8 @@ import {
 } from "@vuelidate/validators";
 import adminApi from "../../../api/adminAxios";
 import { notify } from "@kyvg/vue3-notification";
-//
 import { useI18n } from "vue-i18n";
-//
+
 
 export default {
   name: "createPharmacistForm",

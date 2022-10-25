@@ -206,7 +206,7 @@
                                             <div class="col-md-12 mt-5">
                                                 <div class="table-responsive">
                                                     <table class="table table-center table-hover mb-0 datatable">
-                                                        <thead class="account">
+                                                        <thead class="account2">
                                                         <tr class="text-center">
                                                             <th>{{ $t('global.QuantityOfProductsReceived') }}</th>
                                                             <th>{{ $t('global.QuantityOfReturnedProducts') }}</th>
@@ -423,7 +423,12 @@ export default {
     position: relative;
 }
 .account{
-    background-color: #fcb00c;
+    background-color: #0E67D0;
+    color: #000000 !important;
+    border-radius: 5px;
+}
+.account2{
+    background-color: #0E67D0;
     color: #000000 !important;
     border-radius: 5px;
 }

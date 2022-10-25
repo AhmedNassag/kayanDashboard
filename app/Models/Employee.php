@@ -43,4 +43,26 @@ class Employee extends Model
         return $this->hasMany(Purchase::class);
     }
 
+
+    // CRM relations
+    public function sellerCategories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(SellerCategory::class,'employee_categories','employee_id','seller_category_id','id','id');
+    }
+
+    public function leads()
+    {
+        return $this->hasMany(Lead::class,'employee_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(LeadComment::class);
+    }
+
+    public function targetAchieved()
+    {
+        return $this->hasMany(TargetAchieved::class);
+    }
+
 }

@@ -1,58 +1,94 @@
-import indexClientReport from "../../view/admin/clientReport/index";
-import createClientReport from "../../view/admin/clientReport/create";
-import editClientReport from "../../view/admin/clientReport/edit";
+import clientSaleReport from "../../view/admin/clientReport/clientNewOld";
+import clientQtyReport from "../../view/admin/clientReport/clientQty";
+import clientPriceReport from "../../view/admin/clientReport/clientPrice";
+import suggestionClient from "../../view/admin/suggestionReport/suggestionClient";
+import totalPurchaseReport from "../../view/admin/purchaseReport/totalPurchase";
+import totalOrderReport from "../../view/admin/orderReport/totalOrder";
 import store from "../../store/admin";
 
 export default [
     {
-        path: 'clientReport',
-        component:  {
-            template:'<router-view />',
-        },
-        children:[
-            {
-                path: '',
-                name: 'indexClientReport',
-                component: indexClientReport,
-                beforeEnter: (to, from,next) => {
-                    let permission = store.state.authAdmin.permission;
+        path: '/clientSaleReport',
+        name: 'clientSaleReport',
+        component: clientSaleReport,
+        beforeEnter: (to, from,next) => {
+            let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('clientReport read')){
-                        return next();
-                    }else{
-                        return next({name:'Page404'});
-                    }
-                }
-            },
-            {
-                path: 'create',
-                name: 'createClientReport',
-                component: createClientReport,
-                beforeEnter: (to, from,next) => {
-                    let permission = store.state.authAdmin.permission;
-
-                    if(permission.includes('clientReport create')){
-                        return next();
-                    }else{
-                        return next({name:'Page404'});
-                    }
-                }
-            },
-            {
-                path: 'edit/:id(\\d+)',
-                name: 'editClientReport',
-                component: editClientReport,
-                props: true,
-                beforeEnter: (to, from,next) => {
-                    let permission = store.state.authAdmin.permission;
-
-                    if(permission.includes('clientReport edit')){
-                        return next();
-                    }else{
-                        return next({name:'Page404'});
-                    }
-                }
-            },
-        ]
+            if(permission.includes('category read')){
+                return next();
+            }else{
+                return next({name:'Page404'});
+            }
+        }
     },
+    {
+        path: '/clientQtyReport',
+        name: 'clientQtyReport',
+        component: clientQtyReport,
+        beforeEnter: (to, from,next) => {
+            let permission = store.state.authAdmin.permission;
+
+            if(permission.includes('category create')){
+                return next();
+            }else{
+                return next({name:'Page404'});
+            }
+        }
+    },
+    {
+        path: '/clientPriceReport',
+        name: 'clientPriceReport',
+        component: clientPriceReport,
+        beforeEnter: (to, from,next) => {
+            let permission = store.state.authAdmin.permission;
+
+            if(permission.includes('category create')){
+                return next();
+            }else{
+                return next({name:'Page404'});
+            }
+        }
+    },
+    {
+        path: '/suggestionClient',
+        name: 'suggestionClient',
+        component: suggestionClient,
+        beforeEnter: (to, from,next) => {
+            let permission = store.state.authAdmin.permission;
+
+            if(permission.includes('category create')){
+                return next();
+            }else{
+                return next({name:'Page404'});
+            }
+        }
+    },
+    {
+        path: '/totalPurchaseReport',
+        name: 'totalPurchaseReport',
+        component: totalPurchaseReport,
+        beforeEnter: (to, from,next) => {
+            let permission = store.state.authAdmin.permission;
+
+            if(permission.includes('category create')){
+                return next();
+            }else{
+                return next({name:'Page404'});
+            }
+        }
+    },
+    {
+        path: '/totalOrderReport',
+        name: 'totalOrderReport',
+        component: totalOrderReport,
+        beforeEnter: (to, from,next) => {
+            let permission = store.state.authAdmin.permission;
+
+            if(permission.includes('category create')){
+                return next();
+            }else{
+                return next({name:'Page404'});
+            }
+        }
+    }
 ];

@@ -16,5 +16,13 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(CreateAdminSeeder::class);
         $this->call(ProductStatusSeeder::class);
+        $this->call(SellerCategorySeeder::class);
+
+        $this->call(AdvertiseViewSeeder::class);
+        $this->call(AdvertisePageSeeder::class);
+        $this->call(AdvertisePageMobileSeeder::class);
+        $this->call(AdvertisePackageSeeder::class);
+        $this->call(AdvertiseScheduleSeeder::class);
+        $this->call(AdvertiseSeeder::class);
     }
 }

@@ -37,17 +37,6 @@
                                             <!--Start Company And Supplier Supplier-->
                                             <div class="col-md-6 mb-3">
 
-                                                <!--Start Company Select-->
-                                                <!-- <div id="company" class="col-md-12 mb-3" v-if="companyShow == true">
-                                                    <label >{{ $t("global.Company") }}</label>
-                                                    <Select2 v-model="v$.company_id.$model" :options="companies" :settings="{ width: '100%' }" />
-                                                    <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                    <div class="invalid-feedback">
-                                                    </div>
-                                                    <input id ="myButton1" class="btn btn-secondary btn-ms" type="button" v-on:click="showSupplier()" value="مورد"/>
-                                                </div> -->
-                                                <!--End Company Select-->
-
                                                 <!--Start Supplier Select-->
                                                 <div id="supplier" class="col-md-12 mb-3">
                                                     <label for="validationCustom0">
@@ -75,7 +64,6 @@
                                                     v-model="v$.category_id.$model"
                                                     :class="{'is-invalid':v$.category_id.$error,'is-valid':!v$.category_id.$invalid}"
                                                 >
-                                                    <option value="">---</option>
                                                     <option v-for="category in categories" :key="category.id" :value="category.id" >
                                                         {{ category.name }}
                                                     </option>

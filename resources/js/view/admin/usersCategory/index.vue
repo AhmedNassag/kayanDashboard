@@ -147,17 +147,14 @@
 <script>
 import { onMounted, inject, watch, ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
-//import { onMounted, watch, ref, computed } from "vue";
 import { useStore } from "vuex";
 import adminApi from "../../../api/adminAxios";
 
 export default {
   name: "index",
   setup() {
-    //
     const emitter = inject("emitter");
     const { t } = useI18n({});
-    //
 
     // get packages
     let usersCategories = ref([]);
@@ -315,7 +312,7 @@ export default {
 }
 
 .btn {
-  color: #fff;
+  color: #FFF;
 }
 .hover:hover {
   border: 2px solid;

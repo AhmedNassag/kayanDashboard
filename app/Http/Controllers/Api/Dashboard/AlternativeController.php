@@ -153,8 +153,8 @@ class AlternativeController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'nameAr' => 'required|unique:alternatives,nameAr',
-                'nameEn' => 'required|unique:alternatives,nameEn',
+                'nameAr' => 'required',
+                'nameEn' => 'required',
                 'file' => 'nullable' . ($request->hasFile('file') ? '|file|mimes:jpeg,jpg,png' : ''),
             ]);
 

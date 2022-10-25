@@ -50,25 +50,25 @@
                 <table class="table mb-0">
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th>{{ $t("global.Name") }}</th>
-                      <th>{{ $t("global.Status") }}</th>
-                      <th>{{ $t("global.IsSalesTeam") }}</th>
-                      <th>{{ $t("global.Action") }}</th>
+                      <th class="text-center">#</th>
+                      <th class="text-center">{{ $t("global.Name") }}</th>
+                      <th class="text-center">{{ $t("global.IsSalesTeam") }}</th>
+                      <th class="text-center">{{ $t("global.Status") }}</th>
+                      <th class="text-center">{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
                   <tbody v-if="jobs.length">
                     <tr v-for="(item, index) in jobs" :key="item.id">
-                      <td>{{ index + 1 }}</td>
-                      <td>{{ item.name }}</td>
-                      <td>
+                      <td class="text-center">{{ index + 1 }}</td>
+                      <td class="text-center">{{ item.name }}</td>
+                      <td class="text-center">
                         {{
                           parseInt(item.Allow_adding_to_sales_team)
                             ? $t("global.Yeas")
                             : $t("global.No")
                         }}
                       </td>
-                      <td>
+                      <td class="text-center">
                         <a
                           href="#"
                           @click="
@@ -86,7 +86,7 @@
                           >
                         </a>
                       </td>
-                      <td>
+                      <td class="text-center">
                         <router-link
                           :to="{ name: 'editJob', params: { id: item.id } }"
                           v-if="permission.includes('job edit')"

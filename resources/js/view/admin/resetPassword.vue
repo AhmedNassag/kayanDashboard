@@ -169,16 +169,16 @@ export default {
 }
 
 .login-right .dont-have a, .forget-register a:hover ,.login-register a {
-    color: #fcb00c;
+    color: #0E67D0;
 }
 
 .btn-color:hover{
-    background-color: #fcb00c;
-    border-color: #fcb00c ;
+    background-color: #0E67D0;
+    border-color: #0E67D0 ;
 }
 
 .login-right .dont-have a, .click-forget a:hover ,.click a{
-    color: #fcb00c;
+    color: #0E67D0;
 }
 
 .click-forget{
@@ -186,7 +186,7 @@ export default {
 }
 
 a {
-    color: #000;
+    color: #FFF;
     text-decoration: none;
 }
 
