@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\Sale;
 use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,17 +18,18 @@ class AreaReportController extends Controller
     {
 
         $order = $request->order == 'asc' ? 'asc' : 'desc';
-        $clients = Client::
-            join('areas', 'areas.id', 'clients.area_id')
+        $clients = Sale::
+            join('clients', 'clients.id', 'sales.client_id')
+            ->join('areas', 'areas.id', 'clients.area_id')
             ->where(function ($q) use ($request) {
                 $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
-                    $q->whereDate('clients.created_at', ">=", $request->from_date)
-                    ->whereDate('clients.created_at', "<=", $request->to_date);
+                    $q->whereDate('sales.created_at', ">=", $request->from_date)
+                    ->whereDate('sales.created_at', "<=", $request->to_date);
                 });
             })
-            ->select(DB::raw('SUM(area_id) as price'), 'areas.id', 'areas.name')
-            ->groupBy(['areas.id', 'areas.name'])
-            ->orderBy('price',$order)
+            ->select(DB::raw('COUNT(clients.area_id) as price'), 'areas.id', 'areas.name')
+            ->groupBy(['areas.id', 'areas.name', 'clients.area_id'])
+            ->orderBy('price', $order)
             ->take(10)
             ->get();
 

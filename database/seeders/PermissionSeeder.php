@@ -182,6 +182,14 @@ class PermissionSeeder extends Seeder
             ['name' => 'adOwner create', 'role' => 'management'],
             ['name' => 'adOwner edit', 'role' => 'management'],
             ['name' => 'adOwner delete', 'role' => 'management'],
+            //advertise
+            ['name' => 'package read', 'role' => 'advertise', 'category' => 'advertise'],
+            ['name' => 'package create', 'role' => 'advertise', 'category' => 'advertise'],
+            ['name' => 'package edit', 'role' => 'advertise', 'category' => 'advertise'],
+            ['name' => 'package show', 'role' => 'advertise', 'category' => 'advertise'],
+            ['name' => 'package delete', 'role' => 'advertise', 'category' => 'advertise'],
+            ['name' => 'schedule read', 'role' => 'advertise', 'category' => 'advertise'],
+            ['name' => 'schedule show', 'role' => 'advertise', 'category' => 'advertise'],
             //CRM
             ['name' => 'targetPlan read','role' => 'CRM','category' => 'CRM'],
             ['name' => 'targetPlan create','role' => 'CRM','category' => 'CRM'],
@@ -204,7 +212,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'TargetAchieved create','role' => 'CRM','category' => 'CRM'],
             ['name' => 'TargetAchieved edit','role' => 'CRM','category' => 'CRM'],
             ['name' => 'TargetAchieved delete','role' => 'CRM','category' => 'CRM'],
-            //end CRM
             //refused
             ['name' => 'refused read', 'role' => 'management'],
             ['name' => 'refused create', 'role' => 'management'],

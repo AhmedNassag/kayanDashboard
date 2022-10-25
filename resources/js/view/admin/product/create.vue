@@ -375,10 +375,10 @@
                                             <!--End Multiple Images-->
 
 
+                                            <!--Start Alternative Details-->
                                             <div class="col-md-4 m-3">
                                                 <button class="btn btn-success" v-on:click="isHidden = !isHidden" v-if="isHidden">{{ $t('global.Add Alternative') }}</button>
                                             </div>
-                                            <!--Start Alternative Details-->
                                             <div class="col-md-12 mb-3 mt-5 alternativeDetail-option" id="alternativeDetail" v-if="!isHidden">
                                                 <div class="row account">
                                                     <div class="col-md-12 mb-12 head-account">

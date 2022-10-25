@@ -71,7 +71,7 @@
                                         <tr>
                                             <th class="text-center">#</th>
                                             <th class="text-center">{{ $t('global.Name') }}</th>
-                                            <th class="text-center">{{ $t('global.Total') }}</th>
+                                            <th class="text-center">{{ $t('global.Total Order') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="clients.length">

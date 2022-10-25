@@ -21,10 +21,10 @@ class ComplaintReportController extends Controller
             ->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
                     $q->where('kind', 'like', '%' . $request->search . '%')
-                        ->orWhere('type', 'like', '%' . $request->search . '%')
-                        ->orWhere('content', 'like', '%' . $request->search . '%')
-                        ->orWhere('	reply', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('user', 'name', 'like', '%' . $request->search . '%');
+                    ->orWhere('type', 'like', '%' . $request->search . '%')
+                    ->orWhere('content', 'like', '%' . $request->search . '%')
+                    ->orWhere('	reply', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('user', 'name', 'like', '%' . $request->search . '%');
                 });
             })
             ->where(function ($q) use ($request) {

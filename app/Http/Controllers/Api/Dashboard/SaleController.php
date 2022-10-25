@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\Sale;
 use App\Models\SaleProduct;
 use App\Models\Stock;
+use App\Models\VirtualStock;
 use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -87,7 +88,6 @@ class SaleController extends Controller
         try
         {
             DB::beginTransaction();
-
             // Validator request
             $v = Validator::make($request->all(),
             [
@@ -110,7 +110,6 @@ class SaleController extends Controller
                 'product.*.quantity'              => 'required|integer',
                 'product.*.price_before_discount' => 'required|numeric',
                 'product.*.price_after_discount'  => 'required|numeric|lte:product.*.price_before_discount',
-                
                 // 'batch.*.money'                   => 'required|integer',
                 // 'batch.*.due_date'                => 'required',
             ]);
@@ -141,31 +140,42 @@ class SaleController extends Controller
 
             foreach ($request->product as $product)
             {
-                SaleProduct::create
-                ([
-                    'sale_id'               => $sale['id'],
-                    'product_id'            => $product['product_id'],
-                    'quantity'              => $product['quantity'],
-                    'price_before_discount' => $product['price_before_discount'],
-                    'price_after_discount'  => $product['price_after_discount'],
-                ]);
+                $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($sale['stock_id']);
+                if(intval($virtualStockQuantitiy->productQuantity) >= intval($product['quantity']))
+                {
+                    SaleProduct::create
+                    ([
+                        'sale_id'               => $sale['id'],
+                        'product_id'            => $product['product_id'],
+                        'quantity'              => $product['quantity'],
+                        'price_before_discount' => $product['price_before_discount'],
+                        'price_after_discount'  => $product['price_after_discount'],
+                    ]);
+                    $virtualStockQuantitiy->update
+                    ([
+                        'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) - intval($product['quantity'])
+                    ]);
+                }
+                else
+                {
+                    return $this->sendError('الكمية المطلوبة غير متوفرة حالياً', []);
+                }
             }
 
-            //
-            if($request->batch)
+            if($request->payment_method == 'Delay' && $request->batch)
             {
                 foreach ($request->batch as $batch)
                 {
                     if($batch['money'] != null && $batch['due_date'] != null)
-                    Batch::create
-                    ([
-                        'sale_id'  => $sale['id'],
-                        'money'    => $batch['money'],
-                        'due_date' => $batch['due_date'],
-                    ]);
+                    {
+                        Batch::create([
+                            'sale_id'  => $sale['id'],
+                            'money'    => $batch['money'],
+                            'due_date' => $batch['due_date'],
+                        ]);
+                    }
                 }
             }
-            //
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
@@ -226,7 +236,8 @@ class SaleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+        try
+        {
 
             DB::beginTransaction();
 
@@ -254,13 +265,15 @@ class SaleController extends Controller
                 'product.*.price_after_discount'  => 'required|numeric|lte:product.*.price_before_discount',
             ]);
 
-            if ($v->fails()) {
+            if ($v->fails())
+            {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
             $sale = Sale::find($id);
 
-            $sale->update([
+            $sale->update
+            ([
                 'type'                 => $request->type,
                 'client_id'            => $request->client_id,
                 'stock_id'             => $request->stock_id,
@@ -285,14 +298,26 @@ class SaleController extends Controller
 
             foreach ($request->product as $product)
             {
-                SaleProduct::create
-                ([
-                    'sale_id'               => $sale['id'],
-                    'product_id'            => $product['product_id'],
-                    'quantity'              => $product['quantity'],
-                    'price_before_discount' => $product['price_before_discount'],
-                    'price_after_discount'  => $product['price_after_discount'],
-                ]);
+                $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($sale['stock_id']);
+                if (intval($virtualStockQuantitiy->productQuantity) >= intval($product['quantity']))
+                {
+                    SaleProduct::create
+                    ([
+                        'sale_id'               => $sale['id'],
+                        'product_id'            => $product['product_id'],
+                        'quantity'              => $product['quantity'],
+                        'price_before_discount' => $product['price_before_discount'],
+                        'price_after_discount'  => $product['price_after_discount'],
+                    ]);
+                    $virtualStockQuantitiy->update
+                    ([
+                        'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) - intval($product['quantity'])
+                    ]);
+                }
+                else
+                {
+                    return $this->sendError('الكمية المطلوبة غير متوفرة حالياً', []);
+                }
             }
 
             //

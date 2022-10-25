@@ -1,7 +1,6 @@
 <template>
     <div :class="['page-wrapper','page-wrapper-ar']">
         <div class="content container-fluid">
-
             <!-- Page Header -->
             <div class="page-header">
                 <div class="row align-items-center">
@@ -16,7 +15,6 @@
                             <li class="breadcrumb-item active">{{ $t('global.totalPurchaseReport') }}</li>
                         </ul>
                     </div>
-
                 </div>
             </div>
             <!-- /Page Header -->
@@ -31,81 +29,65 @@
                                     <div class="col-12 row justify-content-end">
                                         <form @submit.prevent="getIncome" class="needs-validation">
                                             <div class="form-group row">
-
                                                 <div class="col-md-3">
                                                     <label >{{$t('global.FromDate')}}</label>
-                                                    <input type="date" class="form-control date-input"
-                                                           v-model="fromDate">
+                                                    <input type="date" class="form-control date-input" v-model="fromDate">
                                                 </div>
-
                                                 <div class="col-md-3">
                                                     <label >{{$t('global.ToDate')}}</label>
-                                                    <input type="date" class="form-control date-input"
-                                                           v-model="toDate">
+                                                    <input type="date" class="form-control date-input" v-model="toDate">
                                                 </div>
-
                                                 <div class="col-md-3 mt-4">
                                                     <button class="btn btn-primary" type="submit">{{$t('global.Search')}}</button>
                                                 </div>
-
                                             </div>
-
                                         </form>
                                     </div>
-
                                     <div class="col-md-2 row justify-content-end"></div>
                                 </div>
                             </div>
-
                             <div class="table-responsive">
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>{{ $t('global.Supplier') }}</th>
-                                            <th>{{ $t('global.Store') }}</th>
-                                            <th>{{ $t('global.Notes') }}</th>
-                                            <th>{{ $t('global.TotalPrice') }}</th>
-                                            <th>{{ $t('global.Date') }}</th>
-                                            <th>{{ $t('global.Action') }}</th>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">{{ $t('global.Supplier') }}</th>
+                                            <th class="text-center">{{ $t('global.Store') }}</th>
+                                            <th class="text-center">{{ $t('global.Notes') }}</th>
+                                            <th class="text-center">{{ $t('global.TotalPrice') }}</th>
+                                            <th class="text-center">{{ $t('global.Date') }}</th>
+                                            <th class="text-center">{{ $t('global.Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="purchases.length">
                                         <tr v-for="(item,index) in purchases"  :key="item.id">
-                                            <td>{{ 1 + index }}</td>
-                                            <td>{{ item.supplier.name_supplier }}</td>
-                                            <td>{{ item.store.name }}</td>
-                                            <td>{{ item.note }}</td>
-                                            <td>{{ item.total_price }}</td>
-
-                                            <td>{{  dateFormat(item.created_at) }}</td>
-
-                                            <td>
-
+                                            <td class="text-center">{{ 1 + index }}</td>
+                                            <td class="text-center">{{ item.supplier.name }}</td>
+                                            <td class="text-center">{{ item.store.name }}</td>
+                                            <td class="text-center">{{ item.note }}</td>
+                                            <td class="text-center">{{ item.total_price }}</td>
+                                            <td class="text-center">{{  dateFormat(item.created_at) }}</td>
+                                            <td class="text-center">
                                                 <a href="javascript:void(0);"
                                                    class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
                                                    :data-bs-target="'#edit-category'+item.id">
                                                     <i class="fas fa-book-open"></i> {{$t('global.Show')}}
                                                 </a>
-
                                             </td>
-
                                             <!-- Edit Modal -->
                                             <div class="modal fade custom-modal" :id="'edit-category'+item.id">
                                                 <div class="modal-dialog modal-dialog-centered">
                                                     <div class="modal-content" id="print">
-
                                                         <!-- Modal Header -->
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">
                                                                 {{ $t('global.InvoiceDetails') }}</h4>
-                                                            <button :id="'close-'+item.id"  type="button" class="close print-button" data-bs-dismiss="modal">
-                                                                <span>&times;</span></button>
+                                                            <button :id="'close-'+item.id" type="button" class="close print-button" data-bs-dismiss="modal">
+                                                                <span>&times;</span>
+                                                            </button>
                                                         </div>
-
                                                         <!-- Modal body -->
                                                         <div class="modal-body row" >
-
                                                             <div class="card bg-white projects-card">
                                                                 <div class="card-body pt-0">
                                                                     <div class="tab-content pt-0">
@@ -128,74 +110,65 @@
                                                                             </div>
                                                                             <div class="table-responsive" :id="'printData-'+item.id">
                                                                                 <div class="head-data row">
-
-                                                                                        <div class="col-md-6 invoice-head">
-                                                                                            <h5>{{$t('global.InvoiceNumber')}} : {{item.id}}</h5>
-                                                                                        </div>
-                                                                                        <div class="col-md-6 image-div">
-                                                                                            <img src="/web/img/logo.png" alt="Logo">
-                                                                                        </div>
-
-
+                                                                                    <div class="col-md-6 invoice-head">
+                                                                                        <h5>{{$t('global.InvoiceNumber')}} : {{item.id}}</h5>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 image-div">
+                                                                                        <img src="/web/img/logo.png" alt="Logo">
+                                                                                    </div>
                                                                                     <div class="col-md-6">
                                                                                         <p>{{$t('global.DateOrder')}} : {{dateFormat(item.created_at)}}</p>
                                                                                         <p>{{$t('global.Supplier')}} : {{ item.supplier.name_supplier }}</p>
                                                                                         <p>{{$t('global.TotalPriceBeforeDiscount')}} : {{ item.price }} ج.م</p>
                                                                                         <p>{{$t('global.discountPercentage')}} : {{ item.discount_percentage }} %</p>
-
                                                                                     </div>
-
                                                                                     <div class="col-md-6">
                                                                                         <p>{{$t('global.discountValue')}} : {{ item.discount_value }} ج.م</p>
                                                                                         <p>{{$t('global.otherDiscounts')}} : {{ item.other_discounts }} ج.م</p>
                                                                                         <p>{{$t('global.transferPrice')}} : {{ item.transfer_price }} ج.م</p>
                                                                                         <p>{{$t('global.TotalPriceAfterDiscount')}} : {{ item.total_price }} ج.م</p>
-
                                                                                     </div>
-
                                                                                 </div>
-
                                                                                 <table class="table table-center table-hover mb-0 datatable">
                                                                                     <thead>
-                                                                                    <tr>
-                                                                                        <th>#</th>
-                                                                                        <th>{{ $t('global.Products') }}</th>
-                                                                                        <th>{{ $t('global.Quantity') }}</th>
-                                                                                        <th>{{ $t('global.Price') }}</th>
-                                                                                        <th>{{ $t('global.expiryDate') }}</th>
-                                                                                        <th>{{ $t('global.TotalPrice') }}</th>
-                                                                                    </tr>
+                                                                                        <tr>
+                                                                                            <th>#</th>
+                                                                                            <th>{{ $t('global.Products') }}</th>
+                                                                                            <th>{{ $t('global.Quantity') }}</th>
+                                                                                            <th>{{ $t('global.Price') }}</th>
+                                                                                            <th>{{ $t('global.expiryDate') }}</th>
+                                                                                            <th>{{ $t('global.TotalPrice') }}</th>
+                                                                                        </tr>
                                                                                     </thead>
                                                                                     <tbody>
-                                                                                    <tr v-for="(it,index) in item.purchase_products" v-if="item.purchase_products" :key="it.id">
-                                                                                        <td>{{ totalPurchase + 1 }}</td>
-                                                                                        <td>{{ it.product.name }}</td>
-                                                                                        <td>{{ it.quantity }} ( {{it.product.main_measurement_unit.name}} )</td>
-                                                                                        <td>{{ it.price_after_discount }}</td>
-                                                                                        <td>{{ it.expiry_date }}</td>
-                                                                                        <td>{{ it.quantity * it.price_after_discount }}</td>
-                                                                                    </tr>
-                                                                                    <tr v-else>
-                                                                                        <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
-                                                                                    </tr>
-
+                                                                                        <div v-if="item.purchase_products">
+                                                                                            <tr v-for="(it,index) in item.purchase_products" :key="it.id">
+                                                                                                <td>{{ totalPurchase + 1 }}</td>
+                                                                                                <td>{{ it.product.name }}</td>
+                                                                                                <td>{{ it.quantity }} ( {{it.product.main_measurement_unit.name}} )</td>
+                                                                                                <td>{{ it.price_after_discount }}</td>
+                                                                                                <td>{{ it.expiry_date }}</td>
+                                                                                                <td>{{ it.quantity * it.price_after_discount }}</td>
+                                                                                            </tr>
+                                                                                        </div>
+                                                                                        <div v-else>
+                                                                                            <tr>
+                                                                                                <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
+                                                                                            </tr>
+                                                                                        </div>
                                                                                     </tbody>
                                                                                 </table>
                                                                             </div>
-
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- /Edit Modal -->
-
                                         </tr>
-
                                     </tbody>
                                     <tbody v-else>
                                         <tr>
@@ -204,12 +177,10 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- start Pagination -->
             <Pagination :limit="2" :data="purchasesPaginate" @pagination-change-page="getIncome">
                 <template #prev-nav>
@@ -255,19 +226,17 @@ export default {
             }
 
             adminApi.get(`/v1/dashboard/purchaseInvoice?page=${page}&from_date=${fromDate.value}&to_date=${toDate.value}`)
-                .then((res) => {
-
-                    let l = res.data.data;
-                    purchasesPaginate.value = l.purchases;
-                    purchases.value = l.purchases.data;
-                })
-                .catch((err) => {
-                    console.log(err.response.data);
-                })
-                .finally(() => {
-                    loading.value = false;
-                });
-
+            .then((res) => {
+                let l = res.data.data;
+                purchasesPaginate.value = l.purchases;
+                purchases.value = l.purchases.data;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
         }
 
         onMounted(() => {
