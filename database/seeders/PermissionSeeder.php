@@ -183,6 +183,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'refused create', 'role' => 'management'],
             ['name' => 'refused edit', 'role' => 'management'],
             ['name' => 'refused delete', 'role' => 'management'],
+
+            //Terms and conditions
+            ['name' => 'termAndCondition read', 'role' => ''],
+
             //Unit
             ['name' => 'unit read', 'role' => ''],
             ['name' => 'unit create', 'role' => ''],
@@ -261,8 +265,30 @@ class PermissionSeeder extends Seeder
             ['name' => 'area edit', 'role' => 'places'],
             //Unavailable places users
             ['name' => 'unavailable-city-client read', 'role' => 'places'],
+
             //Deals
-            ['name' => 'deal insert', 'role' => ''],
+            ['name' => 'deal read', 'role' => ''],
+            ['name' => 'deal create', 'role' => ''],
+            ['name' => 'deal edit', 'role' => ''],
+            ['name' => 'deal delete', 'role' => ''],
+
+            //Best sellers
+            ['name' => 'best-seller read', 'role' => ''],
+            ['name' => 'best-seller create', 'role' => ''],
+            ['name' => 'best-seller edit', 'role' => ''],
+            ['name' => 'best-seller delete', 'role' => ''],
+
+            //Most populars
+            ['name' => 'most-popular read', 'role' => ''],
+            ['name' => 'most-popular create', 'role' => ''],
+            ['name' => 'most-popular edit', 'role' => ''],
+            ['name' => 'most-popular delete', 'role' => ''],
+
+            //Also bought
+            ['name' => 'also-bought read', 'role' => ''],
+            ['name' => 'also-bought create', 'role' => ''],
+            ['name' => 'also-bought edit', 'role' => ''],
+            ['name' => 'also-bought delete', 'role' => ''],
 
         ];
 

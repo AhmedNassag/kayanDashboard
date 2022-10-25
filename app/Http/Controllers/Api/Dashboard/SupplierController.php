@@ -50,5 +50,4 @@ class SupplierController extends Controller
     {
         $this->supplierRepository->toggleActivation($id);
     }
-   
 }

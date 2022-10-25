@@ -169,6 +169,24 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-6">
+                  <div class="form-check">
+                    <input
+                      v-model="isOurSupplier"
+                      class="form-check-input"
+                      type="checkbox"
+                      id="defaultCheck1"
+                    />
+                    <label class="form-check-label" for="defaultCheck1">
+                      {{ $t("global.IsKayanSupplier") }}
+                    </label>
+                  </div>
+                  <div class="text-danger">
+                    <div v-if="isOurSupplierExist">
+                      {{ $t("global.KayanSupplierChoosedBefore") }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -202,6 +220,7 @@ export default {
       phoneExist: false,
       taxCardExist: false,
       commericalRegisterExist: false,
+      isOurSupplierExist: false,
     });
     const form = reactive({
       id: null,
@@ -212,6 +231,7 @@ export default {
       tax_card: "",
       responsible_name: "",
       responsible_phone: "",
+      isOurSupplier: false,
       type: "STORE",
     });
     const rules = {
@@ -271,6 +291,9 @@ export default {
           data.commericalRegisterExist = error.response.data.errors.commerical_register
             ? true
             : false;
+          data.isOurSupplierExist = error.response.data.errors.is_our_supplier
+            ? true
+            : false;
           context.emit("loading", false);
         });
     }
@@ -293,6 +316,9 @@ export default {
           data.commericalRegisterExist = error.response.data.errors.commerical_register
             ? true
             : false;
+          data.isOurSupplierExist = error.response.data.errors.is_our_supplier
+            ? true
+            : false;
           context.emit("loading", false);
         });
     }
@@ -308,8 +334,10 @@ export default {
         responsible_name: form.responsible_name,
         responsible_phone: form.responsible_phone,
         type: form.type,
+        is_our_supplier: form.isOurSupplier,
       };
     }
+
     function setForm() {
       v$.value.$reset();
       form.name = props.selectedSupplier ? props.selectedSupplier.name : "";
@@ -326,9 +354,13 @@ export default {
         ? props.selectedSupplier.responsible_phone
         : "";
       form.type = props.selectedSupplier ? props.selectedSupplier.type : "STORE";
+      form.isOurSupplier = Boolean(
+        props.selectedSupplier ? props.selectedSupplier.is_our_supplier : false
+      );
       data.phoneExist = false;
       data.commericalRegisterExist = false;
       data.taxCardExist = false;
+      data.isOurSupplierExist = false;
     }
     //Watchers
     watch(

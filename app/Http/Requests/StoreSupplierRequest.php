@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Commons\Consts\SupplierType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreSupplierRequest extends FormRequest
 {
@@ -32,6 +33,8 @@ class StoreSupplierRequest extends FormRequest
             "commerical_register" => "nullable|unique:suppliers",
             "tax_card" => "nullable|unique:suppliers",
             "responsible_phone" => "nullable|regex:/^01[0125][0-9]{8}$/",
+            "is_our_supplier" => ["required","boolean",Rule::unique('suppliers')->where(fn ($query) => $query
+            ->where('is_our_supplier', 1))],
         ];
     }
 }

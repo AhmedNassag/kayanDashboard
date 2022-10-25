@@ -23,7 +23,8 @@ class CreateSuppliersTable extends Migration
             $table->string("responsible_name")->nullable();
             $table->string("responsible_phone")->nullable();
             $table->string("type")->nullable();
-            $table->boolean("active")->nullable();
+            $table->boolean("active")->default(1);
+            $table->boolean("is_our_supplier")->default(0);
             $table->timestamps();
         });
     }

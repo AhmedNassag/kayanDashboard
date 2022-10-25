@@ -297,18 +297,6 @@
             </a>
             <ul>
               <li
-                v-if="permission.includes('kayanPrice read')"
-                :class="[$route.name == 'indexKayanPrice' ? 'active' : '']"
-              >
-                <router-link
-                  :to="{ name: 'indexKayanPrice' }"
-                  :class="['sidebar-menu-rtl']"
-                >
-                  {{ $t("global.Kayan Prices") }}
-                </router-link>
-              </li>
-
-              <li
                 v-if="permission.includes('price read')"
                 :class="[$route.name == 'indexPrice' ? 'active' : '']"
               >
@@ -316,10 +304,17 @@
                   {{ $t("global.Prices") }}
                 </router-link>
               </li>
+              <li
+                v-if="permission.includes('deal read')"
+                :class="[$route.name == 'DealIndex' ? 'active' : '']"
+              >
+                <router-link :to="{ name: 'DealIndex' }" :class="['sidebar-menu-rtl']">
+                  {{ $t("sidebar.PriceBestDeals") }}
+                </router-link>
+              </li>
             </ul>
           </li>
           <!--End Price Links-->
-
           <!--Start Report Links-->
           <li class="submenu" v-if="permission.includes('management')">
             <a href="#">
@@ -441,7 +436,33 @@
 
           <!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
           <!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
-
+          <li
+            v-if="permission.includes('best-seller read')"
+            :class="[$route.name == 'BestSellerIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'BestSellerIndex' }">
+              <i class="fas fa-home"></i>
+              <span>{{ $t("sidebar.BestSellers") }}</span>
+            </router-link>
+          </li>
+          <li
+            v-if="permission.includes('most-popular read')"
+            :class="[$route.name == 'MostPopularIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'MostPopularIndex' }">
+              <i class="fas fa-home"></i>
+              <span>{{ $t("sidebar.MostPopular") }}</span>
+            </router-link>
+          </li>
+          <li
+            v-if="permission.includes('also-bought read')"
+            :class="[$route.name == 'AlsoBoughtIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'AlsoBoughtIndex' }">
+              <i class="fas fa-home"></i>
+              <span>{{ $t("sidebar.CustomerAlsoBought") }}</span>
+            </router-link>
+          </li>
           <li
             v-if="permission.includes('unit read')"
             :class="[$route.name == 'UnitIndex' ? 'active' : '']"
@@ -452,10 +473,13 @@
             </router-link>
           </li>
 
-          <li :class="[$route.name == 'DealIndex' ? 'active' : '']">
-            <router-link :to="{ name: 'DealIndex' }">
+          <li
+            v-if="permission.includes('termAndCondition read')"
+            :class="[$route.name == 'TermAndConditionIndex' ? 'active' : '']"
+          >
+            <router-link :to="{ name: 'TermAndConditionIndex' }">
               <i class="fa fa-home" aria-hidden="true"></i>
-              <span>{{ $t("sidebar.Deals") }}</span>
+              <span>{{ $t("sidebar.TermsAndConditions") }}</span>
             </router-link>
           </li>
 

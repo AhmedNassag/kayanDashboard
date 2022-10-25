@@ -101,7 +101,7 @@
                     <select
                       @change="onRelatedWithChanged"
                       v-model="related_with"
-                      class="custom-select"
+                      class="form-control"
                       id="sel1"
                     >
                       <option
@@ -126,7 +126,7 @@
                     <select
                       @change="onMainCategoryChange()"
                       v-model="main_category_id"
-                      class="custom-select"
+                      class="form-control"
                       id="sel1"
                     >
                       <option
@@ -154,7 +154,7 @@
                         'is-invalid': v$.sub_category_id.$error,
                       }"
                       v-model="v$.sub_category_id.$model"
-                      class="custom-select"
+                      class="form-control"
                       id="sel1"
                     >
                       <option
@@ -180,7 +180,7 @@
                         'is-invalid': v$.product_id.$error,
                       }"
                       v-model="v$.product_id.$model"
-                      class="custom-select"
+                      class="form-control"
                       id="sel1"
                     >
                       <option

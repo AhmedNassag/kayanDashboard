@@ -98,7 +98,7 @@
                         <label for="sel1">{{ $t("global.Products") }}</label>
                         <select
                           v-model="v$.product_id.$model"
-                          class="custom-select"
+                          class="form-control"
                           id="sel1"
                         >
                           <option

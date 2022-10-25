@@ -32,7 +32,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-    $products = Product::with(/*'company:id,name', 'supplier:id,name',*/ 'category:id,name', 'tax:id,name', 'pharmacistForm:id,name')
+        $products = Product::with(/*'company:id,name', 'supplier:id,name',*/'category:id,name', 'tax:id,name', 'pharmacistForm:id,name')
             ->when($request->search, function ($q) use ($request) {
 
                 return $q->where('name', 'like', "%" . $request->search . "%");
@@ -150,7 +150,7 @@ class ProductController extends Controller
             // picture move
             $request->image->storeAs('product', $image, 'general');
 
-            $data = $request->only(['nameAr','nameEn','description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'sub_measurement_unit_id', 'pharmacistForm_id','count_unit']);
+            $data = $request->only(['nameAr', 'nameEn', 'description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'sub_measurement_unit_id', 'pharmacistForm_id', 'count_unit']);
 
             // $data['sub_measurement_unit_id'] = 1;
 
@@ -192,12 +192,12 @@ class ProductController extends Controller
                 $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
                 foreach ($request->alternativeDetail as $alternativeDetail) {
                     AlternativeDetail::create([
-                            'product_id'     => $product['id'],
-                            'alternative_id' => $alternativeDetail->alternative_id,
-                            'discount'       => $alternativeDetail->discount,
-                            'pharmacyPrice'  => $alternativeDetail->pharmacyPrice,
-                            'publicPrice'    => $alternativeDetail->publicPrice,
-                        ]);
+                        'product_id'     => $product['id'],
+                        'alternative_id' => $alternativeDetail->alternative_id,
+                        'discount'       => $alternativeDetail->discount,
+                        'pharmacyPrice'  => $alternativeDetail->pharmacyPrice,
+                        'publicPrice'    => $alternativeDetail->publicPrice,
+                    ]);
                 }
             }
 
@@ -292,7 +292,7 @@ class ProductController extends Controller
             return $this->sendError('There is an error in the data', $v->errors());
         }
 
-        $data = $request->only(['nameAr','nameEn','description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'pharmacistForm_id']);
+        $data = $request->only(['nameAr', 'nameEn', 'description', 'effectiveMaterial', 'barcode', 'maximum_product', 'Re_order_limit', 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'pharmacistForm_id']);
 
         // if ($data['company_id'] != "null") {
         //     //unset($data['supplier_id']);
