@@ -150,6 +150,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::Post('replycomplaint/{id}', 'ComplaintController@reply');
             Route::get('showcomplaint/{id}', 'ComplaintController@show');
 
+            // start advertiser
+            Route::resource('advertiserPackage', 'PackageController');
+            Route::post('advertiserPackage/statusPackage', 'PackageController@statusPackage');
+
+            // start Advertise Schedule
+            Route::resource('scheduleAdvertise', 'AdvertiserScheduleController')->except('show');
+            Route::get('activation/{id}', 'AdvertiserScheduleController@activation');
+
             // crm
             Route::resource('targetPlan', 'TargetPlanController');
             Route::resource('target', 'TargetController');

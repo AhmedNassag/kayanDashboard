@@ -428,7 +428,7 @@ export default {
     border-radius: 5px;
 }
 .account2{
-    background-color: #00DD2F;
+    background-color: #0E67D0;
     color: #000000 !important;
     border-radius: 5px;
 }

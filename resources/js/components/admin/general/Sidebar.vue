@@ -104,16 +104,6 @@
                     </li>
                     <!-- End Complaint Links -->
 
-                    <!-- Start Ad Owner Links -->
-                    <li v-if="permission.includes('adOwner read')"
-                        :class="[$route.name == 'indexAdOwner' ? 'active' : '']">
-                        <router-link :to="{ name: 'indexAdOwner' }">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            <span>{{ $t("global.Ad Owners") }}</span>
-                        </router-link>
-                    </li>
-                    <!-- End Ad Owner Links -->
-
                     <!-- Start Product Links -->
                     <li class="submenu" v-if="permission.includes('management')">
                         <a href="#">
@@ -305,6 +295,35 @@
                     </li>
                     <!-- End CRM Links -->
 
+                    <!-- Start Advertisement-->
+                    <li class="submenu" v-if="permission.includes('advertise')">
+                        <a href="#" >
+                            <i class="fas fa-home"></i>
+                            <span> {{$t('sidebar.Advertisement')}}</span>
+                            <span :class="['menu-arrow',this.$i18n.locale == 'ar'?'menu-arrow-ar':'']"></span>
+                        </a>
+                        <ul>
+                            <li :class="[$route.name == 'package'? 'active': '']" v-if="permission.includes('package read')">
+                                <router-link :to="{name:'package',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('sidebar.Package')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'scheduleGet' ? 'active': '']" v-if="permission.includes('schedule read')">
+                                <router-link :to="{name:'scheduleGet',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('sidebar.Schedule')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexAdOwner' ? 'active' : '']" v-if="permission.includes('adOwner read')">
+                                <router-link :to="{ name: 'indexAdOwner',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{ $t("global.Ad Owners") }}
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- End Advertisement-->
+
                     <!-- Start Report Links -->
                     <li class="submenu">
                         <a href="#" >
@@ -367,11 +386,11 @@
                                 </router-link>
                             </li>
 
-                            <li :class="[$route.name == 'totalOrderReport'? 'active': '']">
+                            <!-- <li :class="[$route.name == 'totalOrderReport'? 'active': '']">
                                 <router-link :to="{name:'totalOrderReport'}" :class="['sidebar-menu-rtl']">
                                     {{ $t('global.totalOrderReport') }}
                                 </router-link>
-                            </li>
+                            </li> -->
 
                         </ul>
                     </li>

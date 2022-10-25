@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdOwner;
+use App\Models\AdvertiseSchedule;
 use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,11 +21,17 @@ class AdOwnerController extends Controller
      */
     public function index(Request $request)
     {
-        $adOwners = AdOwner::with('media:file_name,mediable_id')
-        ->when($request->search, function ($q) use ($request) {
-            return $q->where('name', 'like', '%' . $request->search . '%');
-        })->latest()->paginate(10);
+        // $adOwners = AdOwner::with('media:file_name,mediable_id')
+        // ->when($request->search, function ($q) use ($request) {
+        //     return $q->where('name', 'like', '%' . $request->search . '%');
+        // })->latest()->paginate(10);
 
+        // return $this->sendResponse(['adOwners' => $adOwners], 'Data exited successfully');
+        $adOwners = AdvertiseSchedule::with(['packages', 'users:name,id'])
+        ->when($request->search, function ($q) use ($request) {
+            return $q->WhereRelation('packages', 'name', 'like', '%' . $request->search . '%')
+            ->orWhereRelation('users', 'name', 'like', '%' . $request->search . '%');
+        })->paginate(10);
         return $this->sendResponse(['adOwners' => $adOwners], 'Data exited successfully');
     }
 

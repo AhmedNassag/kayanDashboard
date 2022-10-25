@@ -22,6 +22,8 @@ import saleReturn from './adminRoute/saleReturn';
 import storage from './adminRoute/storage';
 import adOwner from './adminRoute/adOwner';
 import complaint from './adminRoute/complaint';
+import packages from './adminRoute/package';
+import schedule from './adminRoute/schedule';
 //crm
 import targetPlan from './adminRoute/targetPlan';
 import TargetAchived from './adminRoute/TargetAchived';
@@ -154,6 +156,8 @@ const routes = [
             ...storage,
             ...adOwner,
             ...complaint,
+            ...packages,
+            ...schedule,
             ...targetPlan,
             ...TargetAchived,
             ...sellerCategory,
