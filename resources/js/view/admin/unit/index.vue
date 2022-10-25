@@ -53,7 +53,7 @@
                       {{ $t("global.Add") }}
                     </button>
                   </div>
-                  
+
                 </div>
               </div>
               <div class="table-responsive">
@@ -290,7 +290,7 @@ export default {
       width: 45%;
     }
     .btn {
-      color: #fff;
+      color: #FFF;
     }
   }
 }

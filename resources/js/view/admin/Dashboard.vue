@@ -231,7 +231,8 @@ export default {
 
 <style scoped>
 .bg-1 {
-  background: #fcb00c !important;
+  /* background: #fcb00c !important; */
+  background: #0E67D0 !important;
 }
 .bg-1 i {
   color: #fff !important;

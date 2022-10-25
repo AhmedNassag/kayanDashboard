@@ -20,19 +20,30 @@ import saleInvoice from './adminRoute/saleInvoice';
 import saleRecord from './adminRoute/saleRecord';
 import saleReturn from './adminRoute/saleReturn';
 import storage from './adminRoute/storage';
+import adOwner from './adminRoute/adOwner';
 import complaint from './adminRoute/complaint';
-//
-import financialReport from './adminRoute/financialReport';
-import productReport from './adminRoute/productReport';
-import customerReport from './adminRoute/clientReport';
-import supplierReport from './adminRoute/supplierReport';
-import stockReport from './adminRoute/stockReport';
-import complaintReport from './adminRoute/complaintReport';
-import delegateReport from './adminRoute/delegateReport';
-import regionReport from './adminRoute/regionReport';
-import purchaseReport from './adminRoute/purchaseReport';
+import packages from './adminRoute/package';
+import schedule from './adminRoute/schedule';
+//crm
+import targetPlan from './adminRoute/targetPlan';
+import TargetAchived from './adminRoute/TargetAchived';
+import sellerCategory from './adminRoute/sellerCategory';
+import leadsManagement from './adminRoute/leadsManagement';
+import Leads from './adminRoute/Leads';
+import clientReport from './adminRoute/clientReport';
+import areaReport from './adminRoute/storeReport';
 import saleReport from './adminRoute/saleReport';
-//
+import CategoryProductReport from './adminRoute/CategoryProductReport';
+// import financialReport from './adminRoute/financialReport';
+// import productReport from './adminRoute/productReport';
+// import customerReport from './adminRoute/clientReport';
+// import supplierReport from './adminRoute/supplierReport';
+// import stockReport from './adminRoute/stockReport';
+import complaintReport from './adminRoute/complaintReport';
+// import delegateReport from './adminRoute/delegateReport';
+// import regionReport from './adminRoute/regionReport';
+// import purchaseReport from './adminRoute/purchaseReport';
+// import saleReport from './adminRoute/saleReport';
 import refused from './adminRoute/refused';
 import job from './adminRoute/job';
 import role from './adminRoute/role';
@@ -64,12 +75,11 @@ import shipping from './adminRoute/shipping';
 import supplier from './adminRoute/supplier';
 import client from './adminRoute/client';
 import newsletter from './adminRoute/newsletter';
-import termAndCondition from './adminRoute/term-and-condtion';
-
 import purchaseInvoice from './adminRoute/purchaseInvoice';
 import examinationRecord from './adminRoute/examinationRecord';
 import purchaseReturn from './adminRoute/purchaseReturn';
 import salePoint from './adminRoute/sale-point';
+import termAndCondition from './adminRoute/term-and-condtion';
 const routes = [
     {
         path: '/',
@@ -148,19 +158,29 @@ const routes = [
             ...saleRecord,
             ...saleReturn,
             ...storage,
+            ...adOwner,
             ...complaint,
-            //
-            ...financialReport,
-            ...productReport,
-            ...customerReport,
-            ...supplierReport,
-            ...stockReport,
-            ...complaintReport,
-            ...delegateReport,
-            ...regionReport,
-            ...purchaseReport,
+            ...packages,
+            ...schedule,
+            ...targetPlan,
+            ...TargetAchived,
+            ...sellerCategory,
+            ...leadsManagement,
+            ...Leads,
+            ...areaReport,
+            ...clientReport,
             ...saleReport,
-            //
+            ...CategoryProductReport,
+            // ...financialReport,
+            // ...productReport,
+            // ...customerReport,
+            // ...supplierReport,
+            // ...stockReport,
+            ...complaintReport,
+            // ...delegateReport,
+            // ...regionReport,
+            // ...purchaseReport,
+            // ...saleReport,
             ...refused,
             ...unit,
             ...termAndCondition,

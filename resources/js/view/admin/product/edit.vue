@@ -355,7 +355,10 @@
                                                 <div class="container-images" id="container-images" v-show="data.image && numberOfImage"></div>
                                                 <div class="container-images" v-show="!numberOfImage">
                                                     <figure>
-                                                        <figcaption>
+                                                        <figcaption v-if="image">
+                                                            <img :src="`/upload/product/${image}`">
+                                                        </figcaption>
+                                                        <figcaption v-else>
                                                             <img :src="`/admin/img/company/img-1.png`">
                                                         </figcaption>
                                                     </figure>
@@ -364,7 +367,7 @@
                                             <!--End Image-->
 
                                             <!--Start Multiple Images-->
-                                            <div class="col-md-9 row flex-fill">
+                                            <!-- <div class="col-md-9 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
                                                     <span>
                                                         {{ $t("global.ChooseImage") }}
@@ -384,17 +387,23 @@
                                                 <div class="container-images" id="container-images1" v-show="data.files && numberOfImage1"></div>
                                                 <div class="container-images" v-show="!numberOfImage1">
                                                     <figure>
-                                                        <figcaption>
+                                                        <figcaption v-if="files">
+                                                            <img :src="`/upload/product/${files}`">
+                                                        </figcaption>
+                                                        <figcaption v-else>
                                                             <img :src="`/admin/img/company/img-1.png`">
                                                         </figcaption>
                                                     </figure>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Multiple Images-->
 
 
+                                            <div class="col-md-4 m-3">
+                                                <button class="btn btn-success" v-on:click="isHidden = !isHidden" v-if="isHidden">{{ $t('global.Add Alternative') }}</button>
+                                            </div>
                                             <!--Start Alternative Details-->
-                                            <div class="col-md-12 mb-3 mt-5 alternativeDetail-option" id="alternativeDetail">
+                                            <div class="col-md-12 mb-3 mt-5 alternativeDetail-option" id="alternativeDetail" v-if="!isHidden">
                                                 <div class="row account">
                                                     <div class="col-md-12 mb-12 head-account">
                                                         <h3>{{ $t('global.alternatives') }}</h3>
@@ -445,6 +454,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-4 col-offset-7 mb-3">
+                                                <button class="btn btn-danger" v-on:click="isHidden = true"  v-if="!isHidden">{{ $t('global.Cancel Alternative') }}</button>
+                                            </div>
                                             <!--End Alternative Details-->
 
                                         </div>
@@ -475,6 +487,7 @@ export default {
     data(){
         return {
             errors:{},
+            isHidden: true,
             // companyShow: true,
             // supplierShow: false
         }
@@ -1002,7 +1015,7 @@ input[type="file"] {
     height: 150px;
 }
 .account {
-    background-color: #fcb00c;
+    background-color: #0E67D0;
     color: #000000 !important;
     border-radius: 5px;
 }

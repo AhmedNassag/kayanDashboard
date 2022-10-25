@@ -33,7 +33,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm">
-                                    <div class="alert alert-danger text-center" v-if="errors['type']">{{ errors['type'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="message.length > 0">{{ message }}<br/></div>
+                                    <!-- <div class="alert alert-danger text-center" v-if="errors['type']">{{ errors['type'][0] }}<br/></div>
                                     <div class="alert alert-danger text-center" v-if="errors['client_id']">{{ errors['client_id'][0] }}<br/></div>
                                     <div class="alert alert-danger text-center" v-if="errors['stock_id']">{{ errors['stock_id'][0] }}<br/></div>
                                     <div class="alert alert-danger text-center" v-if="errors['payment_method']">{{ errors['payment_method'][0] }}<br/></div>
@@ -50,7 +51,7 @@
                                     <div class="alert alert-danger text-center" v-if="errors['product.0.product_id']">{{ errors['product.0.product_id'][0] }}<br/></div>
                                     <div class="alert alert-danger text-center" v-if="errors['product.0.quantity']">{{ errors['product.0.quantity'][0] }}<br/></div>
                                     <div class="alert alert-danger text-center" v-if="errors['product.0.price_before_discount']">{{ errors['product.0.price_before_discount'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['product.0.price_after_discount']">{{ errors['product.0.price_after_discount'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['product.0.price_after_discount']">{{ errors['product.0.price_after_discount'][0] }}<br/></div> -->
 
                                     <form @submit.prevent="storeJob" class="needs-validation">
                                         <div class="form-row row">
@@ -89,8 +90,8 @@
                                                     <option v-for="client in clients" :key="client.id" :value="client.id">{{client.user.name}}</option>
                                                 </select> -->
                                                 <router-link :to="{ name: 'ClientIndex' }">
-                                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                                    <span> {{ $t("sidebar.New Client") }} </span>
+                                                    <i class="fa fa-user" aria-hidden="true" style="color: #0E67D0"></i>
+                                                    <span style="color: #0E67D0"> {{ $t("sidebar.New Client") }} </span>
                                                 </router-link>
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
@@ -337,7 +338,10 @@
 
 
                                             <!--Start Batches-->
-                                            <div class="col-md-12 mb-3 batch-option" id="batch" v-if="batchShow == true">
+                                            <div class="col-md-7 m-3">
+                                                <button class="btn btn-success" style="width:22%;" v-on:click="isHidden = !isHidden" v-if="isHidden">{{ $t('global.Add Batches') }}</button>
+                                            </div>
+                                            <div class="col-md-12 mb-3 batch-option" id="batch" v-if="!isHidden">
                                                 <div class="row account">
                                                     <div class="col-md-12 mb-12 head-account">
                                                         <h3>{{ $t('global.Batches') }}</h3>
@@ -389,6 +393,9 @@
 
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-4 col-offset-7 mb-3">
+                                                <button class="btn btn-danger" v-on:click="isHidden = true"  v-if="!isHidden">{{ $t('global.Cancel Batches') }}</button>
                                             </div>
                                             <!--End Batches-->
 
@@ -486,11 +493,10 @@
                                                         </div>
                                                         <!--End Price Before Discount-->
 
-                                                        <!--Start Price After Discount-->
+                                                        <!--Start Price After Discount @change="getProductPrice(it.product_id,index)"-->
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.priceAfterDiscount')}}</label>
                                                             <input type="number" step="0.1" class="form-control"
-                                                                @change="getProductPrice(it.product_id,index)"
                                                                 @input="validateLTE(index)"
                                                                 v-model.number="v$.product[index].price_after_discount.$model"
                                                                 :placeholder="$t('global.priceAfterDiscount')"
@@ -586,11 +592,13 @@ export default {
         return {
             errors:{},
             batchShow:true,
+            isHidden: true,
         }
     },
     setup(){
         const {t} = useI18n({});
         let loading = ref(false);
+        let message = ref('');
         let clients = ref([]);
         let stores = ref([]);
         let categories = ref([]);
@@ -855,7 +863,7 @@ export default {
             addJob.data.discount_percentage =   (after*100)/addJob.data.price;
         });
 
-        return {t,validateLTE,getProduct,getMeasurementUnit,getSubCategory,categories,clients,stores,loading,...toRefs(addJob),v$,totalProductQuantity,totalProductPrice,productValidation,DebitAmount,validateDueDate,batchValidation};
+        return {t,validateLTE,getProduct,getMeasurementUnit,getSubCategory,categories,clients,stores,loading,message,...toRefs(addJob),v$,totalProductQuantity,totalProductPrice,productValidation,DebitAmount,validateDueDate,batchValidation};
     },
     methods: {
         hideBatch()
@@ -873,6 +881,7 @@ export default {
             if(!this.v$.$error){
                 this.loading = true;
                 this.errors = {};
+                this.message = '';
 
                 adminApi.post(`/v1/dashboard/saleInvoice`,this.data)
                 .then((res) => {
@@ -889,8 +898,9 @@ export default {
                     this.totalProductQuantity = 0;
                 })
                 .catch((err) => {
-                    // console.log(err.response)
+                    console.log(err.response)
                     this.errors = err.response.data.errors;
+                    this.message = err.response.data.message;
                 })
                 .finally(() => {
                     this.loading = false;
@@ -1012,7 +1022,13 @@ export default {
     position: relative;
 }
 .account{
-    background-color: #fcb00c;
+    background-color: #0E67D0;
+    color: #000000 !important;
+    border-radius: 5px;
+}
+
+.account2{
+    background-color: #00DD2F;
     color: #000000 !important;
     border-radius: 5px;
 }

@@ -7,7 +7,7 @@
         <div class="login-wrapper">
             <div class="container">
 
-                <img class="img-fluid logo-dark mb-2" src="/web/img/logo.png" alt="Logo">
+                <img class="img-fluid logo-dark mb-2" src="/admin/img/Logo Dashboard.png" alt="Logo">
                 <div class="loginbox">
 
                     <div class="login-right">
@@ -30,7 +30,7 @@
                                         <span class="checkmark"></span> Remember password
                                     </label>
                                 </div>
-                                <button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Login</button>
+                                <button class="btn btn-info btn-block btn-lg login-btn" type="submit">Login</button>
                                 <div class="row form-row login-foot">
                                     <div class="col-lg-6 login-forgot">
                                         <router-link class="forgot-link" :to="{name:'forgetPassword'}">Forgot Password ?</router-link>

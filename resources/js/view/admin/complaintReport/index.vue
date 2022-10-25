@@ -75,8 +75,9 @@
                                             <td class="text-center">{{ item.user.name }}</td>
                                             <td class="text-center" v-if="item.user.phone">{{ item.user.phone }}</td>
                                             <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                                            <td class="text-center" v-if="item.type">{{ item.type }}</td>
-                                            <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
+                                            <td class="text-center" v-if="item.type='Product Complaint'">{{ $t("global.Product Complaint") }}</td>
+                                            <td class="text-center" v-else-if="item.type='Application Complaint'">{{ $t("global.Application Complaint") }}</td>
+                                            <td class="text-center" v-else>{{ $t("global.Sales Complaint") }}</td>
                                             <td class="text-center">{{ item.content }}</td>
                                             <td class="text-center" v-if="item.reply">{{ item.reply }}</td>
                                             <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
@@ -220,7 +221,7 @@ export default {
 
 
 .amount{
-    background-color: #fcb00c;
+    background-color: #0e67d0;
     color: #000;
     padding: 10px;
 }
@@ -250,7 +251,7 @@ export default {
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    background-color: #fcb00c !important;
+    background-color: #0e67d0 !important;
     border-radius: 10px;
 }
 .custom-modal .close span {

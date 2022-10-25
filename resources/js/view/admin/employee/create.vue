@@ -1141,12 +1141,12 @@ input[type="file"] {
   background-color: #f7f7f7;
 }
 .sec-body {
-  border: 3px solid #fcb00c;
+  border: 3px solid #00DD2F;
   border-radius: 20px;
   padding: 10px;
 }
 .sec-head {
-  background-color: #fcb00c;
+  background-color: #00DD2F;
   color: #000;
   border-radius: 11px;
   padding: 5px;
@@ -1155,7 +1155,7 @@ input[type="file"] {
   margin-top: 10px;
 }
 .sec-body:hover .sec-head {
-  border: 3px solid #fcb00c;
+  border: 3px solid #0E67D0;
   padding: 2px;
   border-radius: 11px;
   background-color: #ffff;

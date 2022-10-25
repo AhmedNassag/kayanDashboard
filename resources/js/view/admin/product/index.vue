@@ -46,47 +46,43 @@
                                 <table class="table mb-0">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>{{ $t("global.NameAr") }}</th>
-                                        <th>{{ $t("global.NameEn") }}</th>
-                                        <th> {{ $t("global.Category") }}</th>
-                                        <th> {{ $t("global.Pharmacist Form") }}</th>
-                                        <!-- <th>{{ $t("global.Company") }}</th>
-                                        <th>{{ $t("global.Supplier") }}</th> -->
-                                        <th>{{ $t("global.Tax") }}</th>
-                                        <th>{{ $t("global.Image") }}</th>
-                                        <th>{{ $t("global.Status") }}</th>
-                                        <th>{{ $t("global.Action") }}</th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">{{ $t("global.NameAr") }}</th>
+                                        <th class="text-center">{{ $t("global.NameEn") }}</th>
+                                        <th class="text-center"> {{ $t("global.Category") }}</th>
+                                        <th class="text-center">{{ $t("global.SubCategory") }}</th>
+                                        <th class="text-center">{{ $t("global.Pharmacist Form") }}</th>
+                                        <th class="text-center">{{ $t("global.Tax") }}</th>
+                                        <th class="text-center">{{ $t("global.Image") }}</th>
+                                        <th class="text-center">{{ $t("global.Status") }}</th>
+                                        <th class="text-center">{{ $t("global.Action") }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="products.length">
                                     <tr v-for="(item,index) in products" :key="item.id">
-                                        <td>{{ index + 1 }}</td>
-                                        <td v-if="item.nameAr">{{ item.nameAr }}</td>
-                                        <td v-else>---</td>
-                                        <td v-if="item.nameEn">{{ item.nameEn }}</td>
-                                        <td v-else>---</td>
-                                        <td>{{ item.category.name }}</td>
-                                        <td>{{ item.pharmacist_form.name }}</td>
-                                        <!-- <td v-if="item.company_id">{{ item.company.name }}</td>
-                                        <td v-else>---</td>
-                                        <td v-if="item.supplier_id">{{ item.supplier.name }}</td>
-                                        <td v-else>---</td> -->
-                                        <td>{{ item.tax.name }}</td>
-                                        <td>
+                                        <td class="text-center">{{ index + 1 }}</td>
+                                        <td class="text-center" v-if="item.nameAr">{{ item.nameAr }}</td>
+                                        <td class="text-center" v-else>---</td>
+                                        <td class="text-center" v-if="item.nameEn">{{ item.nameEn }}</td>
+                                        <td class="text-center" v-else>---</td>
+                                        <td class="text-center">{{ item.category.name }}</td>
+                                        <td class="text-center">{{ item.sub_category.name }}</td>
+                                        <td class="text-center">{{ item.pharmacist_form.name }}</td>
+                                        <td class="text-center">{{ item.tax.name }}</td>
+                                        <td class="text-center">
                                             <img
                                                 :src="'/upload/product/' + item.image"
                                                 :alt="item.name"
                                                 class="custom-img"
                                             />
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a href="#" @click="activationProduct(item.id,item.status,index)">
                                                 <span :class="[parseInt(item.status) ? 'text-success hover': 'text-danger hover']">{{
                                                         parseInt(item.status) ? 'تفعيل' : 'ايقاف تفعيل' }}</span>
                                             </a>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <router-link
                                                 :to="{name: 'editProduct',params:{id:item.id}}"
                                                v-if="permission.includes('product edit')"

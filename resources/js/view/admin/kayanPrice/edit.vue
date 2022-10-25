@@ -42,16 +42,6 @@
                     <div class="form-row row">
                       <!--Start Company And Supplier Supplier-->
                       <div class="col-md-6 mb-3">
-                        <!--Start Company Select-->
-                        <!-- <div id="company" class="col-md-12 mb-3" v-if="companyShow == true">
-                                                    <label >{{ $t("global.Company") }}</label>
-                                                    <Select2 v-model="v$.company_id.$model" :options="companies" :settings="{ width: '100%' }" />
-                                                    <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                    <div class="invalid-feedback">
-                                                    </div>
-                                                    <input id ="myButton1" class="btn btn-secondary btn-ms" type="button" v-on:click="showSupplier()" value="مورد"/>
-                                                </div> -->
-                        <!--End Company Select-->
 
                         <!--Start Supplier Select-->
                         <div id="supplier" class="col-md-12 mb-3">
@@ -63,17 +53,6 @@
                             :options="suppliers"
                             :settings="{ width: '100%' }"
                           />
-                          <!-- <select
-                                                        name="type"
-                                                        class="form-control"
-                                                        v-model.trim="v$.supplier_id.$model"
-                                                        :class="{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}"
-                                                    >
-                                                        <option :value="data.nullValue">---</option>
-                                                        <option id="supplier-option" v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id">
-                                                            {{ supplier.name }}
-                                                        </option>
-                                                    </select> -->
                           <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                           <div class="invalid-feedback">
                             <!-- <span v-if="v$.supplier_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
@@ -98,7 +77,6 @@
                             'is-valid': !v$.category_id.$invalid,
                           }"
                         >
-                          <option value="">---</option>
                           <option
                             v-for="category in categories"
                             :key="category.id"
@@ -124,17 +102,6 @@
                           :options="subCategories"
                           :settings="{ width: '100%' }"
                         />
-                        <!-- <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    v-model="v$.sub_category_id.$model"
-                                                    :class="{'is-invalid':v$.sub_category_id.$error,'is-valid':!v$.sub_category_id.$invalid}"
-                                                >
-                                                    <option value="">---</option>
-                                                    <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id" >
-                                                        {{ subCategory.name }}
-                                                    </option>
-                                                </select> -->
                         <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                         <div class="invalid-feedback">
                           <span v-if="v$.sub_category_id.required.$invalid"
@@ -142,21 +109,6 @@
                           /></span>
                         </div>
                       </div>
-                      <!-- <div class="col-md-3 mb-3">
-                                                <label>{{ $t('global.subCategory') }}</label>
-                                                <select
-                                                    @change="getProduct(v$.category_id,v$.sub_category_id,$model)"
-                                                    v-model="v$.sub_category_id.$model"
-                                                    :class="['form-select',{'is-invalid':v$.sub_category_id.$error,'is-valid':!v$.sub_category_id.$invalid}]"
-                                                >
-                                                    <option v-for="category in subCategory[index].subCategory" :key="category.id" :value="category.id">{{category.name}}</option>
-                                                </select>
-                                                <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.product[index].sub_category_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /></span>
-                                                </div>
-                                            </div> -->
-                      <!--End SubCategory Select-->
 
                       <!--Start Product Name Select-->
                       <div class="col-md-6 mb-3">
@@ -208,9 +160,9 @@
                         />
                         <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                         <div class="invalid-feedback">
-                          <span v-if="v$.reOrderLimit.required.$invalid"
-                            >{{ $t("global.NameIsRequired") }}<br
-                          /></span>
+                            <span v-if="v$.reOrderLimit.required.$invalid">
+                                {{ $t("global.NameIsRequired") }}<br/>
+                            </span>
                         </div>
                       </div>
                       <!--End ReOrder Limit-->
@@ -230,9 +182,9 @@
                         />
                         <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                         <div class="invalid-feedback">
-                          <span v-if="v$.pharmacyPrice.required.$invalid"
-                            >{{ $t("global.NameIsRequired") }}<br
-                          /></span>
+                          <span v-if="v$.pharmacyPrice.required.$invalid">
+                            {{ $t("global.NameIsRequired") }}<br/>
+                        </span>
                         </div>
                       </div>
                       <!--End Pharmacy Price-->
