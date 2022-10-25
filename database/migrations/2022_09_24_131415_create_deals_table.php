@@ -15,9 +15,8 @@ class CreateDealsTable extends Migration
     {
         Schema::create('deals', function (Blueprint $table) {
             $table->id();
-            $table->integer("discount")->nullable();
-            $table->foreignId('product_id')->nullable()->constrained('products');
             $table->timestamp("end_at")->nullable();
+            $table->integer("limit")->nullable();
             $table->timestamps();
         });
     }

@@ -86,7 +86,7 @@
                         <label for="sel1">{{ $t("global.Products") }}</label>
                         <select
                           v-model="v$.product_id.$model"
-                          class="custom-select"
+                          class="form-control"
                           id="sel1"
                         >
                           <option
@@ -271,7 +271,7 @@ export default {
       formData.append("external", form.external);
       let product = getProduct();
       formData.append("product_name_ar", product ? product.nameAr : "");
-      formData.append("product_name_en", product ? product.product_name.nameEn : "");
+      formData.append("product_name_en", product ? product.nameEn : "");
       if (data.uploadedImage) {
         formData.append("image", data.uploadedImage);
       }

@@ -162,7 +162,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('refused', 'RefusedController')->except(['show']);
 
             // relations routes
-        Route::get('getCategories', 'ProductController@getCategories');
+            Route::get('getCategories', 'ProductController@getCategories');
             Route::get('getSubCategories', 'ProductController@getSubCategories');
             Route::get('getCompanies', 'ProductController@getCompanies');
             Route::get('getTaxes', 'ProductController@getTaxes');
@@ -173,7 +173,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('getAreas', 'StockController@getAreas');
             Route::get('getSuppliers', 'PurchaseController@getSuppliers');
             Route::get('getProducts', 'PurchaseController@getProducts');
-            Route::get('productPrice/{id}','PurchaseController@productPrice');
+            Route::get('productPrice/{id}', 'PurchaseController@productPrice');
             Route::get('getStocks', 'RefusedController@getStocks');
             Route::get('getClientBalance/{id}', 'SaleController@getClientBalance');
 
@@ -335,6 +335,58 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::delete("{id}", "SliderController@delete");
             });
 
+            //Deals
+            Route::prefix("deals")->group(function () {
+                Route::prefix("settings")->group(function () {
+                    Route::post("", "DealController@insertDealSettings");
+                    Route::get("", "DealController@getDealSettings");
+                });
+                Route::get("products", "DealController@getProducts");
+                Route::post("", "DealController@store");
+                Route::put("", "DealController@update");
+                Route::delete("{id}", "DealController@delete");
+                Route::get("", "DealController@index");
+            });
+
+            //Best sellers
+            Route::prefix("best-sellers")->group(function () {
+                Route::prefix("settings")->group(function () {
+                    Route::post("", "BestSellerController@insertBestSellerSettings");
+                    Route::get("", "BestSellerController@getBestSellerSettings");
+                });
+                Route::get("products", "BestSellerController@getProducts");
+                Route::post("", "BestSellerController@store");
+                Route::put("", "BestSellerController@update");
+                Route::delete("{id}", "BestSellerController@delete");
+                Route::get("", "BestSellerController@index");
+            });
+
+            //Most populars
+            Route::prefix("most-populars")->group(function () {
+                Route::prefix("settings")->group(function () {
+                    Route::post("", "MostPopularController@insertMostPopularSettings");
+                    Route::get("", "MostPopularController@getMostPopularSettings");
+                });
+                Route::get("products", "MostPopularController@getProducts");
+                Route::post("", "MostPopularController@store");
+                Route::put("", "MostPopularController@update");
+                Route::delete("{id}", "MostPopularController@delete");
+                Route::get("", "MostPopularController@index");
+            });
+
+            //Also bought
+            Route::prefix("also-bought")->group(function () {
+                Route::prefix("settings")->group(function () {
+                    Route::post("", "AlsoBoughtController@insertAlsoBoughtSettings");
+                    Route::get("", "AlsoBoughtController@getAlsoBoughtSettings");
+                });
+                Route::get("products", "AlsoBoughtController@getProducts");
+                Route::post("", "AlsoBoughtController@store");
+                Route::put("", "AlsoBoughtController@update");
+                Route::delete("{id}", "AlsoBoughtController@delete");
+                Route::get("", "AlsoBoughtController@index");
+            });
+
             //Simple Advertises
             Route::prefix("simple-advertises")->group(function () {
                 Route::get("", "SimpleAdvertiseController@index");
@@ -344,13 +396,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::delete("{id}", "SimpleAdvertiseController@delete");
             });
 
-            //Deal
-            Route::prefix("deal")->group(function () {
-                Route::post("", "DealController@insertDeal");
-                Route::get("", "DealController@getDeal");
-                Route::get("products", "DealController@getProducts");
-            });
 
+            //Terms And Conditions
+            Route::prefix("terms-and-conditions")->group(function () {
+                Route::get("", "TermAndConditionController@getTermsAndConditions");
+                Route::post("", "TermAndConditionController@storeTermsAndConditions");
+            });
 
             Route::prefix("unavailable-cities-clients")->group(function () {
                 Route::get("", "UnavailableCityClientController@getUnavailableCitiesClients");

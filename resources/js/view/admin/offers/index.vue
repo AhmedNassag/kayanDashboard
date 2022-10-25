@@ -269,7 +269,6 @@ export default {
         search();
       }
     );
-
     //Commons
     function httpDeleteRequest(offer, index) {
       data.loading = true;

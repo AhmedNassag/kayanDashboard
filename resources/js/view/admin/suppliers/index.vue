@@ -1,10 +1,7 @@
 <template>
   <div
     class="supplier-container"
-    :class="[
-      'page-wrapper',
-      this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
-    ]"
+    :class="['page-wrapper', this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '']"
   >
     <SupplierForm
       :selectedSupplier="selectedSupplier"
@@ -65,19 +62,22 @@
                       <th class="text-center">{{ $t("global.Name") }}</th>
                       <th class="text-center">{{ $t("global.Address") }}</th>
                       <th class="text-center">{{ $t("global.Phone") }}</th>
+                      <th class="text-center">{{ $t("global.IsKayanSupplier") }}</th>
                       <th class="text-center">{{ $t("global.Status") }}</th>
                       <th class="text-center">{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
                   <tbody v-if="suppliers.length">
-                    <tr
-                      v-for="(supplier, index) in suppliers"
-                      :key="supplier.id"
-                    >
+                    <tr v-for="(supplier, index) in suppliers" :key="supplier.id">
                       <td class="text-center">{{ index + 1 }}</td>
                       <td class="text-center">{{ supplier.name }}</td>
                       <td class="text-center">{{ supplier.address }}</td>
                       <td class="text-center">{{ supplier.phone }}</td>
+                      <td class="text-center">
+                        <span class="badge badge-primary" v-if="supplier.is_our_supplier">
+                          {{ $t("global.IsKayanSupplier") }}
+                        </span>
+                      </td>
                       <td class="text-center">
                         <button
                           class="active"
@@ -128,12 +128,15 @@
                         </a>
                         <!---->
                         <router-link
-                        v-if="permission.includes('virtualStock create')"
-                        :to="{ name: 'createVirtualStock', params: { id: supplier.id }, }"
-                        class="btn btn-sm btn-info me-2"
+                          v-if="permission.includes('virtualStock create')"
+                          :to="{
+                            name: 'createVirtualStock',
+                            params: { id: supplier.id },
+                          }"
+                          class="btn btn-sm btn-info me-2"
                         >
-                            <i class="far fa-edit"></i>
-                            {{ $t("global.Create Virtual Stock") }}
+                          <i class="far fa-edit"></i>
+                          {{ $t("global.Create Virtual Stock") }}
                         </router-link>
                         <!---->
                       </td>
@@ -325,9 +328,7 @@ export default {
           Swal.fire({
             icon: "success",
             title: `${
-              active
-                ? t("global.InactiveSuccessfully")
-                : t("global.ActiveSuccessfully")
+              active ? t("global.InactiveSuccessfully") : t("global.ActiveSuccessfully")
             }`,
             showConfirmButton: false,
             timer: 1500,

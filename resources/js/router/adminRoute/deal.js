@@ -14,7 +14,7 @@ export default [
                 component: DealIndex,
                 beforeEnter: (to, from, next) => {
                     let permission = store.state.authAdmin.permission;
-                    if (permission.includes('deal insert')) {
+                    if (permission.includes('deal read')) {
                         return next();
                     } else {
                         return next({ name: 'Page404' });

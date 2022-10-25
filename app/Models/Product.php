@@ -22,7 +22,8 @@ class Product extends Model
         return $this->nameAr;
     }
 
-    public function getNameAttribute(){
+    public function getNameAttribute()
+    {
         return $this->nameAr;
     }
 
@@ -76,30 +77,33 @@ class Product extends Model
     {
         return $this->hasMany(AlternativeDetail::class);
     }
-
     //
     public function mainMeasurementUnit()
     {
-        return $this->belongsTo(Unit::class,'main_measurement_unit_id');
+        return $this->belongsTo(Unit::class, 'main_measurement_unit_id');
     }
 
     public function subMeasurementUnit()
     {
-        return $this->belongsTo(Unit::class,'sub_measurement_unit_id');
+        return $this->belongsTo(Unit::class, 'sub_measurement_unit_id');
     }
 
     public function storeProducts()
     {
-        return $this->hasMany(StoreProduct::class,'product_id');
+        return $this->hasMany(StoreProduct::class, 'product_id');
     }
 
     public function returnProducts()
     {
-        return $this->hasMany(ReturnProduct::class,'product_id');
+        return $this->hasMany(ReturnProduct::class, 'product_id');
     }
 
     public function purchaseProducts()
     {
         return $this->hasMany(PurchaseProduct::class);
+    }
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
     }
 }

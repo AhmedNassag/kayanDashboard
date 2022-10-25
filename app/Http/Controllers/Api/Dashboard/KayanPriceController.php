@@ -39,8 +39,7 @@ class KayanPriceController extends Controller
      */
     public function create()
     {
-        try
-        {
+        try {
             $products   = Product::all();
             $suppliers  = Supplier::select('id', 'name')->get();
             // $companies  = Company::select('id', 'name')->get();
@@ -52,10 +51,7 @@ class KayanPriceController extends Controller
                 // 'companies'  => $companies,
                 'categories' => $categories,
             ], 'Data exited successfully');
-
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
     }
@@ -68,8 +64,7 @@ class KayanPriceController extends Controller
      */
     public function store(Request $request)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
 
             // Validator request
@@ -87,15 +82,14 @@ class KayanPriceController extends Controller
                 'destributionPrice' => 'required',
             ]);
 
-            if ($v->fails())
-            {
+            if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'maximumLimit', 'reOrderLimit', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'productDiscount', 'collectionPrice','partialPrice','destributionPrice','supplier_id'/*, 'company_id'*/]);
+            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'maximumLimit', 'reOrderLimit', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'productDiscount', 'collectionPrice', 'partialPrice', 'destributionPrice', 'supplier_id'/*, 'company_id'*/]);
 
-            $productId    = Product::where('id',$request->product_id)->where('category_id',$request->category_id)->where('sub_category_id',$request->sub_category_id)->get()->last();
-            $productPrice = PurchaseProduct::where('product_id',$productId->id)->get('price_after_discount')->last();
+            $productId    = Product::where('id', $request->product_id)->where('category_id', $request->category_id)->where('sub_category_id', $request->sub_category_id)->get()->last();
+            $productPrice = PurchaseProduct::where('product_id', $productId->id)->get('price_after_discount')->last();
 
             $data['productPrice'] = $productPrice->price_after_discount;
 
@@ -103,11 +97,11 @@ class KayanPriceController extends Controller
             $data['partialKayanProfit']                = ($data['partialPrice'] - $data['productPrice']);
             $data['destributionKayanProfit']           = ($data['destributionPrice'] - $data['productPrice']);
 
-            $data['averagePrice']                      = ($data['collectionPrice'] + $data['partialPrice'] + $data['destributionPrice']) / 3 ;
+            $data['averagePrice']                      = ($data['collectionPrice'] + $data['partialPrice'] + $data['destributionPrice']) / 3;
 
-            $data['collectionPercentageKayanProfit']   = ($data['collectionKayanProfit'] / $data['productPrice']) * 100 ;
-            $data['partialPercentageKayanProfit']      = ($data['partialKayanProfit'] / $data['productPrice']) * 100 ;
-            $data['destributionPercentageKayanProfit'] = ($data['destributionKayanProfit'] / $data['productPrice']) * 100 ;
+            $data['collectionPercentageKayanProfit']   = ($data['collectionKayanProfit'] / $data['productPrice']) * 100;
+            $data['partialPercentageKayanProfit']      = ($data['partialKayanProfit'] / $data['productPrice']) * 100;
+            $data['destributionPercentageKayanProfit'] = ($data['destributionKayanProfit'] / $data['productPrice']) * 100;
 
             // if ($data['company_id'] != "null")
             // {
@@ -123,9 +117,7 @@ class KayanPriceController extends Controller
             DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
@@ -164,7 +156,6 @@ class KayanPriceController extends Controller
                 // 'companies'  => $companies,
                 'categories' => $categories,
             ], 'Data exited successfully');
-
         } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
@@ -185,29 +176,31 @@ class KayanPriceController extends Controller
             $kayanPrice = KayanPrice::find($id);
 
             // Validator request
-            $v = Validator::make($request->all(),
-            [
-                'product_id'        => 'required|integer|exists:products,id',
-                'category_id'       => 'required|integer|exists:categories,id',
-                'sub_category_id'   => 'required|integer|exists:sub_categories,id',
-                // 'company_id'        => 'required|integer|exists:companies,id',
-                // 'supplier_id'       => 'required|integer|exists:suppliers,id',
-                'pharmacyPrice'     => 'required',
-                'publicPrice'       => 'required',
-                'productDiscount'   => 'required',
-                'collectionPrice'   => 'required',
-                'partialPrice'      => 'required',
-                'destributionPrice' =>'required',
-            ]);
+            $v = Validator::make(
+                $request->all(),
+                [
+                    'product_id'        => 'required|integer|exists:products,id',
+                    'category_id'       => 'required|integer|exists:categories,id',
+                    'sub_category_id'   => 'required|integer|exists:sub_categories,id',
+                    // 'company_id'        => 'required|integer|exists:companies,id',
+                    // 'supplier_id'       => 'required|integer|exists:suppliers,id',
+                    'pharmacyPrice'     => 'required',
+                    'publicPrice'       => 'required',
+                    'productDiscount'   => 'required',
+                    'collectionPrice'   => 'required',
+                    'partialPrice'      => 'required',
+                    'destributionPrice' => 'required',
+                ]
+            );
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'supplier_id', 'maximumLimit', 'reOrderLimit', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'productDiscount', 'collectionPrice','partialPrice','destributionPrice']);
+            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'supplier_id', 'maximumLimit', 'reOrderLimit', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'productDiscount', 'collectionPrice', 'partialPrice', 'destributionPrice']);
 
-            $productId    = Product::where('id',$request->product_id)->where('category_id',$request->category_id)->where('sub_category_id',$request->sub_category_id)->get()->last();
-            $productPrice = PurchaseProduct::where('product_id',$productId->id)->get('price_after_discount')->last();
+            $productId    = Product::where('id', $request->product_id)->where('category_id', $request->category_id)->where('sub_category_id', $request->sub_category_id)->get()->last();
+            $productPrice = PurchaseProduct::where('product_id', $productId->id)->get('price_after_discount')->last();
 
             $data['productPrice'] = $productPrice->price_after_discount;
 
@@ -215,11 +208,11 @@ class KayanPriceController extends Controller
             $data['partialKayanProfit']                = ($data['partialPrice'] - $data['productPrice']);
             $data['destributionKayanProfit']           = ($data['destributionPrice'] - $data['productPrice']);
 
-            $data['averagePrice']                      = ($data['collectionPrice'] + $data['partialPrice'] + $data['destributionPrice']) / 3 ;
+            $data['averagePrice']                      = ($data['collectionPrice'] + $data['partialPrice'] + $data['destributionPrice']) / 3;
 
-            $data['collectionPercentageKayanProfit']   = ($data['collectionKayanProfit'] / $data['productPrice']) * 100 ;
-            $data['partialPercentageKayanProfit']      = ($data['partialKayanProfit'] / $data['productPrice']) * 100 ;
-            $data['destributionPercentageKayanProfit'] = ($data['destributionKayanProfit'] / $data['productPrice']) * 100 ;
+            $data['collectionPercentageKayanProfit']   = ($data['collectionKayanProfit'] / $data['productPrice']) * 100;
+            $data['partialPercentageKayanProfit']      = ($data['partialKayanProfit'] / $data['productPrice']) * 100;
+            $data['destributionPercentageKayanProfit'] = ($data['destributionKayanProfit'] / $data['productPrice']) * 100;
 
             // if ($data['company_id'] != "null")
             // {
@@ -233,11 +226,8 @@ class KayanPriceController extends Controller
             $kayanPrice->update($data);
 
             DB::commit();
-            return $this->sendResponse([],'Data exited successfully');
-
-        }
-        catch (\Exception $e)
-        {
+            return $this->sendResponse([], 'Data exited successfully');
+        } catch (\Exception $e) {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
@@ -251,24 +241,16 @@ class KayanPriceController extends Controller
      */
     public function destroy($id)
     {
-        try
-        {
+        try {
             $kayanPrice = KayanPrice::find($id);
-            if ($kayanPrice)
-            {
+            if ($kayanPrice) {
                 $kayanPrice->delete();
-                return $this->sendResponse([],'Deleted successfully');
-            }
-            else
-            {
+                return $this->sendResponse([], 'Deleted successfully');
+            } else {
                 return $this->sendError('ID is not exist');
             }
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
     }
-
-
 }

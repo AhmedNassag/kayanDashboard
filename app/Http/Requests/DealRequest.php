@@ -24,10 +24,8 @@ class DealRequest extends FormRequest
     public function rules()
     {
         return [
-            "end_at" => "required|date|after_or_equal:now",
-            "products_with_discounts" => "required|array|min:1",
-            "products_with_discounts.*.product_id" => "required|exists:products,id",
-            "products_with_discounts.*.discount" => "required|min:0|max:100"
+            "end_at" => "required|date",
+            "limit" => "required|integer|min:1",
         ];
     }
 }

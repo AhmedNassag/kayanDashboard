@@ -49,6 +49,9 @@ import forgetPassword from "../view/admin/forgetPassword";
 import resetPassword from "../view/admin/resetPassword";
 import unit from './adminRoute/unit';
 import deal from './adminRoute/deal';
+import bestSeller from './adminRoute/best-seller';
+import alsoBought from './adminRoute/also-bought';
+import mostPopular from './adminRoute/most-popular';
 import unavailable_city_user from './adminRoute/unavailable-city-client';
 import city from './adminRoute/city';
 import area from './adminRoute/area';
@@ -61,6 +64,7 @@ import shipping from './adminRoute/shipping';
 import supplier from './adminRoute/supplier';
 import client from './adminRoute/client';
 import newsletter from './adminRoute/newsletter';
+import termAndCondition from './adminRoute/term-and-condtion';
 
 import purchaseInvoice from './adminRoute/purchaseInvoice';
 import examinationRecord from './adminRoute/examinationRecord';
@@ -159,7 +163,11 @@ const routes = [
             //
             ...refused,
             ...unit,
+            ...termAndCondition,
             ...deal,
+            ...bestSeller,
+            ...alsoBought,
+            ...mostPopular,
             ...unavailable_city_user,
             ...city,
             ...area,
