@@ -9,7 +9,7 @@ adminApi.interceptors.request.use(
     function (config) {
         config.headers['lang'] = localStorage.getItem("langAdmin") || 'ar';
         config.headers['Authorization'] = "Bearer " + (Cookies.get("tokenAdmin") || '');
-    return config;
+        return config;
     },
     function (error) {
         return Promise.reject(error);

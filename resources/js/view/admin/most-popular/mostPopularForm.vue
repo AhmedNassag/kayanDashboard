@@ -161,7 +161,7 @@ export default {
         most_popular_store.onFormShow;
       },
       (value) => {
-        console.log(props.selectedMostPopularProduct)
+        console.log(props.selectedMostPopularProduct);
         setForm();
       },
       { deep: true }
