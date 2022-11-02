@@ -98,6 +98,11 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-12">
+                  <button type="button" class="btn btn-secondary" @click="setKayanPrice">
+                    {{ $t("global.KayanPrice") }}
+                  </button>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -139,6 +144,16 @@ export default {
     };
     const v$ = useVuelidate(rules, form);
     //Methods
+    function setKayanPrice() {
+      let product = getProduct();
+      //prices is the kayan price
+      //if product doesn't has kayan price then the prices will empty
+      //if product  has kayan price then the prices length will be 1 and have kayan price
+      form.publicPrice =
+        product && product.prices.length ? product.prices[0].publicPrice : null;
+      form.clientDiscount =
+        product && product.prices.length ? product.prices[0].clientDiscount : null;
+    }
     function save() {
       if (v$.value.$invalid) {
         v$.value.$touch();
@@ -235,6 +250,7 @@ export default {
       locale,
       save,
       products: props.products,
+      setKayanPrice,
     };
   },
   props: ["selectedDealPrice", "products"],
