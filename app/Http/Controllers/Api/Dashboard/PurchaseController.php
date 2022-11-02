@@ -138,11 +138,11 @@ class PurchaseController extends Controller
                     'count_unit' => $product['count_unit'],
                 ]);
 
-                $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($purchase['stock_id']);
-                $virtualStockQuantitiy->update
-                ([
-                    'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) + intval($product['quantity'])
-                ]);
+                // $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($purchase['stock_id']);
+                // $virtualStockQuantitiy->update
+                // ([
+                //     'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) + intval($product['quantity'])
+                // ]);
             }
 
             DB::commit();
@@ -264,11 +264,11 @@ class PurchaseController extends Controller
                     'count_unit' => $product['count_unit'],
                 ]);
 
-                $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($purchase['stock_id']);
-                $virtualStockQuantitiy->update
-                ([
-                    'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) + intval($product['quantity'])
-                ]);
+                // $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($purchase['stock_id']);
+                // $virtualStockQuantitiy->update
+                // ([
+                //     'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) + intval($product['quantity'])
+                // ]);
             }
 
             DB::commit();

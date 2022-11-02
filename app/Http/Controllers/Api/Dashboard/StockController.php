@@ -24,7 +24,7 @@ class StockController extends Controller
      */
     public function index(Request $request)
     {
-        $stocks = Stock::with('employee.user')->with('shift')
+        $stocks = Stock::with(['employee.user','shift','city','area'])
             ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);

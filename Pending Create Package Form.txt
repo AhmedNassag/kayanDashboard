@@ -1,0 +1,926 @@
+<!-- Start Pending -->
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="alert alert-danger text-center" v-if="message.length > 0">{{ message }}<br/></div>
+                                    <form @submit.prevent="storeSchedule" class="needs-validation">
+                                        <div class="form-row row">
+
+                                            <!--Start Title-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom01">
+                                                    {{ $t("global.Title") }}
+                                                </label>
+                                                <input type="text" class="form-control" v-model.trim="v$.title.$model"
+                                                    id="validationCustom01" :placeholder="$t('global.Title')"
+                                                    :class="
+                                                    {
+                                                      'is-invalid': v$.title.$error,
+                                                      'is-valid': !v$.title.$invalid,
+                                                    }"
+                                                />
+                                                <div class="valid-feedback">
+                                                    {{ $t("global.LooksGood") }}
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.title.required.$invalid">
+                                                        {{ $t("global.NameIsRequired") }}
+                                                        <br />
+                                                    </span>
+                                                    <span v-if="v$.title.maxLength.$invalid">
+                                                        {{ $t("global.NameIsMustHaveAtLeast") }}
+                                                        {{ v$.title.minLength.$params.min }}
+                                                        {{ $t("global.Letters") }}
+                                                        <br />
+                                                    </span>
+                                                    <span v-if="v$.title.minLength.$invalid">
+                                                        {{ $t("global.NameIsMustHaveAtMost") }}
+                                                        {{ v$.title.maxLength.$params.max }}
+                                                        {{ $t("global.Letters") }}
+                                                        <br />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--End Title-->
+
+                                            <!--Start Start-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom05">
+                                                    {{ $t("global.Started_at") }}
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    class="form-control"
+                                                    v-model.trim="v$.start.$model"
+                                                    id="validationCustom05"
+                                                    :placeholder="$t('global.Started_at')"
+                                                    :class="{
+                                                        'is-invalid': v$.start.$error,
+                                                        'is-valid': !v$.start.$invalid,
+                                                    }"
+                                                />
+                                                <div class="valid-feedback">
+                                                    {{ $t("global.LooksGood") }}
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.start.required.$invalid">
+                                                        {{ $t("global.NameIsRequired") }}
+                                                        <br/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--End Start-->
+
+                                            <!--Start End-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom05">
+                                                    {{ $t("global.Ended_at") }}
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    class="form-control"
+                                                    v-model.trim="v$.end.$model"
+                                                    id="validationCustom05"
+                                                    :placeholder="$t('global.Ended_at')"
+                                                    :class="
+                                                    {
+                                                        'is-invalid': v$.end.$error,
+                                                        'is-valid': !v$.end.$invalid,
+                                                    }"
+                                                />
+                                                <div class="valid-feedback">
+                                                    {{ $t("global.LooksGood") }}
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.end.required.$invalid">
+                                                        {{ $t("global.NameIsRequired") }}
+                                                        <br/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--End End-->
+
+                                            <!--Start Link-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom01">
+                                                    {{ $t("global.Link") }}
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    v-model.trim="v$.link.$model"
+                                                    id="validationCustom01"
+                                                    :placeholder="$t('global.Link')"
+                                                />
+                                                <div class="valid-feedback">
+                                                    {{ $t("global.LooksGood") }}
+                                                </div>
+                                            </div>
+                                            <!--End Link-->
+
+                                            <!--Start User Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.User") }}
+                                                </label>
+                                                <Select2 v-model.trim="v$.user_id.$model" :options="users" :settings="{ width: '100%' }" />
+                                            </div>
+                                            <!--End User Select-->
+
+                                            <!--Start Advertising Packages Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.Advertising Package") }}
+                                                </label>
+                                                <Select2 v-model.trim="v$.advertising_package_id.$model" :options="advertisingPackages" :settings="{ width: '100%' }" />
+                                            </div>
+                                            <!--End Advertising Packag Select-->
+
+                                            <!--Start homeFirstSlider-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeFirstSlider") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview1" id="mediaPackage1" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage1 ? numberOfImage1 + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images1" v-show="data.homeFirstSlider && numberOfImage1"></div>
+                                                <div class="container-images" v-show="!numberOfImage1">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeFirstSlider-->
+                                            <!--Start homeSecondSlider-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeSecondSlider") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview2" id="mediaPackage2" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage2 ? numberOfImage2 + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images2" v-show="data.homeSecondSlider && numberOfImagefa-stack-2"></div>
+                                                <div class="container-images" v-show="!numberOfImage2">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeSecondSlider-->
+                                            <!--Start homeThirdSlider-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeThirdSlider") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.homeThirdSlider && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeThirdSlider-->
+                                            <!--Start homeFourthSlider-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeFourthSlider") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.homeFourthSlider && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeFourthSlider-->
+                                            <!--Start homeRightSquare-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeRightSquare") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.homeRightSquare && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeRightSquare-->
+                                            <!--Start homeMiddleSquare-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeMiddleSquare") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.homeMiddleSquare && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeMiddleSquare-->
+                                            <!--Start homeLeftSquare-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeLeftSquare") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.homeLeftSquare && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeLeftSquare-->
+                                            <!--Start homeTopBanner-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeTopBanner") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.homeTopBanner && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeTopBanner-->
+                                            <!--Start homeMiddleBanner-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeMiddleBanner") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.homeMiddleBanner && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeMiddleBanner-->
+                                            <!--Start homeBottomBanner-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homeBottomBanner") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.homeBottomBanner && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homeBottomBanner-->
+                                            <!--Start homePopUp-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.homePopUp") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.homePopUp && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End homePopUp-->
+
+
+
+                                            <!--Start productsTopRightRectangle-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.productsTopRightRectangle") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.productsTopRightRectangle && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End productsTopRightRectangle-->
+                                            <!--Start productsBottomRightRectangle-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.productsBottomRightRectangle") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.productsBottomRightRectangle && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End productsBottomRightRectangle-->
+                                            <!--Start productsBottom-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.productsBottom") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.productsBottom && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End productsBottom-->
+
+
+
+                                            <!--Start productDetailsTopRightRectangle-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.productDetailsTopRightRectangle") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.productDetailsTopRightRectangle && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End productDetailsTopRightRectangle-->
+                                            <!--Start productDetailsBottomRightRectangle-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.productDetailsBottomRightRectangle") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.productDetailsBottomRightRectangle && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End productDetailsBottomRightRectangle-->
+                                            <!--Start productDetailsBottom-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.productDetailsBottom") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.productDetailsBottom && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End productDetailsBottom-->
+
+
+
+                                            <!--Start productAlternativesTopRightRectangle-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.productAlternativesTopRightRectangle") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.productAlternativesTopRightRectangle && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End productAlternativesTopRightRectangle-->
+                                            <!--Start productAlternativesBottomRightRectangle-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.productAlternativesBottomRightRectangle") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.productAlternativesBottomRightRectangle && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End productAlternativesBottomRightRectangle-->
+                                            <!--Start productAlternativesBottom-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.productAlternativesBottom") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.productAlternativesBottom && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End productAlternativesBottom-->
+
+
+
+                                            <!--Start shoppingBottom-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.shoppindBottom") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.shoppingBottom && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End shoppingBottom-->
+
+
+
+                                            <!--Start profileTop-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.profileTop") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.profileTop && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End profileTop-->
+                                            <!--Start profileBottom-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.profileBottom") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.profileBottom && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End profileBottom-->
+
+
+
+
+
+                                            <!--Start mobFirstSlider-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobFirstSlider") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobFirstSlider && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobFirstSlider-->
+                                            <!--Start mobSecondSlider-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobSecondSlider") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobSecondSlider && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobSecondSlider-->
+                                            <!--Start mobThirdSlider-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobThirdSlider") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobThirdSlider && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobThirdSlider-->
+                                            <!--Start mobFourthSlider-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobFourthSlider") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobFourthSlider && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobFourthSlider-->
+                                            <!--Start mobRightSquare-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobRightSquare") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobRightSquare && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobRightSquare-->
+                                            <!--Start mobMiddleSquare-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobMiddleSquare") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobMiddleSquare && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobMiddleSquare-->
+                                            <!--Start mobLeftSquare-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobLeftSquare") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobLeftSquare && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobLeftSquare-->
+                                            <!--Start mobTopBanner-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobTopBanner") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobTopBanner && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobTopBanner-->
+                                            <!--Start mobBottomBanner-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobBottomBanner") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobBottomBanner && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobBottomBanner-->
+                                            <!--Start mobPopUp-->
+                                            <div class="col-md-6 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.mobPopUp") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input name="mediaPackage" type="file" @change="preview" id="mediaPackage" accept="image/png,jepg,jpg" />
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
+                                                <div class="container-images" id="container-images" v-show="data.mobPopUp && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!--End mobPopUp-->
+
+
+                                        </div>
+
+                                        <button class="btn btn-primary" type="submit">{{ $t("global.Submit") }}</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <!-- End Pending-->

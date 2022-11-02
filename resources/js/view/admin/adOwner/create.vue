@@ -42,6 +42,8 @@
                                     </div>
                                     <form @submit.prevent="storeAdOwner" class="needs-validation">
                                         <div class="form-row row">
+
+                                            <!--Start Name-->
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationCustom01">
                                                     {{ $t("global.Name") }}
@@ -76,6 +78,60 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                            <!--End Name-->
+
+                                            <!--Start Email-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom01">
+                                                    {{ $t("global.Email") }}
+                                                </label>
+                                                <input type="email" class="form-control" v-model.trim="v$.email.$model"
+                                                    id="validationCustom01" :placeholder="$t('global.Email')" :class="{
+                                                      'is-invalid': v$.email.$error || data.nameExist,
+                                                      'is-valid': !v$.email.$invalid,
+                                                    }" />
+                                                <div class="valid-feedback">
+                                                    {{ $t("global.LooksGood") }}
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.email.required.$invalid">
+                                                        {{ $t("global.NameIsRequired") }}
+                                                        <br />
+                                                    </span>
+                                                    <span v-if="!v$.email.$invalid && data.nameExist">
+                                                        {{ $t("global.NameIsExist") }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--End Email-->
+
+                                            <!--Start Password-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom01">
+                                                    {{ $t("global.Password") }}
+                                                </label>
+                                                <input type="password" class="form-control" v-model.trim="v$.password.$model"
+                                                    id="validationCustom01" :placeholder="$t('global.Password')" :class="{
+                                                      'is-invalid': v$.password.$error,
+                                                      'is-valid': !v$.password.$invalid,
+                                                    }" />
+                                                <div class="valid-feedback">
+                                                    {{ $t("global.LooksGood") }}
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.password.required.$invalid">
+                                                        {{ $t("global.NameIsRequired") }}
+                                                        <br />
+                                                    </span>
+                                                    <span v-if="v$.password.minLength.$invalid">
+                                                        {{ $t("global.NameIsMustHaveAtLeast") }}
+                                                        {{ v$.password.minLength.$params.min }}
+                                                        {{ $t("global.Letters") }}
+                                                        <br />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--End Password-->
 
                                             <!--Start Phone-->
                                             <div class="col-md-6 mb-3">
@@ -115,7 +171,7 @@
                                             <div class="col-md-12 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
                                                     <span>
-                                                        {{ $t("global.ChooseImage") }}
+                                                        {{ $t("global.CommercialRecord") }}
                                                         <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
                                                     </span>
                                                     <input name="mediaPackage" type="file" @change="preview"
@@ -143,15 +199,15 @@
                                                         {{ $t("global.ChooseImage") }}
                                                         <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
                                                     </span>
-                                                    <input name="mediaPackage" type="file" @change="preview2"
+                                                    <input name="mediaPackage2" type="file" @change="preview2"
                                                         id="mediaPackage2" accept="image/png,jepg,jpg" />
                                                 </div>
                                                 <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
-                                                <p class="num-of-files">
-                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                <p class="num-of-files2">
+                                                    {{ numberOfImage2 ? numberOfImage2 + " Files Selected" : "No Files Chosen" }}
                                                 </p>
-                                                <div class="container-images" id="container-images" v-show="data.image && numberOfImage"></div>
-                                                <div class="container-images" v-show="!numberOfImage">
+                                                <div class="container-images2" id="container-images2" v-show="data.file2 && numberOfImage2"></div>
+                                                <div class="container-images2" v-show="!numberOfImage2">
                                                     <figure>
                                                         <figcaption>
                                                             <img :src="`/admin/img/company/img-1.png`" />
@@ -160,6 +216,34 @@
                                                 </div>
                                             </div> -->
                                             <!--End Tax Card-->
+                                            <!--Start Multiple Images-->
+                                            <!-- <div class="col-md-9 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.ChooseImage") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input
+                                                        name="mediaPackage[]"
+                                                        type="file"
+                                                        multiple
+                                                        @change="preview2"
+                                                        id="mediaPackage1"
+                                                        accept="image/png,jepg,jpg"
+                                                    >
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">{{numberOfImage1 ? numberOfImage1 + ' Files Selected' : 'No Files Chosen' }}</p>
+                                                <div class="container-images" id="container-images1" v-show="data.files && numberOfImage1"></div>
+                                                <div class="container-images" v-show="!numberOfImage1">
+                                                    <figure>
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`">
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div> -->
+                                            <!--End Multiple Images-->
                                         </div>
 
                                         <button class="btn btn-primary" type="submit">{{ $t("global.Submit") }}</button>
@@ -199,9 +283,13 @@ export default {
         let addAdOwner = reactive({
             data: {
                 name: "",
+                email: "",
+                password: "",
                 phone: "",
                 file: {},
-                // image: {},
+                //
+                // files: {},
+                //
                 nameExist: false,
             },
         });
@@ -213,6 +301,13 @@ export default {
                     maxLength: maxLength(70),
                     required,
                 },
+                email: {
+                    required,
+                },
+                password: {
+                    required,
+                    minLength: minLength(8),
+                },
                 phone:{
                     minLength: minLength(10),
                     required,
@@ -220,9 +315,11 @@ export default {
                 file: {
                     //required,
                 },
-                // image: {
+                //
+                // files: {
                 //     //required,
                 // },
+                //
             };
         });
 
@@ -258,36 +355,40 @@ export default {
 
         //
         // let preview2 = (e) => {
-        //     let containerImages = document.querySelector("#container-images");
-        //     if (numberOfImage.value) {
-        //         containerImages.innerHTML = "";
+
+        //     let containerImages = document.querySelector('#container-images1');
+        //     if(numberOfImage1.value)
+        //     {
+        //         containerImages.innerHTML = '';
         //     }
-        //     addAdOwner.data.image = {};
 
-        //     numberOfImage.value = e.target.images.length;
+        //     addProduct.data.files = [];
+        //     numberOfImage1.value = e.target.files.length;
 
-        //     addAdOwner.data.image = e.target.images[0];
-
-        //     let reader = new FileReader();
-        //     let figure = document.createElement("figure");
-        //     let figcap = document.createElement("figcaption");
-
-        //     figcap.innerText = addAdOwner.data.image.name;
-        //     figure.appendChild(figcap);
-
-        //     reader.onload = () => {
-        //         let img2 = document.createElement("img2");
-        //         img2.setAttribute("src", reader.result);
-        //         figure.insertBefore(img2, figcap);
-        //     };
-
-        //     containerImages.appendChild(figure);
-        //     reader.readAsDataURL(addAdOwner.data.image);
+        //     for(let file of e.target.files)
+        //     {
+        //         addProduct.data.files.push(filess);
+        //         let reader = new FileReader();
+        //         let figure = document.createElement('figure');
+        //         let figcap = document.createElement('figcaption');
+        //         figcap.innerText = file.name;
+        //         figure.appendChild(figcap);
+        //         reader.onload = () => {
+        //             let img = document.createElement('img');
+        //             img.setAttribute('src',reader.result);
+        //             figure.insertBefore(img,figcap);
+        //         }
+        //         containerImages.appendChild(figure);
+        //         reader.readAsDataURL(file);
+        //     }
         // };
+        // const numberOfImage1 = ref(0);
+        //
 
         const numberOfImage = ref(0);
 
-        return { loading, ...toRefs(addAdOwner), v$, preview, /*preview2,*/ numberOfImage };
+
+    return { loading, ...toRefs(addAdOwner), v$, preview, numberOfImage/*, preview2, numberOfImage1*/ };
 
     },
     methods: {
@@ -299,9 +400,16 @@ export default {
                 this.errors = {};
                 let formData = new FormData();
                 formData.append("name", this.data.name);
+                formData.append("email", this.data.email);
+                formData.append("password", this.data.password);
                 formData.append("phone", this.data.phone);
                 formData.append("file", this.data.file);
-                // formData.append("image", this.data.image);
+                //
+                for( var i = 0; i < this.numberOfImage1; i++ ){
+                    let file = this.data.files[i];
+                    formData.append('files[' + i + ']', file);
+                }
+                //
 
                 adminApi
                     .post(`/v1/dashboard/adOwner`, formData)
@@ -327,10 +435,18 @@ export default {
             }
         },
         resetForm() {
+            document.querySelector('#container-images').innerHTML = '';
+            this.numberOfImage = 0;
             this.data.name = "";
+            this.data.email = "";
+            this.data.password = "";
             this.data.phone = "";
             this.data.file = {};
-            // this.data.image = {};
+            //
+            document.querySelector('#container-images1').innerHTML = '';
+            this.numberOfImage1 = 0;
+            this.data.files = [];
+            //
         },
     },
 };

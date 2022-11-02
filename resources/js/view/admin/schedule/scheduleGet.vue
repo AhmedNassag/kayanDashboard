@@ -27,6 +27,23 @@
                                         {{ $t('global.Search') }}:
                                         <input type="search" v-model="search" class="custom" />
                                     </div>
+                                    <div class="col-4 row justify-content-end">
+                                        <!-- v-if="permission.includes('schedule create')" -->
+                                        <!-- <router-link
+                                            :to="{ name: 'createSchedule' }"
+                                            class="btn btn-custom btn-warning"
+                                        >
+                                            {{ $t("global.Add") }}
+                                        </router-link> -->
+                                        &emsp;
+                                        <router-link
+                                            :to="{ name: 'packagesSchedule' }"
+                                            class="btn btn-custom btn-warning"
+                                        >
+                                            {{ $t("global.payNow") }}
+                                        </router-link>
+                                        &emsp;
+                                    </div>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -34,19 +51,19 @@
                                     <thead>
                                     <tr class="text-center">
                                         <th class="text-center">#</th>
-                                        <!-- <th class="text-center">{{ $t('global.Company') }}</th> -->
+                                        <th class="text-center">{{ $t('global.Title') }}</th>
                                         <td class="text-center">{{ $t('sidebar.advertise') }}</td>
                                         <th class="text-center">{{ $t('global.Start Date') }}</th>
                                         <th class="text-center">{{ $t('global.End Date') }}</th>
                                         <th class="text-center">{{ $t('global.Package') }}</th>
                                         <th class="text-center">{{ $t('global.Status') }}</th>
-                                        <!-- <th class="text-center">{{ $t('global.Action') }}</th> -->
+                                        <th class="text-center">{{ $t('global.Action') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="calender.length">
                                         <tr class="text-center" v-for="(item,index) in calender" :key="item.id">
                                             <td class="text-center">{{index + 1}}</td>
-                                            <!-- <td class="text-center">{{item.title}}</td> -->
+                                            <td class="text-center">{{item.title}}</td>
                                             <td class="text-center">{{item.users.name}}</td>
                                             <td class="text-center">{{dateFormate(item.start)}}</td>
                                             <td class="text-center">{{dateFormate(item.end)}}</td>
@@ -56,11 +73,25 @@
                                                     <span :class="[parseInt(item.status) ? 'text-success hover': 'text-danger hover']">{{ parseInt(item.status) ? $t('global.Active') : $t('global.Inactive')}} </span>
                                                 </a>
                                             </td>
-                                            <!-- <td class="text-center">
-                                                <router-link :to="{name: 'showSchedule', params: {lang: locale || 'ar',id:item.id}}" class="btn btn-sm btn-success me-2">
+                                            <td class="text-center">
+                                                <!-- v-if="permission.includes('schedule edit')" -->
+                                                <router-link
+                                                :to="{ name: 'editSchedule', params: { id: item.id }}"
+                                                class="btn btn-sm btn-success me-2"
+                                                >
                                                     <i class="far fa-edit"></i>
                                                 </router-link>
-                                            </td> -->
+
+                                                <!-- v-if="permission.includes('schedule delete')" -->
+                                                <a
+                                                    href="#"
+                                                    @click="deleteSchedule(item.id, index)"
+                                                    data-bs-target="#staticBackdrop"
+                                                    class="btn btn-sm btn-danger me-2"
+                                                    >
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </tbody>
                                     <tbody v-else>
@@ -145,6 +176,43 @@ export default {
             return new Date(item).toDateString();
         }
 
+
+        function deleteSchedule(id, index) {
+            Swal.fire({
+                title: `${t("global.AreYouSureDelete")}`,
+                text: `${t("global.YouWontBeAbleToRevertThis")}`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: t("global.Yeas"),
+                cancelButtonText: t("global.No"),
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    adminApi
+                    .delete(`/v1/dashboard/scheduleAdvertise/${id}`)
+                    .then((res) => {
+                        calender.value.splice(index, index + 1);
+
+                        Swal.fire({
+                            icon: "success",
+                            title: `${t("global.DeletedSuccessfully")}`,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    })
+                    .catch((err) => {
+                        Swal.fire({
+                            icon: "error",
+                            title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+                            text: `${t("global.YouCanNotDelete")}`,
+                        });
+                    });
+                }
+            });
+        }
+
         function activation(id, jobName, active,index) {
             Swal.fire({
                 title: `${active ? t('global.AreYouSureInactive') : t('global.AreYouSureActive')} `, /*(${jobName})*/
@@ -178,7 +246,7 @@ export default {
             });
         }
 
-        return {calender,loading,getCalender,search,dateFormate,activation,calenderPagination};
+        return {calender,loading,getCalender,search,dateFormate,activation,deleteSchedule,calenderPagination};
 
     },
     data(){

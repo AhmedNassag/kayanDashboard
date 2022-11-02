@@ -47,11 +47,15 @@ class CategoryController extends Controller
 
         if ($department->status == 1)
         {
-            $department->update([
+            $department->update
+            ([
                 "status" => 0
             ]);
-        }else{
-            $department->update([
+        }
+        else
+        {
+            $department->update
+            ([
                 "status" => 1
             ]);
         }

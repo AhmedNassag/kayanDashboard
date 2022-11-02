@@ -117,11 +117,8 @@ class ShiftController extends Controller
             $shift = Shift::find($id);
 
             return $this->sendResponse(['shift' => $shift], 'Data exited successfully');
-
         } catch (\Exception $e) {
-
             return $this->sendError('An error occurred in the system');
-
         }
     }
 
@@ -158,7 +155,6 @@ class ShiftController extends Controller
             DB::commit();
             return $this->sendResponse([],'Data exited successfully');
         }catch (\Exception $e){
-
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
