@@ -9,14 +9,19 @@ use Illuminate\Database\Eloquent\Model;
 class AdvertisingPackage extends Model
 {
     use HasFactory;
+
+    protected $appends = ['text'];
+    public function getTextAttribute()
+    {
+        return $this->name;
+    }
+
     // public $translatedAttributes = ['name'];
 
     protected $translationForeignKey = 'package_id';
 
-
     protected $guarded = ['id'];
     // protected $hidden = ['translations'];
-
 
     protected $table = 'advertising_packages';
 

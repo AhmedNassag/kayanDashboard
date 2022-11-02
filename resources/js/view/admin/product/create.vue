@@ -566,16 +566,16 @@ export default {
             loading.value = true;
 
             adminApi.get(`/v1/dashboard/category/${id}`)
-                .then((res) => {
-                    let l = res.data.data;
-                    subCategories.value = l.subCategories;
-                })
-                .catch((err) => {
-                    console.log(err.response);
-                })
-                .finally(() => {
-                    loading.value = false;
-                })
+            .then((res) => {
+                let l = res.data.data;
+                subCategories.value = l.subCategories;
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+            .finally(() => {
+                loading.value = false;
+            })
         };
 
         const rules = computed(() => {

@@ -16,8 +16,8 @@ class CreateAdvertiseSchedulesTable extends Migration
         Schema::create('advertise_schedules', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->dateTime('start')->nullable();
-            $table->dateTime('end')->nullable();
+            $table->date('start')->nullable();
+            $table->date('end')->nullable();
             $table->text('link')->nullable();
             $table->decimal('price',8,2)->nullable();
             $table->decimal('visitor',8,2)->nullable();

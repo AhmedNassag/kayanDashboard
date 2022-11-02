@@ -93,6 +93,7 @@
                         </div>
                       </div>
 
+                      <!-- Start Image -->
                       <div class="col-md-12 row flex-fill">
                         <div class="btn btn-outline-primary waves-effect">
                           <span>
@@ -110,9 +111,9 @@
                             accept="image/png,jepg,jpg"
                           />
                         </div>
-                        <span class="text-danger text-center"
-                          >{{ $t("global.ImageValidation") }}</span
-                        >
+                        <span class="text-danger text-center">
+                            {{ $t("global.ImageValidation") }}
+                        </span>
                         <p class="num-of-files">
                           {{
                             numberOfImage
@@ -133,6 +134,8 @@
                           </figure>
                         </div>
                       </div>
+                      <!-- End Image -->
+
                     </div>
 
                     <button class="btn btn-primary" type="submit">{{ $t("global.Submit") }}</button>

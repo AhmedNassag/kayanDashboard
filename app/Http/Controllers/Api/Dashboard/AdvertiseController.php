@@ -48,7 +48,7 @@ class AdvertiseController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -60,18 +60,15 @@ class AdvertiseController extends Controller
 
     public function show($id)
     {
-        try {
-
+        try
+        {
             $advertise = User::find($id);
-
             return $this->sendResponse(['advertise'=> $advertise],'Data exited successfully');
-
-        }catch (\Exception $e){
-
-            return $this->sendError('An error occurred in the system');
-
         }
-
+        catch (\Exception $e)
+        {
+            return $this->sendError('An error occurred in the system');
+        }
     }
 
     /**

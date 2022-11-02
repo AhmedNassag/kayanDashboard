@@ -31,7 +31,7 @@
                     {{ $t("global.Search") }}:
                     <input type="search" v-model="search" class="custom" />
                   </div>
-                  <!-- <div class="col-5 row justify-content-end">
+                  <div class="col-5 row justify-content-end">
                     <router-link
                       v-if="permission.includes('adOwner create')"
                       :to="{ name: 'createAdOwner' }"
@@ -39,7 +39,7 @@
                     >
                       {{ $t("global.Add") }}
                     </router-link>
-                  </div> -->
+                  </div>
                 </div>
               </div>
               <div class="table-responsive">
@@ -48,19 +48,21 @@
                     <tr>
                       <th class="text-center">#</th>
                       <th class="text-center">{{ $t("global.Name") }}</th>
+                      <th class="text-center">{{ $t("global.Email") }}</th>
                       <th class="text-center">{{ $t("global.Phone") }}</th>
-                      <th class="text-center">{{ $t("global.Package") }}</th>
-                      <!-- <th class="text-center">{{ $t("global.Status") }}</th> -->
-                      <!-- <th class="text-center">{{ $t("global.Action") }}</th> -->
+                      <!-- <th class="text-center">{{ $t("global.Package") }}</th> -->
+                      <th class="text-center">{{ $t("global.Status") }}</th>
+                      <th class="text-center">{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
                   <tbody v-if="adOwners.length">
                     <tr v-for="(item, index) in adOwners" :key="item.id">
                         <td class="text-center">{{ index + 1 }}</td>
-                        <td class="text-center">{{ item.users.name }}</td>
-                        <td class="text-center" v-if="item.users.phone">{{ item.users.phone }}</td>
+                        <td class="text-center">{{ item.name }}</td>
+                        <td class="text-center">{{ item.email }}</td>
+                        <td class="text-center" v-if="item.phone">{{ item.phone }}</td>
                         <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                        <td class="text-center">{{ item.packages.name }}</td>
+                        <!-- <td class="text-center">{{ item.packages.name }}</td> -->
                         <!-- <td class="text-center">
                             <img
                             :src="'/upload/adOwnerCommercialRecord/' + item.media.file_name"
@@ -82,7 +84,7 @@
                             class="custom-img"
                             />
                         </td> -->
-                        <!-- <td class="text-center">
+                        <td class="text-center">
                             <a
                             href="#"
                             @click="activationAdOwner(item.id, item.status, index)"
@@ -100,8 +102,8 @@
                                 }}</span
                             >
                             </a>
-                        </td> -->
-                        <!-- <td class="text-center">
+                        </td>
+                        <td class="text-center">
                             <router-link
                             :to="{
                                 name: 'editAdOwner',
@@ -121,7 +123,7 @@
                             >
                             <i class="far fa-trash-alt"></i>
                             </a>
-                        </td> -->
+                        </td>
                     </tr>
                   </tbody>
                   <tbody v-else>

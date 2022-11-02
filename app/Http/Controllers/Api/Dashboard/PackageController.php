@@ -31,6 +31,27 @@ class PackageController extends Controller
 
 
 
+    public function activationPackage($id)
+    {
+        $package = AdvertisingPackage::find($id);
+        if ($package->status == 1) {
+            $package->update
+            ([
+                "status" => 0
+            ]);
+        }
+        else
+        {
+            $package->update
+            ([
+                "status" => 1
+            ]);
+        }
+        return $this->sendResponse([], 'Data exited successfully');
+    }
+
+
+
     public function create()
     {
         try
