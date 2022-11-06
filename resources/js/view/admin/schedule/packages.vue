@@ -110,6 +110,18 @@
 
                                                         <div class="modal-info">
                                                             <div class="row justify-content-between my-3">
+                                                                <!--Start User Select-->
+                                                                <!-- <div class="col-md-6 mb-3">
+                                                                    <label for="validationCustom0">
+                                                                        {{ $t("global.User") }}
+                                                                    </label>
+                                                                    <Select2 v-model="v$.pack[index].user_id.$model" :options="users" :settings="{ width: '100%' }" />
+                                                                    <div v-if="v$.pack[index].user_id.$error">
+                                                                        <span class="text-danger" v-if="v$.pack[index].user_id.required.$invalid">{{$t('global.fieldRequired')}}</span>
+                                                                    </div>
+                                                                </div> -->
+                                                                <!--End User Select-->
+
                                                                 <div class="col-lg-6" >
                                                                     <label for="exampleFormControlInput1">{{ $t('global.linkCompany') }}</label>
                                                                     <input
@@ -173,12 +185,12 @@
                                                                     <h3 class="know-you"> {{ $t('global.Mobilephoneimagesizes') }}</h3>
                                                                     <div class="form-row justify-content-center">
                                                                         <div v-for="(pageView,indMob) in Package.page_view_mobile" :key="pageView.id" class="col-lg-4 text-center">
-                                                                            <label class="text-center d-block">
+                                                                            <label class="text-center d-block" style="color: hsl(30, 100%, 50%);">
                                                                                 {{ $t('global.height') }}:{{ pageView.size.height }}px | {{ $t('global.width') }}:{{ pageView.size.width }}px
                                                                             </label>
                                                                             <div class="btn btn-outline-primary waves-effect">
                                                                                 <span>
-                                                                                    {{ $t('global.Choosefiles') }}
+                                                                                    {{ $t('global.ChooseImage') }}
                                                                                     <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
                                                                                 </span>
                                                                                 <input
@@ -286,6 +298,9 @@ export default {
         const {t} = useI18n({});
 
         // get create Package
+        //
+        let users = ref([]);
+        //
         let Packages = ref([]);
         let loading = ref(false);
         let packageValidation = ref([]);
@@ -295,11 +310,17 @@ export default {
             adminApi.get(`/v1/dashboard/scheduleAdvertise/create`)
             .then((res) => {
                 let l =res.data.data;
+                //
+                users.value = l.users;
+                //
                 Packages.value = l.packages;
                 l.packages.forEach((el,index) => {
 
                     data.model.push({view: false,closeId:el.id,image:[],mobileImage:[]});
                     data.pack.push({
+                        //
+                        user_id: '',
+                        //
                         date: '',
                         link: '',
                         day: el.period,
@@ -335,6 +356,9 @@ export default {
                     });
 
                     packageValidation.value.push({
+                        //
+                        user_id:{},
+                        //
                         date:{required},
                         link:{required,url},
                         package_id: {required},
@@ -466,6 +490,9 @@ export default {
         const v$ = useVuelidate(rules,data);
 
         return {
+            //
+            users,
+            //
             Packages,
             getCalender,
             preview,
@@ -482,8 +509,12 @@ export default {
 
             if (!this.v$.pack[index].$error) {
 
-                his.loading = true;
+                this.loading = true;
+                this.errors = {};
                 let formData = new FormData();
+                //
+                formData.append('user_id',this.pack[index].user_id);
+                //
                 formData.append('date',this.pack[index].date);
                 formData.append('link',this.pack[index].link);
                 formData.append('package_id',this.pack[index].package_id);
@@ -515,15 +546,15 @@ export default {
                         window.location.href = res.data.url;
                     }
                 })
-                .catch((err) => {
-                    console.log(err.response);
-                    this.errors = err.response.data.errors;
-                    // Swal.fire({
-                    //     icon: 'error',
-                    //     title: 'يوجد خطا في الصور...',
-                    //     text: 'اقصي ارتفاع للصوره يكون 500px و اقصي عرض 500px و ان حجمها لا يتعدي 2mb !',
-                    // });
-                })
+                // .catch((err) => {
+                //     console.log(err.response);
+                //     this.errors = err.response.data.errors;
+                //     Swal.fire({
+                //         icon: 'error',
+                //         title: 'يوجد خطا في الصور...',
+                //         text: 'اقصي ارتفاع للصوره يكون 500px و اقصي عرض 500px و ان حجمها لا يتعدي 2mb !',
+                //     });
+                // })
                 .finally(() => {
                     this.loading = false;
                 });

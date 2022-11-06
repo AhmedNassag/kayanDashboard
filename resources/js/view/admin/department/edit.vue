@@ -144,6 +144,11 @@ export default {
         })
         .catch((err) => {
           console.log(err.response);
+        //   Swal.fire({
+        //     icon: "error",
+        //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+        //     text: `${t("global.YouCanNotDelete")}`,
+        //   });
         })
         .finally(() => {
           loading.value = false;
@@ -197,6 +202,11 @@ export default {
           })
           .catch((err) => {
             this.errors = err.response.data.errors;
+            // Swal.fire({
+            //     icon: "error",
+            //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+            //     text: `${t("global.YouCanNotDelete")}`,
+            // });
           })
           .finally(() => {
             this.loading = false;

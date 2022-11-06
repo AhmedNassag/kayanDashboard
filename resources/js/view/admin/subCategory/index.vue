@@ -53,6 +53,7 @@
                       <th>#</th>
                       <th>{{ $t("global.Name") }}</th>
                       <th>{{ $t("global.MainCategory") }}</th>
+                      <th>{{ $t("global.Image") }}</th>
                       <th>{{ $t("global.Status") }}</th>
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
@@ -62,6 +63,13 @@
                       <td>{{ index + 1 }}</td>
                       <td>{{ item.name }}</td>
                       <td>{{ item.category.name }}</td>
+                      <td>
+                        <img
+                          :src="'/upload/subCategory/' + item.media.file_name"
+                          :alt="item.name"
+                          class="custom-img"
+                        />
+                      </td>
                       <td>
                         <a
                           href="#"

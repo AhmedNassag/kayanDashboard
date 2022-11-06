@@ -36,4 +36,10 @@ class AdvertiseSchedule extends Model
         return $this->belongsToMany(AdvertisingPageMobileAdvertisingView::class,'schedule_page_mobiles','schedule_id','page_mobile_id')
             ->withTimestamps();
     }
+
+    //start raletions
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
 }
