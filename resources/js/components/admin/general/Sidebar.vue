@@ -376,6 +376,7 @@
                                     {{ $t('global.suggestionClient') }}
                                 </router-link>
                             </li> -->
+
                             <li :class="[$route.name == 'indexComplaintReport' ? 'active' : '']" v-if="permission.includes('complaintReport read')">
                                 <router-link :to="{ name: 'indexComplaintReport' }" :class="['sidebar-menu-rtl']">
                                     {{ $t("global.suggestionClient") }}
@@ -402,6 +403,7 @@
 
                         </ul>
                     </li>
+
                     <!-- <li class="submenu" v-if="permission.includes('management')">
                         <a href="#">
                             <i class="fas fa-home"></i>
@@ -542,6 +544,7 @@
                             <span>{{ $t("sidebar.MostPopular") }}</span>
                         </router-link>
                     </li>
+
                     <li
                         v-if="permission.includes('also-bought read')"
                         :class="[$route.name == 'AlsoBoughtIndex' ? 'active' : '']"
@@ -678,6 +681,7 @@
                             <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
                         </a>
                         <ul>
+
                             <li
                                 v-if="permission.includes('city read')"
                                 :class="[$route.name == 'CityIndex' ? 'active' : '']"
@@ -717,6 +721,7 @@
                             <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
                         </a>
                         <ul>
+                            
                             <li
                                 :class="[$route.name == 'indexDepartment' ? 'active' : '']"
                                 v-if="permission.includes('department read')"

@@ -287,9 +287,9 @@ export default {
             //     text: 'يوجد خطأ ما..!!',
             // });
           })
-        //   .finally(() => {
-        //     this.loading = false;
-        //   });
+          .finally(() => {
+            this.loading = false;
+          });
       }
     },
     resetForm() {
