@@ -167,9 +167,7 @@ import {
 } from "@vuelidate/validators";
 import adminApi from "../../../api/adminAxios";
 import { notify } from "@kyvg/vue3-notification";
-//
 import { useI18n } from "vue-i18n";
-//
 
 export default {
   name: "createDepartment",
@@ -270,6 +268,13 @@ export default {
           })
           .catch((err) => {
             this.nameExist = err.response.data.errors;
+            this.errors = err.response.data.errors;
+            console.log(err.response);
+            // Swal.fire({
+            //     icon: 'error',
+            //     title: 'يوجد خطأ...',
+            //     text: 'يوجد خطأ ما..!!',
+            // });
           })
           .finally(() => {
             this.loading = false;

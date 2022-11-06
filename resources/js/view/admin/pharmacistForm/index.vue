@@ -193,11 +193,11 @@ export default {
               });
             })
             .catch((err) => {
-              Swal.fire({
-                icon: "error",
-                title: `${t("global.ThereIsAnErrorInTheSystem")}`,
-                text: `${t("global.YouCanNotDelete")}`,
-              });
+            //   Swal.fire({
+            //     icon: "error",
+            //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+            //     text: `${t("global.YouCanNotDelete")}`,
+            //   });
             });
         }
       });

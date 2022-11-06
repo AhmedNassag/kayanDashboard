@@ -291,13 +291,13 @@
                                 </router-link>
                             </li>
 
-                            <li v-if="permission.includes('Leads read')"
+                            <!-- <li v-if="permission.includes('Leads read')"
                                 :class="[$route.name == 'indexLeadSalesHome'? 'active': '']">
                                 <router-link :to="{name:'indexLeadSalesHome',params: {lang:this.$i18n.locale}}"
                                     :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
                                     {{$t('global.Leads')}}
                                 </router-link>
-                            </li>
+                            </li> -->
 
                         </ul>
                     </li>
@@ -316,7 +316,7 @@
                                     {{ $t("global.Ad Owners") }}
                                 </router-link>
                             </li>
-                            
+
                             <li :class="[$route.name == 'package'? 'active': '']" v-if="permission.includes('package read')">
                                 <router-link :to="{name:'package',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
                                     {{$t('sidebar.Package')}}

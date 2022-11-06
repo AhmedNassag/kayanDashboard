@@ -54,6 +54,7 @@
                       <th class="text-center">#</th>
                       <th class="text-center">{{ $t("global.Sender") }}</th>
                       <th class="text-center">{{ $t("global.Phone") }}</th>
+                      <th class="text-center">{{ $t("global.Kind") }}</th>
                       <th class="text-center">{{ $t("global.Type") }}</th>
                       <th class="text-center">{{ $t("global.Content") }}</th>
                       <th class="text-center">{{ $t("global.Reply") }}</th>
@@ -67,9 +68,10 @@
                         <td class="text-center">{{ item.user.name }}</td>
                         <td class="text-center" v-if="item.user.phone">{{ item.user.phone }}</td>
                         <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                        <td class="text-center" v-if="item.type='Product Complaint'">{{ $t("global.Product Complaint") }}</td>
-                        <td class="text-center" v-else-if="item.type='Application Complaint'">{{ $t("global.Application Complaint") }}</td>
-                        <td class="text-center" v-else>{{ $t("global.Sales Complaint") }}</td>
+                        <td class="text-center" v-if="item.kind">{{ item.kind }}</td>
+                        <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
+                        <td class="text-center" v-if="item.type">{{ item.type }}</td>
+                        <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
                         <td class="text-center">{{ item.content }}</td>
                         <td class="text-center" v-if="item.reply">{{ item.reply }}</td>
                         <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
@@ -190,6 +192,11 @@ export default {
         })
         .catch((err) => {
           console.log(err.response.data);
+        //   Swal.fire({
+        //     icon: "error",
+        //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+        //     text: `${t("global.YouCanNotDelete")}`,
+        //   });
         })
         .finally(() => {
           loading.value = false;
@@ -235,11 +242,11 @@ export default {
               });
             })
             .catch((err) => {
-              Swal.fire({
-                icon: "error",
-                title: `${t("global.ThereIsAnErrorInTheSystem")}`,
-                text: `${t("global.YouCanNotDelete")}`,
-              });
+            //   Swal.fire({
+            //     icon: "error",
+            //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+            //     text: `${t("global.YouCanNotDelete")}`,
+            //   });
             });
         }
       });

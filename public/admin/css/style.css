@@ -2751,7 +2751,8 @@ html.menu-opened body {
 	padding: 10px 15px;
 }
 .sidebar-menu ul ul a.active {
-    color: #0E67D0;
+    background-color: #00DD2F;
+    color:#000;
 }
 .mobile_btn {
 	display: none;

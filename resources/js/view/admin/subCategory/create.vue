@@ -47,6 +47,13 @@
                   <div class="alert alert-danger text-center" v-if="errors['name']">
                     {{ t("global.Exist", {field:t("global.Name")}) }}<br />
                   </div>
+
+
+
+                    <!-- <div class="alert alert-danger text-center" v-if="message.length > 0">{{ message }}<br/></div> -->
+                    <!--<div class="alert alert-danger text-center" v-if="errors['name']">{{ errors['name'][0] }}<br/></div> -->
+
+
                   <form
                     @submit.prevent="storeSubCategory"
                     class="needs-validation"
@@ -104,8 +111,61 @@
                                 {{ category.name }}
                                 </option>
                             </select> -->
+                            <div class="valid-feedback">
+                                {{ $t("global.LooksGood") }}
+                            </div>
+                            <div class="invalid-feedback">
+                                <span v-if="v$.category_id.required.$invalid">
+                                    {{ $t("global.NameIsRequired") }}
+                                    <br/>
+                                </span>
+                            </div>
                         </div>
                         <!--End Category Select-->
+
+                        <!-- Start Image -->
+                        <div class="col-md-12 row flex-fill">
+                            <div class="btn btn-outline-primary waves-effect">
+                                <span>
+                                    {{ $t("global.ChooseImage") }}
+                                    <i
+                                    class="fas fa-cloud-upload-alt ml-3"
+                                    aria-hidden="true"
+                                    ></i>
+                                </span>
+                                <input
+                                    name="mediaPackage"
+                                    type="file"
+                                    @change="preview"
+                                    id="mediaPackage"
+                                    accept="image/png,jepg,jpg"
+                                />
+                            </div>
+                            <span class="text-danger text-center">
+                                {{ $t("global.ImageValidation") }}
+                            </span>
+                            <p class="num-of-files">
+                                {{
+                                    numberOfImage
+                                    ? numberOfImage + " Files Selected"
+                                    : "No Files Chosen"
+                                }}
+                            </p>
+                            <div
+                                class="container-images"
+                                id="container-images"
+                                v-show="data.file && numberOfImage"
+                            >
+                            </div>
+                            <div class="container-images" v-show="!numberOfImage">
+                                <figure>
+                                    <figcaption>
+                                    <img :src="`/admin/img/company/img-1.png`" />
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                        <!-- End Image -->
 
                     </div>
 
@@ -162,6 +222,7 @@ export default {
       data: {
         name: "",
         category_id: "",
+        file: {},
         nameExist: false,
       },
     });
@@ -169,16 +230,19 @@ export default {
     getCategories();
 
     const rules = computed(() => {
-      return {
-        name: {
-          minLength: minLength(3),
-          maxLength: maxLength(70),
-          required,
-        },
-        category_id: {
-          required,
-        },
-      };
+        return {
+            name: {
+            minLength: minLength(3),
+            maxLength: maxLength(70),
+            required,
+            },
+            category_id: {
+                required,
+            },
+            file: {
+                required,
+            },
+        };
     });
 
     //Commons
@@ -198,7 +262,38 @@ export default {
 
     const v$ = useVuelidate(rules, addSubCategory.data);
 
-    return { loading, ...toRefs(addSubCategory), v$, categories};
+
+    let preview = (e) => {
+      let containerImages = document.querySelector("#container-images");
+      if (numberOfImage.value) {
+        containerImages.innerHTML = "";
+      }
+      addSubCategory.data.file = {};
+
+      numberOfImage.value = e.target.files.length;
+
+      addSubCategory.data.file = e.target.files[0];
+
+      let reader = new FileReader();
+      let figure = document.createElement("figure");
+      let figcap = document.createElement("figcaption");
+
+      figcap.innerText = addSubCategory.data.file.name;
+      figure.appendChild(figcap);
+
+      reader.onload = () => {
+        let img = document.createElement("img");
+        img.setAttribute("src", reader.result);
+        figure.insertBefore(img, figcap);
+      };
+
+      containerImages.appendChild(figure);
+      reader.readAsDataURL(addSubCategory.data.file);
+    };
+
+    const numberOfImage = ref(0);
+
+    return { loading, ...toRefs(addSubCategory), v$, preview, numberOfImage, categories};
 
   },
   methods: {
@@ -211,33 +306,35 @@ export default {
         let formData = new FormData();
         formData.append("name", this.data.name);
         formData.append("category_id", this.data.category_id);
+        formData.append("file", this.data.file);
 
         adminApi
-          .post(`/v1/dashboard/subCategory`, formData)
-          .then((res) => {
-            notify({
-              title: `تم الإضافة بنجاح <i class="fas fa-check-circle"></i>`,
-              type: "success",
-              duration: 5000,
-              speed: 2000,
-            });
+        .post(`/v1/dashboard/subCategory`, formData)
+        .then((res) => {
+        notify({
+            title: `تم الإضافة بنجاح <i class="fas fa-check-circle"></i>`,
+            type: "success",
+            duration: 5000,
+            speed: 2000,
+        });
 
-            this.resetForm();
-            this.$nextTick(() => {
-              this.v$.$reset();
-            });
-          })
-          .catch((err) => {
-            this.nameExist = err.response.data.errors;
-          })
-          .finally(() => {
-            this.loading = false;
-          });
+        this.resetForm();
+        this.$nextTick(() => {
+            this.v$.$reset();
+        });
+        })
+        .catch((err) => {
+        this.nameExist = err.response.data.errors;
+        })
+        .finally(() => {
+        this.loading = false;
+        });
       }
     },
     resetForm() {
-      this.data.name = "";
-      this.data.category_id = "";
+        this.data.name = "";
+        this.data.category_id = "";
+        this.data.file = {};
     },
   },
 };

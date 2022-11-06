@@ -179,6 +179,11 @@ export default {
           })
           .catch((err) => {
             this.errors = err.response.data.errors;
+            // Swal.fire({
+            //     icon: "error",
+            //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+            //     text: `${t("global.YouCanNotDelete")}`,
+            // });
           })
           .finally(() => {
             this.loading = false;

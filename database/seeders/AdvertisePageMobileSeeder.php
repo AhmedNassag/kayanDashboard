@@ -62,7 +62,7 @@ class AdvertisePageMobileSeeder extends Seeder
             "height" => 200,
         ]);
         AdvertisingPageMobileAdvertisingView::find(10)->size()->create([
-            "width" => 1400,
+            "width" => 1450,
             "height" => 250,
         ]);
 

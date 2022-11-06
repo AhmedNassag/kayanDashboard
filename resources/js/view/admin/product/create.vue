@@ -231,7 +231,7 @@
                                             <!--End PharmacistForm Select-->
 
                                             <!--Start MaxMount-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label for="validationCustom055">{{ $t("global.MaxMount") }}</label>
                                                 <input
                                                     type="number" class="form-control"
@@ -245,11 +245,11 @@
                                                     <span v-if="v$.maximum_product.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                     <span v-if="v$.maximum_product.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--Start MaxMount-->
 
                                             <!--Start Re Order Limit-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label>{{ $t("global.Re Order Limit") }}</label>
                                                 <input
                                                     type="number" class="form-control"
@@ -262,7 +262,7 @@
                                                     <span v-if="v$.Re_order_limit.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                     <span v-if="v$.Re_order_limit.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Re Order Limit-->
 
                                             <!--Start Effective Material-->
@@ -516,8 +516,8 @@ export default {
                 pharmacistForm_id: null,
                 barcode : null,
                 // count_unit : null,
-                maximum_product: null,
-                Re_order_limit: null,
+                // maximum_product: null,
+                // Re_order_limit: null,
                 description : null,
                 effectiveMaterial: null,
                 image : {},
@@ -615,14 +615,14 @@ export default {
                     required,
                     integer
                 },
-                maximum_product: {
-                    required,
-                    integer
-                },
-                Re_order_limit: {
-                    required,
-                    integer
-                },
+                // maximum_product: {
+                //     required,
+                //     integer
+                // },
+                // Re_order_limit: {
+                //     required,
+                //     integer
+                // },
                 effectiveMaterial: {
                     required,
                 },
@@ -793,8 +793,8 @@ export default {
                 formData.append('nameEn',this.data.nameEn);
                 formData.append('barcode',this.data.barcode);
                 // formData.append('count_unit',this.data.count_unit);
-                formData.append('maximum_product',this.data.maximum_product);
-                formData.append('Re_order_limit',this.data.Re_order_limit);
+                // formData.append('maximum_product',this.data.maximum_product);
+                // formData.append('Re_order_limit',this.data.Re_order_limit);
                 formData.append('effectiveMaterial',this.data.effectiveMaterial);
                 formData.append('description',this.data.description);
                 formData.append('category_id',this.data.category_id);
@@ -885,8 +885,8 @@ export default {
             this.data.barcode = null;
             this.data.nameAr = null;
             this.data.nameEn = null;
-            this.data.maximum_product= null;
-            this.data.Re_order_limit = null;
+            // this.data.maximum_product= null;
+            // this.data.Re_order_limit = null;
             this.data.description = null;
             this.effectiveMaterial = null;
             this.data.image= {};

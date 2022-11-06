@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->string('effectiveMaterial')->nullable();
             $table->text('description');
             $table->unsignedBigInteger('barcode');
-            $table->integer('Re_order_limit')->default(0);
-            $table->integer('maximum_product');
+            // $table->integer('Re_order_limit')->nullable();
+            // $table->integer('maximum_product')->nullable();
             $table->text('image')->nullable();
             $table->boolean('status')->default(true);
             $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnDelete();

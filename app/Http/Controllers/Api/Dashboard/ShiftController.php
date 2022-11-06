@@ -70,10 +70,10 @@ class ShiftController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'name' => 'required',
+                'name' => 'required|unique:shifts,name',
                 'type' => 'required',
-                'started_at' => 'required',
-                'ended_at' => 'required',
+                'started_at' => 'required|unique:shifts,started_at',
+                'ended_at' => 'required|unique:shifts,ended_at',
             ]);
 
             if ($v->fails()) {

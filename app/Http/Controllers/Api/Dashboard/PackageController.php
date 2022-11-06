@@ -34,18 +34,13 @@ class PackageController extends Controller
     public function activationPackage($id)
     {
         $package = AdvertisingPackage::find($id);
-        if ($package->status == 1) {
-            $package->update
-            ([
-                "status" => 0
-            ]);
+        if ($package->status == 1)
+        {
+            $package->update([ "status" => 0 ]);
         }
         else
         {
-            $package->update
-            ([
-                "status" => 1
-            ]);
+            $package->update([ "status" => 1 ]);
         }
         return $this->sendResponse([], 'Data exited successfully');
     }
@@ -218,10 +213,10 @@ class PackageController extends Controller
                 //     $advertisingPackage->delete();
                 //     return $this->sendResponse([],'Deleted successfully');
                 // }
-                //     else
-                //     {
-                //         return $this->sendError("you can't delete this package. ");
-                //     }
+                // else
+                // {
+                //     return $this->sendError("you can't delete this package. ");
+                // }
 
                 $advertisingPackage->delete();
                 return $this->sendResponse([], 'Deleted successfully');

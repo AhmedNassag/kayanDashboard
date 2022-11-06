@@ -51,8 +51,7 @@
                                     <thead>
                                     <tr class="text-center">
                                         <th class="text-center">#</th>
-                                        <th class="text-center">{{ $t('global.Title') }}</th>
-                                        <td class="text-center">{{ $t('sidebar.advertise') }}</td>
+                                        <!-- <td class="text-center">{{ $t('sidebar.advertise') }}</td> -->
                                         <th class="text-center">{{ $t('global.Start Date') }}</th>
                                         <th class="text-center">{{ $t('global.End Date') }}</th>
                                         <th class="text-center">{{ $t('global.Package') }}</th>
@@ -63,8 +62,7 @@
                                     <tbody v-if="calender.length">
                                         <tr class="text-center" v-for="(item,index) in calender" :key="item.id">
                                             <td class="text-center">{{index + 1}}</td>
-                                            <td class="text-center">{{item.title}}</td>
-                                            <td class="text-center">{{item.users.name}}</td>
+                                            <!-- <td class="text-center">{{item.users.name}}</td> -->
                                             <td class="text-center">{{dateFormate(item.start)}}</td>
                                             <td class="text-center">{{dateFormate(item.end)}}</td>
                                             <td class="text-center">{{item.packages.name}}</td>
@@ -149,6 +147,12 @@ export default {
             })
             .catch((err) => {
                 console.log(err.response);
+                this.errors = err.response.data.errors;
+                // Swal.fire({
+                //     icon: 'error',
+                //     title: 'يوجد خطأ...',
+                //     text: 'يوجد خطأ ما..!!',
+                // });
             })
             .finally(() => {
                 loading.value = false;

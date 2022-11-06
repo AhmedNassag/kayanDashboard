@@ -191,6 +191,11 @@ export default {
         })
         .catch((err) => {
           console.log(err.response.data);
+        //   Swal.fire({
+        //     icon: "error",
+        //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+        //     text: `${t("global.YouCanNotDelete")}`,
+        //   });
         })
         .finally(() => {
           loading.value = false;
@@ -236,11 +241,11 @@ export default {
               });
             })
             .catch((err) => {
-              Swal.fire({
-                icon: "error",
-                title: `${t("global.ThereIsAnErrorInTheSystem")}`,
-                text: `${t("global.YouCanNotDelete")}`,
-              });
+              // Swal.fire({
+              //   icon: "error",
+              //   title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+              //   text: `${t("global.YouCanNotDelete")}`,
+              // });
             });
         }
       });
@@ -278,11 +283,11 @@ export default {
               adOwners.value[index]["status"] = active ? 0 : 1;
             })
             .catch((err) => {
-              Swal.fire({
-                icon: "error",
-                title: `${t("global.ThereIsAnErrorInTheSystem")}`,
-                text: `${t("global.YouCanNotModifyThisSafe")}`,
-              });
+            //   Swal.fire({
+              //   icon: "error",
+              //   title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+              //   text: `${t("global.YouCanNotModifyThisSafe")}`,
+              // });
             });
         }
       });

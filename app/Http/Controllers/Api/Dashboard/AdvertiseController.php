@@ -19,13 +19,13 @@ class AdvertiseController extends Controller
     public function index(Request $request)
     {
         $advertise = User::with('complement:user_id,device')->whereAuthId(2)->whereJsonContains('role_name','advertiser')
-            ->where(function ($q) use($request){
-                $q->when($request->search,function ($q) use($request){
-                    return $q->OrWhere('email','like','%'.$request->search.'%')
-                        ->orWhere('phone','like','%'.$request->search.'%');
-                });
+        ->where(function ($q) use($request){
+            $q->when($request->search,function ($q) use($request){
+                return $q->OrWhere('email','like','%'.$request->search.'%')
+                    ->orWhere('phone','like','%'.$request->search.'%');
+            });
 
-            })->latest()->paginate(15);
+        })->latest()->paginate(15);
 
         return $this->sendResponse(['advertise' => $advertise],'Data exited successfully');
     }

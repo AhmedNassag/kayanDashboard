@@ -296,7 +296,8 @@ class AdvertiserScheduleController extends Controller
             return $this->sendError('There is an error in the data', $v->errors());
         }
 
-        if ($this->validDim($request->file) == 'error'  || $this->validDimMobile($request->fileMobile) == 'error') {
+        if ($this->validDim($request->file) == 'error'  || $this->validDimMobile($request->fileMobile) == 'error')
+        {
             return $this->sendError('There is an error in the data', ['file' => 'image']);
         }
 
@@ -325,7 +326,7 @@ class AdvertiserScheduleController extends Controller
             'end' => Carbon::parse($request->date)->addDays($request->day),
             'link' => $request->link,
             'user_id' => $user->id,
-            "title" => $user->complement->nameCompany,
+            //"title" => $user->complement->nameCompany,
             "price" => $invoice_value,
             'advertising_package_id' => $request->package_id
         ]);

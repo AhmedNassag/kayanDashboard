@@ -115,7 +115,13 @@ export default {
                     addSaleMethod.data.name = l.saleMethod.name;
                 })
                 .catch((err) => {
+                    this.errors = err.response.data.errors;
                     console.log(err.response);
+                    // Swal.fire({
+                    //     icon: 'error',
+                    //     title: 'يوجد خطأ...',
+                    //     text: 'يوجد خطأ ما..!!',
+                    // });
                 })
                 .finally(() => {
                     loading.value = false;
