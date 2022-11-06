@@ -80,6 +80,7 @@ import examinationRecord from './adminRoute/examinationRecord';
 import purchaseReturn from './adminRoute/purchaseReturn';
 import salePoint from './adminRoute/sale-point';
 import termAndCondition from './adminRoute/term-and-condtion';
+import footerLink from './adminRoute/footer-link';
 const routes = [
     {
         path: '/',
@@ -201,7 +202,8 @@ const routes = [
             ...purchaseInvoice,
             ...examinationRecord,
             ...purchaseReturn,
-            ...salePoint
+            ...salePoint,
+            ...footerLink
         ]
     },
     {

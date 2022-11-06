@@ -54,7 +54,9 @@ class DealRepository
     }
     public function getProducts()
     {
-        return Product::get();
+        return Product::with(["prices" => function ($query) {
+            $query->whereRelation("supplier", "is_our_supplier", 1);
+        }])->get();
     }
     public function getOurSupplier()
     {
