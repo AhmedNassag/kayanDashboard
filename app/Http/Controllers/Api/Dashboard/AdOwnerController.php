@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\AdOwner;
 use App\Models\AdvertiseSchedule;
+use App\Models\User;
 use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,25 +22,27 @@ class AdOwnerController extends Controller
      */
     public function index(Request $request)
     {
-        // $adOwners = AdOwner::with('media:file_name,mediable_id')
-        // ->when($request->search, function ($q) use ($request) {
-        //     return $q->where('name', 'like', '%' . $request->search . '%');
-        // })->latest()->paginate(10);
-
-        // return $this->sendResponse(['adOwners' => $adOwners], 'Data exited successfully');
-        $adOwners = AdvertiseSchedule::with(['packages', 'users:name,id'])
+        $adOwners = User::with('media:file_name,mediable_id')
+        ->whereJsonContains('role_name', 'Advertise')
         ->when($request->search, function ($q) use ($request) {
-            return $q->WhereRelation('packages', 'name', 'like', '%' . $request->search . '%')
-            ->orWhereRelation('users', 'name', 'like', '%' . $request->search . '%');
-        })->paginate(10);
+            return $q->where('name', 'like', '%' . $request->search . '%');
+        })->latest()->paginate(10);
+
         return $this->sendResponse(['adOwners' => $adOwners], 'Data exited successfully');
+
+        // $adOwners = AdvertiseSchedule::with(['packages', 'users:name,id'])
+        // ->when($request->search, function ($q) use ($request) {
+        //     return $q->WhereRelation('packages', 'name', 'like', '%' . $request->search . '%')
+        //     ->orWhereRelation('users', 'name', 'like', '%' . $request->search . '%');
+        // })->paginate(10);
+        // return $this->sendResponse(['adOwners' => $adOwners], 'Data exited successfully');
     }
 
 
 
     public function activationAdOwner($id)
     {
-        $adOwner = AdOwner::find($id);
+        $adOwner = User::find($id);
 
         if ($adOwner->status == 1)
         {
@@ -86,7 +89,9 @@ class AdOwnerController extends Controller
             $v = Validator::make($request->all(),
             [
                 'name'  => 'required|string',
-                'phone' => 'required|integer|unique:ad_owners,phone',
+                'email' => 'required',
+                'password' => 'required',
+                'phone' => 'required|integer|unique:users,phone',
                 'file'  => 'nullable' . ($request->hasFile('file') ? '|file|mimes:jpeg,jpg,png' : ''),
                 // 'image'  => 'nullable' . ($request->hasFile('image') ? '|file|mimes:jpeg,jpg,png' : ''),
             ]);
@@ -96,8 +101,15 @@ class AdOwnerController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['name', 'phone']);
-            $adOwner = AdOwner::create($data);
+            // $data = $request->only(['name','email', 'password', 'phone']);
+            $adOwner = User::create
+            ([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'phone' => $request->phone,
+                'role_name' => ['Advertise'],
+            ]);
 
             if ($request->hasFile('file'))
             {
@@ -106,7 +118,8 @@ class AdOwnerController extends Controller
                 $image     = time() . '.' . $request->file->getClientOriginalName();
 
                 $request->file->storeAs('adOwnerCommercialRecord', $image, 'general');
-                $adOwner->media()->create([
+                $adOwner->media()->create
+                ([
                     'file_name' => $image,
                     'file_size' => $file_size,
                     'file_type' => $file_type,
@@ -160,7 +173,7 @@ class AdOwnerController extends Controller
     {
         try
         {
-            $adOwner = AdOwner::with('media:file_name,mediable_id')->find($id);
+            $adOwner = User::with('media:file_name,mediable_id')->find($id);
             return $this->sendResponse(['adOwner' => $adOwner], 'Data exited successfully');
         }
         catch (\Exception $e)
@@ -181,12 +194,14 @@ class AdOwnerController extends Controller
         DB::beginTransaction();
         try {
 
-            $adOwner = AdOwner::find($id);
+            $adOwner = User::find($id);
 
             // Validator request
             $v = Validator::make($request->all(),
             [
                 'name'  => 'required|string',
+                'email' => 'required|unique:users,email',
+                // 'password' => 'required',
                 'phone' => 'required|integer',
                 'file'  => 'nullable' . ($request->hasFile('file') ? '|file|mimes:jpeg,jpg,png' : ''),
             ]);
@@ -196,9 +211,15 @@ class AdOwnerController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['name', 'phone', 'status']);
+            // $data = $request->only(['name', 'phone', 'status']);
 
-            $adOwner->update($data);
+            $adOwner->update
+            ([
+                'name' => $request->name,
+                'email' => $request->email,
+                // 'password' => $request->password,
+                'phone' => $request->phone,
+            ]);
 
             if ($request->hasFile('file'))
             {
@@ -215,7 +236,8 @@ class AdOwnerController extends Controller
 
                 // picture move
                 $request->file->storeAs('adOwnerCommercialRecord', $image, 'general');
-                $adOwner->media()->create([
+                $adOwner->media()->create
+                ([
                     'file_name' => $image,
                     'file_size' => $file_size,
                     'file_type' => $file_type,
@@ -243,17 +265,17 @@ class AdOwnerController extends Controller
     {
         try
         {
-            $adOwner = AdOwner::find($id);
+            $adOwner = User::find($id);
             if ($adOwner)
             {
-                // if($adOwner->media->file_name)
-                // {
-                //     if (File::exists('upload/adOwnerCommercialRecord/' . $adOwner->media->file_name))
-                //     {
-                //         unlink('upload/adOwnerCommercialRecord/' . $adOwner->media->file_name);
-                //         $adOwner->media->delete();
-                //     }
-                // }
+                if($adOwner->media->file_name)
+                {
+                    if (File::exists('upload/adOwnerCommercialRecord/' . $adOwner->media->file_name))
+                    {
+                        unlink('upload/adOwnerCommercialRecord/' . $adOwner->media->file_name);
+                        $adOwner->media->delete();
+                    }
+                }
                 $adOwner->delete();
                 return $this->sendResponse([], 'Deleted successfully');
             }

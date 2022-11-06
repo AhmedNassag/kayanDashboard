@@ -40,11 +40,11 @@
                                                 <li>{{Package.visiter_num}} {{ $t('global.Number of Visitors') }}</li>
                                                 <li>{{Package.period}} {{ $t('global.Days visibility') }}</li>
                                                 <li>{{Package.period}} {{ $t('global.Days Package Expiry') }}</li>
-                                                <p v-if="pageView.length > 0">{{ $t('global.Ad appearance pages') }}</p>
+                                                <p>{{ $t('global.Ad appearance pages') }}</p>
                                                 <span v-for="pageView in pageWeb" :key="pageView.id">
                                                     <li>{{pageView.page.name + ' -- '+ pageView.view.type }}</li>
                                                 </span>
-                                                <p v-if="pageViewMob">{{ $t('global.Ad appearance mobile pages') }}</p>
+                                                <p>{{ $t('global.Ad appearance mobile pages') }}</p>
                                                 <span v-for="pageViewMob in pageMobile" :key="pageViewMob.id">
                                                     <li>{{pageViewMob.page_mobile.name + ' -- '+ pageViewMob.view.type }}</li>
                                                 </span>

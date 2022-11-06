@@ -61,10 +61,10 @@ class ComplaintController extends Controller
             }
             $data = $request->only('kind','type','content','user_id');
 
-            if ($request->type) {
-                $data['kind'] = 'Complaint';
-            } else {
+            if (!$request->type || $request->type = '') {
                 $data['kind'] = 'Suggestion';
+            } else {
+                $data['kind'] = 'Complaint';
             }
             $data['user_id'] = Auth::user()->id;
             $complaint = Complaint::create($data);

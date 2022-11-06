@@ -239,6 +239,13 @@ export default {
                     })
                     .catch((err) => {
                         this.nameExist = err.response.data.errors;
+                        this.errors = err.response.data.errors;
+                        console.log(err.response);
+                        // Swal.fire({
+                        //     icon: 'error',
+                        //     title: 'يوجد خطأ...',
+                        //     text: 'يوجد خطأ ما..!!',
+                        // });
                     })
                     .finally(() => {
                         this.loading = false;

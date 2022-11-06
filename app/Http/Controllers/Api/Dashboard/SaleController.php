@@ -151,10 +151,11 @@ class SaleController extends Controller
                         'price_before_discount' => $product['price_before_discount'],
                         'price_after_discount'  => $product['price_after_discount'],
                     ]);
-                    $virtualStockQuantitiy->update
-                    ([
-                        'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) - intval($product['quantity'])
-                    ]);
+
+                    // $virtualStockQuantitiy->update
+                    // ([
+                    //     'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) - intval($product['quantity'])
+                    // ]);
                 }
                 else
                 {
@@ -309,10 +310,11 @@ class SaleController extends Controller
                         'price_before_discount' => $product['price_before_discount'],
                         'price_after_discount'  => $product['price_after_discount'],
                     ]);
-                    $virtualStockQuantitiy->update
-                    ([
-                        'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) - intval($product['quantity'])
-                    ]);
+
+                    // $virtualStockQuantitiy->update
+                    // ([
+                    //     'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) - intval($product['quantity'])
+                    // ]);
                 }
                 else
                 {

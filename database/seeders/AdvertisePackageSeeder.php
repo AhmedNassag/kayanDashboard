@@ -16,7 +16,8 @@ class AdvertisePackageSeeder extends Seeder
     public function run()
     {
 
-        $Gold = AdvertisingPackage::create([
+        $Gold = AdvertisingPackage::create
+        ([
             'name' => 'Gold',
             'period' => 7,
             'visiter_num' => 1000,
@@ -24,7 +25,10 @@ class AdvertisePackageSeeder extends Seeder
             'status' => true
         ]);
 
-        $Silver = AdvertisingPackage::create([
+
+
+        $Silver = AdvertisingPackage::create
+        ([
             'name'=> "Silver",
             'period' => 7,
             'visiter_num' => 1000,
@@ -32,14 +36,16 @@ class AdvertisePackageSeeder extends Seeder
             'status' => true
         ]);
 
-        $Diamond = AdvertisingPackage::create([
-            "name"=> "Diamond",
+
+
+        $Diamond = AdvertisingPackage::create
+        ([
+            "name"=> "Bronze",
             'period' => 7,
             'visiter_num' => 1000,
             'price' => 100,
             'status' => true
         ]);
-
 
     }
 }

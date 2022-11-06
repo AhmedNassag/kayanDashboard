@@ -45,7 +45,7 @@
                                         <th class="text-center">#</th>
                                         <th class="text-center">{{ $t('global.Name') }}</th>
                                         <th class="text-center">{{ $t('global.Period') }}</th>
-                                        <th class="text-center">{{ $t('global.Price') }}</th>
+                                        <th class="text-center">{{ $t('global.Package Price') }}</th>
                                         <th class="text-center">{{ $t('global.Visiter') }}</th>
                                         <th class="text-center">{{ $t('global.Status') }}</th>
                                         <th class="text-center">{{ $t('global.Action') }}</th>
@@ -58,7 +58,26 @@
                                             <td class="text-center">{{item.period}}</td>
                                             <td class="text-center">{{item.price}}</td>
                                             <td class="text-center">{{item.visiter_num}}</td>
-                                            <td class="text-center"><span :class="[parseInt(item.status) ? 'text-success': 'text-danger']">{{parseInt(item.status) ? $t('global.Active') : $t('global.Inactive')}}</span></td>
+                                            <td class="text-center">
+                                                <a
+                                                    href="#"
+                                                    @click="activationPackage(item.id, item.status, index)"
+                                                    >
+                                                    <span
+                                                        :class="[
+                                                        parseInt(item.status)
+                                                            ? 'text-success hover'
+                                                            : 'text-danger hover',
+                                                        ]"
+                                                        >{{
+                                                        parseInt(item.status)
+                                                            ? $t("global.Active")
+                                                            : $t("global.Inactive")
+                                                        }}</span
+                                                    >
+                                                </a>
+                                                <!-- <span :class="[parseInt(item.status) ? 'text-success': 'text-danger']">{{parseInt(item.status) ? $t('global.Active') : $t('global.Inactive')}}</span> -->
+                                            </td>
                                             <td class="text-center">
                                                 <router-link :to="{name: 'showPackage', params: {lang: locale || 'ar',id:item.id}}" v-if="permission.includes('package show')" class="btn btn-sm btn-info me-2">
                                                     <i class="fas fa-book-open"></i>
@@ -148,11 +167,11 @@ export default {
         watch(search, (search, prevSearch) => {
            if(search.length >= 0){
                getPackages();
-           }
+            }
         });
 
 
-         function deletePackage(id,packageName,index){
+        function deletePackage(id,packageName,index){
             Swal.fire({
                 title: `${t('global.AreYouSureDelete')} (${packageName})`,
                 text: `${t("global.YouWontBeAbleToRevertThis")}`,
@@ -163,30 +182,72 @@ export default {
                 confirmButtonText: 'Yes'
             }).then((result) => {
                 if (result.isConfirmed) {
-
                     adminApi.delete(`/v1/dashboard/advertiserPackage/${id}`)
-                        .then((res) => {
-                            packages.value.splice(index, 1);
+                    .then((res) => {
+                        packages.value.splice(index, 1);
 
-                            Swal.fire({
-                                icon: 'success',
-                                title: `${t("global.DeletedSuccessfully")}`,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        })
-                        .catch((err) => {
-                            Swal.fire({
-                                icon: 'error',
-                                title: `${t('global.ThereIsAnErrorInTheSystem')}`,
-                                text: `${t('global.YouCanNotDelete')}`,
-                            });
+                        Swal.fire({
+                            icon: 'success',
+                            title: `${t("global.DeletedSuccessfully")}`,
+                            showConfirmButton: false,
+                            timer: 1500
                         });
+                    })
+                    .catch((err) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `${t('global.ThereIsAnErrorInTheSystem')}`,
+                            text: `${t('global.YouCanNotDelete')}`,
+                        });
+                    });
                 }
             });
         }
 
-        return {packages,loading,permission,getPackages,search,deletePackage,packagesPaginate};
+
+        function activationPackage(id, active, index) {
+            Swal.fire({
+                title: `${
+                active
+                ? t("global.AreYouSureInactive")
+                : t("global.AreYouSureActive")
+                }`,
+                text: `${t("global.YouWontBeAbleToRevertThis")}`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: t("global.Yeas"),
+                cancelButtonText: t("global.No"),
+            }).then((result) => {
+                if (result.isConfirmed) {
+                adminApi
+                    .get(`/v1/dashboard/activationPackage/${id}`)
+                    .then((res) => {
+                    Swal.fire({
+                        icon: "success",
+                        title: `${
+                        active
+                            ? t("global.InactiveSuccessfully")
+                            : t("global.ActiveSuccessfully")
+                        }`,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    packages.value[index]["status"] = active ? 0 : 1;
+                    })
+                    .catch((err) => {
+                        Swal.fire({
+                            icon: "error",
+                            title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+                            text: `${t("global.YouCanNotModifyThisSafe")}`,
+                        });
+                    });
+                }
+            });
+        }
+
+        return {packages,loading,permission,getPackages,search,deletePackage,activationPackage,packagesPaginate};
 
     },
     data(){

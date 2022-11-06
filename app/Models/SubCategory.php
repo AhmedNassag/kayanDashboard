@@ -19,6 +19,11 @@ class SubCategory extends Model
     }
 
     //start raletions
+    public function media()
+    {
+        return $this->morphOne(Media::class, 'mediable');
+    }
+    
     public function category()
     {
         return $this->belongsTo(Category::class);

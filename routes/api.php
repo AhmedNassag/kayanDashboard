@@ -152,11 +152,16 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
             // start advertiser
             Route::resource('advertiserPackage', 'PackageController');
+            Route::get('activationPackage/{id}', 'PackageController@activationPackage');
             Route::post('advertiserPackage/statusPackage', 'PackageController@statusPackage');
 
             // start Advertise Schedule
             Route::resource('scheduleAdvertise', 'AdvertiserScheduleController')->except('show');
             Route::get('activation/{id}', 'AdvertiserScheduleController@activation');
+            /**/
+            Route::get('scheduleAdvertise/getAll/{id}', 'AdvertiserScheduleController@getALL');
+            Route::post('scheduleAdvertise/buy_package', 'AdvertiserScheduleController@buy_package');
+            /**/
 
             // crm
             Route::resource('targetPlan', 'TargetPlanController');

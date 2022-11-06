@@ -56,6 +56,9 @@
                                                     <option value="Product Complaint">
                                                         {{ $t("global.Product Complaint") }}
                                                     </option>
+                                                    <option value="Website Complaint">
+                                                        {{ $t("global.Website Complaint") }}
+                                                    </option>
                                                     <option value="Application Complaint">
                                                         {{ $t("global.Application Complaint") }}
                                                     </option>
@@ -150,7 +153,13 @@ export default {
                     addComplaint.data.content = l.complaint.content;
                 })
                 .catch((err) => {
+                    this.errors = err.response.data.errors;
                     console.log(err.response);
+                    // Swal.fire({
+                    //     icon: 'error',
+                    //     title: 'يوجد خطأ...',
+                    //     text: 'يوجد خطأ ما..!!',
+                    // });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -211,6 +220,11 @@ export default {
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
+                    // Swal.fire({
+                    //     icon: "error",
+                    //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+                    //     text: `${t("global.YouCanNotDelete")}`,
+                    // });
                 })
                 .finally(() => {
                     this.loading = false;

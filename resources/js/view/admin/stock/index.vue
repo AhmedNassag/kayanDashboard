@@ -69,8 +69,8 @@
                     <tr v-for="(item, index) in stocks" :key="item.id">
                       <td class="text-center">{{ index + 1 }}</td>
                       <td class="text-center">{{ item.name }}</td>
-                      <td class="text-center">{{ item.governorate }}</td>
-                      <td class="text-center">{{ item.region }}</td>
+                      <td class="text-center">{{ item.city.name }}</td>
+                      <td class="text-center">{{ item.area.name }}</td>
                       <td class="text-center">{{ item.title }}</td>
                       <!-- <td class="text-center">{{ item.location }}</td> -->
                       <td class="text-center">{{ item.phone }}</td>

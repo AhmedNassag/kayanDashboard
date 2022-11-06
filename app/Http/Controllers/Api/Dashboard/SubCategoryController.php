@@ -7,6 +7,7 @@ use App\Models\SubCategory;
 use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class SubCategoryController extends Controller
@@ -20,8 +21,8 @@ class SubCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $subCategories = SubCategory::with('category')
-            ->when($request->search, function ($q) use ($request) {
+        $subCategories = SubCategory::with(['category','media:file_name,mediable_id'])
+        ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
@@ -72,6 +73,7 @@ class SubCategoryController extends Controller
             $v = Validator::make($request->all(), [
                 'name' => 'required',
                 'category_id' => 'required',
+                'file' => 'required|file|mimes:png,jpg,jpeg',
             ]);
 
             if ($v->fails()) {
@@ -80,6 +82,22 @@ class SubCategoryController extends Controller
             $data = $request->only(['name','category_id']);
 
             $subCategory = SubCategory::create($data);
+
+            if ($request->hasFile('file')) {
+
+                $file_size = $request->file->getSize();
+                $file_type = $request->file->getMimeType();
+                $image = time() . '.' . $request->file->getClientOriginalName();
+
+                // picture move
+                $request->file->storeAs('subCategory', $image, 'general');
+                $subCategory->media()->create([
+                    'file_name' => $image,
+                    'file_size' => $file_size,
+                    'file_type' => $file_type,
+                    'file_sort' => 1
+                ]);
+            }
 
             DB::commit();
 
@@ -112,7 +130,7 @@ class SubCategoryController extends Controller
     {
         try {
 
-            $subCategory = SubCategory::find($id);
+            $subCategory = SubCategory::with('media:file_name,mediable_id')->find($id);
 
             return $this->sendResponse(['subCategory' => $subCategory], 'Data exited successfully');
 
@@ -141,6 +159,7 @@ class SubCategoryController extends Controller
             $v = Validator::make($request->all(), [
                 'name' => 'required|string',
                 'category_id' => 'required',
+                'file' => 'nullable' . ($request->hasFile('file') ? '|file' : ''),
             ]);
 
             if ($v->fails()) {
@@ -150,6 +169,28 @@ class SubCategoryController extends Controller
             $data = $request->only(['name','category_id','status']);
 
             $subCategory->update($data);
+
+            if ($request->hasFile('file')) {
+
+                if (File::exists('upload/subCategory/' . $subCategory->media->file_name)) {
+                    unlink('upload/subCategory/' . $subCategory->media->file_name);
+                }
+                $subCategory->media->delete();
+
+                $file_size = $request->file->getSize();
+                $file_type = $request->file->getMimeType();
+                $image = time() . '.' . $request->file->getClientOriginalName();
+
+                // picture move
+                $request->file->storeAs('subCategory', $image, 'general');
+
+                $subCategory->media()->create([
+                    'file_name' => $image,
+                    'file_size' => $file_size,
+                    'file_type' => $file_type,
+                    'file_sort' => 1
+                ]);
+            }
 
             DB::commit();
             return $this->sendResponse([],'Data exited successfully');
@@ -168,16 +209,26 @@ class SubCategoryController extends Controller
      */
     public function destroy($id)
     {
-        try {
+        try
+        {
             $subCategory = SubCategory::find($id);
-            if ($subCategory){
+            if ($subCategory)
+            {
+                if (File::exists('upload/subCategory/' . $subCategory->media->file_name))
+                {
+                    unlink('upload/subCategory/' . $subCategory->media->file_name);
+                }
+                $subCategory->media->delete();
                 $subCategory->delete();
-                return $this->sendResponse([],'Deleted successfully');
-            }else{
+                return $this->sendResponse([], 'Deleted successfully');
+            }
+            else
+            {
                 return $this->sendError('ID is not exist');
             }
-
-        }catch (\Exception $e){
+        }
+        catch (\Exception $e)
+        {
             return $this->sendError('An error occurred in the system');
         }
     }

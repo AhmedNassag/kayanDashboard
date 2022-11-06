@@ -47,6 +47,22 @@
                                     </div>
                                     <form @submit.prevent="replyComplaint" class="needs-validation">
                                         <div class="form-row row">
+                                            <!--Start Kind Select-->
+                                            <div class="col-md-7 mb-3">
+                                                <label for="validationCustom0">
+                                                    {{ $t("global.Type") }}
+                                                </label>
+                                                <select class="form-control" v-model.trim="v$.kind.$model" disabled>
+                                                    <option value="Complaint">
+                                                        {{ $t("global.complaint") }}
+                                                    </option>
+                                                    <option value="Suggestion">
+                                                        {{ $t("global.suggestion") }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <!--End Kind Select-->
+
                                             <!--Start Type Select-->
                                             <div class="col-md-7 mb-3">
                                                 <label for="validationCustom0">
@@ -55,6 +71,9 @@
                                                 <select class="form-control" v-model.trim="v$.type.$model" disabled>
                                                     <option value="Product Complaint">
                                                         {{ $t("global.Product Complaint") }}
+                                                    </option>
+                                                    <option value="Website Complaint">
+                                                        {{ $t("global.Website Complaint") }}
                                                     </option>
                                                     <option value="Application Complaint">
                                                         {{ $t("global.Application Complaint") }}
@@ -140,11 +159,18 @@ export default {
             adminApi.get(`/v1/dashboard/complaint/${id.value}/edit`)
                 .then((res) => {
                     let l = res.data.data;
+                    addComplaint.data.kind = l.complaint.kind;
                     addComplaint.data.type = l.complaint.type;
                     addComplaint.data.content = l.complaint.content;
                 })
                 .catch((err) => {
+                    this.errors = err.response.data.errors;
                     console.log(err.response);
+                    // Swal.fire({
+                    //     icon: 'error',
+                    //     title: 'يوجد خطأ...',
+                    //     text: 'يوجد خطأ ما..!!',
+                    // });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -164,6 +190,9 @@ export default {
 
         const rules = computed(() => {
             return {
+                kind: {
+                    // required
+                },
                 type: {
                     // required
                 },
@@ -208,6 +237,11 @@ export default {
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
+                    // Swal.fire({
+                    //     icon: "error",
+                    //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+                    //     text: `${t("global.YouCanNotDelete")}`,
+                    // });
                 })
                 .finally(() => {
                     this.loading = false;
