@@ -12,6 +12,8 @@
         "Dashboard": "الرئيسيه"
     },
     "sidebar": {
+        "Footer":"الفوتر",
+        "FooterLinks":"لنكات الفوتر",
         "BestSellers": "افضل مبيعات",
         "CustomerAlsoBought": "العملاء اشترو ايضا",
         "MostPopular": "الاكثر شيوعا",
@@ -85,6 +87,7 @@
     },
 
     "global": {
+        "FooterLinks":"لنكات الفوتر",
         "KayanPrice":"تسعير كيان",
         "CustomerAlsoBought": "العملاء اشترو ايضا",
         "MostPopular": "الاكثر شيوعا",

@@ -845,6 +845,27 @@
             </ul>
           </li>
 
+          <li class="submenu" v-if="permission.includes('footer')">
+            <a href="#"
+              ><i class="fas fa-suitcase"></i>
+              <span>{{ $t("sidebar.Footer") }}</span>
+              <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
+            </a>
+            <ul>
+              <li
+                :class="[$route.name == 'FooterLinkIndex' ? 'active' : '']"
+                v-if="permission.includes('footer-link read')"
+              >
+                <router-link
+                  :to="{ name: 'FooterLinkIndex' }"
+                  :class="['sidebar-menu-rtl']"
+                >
+                  {{ $t("sidebar.FooterLinks") }}
+                </router-link>
+              </li>
+            </ul>
+          </li>
+
           <li class="submenu" v-if="permission.includes('management')">
             <a href="#"
               ><i class="fas fa-suitcase"></i>
