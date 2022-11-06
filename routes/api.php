@@ -439,6 +439,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::get("all", "UnavailableCityClientController@getAllUnavailableCitiesClients");
             });
 
+            //Footer links
+            Route::prefix("footer-links")->group(function () {
+                Route::get("", "FooterLinkController@index");
+                Route::post("", "FooterLinkController@update");
+            });
+
             //start logout
             Route::post('logout', 'AuthDashboardController@logout');
         });

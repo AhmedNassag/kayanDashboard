@@ -323,6 +323,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'also-bought create', 'role' => ''],
             ['name' => 'also-bought edit', 'role' => ''],
             ['name' => 'also-bought delete', 'role' => ''],
+            
+            //Footer links
+            ['name' => 'footer-link read', 'role' => 'footer'],
+            ['name' => 'footer-link edit', 'role' => 'footer'],
 
         ];
 
