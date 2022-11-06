@@ -15,8 +15,8 @@ class CreateAdvertisingSizesTable extends Migration
     {
         Schema::create('advertising_sizes', function (Blueprint $table) {
             $table->id();
-            $table->double('width',8,2)->nullable();
-            $table->double('height',8,2)->nullable();
+            $table->double('width',8,0)->nullable();
+            $table->double('height',8,0)->nullable();
             $table->foreignId('page_view_id')->constrained('advertising_page_advertising_views')->cascadeOnDelete();
             $table->timestamps();
         });

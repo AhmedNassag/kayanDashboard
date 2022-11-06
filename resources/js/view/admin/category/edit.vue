@@ -64,6 +64,7 @@
                                                 </div>
                                             </div>
 
+                                            <!-- Start Image -->
                                             <div class="col-md-12 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
                                                     <span>
@@ -89,6 +90,7 @@
                                                     </figure>
                                                 </div>
                                             </div>
+                                            <!-- End Image -->
 
                                         </div>
 
@@ -111,9 +113,7 @@ import useVuelidate from "@vuelidate/core";
 import {required, minLength, maxLength, integer} from '@vuelidate/validators';
 import adminApi from "../../../api/adminAxios";
 import { notify } from "@kyvg/vue3-notification";
-//
 import { useI18n } from "vue-i18n";
-//
 
 export default {
     name: "editDepartment",
@@ -145,7 +145,13 @@ export default {
                     image.value = l.category.media.file_name;
                 })
                 .catch((err) => {
+                    this.errors = err.response.data.errors;
                     console.log(err.response);
+                    // Swal.fire({
+                    //     icon: 'error',
+                    //     title: 'يوجد خطأ...',
+                    //     text: 'يوجد خطأ ما..!!',
+                    // });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -236,6 +242,11 @@ export default {
                     })
                     .catch((err) => {
                         this.errors = err.response.data.errors;
+                        // Swal.fire({
+                        //     icon: "error",
+                        //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+                        //     text: `${t("global.YouCanNotDelete")}`,
+                        // });
                     })
                     .finally(() => {
                         this.loading = false;

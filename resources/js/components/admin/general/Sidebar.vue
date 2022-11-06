@@ -297,6 +297,18 @@
             </a>
             <ul>
               <li
+                v-if="permission.includes('kayanPrice read')"
+                :class="[$route.name == 'indexKayanPrice' ? 'active' : '']"
+              >
+                <router-link
+                  :to="{ name: 'indexKayanPrice' }"
+                  :class="['sidebar-menu-rtl']"
+                >
+                  {{ $t("global.Kayan Prices") }}
+                </router-link>
+              </li>
+
+              <li
                 v-if="permission.includes('price read')"
                 :class="[$route.name == 'indexPrice' ? 'active' : '']"
               >
@@ -304,6 +316,7 @@
                   {{ $t("global.Prices") }}
                 </router-link>
               </li>
+
               <li
                 v-if="permission.includes('deal read')"
                 :class="[$route.name == 'DealIndex' ? 'active' : '']"
@@ -383,20 +396,13 @@
                 </router-link>
               </li>
 
-              <li
-                v-if="permission.includes('Leads read')"
-                :class="[$route.name == 'indexLeadSalesHome' ? 'active' : '']"
-              >
-                <router-link
-                  :to="{
-                    name: 'indexLeadSalesHome',
-                    params: { lang: this.$i18n.locale },
-                  }"
-                  :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl' : '']"
-                >
-                  {{ $t("global.Leads") }}
-                </router-link>
-              </li>
+              <!-- <li v-if="permission.includes('Leads read')"
+                                :class="[$route.name == 'indexLeadSalesHome'? 'active': '']">
+                                <router-link :to="{name:'indexLeadSalesHome',params: {lang:this.$i18n.locale}}"
+                                    :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.Leads')}}
+                                </router-link>
+                            </li> -->
             </ul>
           </li>
           <!-- End CRM Links -->
@@ -411,6 +417,18 @@
               ></span>
             </a>
             <ul>
+              <li
+                :class="[$route.name == 'indexAdOwner' ? 'active' : '']"
+                v-if="permission.includes('adOwner read')"
+              >
+                <router-link
+                  :to="{ name: 'indexAdOwner', params: { lang: this.$i18n.locale } }"
+                  :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl' : '']"
+                >
+                  {{ $t("global.Ad Owners") }}
+                </router-link>
+              </li>
+
               <li
                 :class="[$route.name == 'package' ? 'active' : '']"
                 v-if="permission.includes('package read')"
@@ -432,18 +450,6 @@
                   :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl' : '']"
                 >
                   {{ $t("sidebar.Schedule") }}
-                </router-link>
-              </li>
-
-              <li
-                :class="[$route.name == 'indexAdOwner' ? 'active' : '']"
-                v-if="permission.includes('adOwner read')"
-              >
-                <router-link
-                  :to="{ name: 'indexAdOwner', params: { lang: this.$i18n.locale } }"
-                  :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl' : '']"
-                >
-                  {{ $t("global.Ad Owners") }}
                 </router-link>
               </li>
             </ul>

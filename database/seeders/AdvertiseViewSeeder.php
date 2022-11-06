@@ -14,19 +14,36 @@ class AdvertiseViewSeeder extends Seeder
      */
     public function run()
     {
-        $above = AdvertisingView::create([
-            "type" => 'فوق'
-        ]);
+        
+        $firstSlider = AdvertisingView::create([ "type" => 'أول سلايدر' ]);
 
+        $secondSlider = AdvertisingView::create([ "type" => 'ثانى سلايدر' ]);
 
-        $under = AdvertisingView::create([
-            "type" => 'تحت'
-        ]);
+        $thirdSlider = AdvertisingView::create([ "type" => 'ثالث سلايدر' ]);
 
+        $fourthSlider = AdvertisingView::create([ "type" => 'رابع سلايدر' ]);
 
-        $middle = AdvertisingView::create([
-            "type" => 'الوسط'
-        ]);
+        $rightSquare = AdvertisingView::create([ "type" => 'مربع يمين' ]);
+
+        $middleSquare = AdvertisingView::create([ "type" => 'مربع وسط' ]);
+
+        $leftSquare = AdvertisingView::create([ "type" => 'مربع يسار' ]);
+
+        $topBanner = AdvertisingView::create([ "type" => 'بانر فوق' ]);
+
+        $middleBanner = AdvertisingView::create([ "type" => 'بانر وسط' ]);
+
+        $bottomBanner = AdvertisingView::create([ "type" => 'بانر تحت' ]);
+
+        $popUp = AdvertisingView::create([ "type" => 'بوب أب' ]);
+
+        $topRightRectangle = AdvertisingView::create([ "type" => 'مستطيل أعلى اليمين' ]);
+
+        $bottomRightRectangle = AdvertisingView::create([ "type" => 'مستطيل أسفل اليمين' ]);
+
+        $bottom = AdvertisingView::create(["type" => 'تحت']);
+
+        $top = AdvertisingView::create([ "type" => 'فوق' ]);
 
     }
 }

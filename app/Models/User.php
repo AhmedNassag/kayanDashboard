@@ -13,6 +13,11 @@ class User extends Authenticatable implements JWTSubject
 {
     use  HasFactory, Notifiable,HasRoles;
 
+    protected $appends = ['text'];
+    public function getTextAttribute()
+    {
+        return $this->name;
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -67,6 +72,11 @@ class User extends Authenticatable implements JWTSubject
     public function bank()
     {
         return $this->hasOne(Bank::class,'user_id');
+    }
+
+    public function schedule()
+    {
+        return $this->hasOne(AdvertiseSchedule::class, 'user_id');
     }
 
     public function media()

@@ -48,6 +48,7 @@
                                     <form @submit.prevent="editAdOwner" class="needs-validation">
                                         <div class="form-row row">
 
+                                            <!--Start Name-->
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationCustom01">{{$t("global.Name")}}</label>
                                                 <input type="text" class="form-control"
@@ -63,6 +64,60 @@
                                                     <span v-if="v$.name.minLength.$invalid">{{ $t("global.NameIsMustHaveAtMost") }} {{ v$.name.maxLength.$params.max }} {{ $t("global.Letters") }}</span>
                                                 </div>
                                             </div>
+                                            <!--End Name-->
+
+                                            <!--Start Email-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom01">
+                                                    {{ $t("global.Email") }}
+                                                </label>
+                                                <input type="email" class="form-control" v-model.trim="v$.email.$model"
+                                                    id="validationCustom01" :placeholder="$t('global.Email')" :class="{
+                                                      'is-invalid': v$.email.$error || data.nameExist,
+                                                      'is-valid': !v$.email.$invalid,
+                                                    }" />
+                                                <div class="valid-feedback">
+                                                    {{ $t("global.LooksGood") }}
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.email.required.$invalid">
+                                                        {{ $t("global.NameIsRequired") }}
+                                                        <br />
+                                                    </span>
+                                                    <span v-if="!v$.email.$invalid && data.nameExist">
+                                                        {{ $t("global.NameIsExist") }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--End Email-->
+
+                                            <!--Start Password-->
+                                            <!-- <div class="col-md-6 mb-3">
+                                                <label for="validationCustom01">
+                                                    {{ $t("global.Password") }}
+                                                </label>
+                                                <input type="password" class="form-control" v-model.trim="v$.password.$model"
+                                                    id="validationCustom01" :placeholder="$t('global.Password')" :class="{
+                                                      'is-invalid': v$.password.$error,
+                                                      'is-valid': !v$.password.$invalid,
+                                                    }" />
+                                                <div class="valid-feedback">
+                                                    {{ $t("global.LooksGood") }}
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.password.required.$invalid">
+                                                        {{ $t("global.NameIsRequired") }}
+                                                        <br />
+                                                    </span>
+                                                    <span v-if="v$.password.minLength.$invalid">
+                                                        {{ $t("global.NameIsMustHaveAtLeast") }}
+                                                        {{ v$.password.minLength.$params.min }}
+                                                        {{ $t("global.Letters") }}
+                                                        <br />
+                                                    </span>
+                                                </div>
+                                            </div> -->
+                                            <!--End Password-->
 
                                             <!--Start Phone-->
                                             <div class="col-md-6 mb-3">
@@ -98,31 +153,30 @@
                                             </div>
                                             <!--End Phone-->
 
+                                            <!--Start CommercialRecord-->
                                             <div class="col-md-12 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
                                                     <span>
-                                                        {{ $t("global.ChooseImage") }}
+                                                        {{ $t("global.CommercialRecord") }}
                                                         <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
                                                     </span>
-                                                    <input
-                                                        name="mediaPackage"
-                                                        type="file"
-                                                        @change="preview"
-                                                        id="mediaPackage"
-                                                        accept="image/png,jepg,jpg"
-                                                    >
+                                                    <input name="mediaPackage" type="file" @change="preview"
+                                                        id="mediaPackage" accept="image/png,jepg,jpg" />
                                                 </div>
                                                 <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
-                                                <p class="num-of-files">{{numberOfImage ? numberOfImage + ' Files Selected' : 'No Files Chosen' }}</p>
+                                                <p class="num-of-files">
+                                                    {{ numberOfImage ? numberOfImage + " Files Selected" : "No Files Chosen" }}
+                                                </p>
                                                 <div class="container-images" id="container-images" v-show="data.file && numberOfImage"></div>
                                                 <div class="container-images" v-show="!numberOfImage">
                                                     <figure>
-                                                        <figcaption v-if="image">
-                                                            <img :src="`/upload/adOwnerCommercialRecord/${image}`">
+                                                        <figcaption>
+                                                            <img :src="`/admin/img/company/img-1.png`" />
                                                         </figcaption>
                                                     </figure>
                                                 </div>
                                             </div>
+                                            <!--End CommercialRecord-->
 
                                         </div>
 
@@ -172,6 +226,8 @@ export default {
                     let l = res.data.data;
 
                     addAdOwner.data.name = l.adOwner.name;
+                    addAdOwner.data.email = l.adOwner.email;
+                    // addAdOwner.data.password = l.adOwner.password;
                     addAdOwner.data.phone = l.adOwner.phone;
                     image.value = l.adOwner.media.file_name;
                 })
@@ -191,6 +247,8 @@ export default {
         let addAdOwner =  reactive({
             data:{
                 name : '',
+                email: '',
+                // password: '',
                 phone:'',
                 file : {}
             }
@@ -203,6 +261,13 @@ export default {
                     maxLength:maxLength(70),
                     required
                 },
+                email: {
+                    required
+                },
+                // password: {
+                //     minLength: minLength(8),
+                //     required
+                // },
                 phone:{
                     minLength: minLength(10),
                     required,
@@ -257,6 +322,8 @@ export default {
 
                 let formData = new FormData();
                 formData.append('name',this.data.name);
+                formData.append('email',this.data.email);
+                // formData.append('password',this.data.password);
                 formData.append('phone',this.data.phone);
                 formData.append('file',this.data.file);
                 formData.append('_method','PUT');
@@ -273,6 +340,12 @@ export default {
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
+                    console.log(err.response);
+                    // Swal.fire({
+                    //     icon: 'error',
+                    //     title: 'يوجد خطأ...',
+                    //     text: 'يوجد خطأ ما..!!',
+                    // });
                 })
                 .finally(() => {
                     this.loading = false;

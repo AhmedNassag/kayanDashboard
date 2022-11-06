@@ -190,6 +190,9 @@ class PermissionSeeder extends Seeder
             ['name' => 'package delete', 'role' => 'advertise', 'category' => 'advertise'],
             ['name' => 'schedule read', 'role' => 'advertise', 'category' => 'advertise'],
             ['name' => 'schedule show', 'role' => 'advertise', 'category' => 'advertise'],
+            ['name' => 'schedule create', 'role' => 'advertise', 'category' => 'advertise'],
+            ['name' => 'schedule edit', 'role' => 'advertise', 'category' => 'advertise'],
+            ['name' => 'schedule delete', 'role' => 'advertise', 'category' => 'advertise'],
             //CRM
             ['name' => 'targetPlan read','role' => 'CRM','category' => 'CRM'],
             ['name' => 'targetPlan create','role' => 'CRM','category' => 'CRM'],

@@ -17,6 +17,7 @@ class CreateAdvertisingPageMobileAdvertisingViewsTable extends Migration
             $table->id();
             $table->foreignId("page_mobile_id")->constrained('advertising_page_mobiles')->cascadeOnDelete();
             $table->foreignId("view_id")->constrained('advertising_views')->cascadeOnDelete();
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
         });
     }

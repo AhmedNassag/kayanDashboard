@@ -78,6 +78,34 @@
                                             </div>
                                             <!--End Category Select-->
 
+                                            <!-- Start Image -->
+                                            <div class="col-md-12 row flex-fill">
+                                                <div class="btn btn-outline-primary waves-effect">
+                                                    <span>
+                                                        {{ $t("global.ChooseImage") }}
+                                                        <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input
+                                                        name="mediaPackage"
+                                                        type="file"
+                                                        @change="preview"
+                                                        id="mediaPackage"
+                                                        accept=""
+                                                    >
+                                                </div>
+                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
+                                                <p class="num-of-files">{{numberOfImage ? numberOfImage + ' Files Selected' : 'No Files Chosen' }}</p>
+                                                <div class="container-images" id="container-images" v-show="data.file && numberOfImage"></div>
+                                                <div class="container-images" v-show="!numberOfImage">
+                                                    <figure>
+                                                        <figcaption v-if="image">
+                                                            <img :src="`/upload/subCategory/${image}`">
+                                                        </figcaption>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <!-- End Image -->
+
                                         </div>
 
                                         <button class="btn btn-primary" type="submit">{{ $t("global.Submit") }}</button>
@@ -99,9 +127,7 @@ import useVuelidate from "@vuelidate/core";
 import {required, minLength, maxLength, integer} from '@vuelidate/validators';
 import adminApi from "../../../api/adminAxios";
 import { notify } from "@kyvg/vue3-notification";
-//
 import { useI18n } from "vue-i18n";
-//
 
 export default {
     name: "editSubCategory",
@@ -112,15 +138,14 @@ export default {
     },
     props:["id"],
     setup(props){
-        //
         const emitter = inject("emitter");
         const { id } = toRefs(props);
         const { t } = useI18n({});
-        //
 
         // get create Package
         let loading = ref(false);
         let categories = ref([]);
+        let image = ref('');
 
         let getSubCategory = () => {
             loading.value = true;
@@ -131,6 +156,7 @@ export default {
 
                     addSubCategory.data.name = l.subCategory.name;
                     addSubCategory.data.category_id = l.subCategory.category_id;
+                    image.value = l.subCategory.media.file_name;
                 })
                 .catch((err) => {
                     console.log(err.response);
@@ -148,7 +174,8 @@ export default {
         let addSubCategory =  reactive({
             data:{
                 name : '',
-                category_id : ''
+                category_id : '',
+                file : {},
             }
         });
 
@@ -185,7 +212,39 @@ export default {
 
         const v$ = useVuelidate(rules,addSubCategory.data);
 
-        return {id, loading, ...toRefs(addSubCategory), v$, categories};
+        let preview = (e) => {
+
+            let containerImages = document.querySelector('#container-images');
+            if(numberOfImage.value){
+                containerImages.innerHTML = '';
+            }
+            addSubCategory.data.file = {};
+
+            numberOfImage.value = e.target.files.length;
+
+            addSubCategory.data.file = e.target.files[0];
+
+            let reader = new FileReader();
+            let figure = document.createElement('figure');
+            let figcap = document.createElement('figcaption');
+
+            figcap.innerText = addSubCategory.data.file.name;
+            figure.appendChild(figcap);
+
+            reader.onload = () => {
+                let img = document.createElement('img');
+                img.setAttribute('src',reader.result);
+                figure.insertBefore(img,figcap);
+            }
+
+            containerImages.appendChild(figure);
+            reader.readAsDataURL(addSubCategory.data.file);
+
+        };
+
+        const numberOfImage = ref(0);
+
+        return {id, loading, ...toRefs(addSubCategory), v$,preview, numberOfImage, image, categories};
     },
     methods: {
         editSubCategory(){
@@ -199,6 +258,7 @@ export default {
                 let formData = new FormData();
                 formData.append('name',this.data.name);
                 formData.append('category_id',this.data.category_id);
+                formData.append('file',this.data.file);
                 formData.append('_method','PUT');
 
                 adminApi.post(`/v1/dashboard/subCategory/${this.id}`,formData)

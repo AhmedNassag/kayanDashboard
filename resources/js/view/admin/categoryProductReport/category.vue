@@ -129,6 +129,11 @@ export default {
                 })
                 .catch((err) => {
                     console.log(err.response.data);
+                    // Swal.fire({
+                    //     icon: "error",
+                    //     title: `${t("global.ThereIsAnErrorInTheSystem")}`,
+                    //     text: `${t("global.YouCanNotDelete")}`,
+                    // });
                 })
                 .finally(() => {
                     loading.value = false;
