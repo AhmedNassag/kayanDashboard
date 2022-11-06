@@ -2,14 +2,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const adminApi = axios.create({
-    baseURL: 'http://localhost:8000/api/'
+    baseURL: 'http://localhost:8080/api/'
 });
 
 adminApi.interceptors.request.use(
     function (config) {
         config.headers['lang'] = localStorage.getItem("langAdmin") || 'ar';
         config.headers['Authorization'] = "Bearer " + (Cookies.get("tokenAdmin") || '');
-    return config;
+        return config;
     },
     function (error) {
         return Promise.reject(error);
