@@ -396,13 +396,20 @@
                 </router-link>
               </li>
 
-              <!-- <li v-if="permission.includes('Leads read')"
-                                :class="[$route.name == 'indexLeadSalesHome'? 'active': '']">
-                                <router-link :to="{name:'indexLeadSalesHome',params: {lang:this.$i18n.locale}}"
-                                    :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
-                                    {{$t('global.Leads')}}
-                                </router-link>
-                            </li> -->
+              <li
+                v-if="permission.includes('Leads read')"
+                :class="[$route.name == 'indexLeadSalesHome' ? 'active' : '']"
+              >
+                <router-link
+                  :to="{
+                    name: 'indexLeadSalesHome',
+                    params: { lang: this.$i18n.locale },
+                  }"
+                  :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl' : '']"
+                >
+                  {{ $t("global.Leads") }}
+                </router-link>
+              </li>
             </ul>
           </li>
           <!-- End CRM Links -->
@@ -417,17 +424,11 @@
               ></span>
             </a>
             <ul>
-              <li
-                :class="[$route.name == 'indexAdOwner' ? 'active' : '']"
-                v-if="permission.includes('adOwner read')"
-              >
-                <router-link
-                  :to="{ name: 'indexAdOwner', params: { lang: this.$i18n.locale } }"
-                  :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl' : '']"
-                >
-                  {{ $t("global.Ad Owners") }}
-                </router-link>
-              </li>
+              <!-- <li :class="[$route.name == 'indexAdOwner' ? 'active' : '']" v-if="permission.includes('adOwner read')">
+                                <router-link :to="{ name: 'indexAdOwner',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{ $t("global.Ad Owners") }}
+                                </router-link>
+                            </li> -->
 
               <li
                 :class="[$route.name == 'package' ? 'active' : '']"
@@ -1069,27 +1070,22 @@ window.onload = (event) => {
 }
 
 .sidebar-menu li a:hover {
-  /* color: #fcb00c !important; */
   color: #fff !important;
 }
 
 .sidebar-menu li a:hover li {
   color: #fcb00c !important;
-  /*color: #FFF !important;*/
 }
 
 .sidebar-menu li.active > a {
-  /* color: #fcb00c !important; */
   color: #000 !important;
 }
 
 .sidebar-menu li.active > a i {
-  /* color: #fcb00c !important; */
   color: #000 !important;
 }
 
 .menu-title {
-  /* color: #fcb00c !important; */
   color: #fff;
 }
 
@@ -1098,7 +1094,6 @@ window.onload = (event) => {
 }
 
 .sidebar {
-  /* background-color: #fcb00c38; */
   background-color: #0e67d0;
   color: #fff;
 }

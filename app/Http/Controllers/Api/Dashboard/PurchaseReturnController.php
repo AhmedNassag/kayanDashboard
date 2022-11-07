@@ -23,13 +23,14 @@ class PurchaseReturnController extends Controller
         $purchases = PurchaseReturn::with(['user','supplier','returnProducts'=>function($qu){
             $qu->with(['product','purchaseProduct']);
             },'store','purchase'=>function($qu){
-            $qu->with(['purchaseProducts.product.mainMeasurementUnit','store','supplier']);
+                $qu->with(['purchaseProducts.product.mainMeasurementUnit','store','supplier']);
             }])->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
-                    return $q->orWhereRelation('user','name','like','%'.$request->search.'%')
-                        ->orWhere('	note', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('store','name','like','%'.$request->search.'%')
-                        ->orWhereRelation('supplier','name','like','%'.$request->search.'%');
+                    return $q->where('id',$request->search)
+                    ->orWhere('note', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('user','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('store','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('supplier','name','like','%'.$request->search.'%');
                 });
             })->where(function ($q) use ($request) {
                 $q->when($request->from_date && $request->to_date, function ($q) use ($request) {

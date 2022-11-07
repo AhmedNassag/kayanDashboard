@@ -25,8 +25,9 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = Category::with('media:file_name,mediable_id')
-            ->when($request->search, function ($q) use ($request) {
-            return $q->where('name', 'like', '%' . $request->search . '%');
+        ->when($request->search, function ($q) use ($request) {
+            return $q->where('name', 'like', '%' . $request->search . '%')
+            ->orWhere('code', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
         foreach($categories as $category)

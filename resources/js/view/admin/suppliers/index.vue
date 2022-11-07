@@ -130,7 +130,7 @@
                           <i class="far fa-trash-alt"></i>
                         </a>
                         <!---->
-                        <router-link
+                        <!-- <router-link
                           v-if="permission.includes('virtualStock create')"
                           :to="{
                             name: 'createVirtualStock',
@@ -140,7 +140,7 @@
                         >
                           <i class="far fa-edit"></i>
                           {{ $t("global.Create Virtual Stock") }}
-                        </router-link>
+                        </router-link> -->
                         <!---->
                       </td>
                     </tr>

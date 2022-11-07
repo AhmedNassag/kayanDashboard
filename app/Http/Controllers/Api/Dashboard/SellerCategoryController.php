@@ -25,7 +25,7 @@ class SellerCategoryController extends Controller
             ->where(function ($q) use($request){
                 $q->when($request->search,function ($q) use($request){
                     return $q->whereRelation('user','name','like','%'.$request->search.'%')
-                        ->orWhereRelation('sellerCategories.translations', 'name', 'like', '%' . $request->search . '%');
+                    ->orWhereRelation('sellerCategories', 'name', 'like', '%' . $request->search . '%');
                 });
             })->latest()->paginate(5);
 

@@ -27,19 +27,17 @@ class SaleRecordController extends Controller
         $sales = Sale::with(['saleProducts.product'=>function($qu)
         {
             $qu->with(['mainMeasurementUnit','subMeasurementUnit']);
-        },
-        'store','client.user','saleRecord'=>function($qu)
+        },'store','client.user','saleRecord'=>function($qu)
         {
             $qu->with(['storeProducts','user']);
-        },
-        'saleReturns.returnProducts'])->where(function ($q) use ($request)
+        },'saleReturns.returnProducts'])->where(function ($q) use ($request)
         {
             $q->when($request->search, function ($q) use ($request)
             {
-                return
-                $q->where('	note', 'like', '%' . $request->search . '%')
+                return $q->where('id',$request->search)
+                ->orWhere('note', 'like', '%' . $request->search . '%')
                 ->orWhereRelation('store','name','like','%'.$request->search.'%')
-                ->orWhereRelation('client','client.user.name','like','%'.$request->search.'%');
+                ->orWhereRelation('client.user','name','like','%'.$request->search.'%');
             });
         })
         ->where(function ($q) use ($request)

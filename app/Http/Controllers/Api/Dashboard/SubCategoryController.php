@@ -23,7 +23,8 @@ class SubCategoryController extends Controller
     {
         $subCategories = SubCategory::with(['category','media:file_name,mediable_id'])
         ->when($request->search, function ($q) use ($request) {
-            return $q->where('name', 'like', '%' . $request->search . '%');
+            return $q->where('name', 'like', '%' . $request->search . '%')
+            ->orWhereRelation('category', 'name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
         return $this->sendResponse(['subCategories' => $subCategories], 'Data exited successfully');

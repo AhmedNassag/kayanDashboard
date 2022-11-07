@@ -22,7 +22,10 @@ class ShiftController extends Controller
     public function index(Request $request)
     {
         $shifts = Shift::when($request->search, function ($q) use ($request) {
-            return $q->where('name', 'like', '%' . $request->search . '%');
+            return $q->where('name', 'like', '%' . $request->search . '%')
+            ->orWhere('type', 'like', '%' . $request->search . '%')
+            ->orWhere('started_at', 'like', '%' . $request->search . '%')
+            ->orWhere('ended_at', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
         return $this->sendResponse(['shifts' => $shifts], 'Data exited successfully');

@@ -567,6 +567,8 @@
         "Main Measurement Unit": "وحدة القياس الرئيسية",
         "Sub Measurement Unit": "وحدة القياس الفرعية",
         "Count Unit": "عدد الوحدات داخل الفئة الفرعية",
+        "Create Product": "إضافة منتجات",
+        "ShowDetails":"عرض تفاصيل",
         "YouCanNotModifyThisSafe": "لا تستطيع التعديل على هذه الخزنة !",
         "PurchaseInvoice": "فواتير الشراء",
         "PurchaseInvoiceNumber": "رقم فاتورة الشراء",

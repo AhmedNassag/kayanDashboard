@@ -44,9 +44,9 @@
               </div>
               <div class="row">
                 <div class="col-sm">
-                    <div class="alert alert-danger text-center" v-if="errors['name']">
+                    <!-- <div class="alert alert-danger text-center" v-if="errors['name']">
                         {{ t("global.Exist", {field:t("global.Name")}) }}<br />
-                    </div>
+                    </div> -->
                   <form
                     @submit.prevent="storeStorage"
                     class="needs-validation"
@@ -63,8 +63,8 @@
                             id="validationCustom01"
                             :placeholder="$t('global.Name')"
                             :class="{
-                                'is-invalid': v$.name.$error || data.nameExist,
-                                'is-valid': !v$.name.$invalid,
+                                'is-invalid': v$.name.$error || data.nameExist || errors.name,
+                                'is-valid': !v$.name.$invalid && errors.name,
                             }"
                             />
                             <div class="valid-feedback">
@@ -88,7 +88,11 @@
                                 <br/>
                             </span>
                             <span v-if="!v$.name.$invalid && data.nameExist">
-                            {{ $t("global.NameIsExist") }}
+                                {{ $t("global.NameIsExist") }}
+                            </span>
+                            <span v-if="errors['name']">
+                                {{ errors['name'][0] }}<br/>
+                                <br/>
                             </span>
                         </div>
                     </div>
@@ -188,6 +192,13 @@ export default {
           })
           .catch((err) => {
             this.nameExist = err.response.data.errors;
+            console.log(err.response);
+            this.errors = err.response.data.errors;
+            Swal.fire({
+                icon: 'error',
+                title: 'خطأ...',
+                text: `يوجد خطأ..!!`,
+            });
           })
           .finally(() => {
             this.loading = false;
