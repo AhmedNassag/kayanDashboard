@@ -3,7 +3,7 @@
     <notifications :position="locale == 'ar' ? 'top left' : 'top right'" />
     <div
       class="modal fade"
-      id="sliderFormModal"
+      id="footerLinkFormModal"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -50,14 +50,16 @@
                     <div class="col-lg-12">
                       <div class="form-group">
                         <label for="exampleInputEmail1">{{ $t("global.Content") }}</label>
-                        <input
+                        <textarea
                           type="text"
                           class="form-control"
                           v-model="v$.content.$model"
                           :class="{
                             'is-invalid': v$.content.$error,
                           }"
-                        />
+                          rows="5"
+                        >
+                        </textarea>
                         <div class="invalid-feedback">
                           <div v-for="error in v$.content.$errors" :key="error">
                             {{ $t("global.Content") + " " + $t(error.$validator) }}
@@ -105,6 +107,7 @@ export default {
       previewImage: "",
     });
     const form = reactive({
+      id: null,
       content: "",
     });
     const rules = {
@@ -124,21 +127,15 @@ export default {
 
     function deleteImage() {
       data.uploadedImage = null;
-      data.previewImage = props.selectedFooterLink
-        ? `/upload/footer-links/${props.selectedFooterLink.image}`
-        : "";
+      data.previewImage =
+        props.selectedFooterLink && props.selectedFooterLink.image
+          ? `/upload/${props.selectedFooterLink.image}`
+          : "";
     }
 
     function save() {
       if (v$.value.$invalid) {
         v$.value.$touch();
-        return;
-      }
-      if (!data.uploadedImage) {
-        alertMessage(
-          `${t("global.Image")} ${t("required")} <i class="fas fa-close"></i>`,
-          "error"
-        );
         return;
       }
       update();
@@ -176,13 +173,18 @@ export default {
         formData.append("id", props.selectedFooterLink.id);
       }
       formData.append("content", form.content);
-      formData.append("image", data.uploadedImage);
+      if (data.uploadedImage) formData.append("image", data.uploadedImage);
       return formData;
     }
 
     function setForm() {
       v$.value.$reset();
-      form.image = data.previewImage;
+      data.uploadedImage = null;
+      form.id = props.selectedFooterLink.id;
+      data.previewImage =
+        props.selectedFooterLink && props.selectedFooterLink.image
+          ? `/upload/${props.selectedFooterLink.image}`
+          : null;
       form.content = props.selectedFooterLink.content;
     }
     //Watchers

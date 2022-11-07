@@ -4,7 +4,7 @@
     :class="['page-wrapper', this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '']"
   >
     <LinkFooterForm
-      :selectedLink="selectedLink"
+      :selectedFooterLink="selectedFooterLink"
       @created="onCreated"
       @updated="onUpdated"
       @loading="loading = $event"
@@ -33,21 +33,6 @@
           <div class="card">
             <loader v-if="loading" />
             <div class="card-body">
-              <div class="card-header pt-0">
-                <div class="row justify-content-between">
-                  <div class="col-5 row justify-content-end">
-                    <button
-                      @click="onAddClicked"
-                      data-toggle="modal"
-                      data-target="#footerLinkFormModal"
-                      v-if="permission.includes('footer-link create')"
-                      class="btn btn-custom btn-warning"
-                    >
-                      {{ $t("global.Add") }}
-                    </button>
-                  </div>
-                </div>
-              </div>
               <div class="table-responsive">
                 <table class="table mb-0">
                   <thead>
@@ -65,7 +50,11 @@
                         {{ footerLink.name }}
                       </td>
                       <td>
-                        <img :src="`/upload/footer-links/${footerLink.image}`" />
+                        <img
+                          v-if="footerLink.image"
+                          :src="`/upload/${footerLink.image}`"
+                        />
+                        <img v-else src="/images/empty.jpg" />
                       </td>
                       <td>
                         <a
@@ -73,7 +62,7 @@
                           @click="onEditClicked(footerLink, index)"
                           data-toggle="modal"
                           data-target="#footerLinkFormModal"
-                          v-if="permission.includes('footer-link edit')"
+                          v-if="permission.includes('footer edit')"
                           class="btn btn-sm btn-success me-2"
                         >
                           <i class="far fa-edit"></i>
@@ -113,8 +102,8 @@ export default {
   setup() {
     const data = reactive({
       footerLinks: [],
-      selectedLink: null,
-      selectedLinkIndex: 0,
+      selectedFooterLink: null,
+      selectedFooterLinkIndex: 0,
       loading: false,
     });
     provide("link_footer_store", footerStore);
@@ -122,18 +111,10 @@ export default {
     let permission = computed(() => store.getters["authAdmin/permission"]);
     created();
     //Methods
-    function onAddClicked() {
-      data.selectedLink = null;
-      //Make little delay to ensure that watcher that found in footerLink form component
-      // catch selectedLink input prop
-      setTimeout(() => {
-        footerStore.onFormShow = !footerStore.onFormShow;
-      }, 1);
-    }
     function onEditClicked(footerLink, index) {
-      data.selectedLink = footerLink;
-      data.selectedLinkIndex = index;
-      //Make little delay to ensure that watcher catch selectedLink input prop
+      data.selectedFooterLink = footerLink;
+      data.selectedFooterLinkIndex = index;
+      //Make little delay to ensure that watcher catch selectedFooterLink input prop
       //in footerLink form component
       setTimeout(() => {
         footerStore.onFormShow = !footerStore.onFormShow;
@@ -153,8 +134,8 @@ export default {
       data.footerLinks.unshift(event);
     }
     function onUpdated(event) {
-      data.footerLinks[data.selectedLinkIndex] = event;
-      data.selectedLink = null;
+      data.footerLinks[data.selectedFooterLinkIndex] = event;
+      data.selectedFooterLink = null;
     }
     //Commons
     function created() {
@@ -162,7 +143,6 @@ export default {
     }
     return {
       ...toRefs(data),
-      onAddClicked,
       onEditClicked,
       getFooterLinks,
       onCreated,

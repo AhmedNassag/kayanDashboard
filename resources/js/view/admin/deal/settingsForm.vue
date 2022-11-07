@@ -97,7 +97,6 @@ import { notify } from "@kyvg/vue3-notification";
 export default {
   setup(props, context) {
     const { t, locale } = useI18n({});
-
     const data = reactive({
       loading: false,
       dealSettings: null,

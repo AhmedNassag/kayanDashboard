@@ -81,6 +81,10 @@ import purchaseReturn from './adminRoute/purchaseReturn';
 import salePoint from './adminRoute/sale-point';
 import termAndCondition from './adminRoute/term-and-condtion';
 import footerLink from './adminRoute/footer-link';
+import needHelp from './adminRoute/need-help';
+import ourStore from './adminRoute/our-store';
+import topFooterSection from './adminRoute/top-footer-section';
+import aboutBanner from './adminRoute/about-banner';
 const routes = [
     {
         path: '/',
@@ -203,7 +207,11 @@ const routes = [
             ...examinationRecord,
             ...purchaseReturn,
             ...salePoint,
-            ...footerLink
+            ...footerLink,
+            ...needHelp,
+            ...ourStore,
+            ...topFooterSection,
+            ...aboutBanner,
         ]
     },
     {

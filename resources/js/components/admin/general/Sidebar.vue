@@ -860,7 +860,7 @@
             <ul>
               <li
                 :class="[$route.name == 'FooterLinkIndex' ? 'active' : '']"
-                v-if="permission.includes('footer-link read')"
+                v-if="permission.includes('footer read')"
               >
                 <router-link
                   :to="{ name: 'FooterLinkIndex' }"
@@ -869,9 +869,55 @@
                   {{ $t("sidebar.FooterLinks") }}
                 </router-link>
               </li>
+              <li
+                :class="[$route.name == 'NeedHelpForm' ? 'active' : '']"
+                v-if="permission.includes('footer read')"
+              >
+                <router-link :to="{ name: 'NeedHelpForm' }" :class="['sidebar-menu-rtl']">
+                  {{ $t("sidebar.NeedHelp") }}
+                </router-link>
+              </li>
+              <li
+                :class="[$route.name == 'OurStoreForm' ? 'active' : '']"
+                v-if="permission.includes('footer read')"
+              >
+                <router-link :to="{ name: 'OurStoreForm' }" :class="['sidebar-menu-rtl']">
+                  {{ $t("sidebar.OurStore") }}
+                </router-link>
+              </li>
+              <li
+                :class="[$route.name == 'TopFooterSectionForm' ? 'active' : '']"
+                v-if="permission.includes('footer read')"
+              >
+                <router-link
+                  :to="{ name: 'TopFooterSectionForm' }"
+                  :class="['sidebar-menu-rtl']"
+                >
+                  {{ $t("sidebar.TopFooterSections") }}
+                </router-link>
+              </li>
             </ul>
           </li>
-
+          <li class="submenu" v-if="permission.includes('about')">
+            <a href="#"
+              ><i class="fas fa-suitcase"></i>
+              <span>{{ $t("sidebar.About") }}</span>
+              <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
+            </a>
+            <ul>
+              <li
+                :class="[$route.name == 'AboutBannerIndex' ? 'active' : '']"
+                v-if="permission.includes('about read')"
+              >
+                <router-link
+                  :to="{ name: 'AboutBannerIndex' }"
+                  :class="['sidebar-menu-rtl']"
+                >
+                  {{ $t("sidebar.AboutBanners") }}
+                </router-link>
+              </li>
+            </ul>
+          </li>
           <li class="submenu" v-if="permission.includes('management')">
             <a href="#"
               ><i class="fas fa-suitcase"></i>

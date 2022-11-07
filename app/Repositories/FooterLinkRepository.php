@@ -10,8 +10,8 @@ class FooterLinkRepository
     {
         $footerLink = FooterLink::find($footerLinkInput["id"]);
         $oldImage = $footerLink->image;
-        $footerLink->content = $footerLink->content ?? '';
-        $footerLink->image = isset($footerLink["image"]) ? $footerLink["image"] : $oldImage;
+        $footerLink->content = $footerLinkInput["content"];
+        $footerLink->image = $footerLinkInput["image"] ?? $oldImage;
         $footerLink->save();
         return ["old_image" => $oldImage, "footer_link" => $footerLink];
     }

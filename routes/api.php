@@ -450,6 +450,30 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::post("", "FooterLinkController@update");
             });
 
+            //Need help
+            Route::prefix("need-help")->group(function () {
+                Route::get("", "NeedHelpController@getNeedHelp");
+                Route::post("", "NeedHelpController@save");
+            });
+
+            //Our store
+            Route::prefix("our-store")->group(function () {
+                Route::get("", "OurStoreController@getOurStore");
+                Route::post("", "OurStoreController@save");
+            });
+
+            //Top footer sections
+            Route::prefix("top-footer-sections")->group(function () {
+                Route::get("", "TopFooterSectionController@getTopFooterSections");
+                Route::post("", "TopFooterSectionController@save");
+            });
+
+            //About banners
+            Route::prefix("about-banners")->group(function () {
+                Route::get("", "AboutBannerController@getAboutBanners");
+                Route::post("", "AboutBannerController@update");
+            });
+
             //start logout
             Route::post('logout', 'AuthDashboardController@logout');
         });

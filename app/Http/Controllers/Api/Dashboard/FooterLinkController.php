@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FooterLinkRequest;
 use App\Repositories\FooterLinkRepository;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class FooterLinkController extends Controller
@@ -12,20 +12,18 @@ class FooterLinkController extends Controller
     private $footerLinkRepository;
     public function __construct(FooterLinkRepository $footerLinkRepository)
     {
-        $this->middleware('permission:footer-link read', ['only' => ['index']]);
-        $this->middleware('permission:footer-link edit', ['only' => ['update']]);
+        $this->middleware('permission:footer read', ['only' => ['index']]);
+        $this->middleware('permission:footer edit', ['only' => ['update']]);
         $this->footerLinkRepository = $footerLinkRepository;
     }
 
-    public function update(Request $request)
+    public function update(FooterLinkRequest $request)
     {
-        $image = "";
         if ($request->file("image")) {
-            $image = $request->file("image")->store('footer-links', 'general');
-            $request->merge(["image" => $image]);
+            $request->merge(["image" => $request->file("image")->store('footer-links', 'general')]);
         }
         $updateResult = $this->footerLinkRepository->update($request->input());
-        if ($request->file("image")) {
+        if ($request->file("image") && $updateResult["old_image"]) {
             Storage::disk('general')->delete($updateResult["old_image"]);
         }
         return $updateResult["footer_link"];
