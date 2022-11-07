@@ -32,9 +32,10 @@ class ExaminationRecordController extends Controller
         },'purchaseReturns.returnProducts'])
             ->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
-                    return $q->where('	note', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('store','name','like','%'.$request->search.'%')
-                        ->orWhereRelation('supplier','name_supplier','like','%'.$request->search.'%');
+                    return $q->where('note', 'like', '%' . $request->search . '%')
+                    ->orWhere('id', $request->search)   
+                    ->orWhereRelation('store','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('supplier','name','like','%'.$request->search.'%');
                 });
             })->where(function ($q) use ($request) {
                 $q->when($request->from_date && $request->to_date, function ($q) use ($request) {

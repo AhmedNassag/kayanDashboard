@@ -44,53 +44,57 @@
               </div>
               <div class="row">
                 <div class="col-sm">
-                  <div class="alert alert-danger text-center" v-if="errors['name']">
+                  <!-- <div class="alert alert-danger text-center" v-if="errors['name']">
                     {{ t("global.Exist", {field:t("global.Name")}) }}<br />
-                  </div>
+                  </div> -->
                   <form
                     @submit.prevent="storeShift"
                     class="needs-validation"
                   >
                     <div class="form-row row">
-                      <div class="col-md-6 mb-3">
-                        <label for="validationCustom01">
-                            {{ $t("global.Name") }}
-                        </label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          v-model.trim="v$.name.$model"
-                          id="validationCustom01"
-                          :placeholder="$t('global.Name')"
-                          :class="{
-                            'is-invalid': v$.name.$error || data.nameExist,
-                            'is-valid': !v$.name.$invalid,
-                          }"
-                        />
-                        <div class="valid-feedback">
-                            {{ $t("global.LooksGood") }}
-                        </div>
-                        <div class="invalid-feedback">
-                          <span v-if="v$.name.required.$invalid">
-                            {{ $t("global.NameIsRequired") }}
-                            <br/>
-                          </span>
-                          <span v-if="v$.name.maxLength.$invalid">
-                            {{ $t("global.NameIsMustHaveAtLeast") }}
-                            {{ v$.name.minLength.$params.min }}
-                            {{ $t("global.Letters") }}
-                            <br/>
-                          </span>
-                          <span v-if="v$.name.minLength.$invalid">
-                            {{ $t("global.NameIsMustHaveAtMost") }}
-                            {{ v$.name.maxLength.$params.max }}
-                            {{ $t("global.Letters") }}
-                            <br/>
-                          </span>
-                          <span v-if="!v$.name.$invalid && data.nameExist">
-                           {{ $t("global.NameIsExist") }}
-                          </span>
-                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom01">
+                                {{ $t("global.Name") }}
+                            </label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            v-model.trim="v$.name.$model"
+                            id="validationCustom01"
+                            :placeholder="$t('global.Name')"
+                            :class="{
+                                'is-invalid': v$.name.$error || data.nameExist || errors.name,
+                                'is-valid': !v$.name.$invalid && !errors.name,
+                            }"
+                            />
+                            <div class="valid-feedback">
+                                {{ $t("global.LooksGood") }}
+                            </div>
+                            <div class="invalid-feedback">
+                                <span v-if="v$.name.required.$invalid">
+                                    {{ $t("global.NameIsRequired") }}
+                                    <br/>
+                                </span>
+                                <span v-if="v$.name.maxLength.$invalid">
+                                    {{ $t("global.NameIsMustHaveAtLeast") }}
+                                    {{ v$.name.minLength.$params.min }}
+                                    {{ $t("global.Letters") }}
+                                    <br/>
+                                </span>
+                                <span v-if="v$.name.minLength.$invalid">
+                                    {{ $t("global.NameIsMustHaveAtMost") }}
+                                    {{ v$.name.maxLength.$params.max }}
+                                    {{ $t("global.Letters") }}
+                                    <br/>
+                                </span>
+                                <span v-if="!v$.name.$invalid && data.nameExist">
+                                    {{ $t("global.NameIsExist") }}
+                                </span>
+                                <span v-if="errors['name']">
+                                    {{ errors['name'][0] }}<br/>
+                                    <br/>
+                                </span>
+                            </div>
                       </div>
 
                         <!--Start Type Select-->
@@ -121,8 +125,8 @@
                             id="validationCustom02"
                             :placeholder="$t('global.Started_at')"
                             :class="{
-                                'is-invalid': v$.started_at.$error,
-                                'is-valid': !v$.started_at.$invalid,
+                                'is-invalid': v$.started_at.$error || errors.started_at,
+                                'is-valid': !v$.started_at.$invalid && !errors.started_at,
                             }"
                             />
                             <div class="valid-feedback">
@@ -131,6 +135,10 @@
                             <div class="invalid-feedback">
                                 <span v-if="v$.started_at.required.$invalid">
                                     {{ $t("global.NameIsRequired") }}
+                                    <br/>
+                                </span>
+                                <span v-if="errors['started_at']">
+                                    {{ errors['started_at'][0] }}<br/>
                                     <br/>
                                 </span>
                             </div>
@@ -149,8 +157,8 @@
                             id="validationCustom03"
                             :placeholder="$t('global.Ended_at')"
                             :class="{
-                                'is-invalid': v$.ended_at.$error,
-                                'is-valid': !v$.ended_at.$invalid,
+                                'is-invalid': v$.ended_at.$error || errors.ended_at,
+                                'is-valid': !v$.ended_at.$invalid && !errors.ended_at,
                             }"
                             />
                             <div class="valid-feedback">
@@ -159,6 +167,10 @@
                             <div class="invalid-feedback">
                                 <span v-if="v$.ended_at.required.$invalid">
                                     {{ $t("global.NameIsRequired") }}
+                                    <br/>
+                                </span>
+                                <span v-if="errors['ended_at']">
+                                    {{ errors['ended_at'][0] }}<br/>
                                     <br/>
                                 </span>
                             </div>
@@ -246,7 +258,7 @@ export default {
 
     const v$ = useVuelidate(rules, addShift.data);
 
-    return { loading, ...toRefs(addShift), v$};
+    return { loading, ...toRefs(addShift), v$, t};
 
   },
   methods: {
@@ -281,11 +293,11 @@ export default {
             this.nameExist = err.response.data.errors;
             console.log(err.response);
             this.errors = err.response.data.errors;
-            // Swal.fire({
-            //     icon: 'error',
-            //     title: 'يوجد خطأ...',
-            //     text: 'يوجد خطأ ما..!!',
-            // });
+            Swal.fire({
+                icon: 'error',
+                title: 'خطأ...',
+                text: `يوجد خطأ..!!`,
+            });
           })
           .finally(() => {
             this.loading = false;

@@ -115,8 +115,12 @@
                                 {{ $t("global.LooksGood") }}
                             </div>
                             <div class="invalid-feedback">
-                                <span v-if="v$.category_id.required.$invalid">
+                                <!-- <span v-if="v$.category_id.required.$invalid">
                                     {{ $t("global.NameIsRequired") }}
+                                    <br/>
+                                </span> -->
+                                <span v-if="errors['category_id']">
+                                    {{ errors['category_id'][0] }}<br/>
                                     <br/>
                                 </span>
                             </div>
@@ -237,7 +241,7 @@ export default {
             required,
             },
             category_id: {
-                required,
+                // required,
             },
             file: {
                 required,
@@ -254,6 +258,12 @@ export default {
             })
             .catch((err) => {
                 console.log(err.response.data);
+                this.errors = err.response.data.errors;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
             })
             .finally(() => {
                 loading.value = false;
@@ -311,23 +321,30 @@ export default {
         adminApi
         .post(`/v1/dashboard/subCategory`, formData)
         .then((res) => {
-        notify({
-            title: `تم الإضافة بنجاح <i class="fas fa-check-circle"></i>`,
-            type: "success",
-            duration: 5000,
-            speed: 2000,
-        });
+            notify({
+                title: `تم الإضافة بنجاح <i class="fas fa-check-circle"></i>`,
+                type: "success",
+                duration: 5000,
+                speed: 2000,
+            });
 
-        this.resetForm();
-        this.$nextTick(() => {
-            this.v$.$reset();
-        });
+            this.resetForm();
+            this.$nextTick(() => {
+                this.v$.$reset();
+            });
         })
         .catch((err) => {
-        this.nameExist = err.response.data.errors;
+            console.log(err.response.data);
+            this.nameExist = err.response.data.errors;
+            this.errors = err.response.data.errors;
+            Swal.fire({
+                icon: 'error',
+                title: 'خطأ...',
+                text: `يوجد خطأ..!!`,
+            });
         })
         .finally(() => {
-        this.loading = false;
+            this.loading = false;
         });
       }
     },

@@ -32,7 +32,7 @@
                                         {{ $t('global.Search') }}:
                                         <input type="search" v-model="search" class="custom"/>
                                     </div>
-                                    <div class="col-5 row justify-content-end">
+                                    <div class="col-2 row justify-content-end">
                                         <router-link
                                             v-if="permission.includes('LeadsManagement create')"
                                             :to="{name: 'createLeadsManagement', params: {lang: locale || 'ar'}}"
@@ -105,9 +105,11 @@
                                                     <!-- Modal Header -->
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">
-                                                            {{ $t('global.SalesEmployeeComments') }}</h4>
+                                                            {{ $t('global.SalesEmployeeComments') }}
+                                                        </h4>
                                                         <button :id="'close-'+item.id"  type="button" class="close print-button" data-bs-dismiss="modal">
-                                                            <span>&times;</span></button>
+                                                            <span>&times;</span>
+                                                        </button>
                                                     </div>
 
                                                     <!-- Modal body -->
@@ -138,17 +140,15 @@
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                <tr v-for="(it,index) in item.comments" v-if="item.comments" :key="it.id">
-                                                                                    <td>{{ index +1}}</td>
-                                                                                    <td>{{ it.employee.user.name }}</td>
-                                                                                    <td>{{ it.comment }}</td>
-                                                                                    <td>{{ dateFormat(it.created_at) }}</td>
-
-                                                                                </tr>
-                                                                                <tr v-else>
-                                                                                    <th class="text-center" colspan="4">{{ $t('global.NoDataFound') }}</th>
-                                                                                </tr>
-
+                                                                                    <tr v-for="(it,index) in item.comments" v-if="item.comments" :key="it.id">
+                                                                                        <td>{{ index +1}}</td>
+                                                                                        <td>{{ it.employee.user.name }}</td>
+                                                                                        <td>{{ it.comment }}</td>
+                                                                                        <td>{{ dateFormat(it.created_at) }}</td>
+                                                                                    </tr>
+                                                                                    <tr v-else>
+                                                                                        <th class="text-center" colspan="4">{{ $t('global.NoDataFound') }}</th>
+                                                                                    </tr>
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>

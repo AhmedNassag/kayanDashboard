@@ -37,7 +37,7 @@
                                         {{ $t('global.Search') }}:
                                         <input type="search" v-model="search" class="custom"/>
                                     </div>
-                                    <div class="col-5 row justify-content-end">
+                                    <div class="col-2 row justify-content-end">
                                         <router-link
                                             v-if="permission.includes('TargetAchieved create')"
                                             :to="{name: 'createTargetAchieved', params: {lang: locale || 'ar'}}"

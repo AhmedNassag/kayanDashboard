@@ -98,9 +98,9 @@ class TargetAchievedController extends Controller
     public function show(Request $request,$id)
     {
         $target = TargetAchieved::where('seller_category_id',$id)->with('sellerCategory','employee.user')->when($request->search, function ($q) use ($request) {
-            return $q->whereRelation('employee.user', 'name', 'like', '%' . $request->search . '%')
-                ->OrWhere('amount','like','%'.$request->search.'%')
-                ->OrWhere('count','like','%'.$request->search.'%');
+            return $q->Where('amount','like','%'.$request->search.'%')
+            ->orWhere('count','like','%'.$request->search.'%')
+            ->orWhereRelation('employee.user', 'name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(15);
 
         return $this->sendResponse(['target' => $target], 'Data exited successfully');

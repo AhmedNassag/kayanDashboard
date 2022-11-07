@@ -23,7 +23,8 @@ class UsersCategoryController extends Controller
     {
         $usersCategories = UsersCategory::with('media:file_name,mediable_id')
             ->when($request->search, function ($q) use ($request) {
-            return $q->where('name', 'like', '%' . $request->search . '%');
+            return $q->where('name', 'like', '%' . $request->search . '%')
+            ->orWhere('description', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
         return $this->sendResponse(['usersCategories' => $usersCategories], 'Data exited successfully');

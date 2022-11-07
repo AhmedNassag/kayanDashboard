@@ -37,13 +37,11 @@ class AuthDashboardController extends Controller
             $user = Auth::guard('api')->user();
 
             if ($user->status == 1) {
-
                 return  $this->sendResponse($this->respondWithToken($token), 'Data exited successfully');
             } else {
                 return $this->sendError('Your Email/Password is wrong');
             }
         } else {
-
             return $this->sendError('Your Email/Password is wrong');
         }
     } //**********end login************/
@@ -74,7 +72,6 @@ class AuthDashboardController extends Controller
     // create token
     protected function respondWithToken($token)
     {
-
         return [
             'access_token' => $token,
             'token_type' => 'bearer',

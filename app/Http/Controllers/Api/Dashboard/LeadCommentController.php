@@ -46,7 +46,8 @@ class LeadCommentController extends Controller
                 'lead_id' => 'required|integer|exists:leads,id',
             ]);
 
-            if ($v->fails()) {
+            if ($v->fails())
+            {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
@@ -65,7 +66,9 @@ class LeadCommentController extends Controller
 
             return $this->sendResponse([], 'Data exited successfully');
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
@@ -73,16 +76,14 @@ class LeadCommentController extends Controller
 
     public function edit($id)
     {
-        try {
-
+        try
+        {
             $lead = LeadComment::find($id);
-
             return $this->sendResponse(['lead' => $lead], 'Data exited successfully');
-
-        } catch (\Exception $e) {
-
+        }
+        catch (\Exception $e)
+        {
             return $this->sendError('An error occurred in the system');
-
         }
     }
 
@@ -96,9 +97,9 @@ class LeadCommentController extends Controller
     public function show(Request $request,$id)
     {
         $comments = LeadComment::where('lead_id',$id)->with('employee.user')
-            ->when($request->search, function ($q) use ($request) {
+        ->when($request->search, function ($q) use ($request) {
             return $q->where('comment','like','%'.$request->search.'%')
-                ->orWhereRelation('employee.user','name','like','%'.$request->search.'%');
+            ->orWhereRelation('employee.user','name','like','%'.$request->search.'%');
         })->latest()->paginate(15);
 
         $crm = $comments[0]->lead->seller_category_id;
@@ -115,7 +116,8 @@ class LeadCommentController extends Controller
      */
     public function update(Request $request,$id)
     {
-        try {
+        try
+        {
             $comment = LeadComment::find($id);
             DB::beginTransaction();
 
@@ -125,7 +127,8 @@ class LeadCommentController extends Controller
                 'lead_id' => 'required|integer|exists:leads,id',
             ]);
 
-            if ($v->fails()) {
+            if ($v->fails())
+            {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
@@ -135,8 +138,9 @@ class LeadCommentController extends Controller
             DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
-
+        }
+        catch (\Exception $e)
+        {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }

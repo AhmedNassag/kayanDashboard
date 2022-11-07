@@ -213,9 +213,9 @@
                                                 <label >{{ $t("global.Tax") }}</label>
                                                 <Select2 v-model="v$.tax_id.$model" :options="taxes" :settings="{ width: '100%' }" />
                                                 <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
+                                                <!-- <div class="invalid-feedback">
                                                     <span v-if="v$.tax_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             <!--End Tax Select-->
 
@@ -393,24 +393,24 @@
                                                         <!--End Alternative-->
 
                                                         <!--Start Discount-->
-                                                        <div class="col-md-4 mb-4">
+                                                        <!-- <div class="col-md-4 mb-4">
                                                             <label>{{$t('global.Discount')}}</label>
                                                             <input type="number" step="0.1" class="form-control" v-model.number="it.discount" :placeholder="$t('global.Discount')">
-                                                        </div>
+                                                        </div> -->
                                                         <!--End Discount-->
 
                                                         <!--Start Pharmacy Price-->
-                                                        <div class="col-md-4 mb-4">
+                                                        <!-- <div class="col-md-4 mb-4">
                                                             <label>{{$t('global.Pharmacy Price')}}</label>
                                                             <input type="number" step="0.1" class="form-control" v-model.number="it.pharmacyPrice" :placeholder="$t('global.Pharmacy Price')">
-                                                        </div>
+                                                        </div> -->
                                                         <!--End Pharmacy Price-->
 
                                                         <!--Start Public Price-->
-                                                        <div class="col-md-4 mb-4">
+                                                        <!-- <div class="col-md-4 mb-4">
                                                             <label>{{$t('global.Public Price')}}</label>
                                                             <input type="number" step="0.1" class="form-control" v-model.number="it.publicPrice" :placeholder="$t('global.Public Price')">
-                                                        </div>
+                                                        </div> -->
                                                         <!--End Public Price-->
 
                                                         <div class="col-md-3 mb-3">
@@ -555,7 +555,13 @@ export default {
                     //
                 })
                 .catch((err) => {
+                    this.errors = err.response.data.errors;
                     console.log(err.response);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -571,7 +577,13 @@ export default {
                 subCategories.value = l.subCategories;
             })
             .catch((err) => {
+                this.errors = err.response.data.errors;
                 console.log(err.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'يوجد خطأ...',
+                    text: 'يوجد خطأ ما..!!',
+                });
             })
             .finally(() => {
                 loading.value = false;
@@ -650,8 +662,8 @@ export default {
                 //     integer
                 // },
                 tax_id: {
-                    required,
-                    integer
+                    // required,
+                    // integer
                 },
                 selling_methods: {
                     required
@@ -829,6 +841,11 @@ export default {
                 .catch((err) => {
                     this.errors = err.response.data.errors;
                     console.log(err.response);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
                 })
                 .finally(() => {
                     this.loading = false;
