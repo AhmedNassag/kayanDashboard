@@ -17,7 +17,6 @@ class CreateSubCategoriesTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->boolean('status')->default(true);
-            
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             // $table->unsignedBigInteger('category_id');
             // $table->index(["category_id"], 'category_id');

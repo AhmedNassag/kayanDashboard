@@ -14,7 +14,7 @@ export default [
                 component: FooterLinkIndex,
                 beforeEnter: (to, from, next) => {
                     let permission = store.state.authAdmin.permission;
-                    if (permission.includes('footer-link read')) {
+                    if (permission.includes('footer read')) {
                         return next();
                     } else {
                         return next({ name: 'Page404' });

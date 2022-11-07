@@ -194,27 +194,27 @@ class PermissionSeeder extends Seeder
             ['name' => 'schedule edit', 'role' => 'advertise', 'category' => 'advertise'],
             ['name' => 'schedule delete', 'role' => 'advertise', 'category' => 'advertise'],
             //CRM
-            ['name' => 'targetPlan read','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'targetPlan create','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'targetPlan edit','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'targetPlan delete','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'SellerCategory read','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'SellerCategory create','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'SellerCategory edit','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'SellerCategory delete','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'LeadsManagement read','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'LeadsManagement create','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'LeadsManagement edit','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'LeadsManagement delete','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'LeadsManagement changeEmployee','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'Leads read','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'Leads create','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'Leads edit','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'Leads delete','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'TargetAchieved read','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'TargetAchieved create','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'TargetAchieved edit','role' => 'CRM','category' => 'CRM'],
-            ['name' => 'TargetAchieved delete','role' => 'CRM','category' => 'CRM'],
+            ['name' => 'targetPlan read', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'targetPlan create', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'targetPlan edit', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'targetPlan delete', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'SellerCategory read', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'SellerCategory create', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'SellerCategory edit', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'SellerCategory delete', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'LeadsManagement read', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'LeadsManagement create', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'LeadsManagement edit', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'LeadsManagement delete', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'LeadsManagement changeEmployee', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'Leads read', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'Leads create', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'Leads edit', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'Leads delete', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'TargetAchieved read', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'TargetAchieved create', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'TargetAchieved edit', 'role' => 'CRM', 'category' => 'CRM'],
+            ['name' => 'TargetAchieved delete', 'role' => 'CRM', 'category' => 'CRM'],
             //refused
             ['name' => 'refused read', 'role' => 'management'],
             ['name' => 'refused create', 'role' => 'management'],
@@ -326,10 +326,14 @@ class PermissionSeeder extends Seeder
             ['name' => 'also-bought create', 'role' => ''],
             ['name' => 'also-bought edit', 'role' => ''],
             ['name' => 'also-bought delete', 'role' => ''],
-            
-            //Footer links
-            ['name' => 'footer-link read', 'role' => 'footer'],
-            ['name' => 'footer-link edit', 'role' => 'footer'],
+
+            //Footer
+            ['name' => 'footer read', 'role' => 'footer'],
+            ['name' => 'footer edit', 'role' => 'footer'],
+
+            //About
+            ['name' => 'about read', 'role' => 'about'],
+            ['name' => 'about edit', 'role' => 'about'],
 
         ];
 
