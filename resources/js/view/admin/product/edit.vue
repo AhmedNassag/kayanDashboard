@@ -417,27 +417,27 @@
                                                         <!--End Alternative-->
 
                                                         <!--Start Discount-->
-                                                        <div class="col-md-4 mb-4">
+                                                        <!-- <div class="col-md-4 mb-4">
                                                             <label>{{$t('global.Discount')}}</label>
                                                             <input type="number" step="0.1" class="form-control" v-model.number="it.discount"
                                                                 :placeholder="$t('global.Discount')">
-                                                        </div>
+                                                        </div> -->
                                                         <!--End Discount-->
 
                                                         <!--Start Pharmacy Price-->
-                                                        <div class="col-md-4 mb-4">
+                                                        <!-- <div class="col-md-4 mb-4">
                                                             <label>{{$t('global.Pharmacy Price')}}</label>
                                                             <input type="number" step="0.1" class="form-control" v-model.number="it.pharmacyPrice"
                                                                 :placeholder="$t('global.Pharmacy Price')">
-                                                        </div>
+                                                        </div> -->
                                                         <!--End Pharmacy Price-->
 
                                                         <!--Start Public Price-->
-                                                        <div class="col-md-4 mb-4">
+                                                        <!-- <div class="col-md-4 mb-4">
                                                             <label>{{$t('global.Public Price')}}</label>
                                                             <input type="number" step="0.1" class="form-control" v-model.number="it.publicPrice"
                                                                 :placeholder="$t('global.Public Price')">
-                                                        </div>
+                                                        </div> -->
                                                         <!--End Public Price-->
 
                                                         <div class="col-md-3 mb-3">
@@ -617,6 +617,12 @@ export default {
                 })
                 .catch((err) => {
                     console.log(err.response);
+                    this.errors = err.response.data.errors;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -637,6 +643,12 @@ export default {
                 })
                 .catch((err) => {
                     console.log(err.response);
+                    this.errors = err.response.data.errors;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -805,6 +817,12 @@ export default {
                 })
                 .catch((err) => {
                     console.log(err.response);
+                    this.errors = err.response.data.errors;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -939,7 +957,13 @@ export default {
 
                 })
                 .catch((err) => {
+                    console.log(err.response);
                     this.errors = err.response.data.errors;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
                 })
                 .finally(() => {
                     this.loading = false;

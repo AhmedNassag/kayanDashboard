@@ -22,7 +22,8 @@ class AlternativeController extends Controller
     {
         $alternatives = Alternative::with('media:file_name,mediable_id')
             ->when($request->search, function ($q) use ($request) {
-                return $q->where('nameAr', 'like', '%' . $request->search . '%');
+                return $q->where('nameAr', 'like', '%' . $request->search . '%')
+                ->orWhere('nameEn', 'like', '%' . $request->search . '%');
             })->latest()->paginate(10);
 
         return $this->sendResponse(['alternatives' => $alternatives], 'Data exited successfully');

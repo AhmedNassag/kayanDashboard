@@ -39,10 +39,10 @@
                             <div class="card-header pt-0">
                                 <div class="row justify-content-between">
                                     <div class="col-5">
-                                        {{ $t('global.Search') }}:
-                                        <input type="search" v-model="search" class="custom"/>
+                                        <!-- {{ $t('global.Search') }}:
+                                        <input type="search" v-model="search" class="custom"/> -->
                                     </div>
-                                    <div class="col-5 row justify-content-end">
+                                    <div class="col-2 row justify-content-end">
                                         <router-link
                                             v-if="permission.includes('Leads create')"
                                             :to="{name: 'createLeadComment', params: {lang: locale || 'ar',id}}"
@@ -56,22 +56,22 @@
                                 <table class="table mb-0">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>{{ $t('global.Employee') }}</th>
-                                        <th>{{ $t('global.Comment') }}</th>
-                                        <th>{{ $t('global.Date') }}</th>
-                                        <th>{{ $t('global.Action') }}</th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">{{ $t('global.Employee') }}</th>
+                                        <th class="text-center">{{ $t('global.Comment') }}</th>
+                                        <th class="text-center">{{ $t('global.Date') }}</th>
+                                        <th class="text-center">{{ $t('global.Action') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="comments.length">
                                     <tr v-for="(item,index) in comments" :key="item.id">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ item.employee.user.name }}</td>
-                                        <td>{{ item.comment }}</td>
-                                        <td>
+                                        <td class="text-center">{{ index + 1 }}</td>
+                                        <td class="text-center">{{ item.employee.user.name }}</td>
+                                        <td class="text-center">{{ item.comment }}</td>
+                                        <td class="text-center">
                                             {{ dateFormat(item.created_at) }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
 
                                             <router-link
                                                 :to="{name: 'editLeadComment', params: {lang: locale || 'ar',idTarget:id,idLead:item.id}}"
@@ -86,9 +86,7 @@
                                                 <i class="far fa-trash-alt"></i>
                                             </a>
 
-
                                         </td>
-
                                     </tr>
                                     </tbody>
                                     <tbody v-else>
@@ -143,18 +141,18 @@ export default {
             loading.value = true;
 
             adminApi.get(`/v1/dashboard/leadComment/${id.value}?page=${page}&search=${search.value}`)
-                .then((res) => {
-                    let l = res.data.data;
-                    commentsPaginate.value = l.comments;
-                    comments.value = l.comments.data;
-                    crm.value = l.crm;
-                })
-                .catch((err) => {
-                    console.log(err.response);
-                })
-                .finally(() => {
-                    loading.value = false;
-                });
+            .then((res) => {
+                let l = res.data.data;
+                commentsPaginate.value = l.comments;
+                comments.value = l.comments.data;
+                crm.value = l.crm;
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
         }
 
         onBeforeMount(() => {
@@ -181,27 +179,27 @@ export default {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes'
-            }).then((result) => {
+            })
+            .then((result) => {
                 if (result.isConfirmed) {
 
                     adminApi.delete(`/v1/dashboard/leadComment/${id}`)
-                        .then((res) => {
-                            comments.value.splice(index,1);
-
-                            Swal.fire({
-                                icon: 'success',
-                                title: `${t("global.DeletedSuccessfully")}`,
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        })
-                        .catch((err) => {
-                            Swal.fire({
-                                icon: 'error',
-                                title: `${t('global.ThereIsAnErrorInTheSystem')}`,
-                                text: `${t('global.YouCanNotDelete')}`,
-                            });
+                    .then((res) => {
+                        comments.value.splice(index,1);
+                        Swal.fire({
+                            icon: 'success',
+                            title: `${t("global.DeletedSuccessfully")}`,
+                            showConfirmButton: false,
+                            timer: 1500
                         });
+                    })
+                    .catch((err) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `${t('global.ThereIsAnErrorInTheSystem')}`,
+                            text: `${t('global.YouCanNotDelete')}`,
+                        });
+                    });
                 }
             });
         }

@@ -25,10 +25,10 @@
                                     <label class="focus-label">{{ $t("global.Password") }}</label>
                                 </div>
                                 <div class="form-group">
-                                    <label class="custom_check">
+                                    <!-- <label class="custom_check">
                                         <input type="checkbox" v-model="data.remmeber_me">
                                         <span class="checkmark"></span> {{ $t("global.Remember password") }}
-                                    </label>
+                                    </label> -->
                                 </div>
                                 <button class="btn btn-info btn-block btn-lg login-btn" type="submit">{{ $t("global.Login") }}</button>
                                 <div class="row form-row login-foot">
