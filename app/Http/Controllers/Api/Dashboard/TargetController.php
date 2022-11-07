@@ -40,6 +40,7 @@ class TargetController extends Controller
     public function store(Request $request)
     {
         try {
+
             DB::beginTransaction();
 
             // Validator request
@@ -51,17 +52,18 @@ class TargetController extends Controller
                 'seller_category_id' => 'required|integer|exists:seller_categories,id',
             ]);
 
-            if ($v->fails()) {
+            if ($v->fails())
+            {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
             Target::create($request->all());
 
             DB::commit();
-
             return $this->sendResponse([], 'Data exited successfully');
-
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
@@ -69,16 +71,14 @@ class TargetController extends Controller
 
     public function edit($id)
     {
-        try {
-
+        try
+        {
             $target = Target::find($id);
-
             return $this->sendResponse(['target' => $target], 'Data exited successfully');
-
-        } catch (\Exception $e) {
-
+        }
+        catch (\Exception $e)
+        {
             return $this->sendError('An error occurred in the system');
-
         }
     }
 
@@ -91,12 +91,13 @@ class TargetController extends Controller
      */
     public function show(Request $request,$id)
     {
-        $targetPlan = Target::where('seller_category_id',$id)->with('sellerCategory')->when($request->search, function ($q) use ($request) {
-            return $q->whereRelation('sellerCategory.translations', 'name', 'like', '%' . $request->search . '%')
-                ->OrWhere('from','like','%'.$request->search.'%')
-                ->OrWhere('to','like','%'.$request->search.'%')
-                ->OrWhere('amount','like','%'.$request->search.'%')
-                ->OrWhere('percent','like','%'.$request->search.'%');
+        $targetPlan = Target::where('seller_category_id',$id)->with('sellerCategory')
+        ->when($request->search, function ($q) use ($request) {
+            return $q->where('from','like','%'.$request->search.'%')
+            ->orWhere('to','like','%'.$request->search.'%')
+            ->orWhere('amount','like','%'.$request->search.'%')
+            ->orWhere('percent','like','%'.$request->search.'%')
+            ->orwhereRelation('sellerCategory', 'name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(5);
 
         return $this->sendResponse(['targetPlan' => $targetPlan], 'Data exited successfully');
@@ -111,7 +112,8 @@ class TargetController extends Controller
      */
     public function update(Request $request, Target $target)
     {
-        try {
+        try
+        {
 
             DB::beginTransaction();
 
@@ -124,17 +126,18 @@ class TargetController extends Controller
                 'seller_category_id' => 'required|integer|exists:seller_categories,id',
             ]);
 
-            if ($v->fails()) {
+            if ($v->fails())
+            {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
             $target->update($request->all());
 
             DB::commit();
-
             return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
-
+        }
+        catch (\Exception $e)
+        {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }

@@ -27,11 +27,11 @@ class LeadController extends Controller
     {
         $leads = Lead::with(['employee.user','sellerCategory','comments.employee.user'])->when($request->search, function ($q) use ($request) {
             return $q->where('name','like','%'.$request->search.'%')
-                ->OrWhere('phone','like','%'.$request->search.'%')
-                ->OrWhere('email','like','%'.$request->search.'%')
-                ->OrWhere('address','like','%'.$request->search.'%')
-                ->orWhereRelation('employee.user','name','like','%'.$request->search.'%')
-                ->orWhereRelation('sellerCategory.translations','name','like','%'.$request->search.'%');
+            ->orWhere('phone','like','%'.$request->search.'%')
+            ->orWhere('email','like','%'.$request->search.'%')
+            ->orWhere('address','like','%'.$request->search.'%')
+            ->orWhereRelation('employee.user','name','like','%'.$request->search.'%')
+            ->orWhereRelation('sellerCategory','name','like','%'.$request->search.'%');
         })->latest()->paginate(15);
 
         return $this->sendResponse(['leads' => $leads], 'Data exited successfully');

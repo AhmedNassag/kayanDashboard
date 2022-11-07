@@ -21,7 +21,8 @@ class TaxController extends Controller
     public function index(Request $request)
     {
         $taxes = Tax::when($request->search, function ($q) use ($request) {
-            return $q->where('name', 'like', '%' . $request->search . '%');
+            return $q->where('name', 'like', '%' . $request->search . '%')
+            ->orWhere('rate', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
         return $this->sendResponse(['taxes' => $taxes], 'Data exited successfully');

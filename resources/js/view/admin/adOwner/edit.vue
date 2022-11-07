@@ -233,6 +233,12 @@ export default {
                 })
                 .catch((err) => {
                     console.log(err.response);
+                    this.errors = err.response.data.errors;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -339,13 +345,13 @@ export default {
 
                 })
                 .catch((err) => {
-                    this.errors = err.response.data.errors;
                     console.log(err.response);
-                    // Swal.fire({
-                    //     icon: 'error',
-                    //     title: 'يوجد خطأ...',
-                    //     text: 'يوجد خطأ ما..!!',
-                    // });
+                    this.errors = err.response.data.errors;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
                 })
                 .finally(() => {
                     this.loading = false;

@@ -35,9 +35,9 @@ class PurchaseController extends Controller
                 return $q->where('discount_percentage', 'like', '%' . $request->search . '%')
                 ->orWhere('discount_value', 'like', '%' . $request->search . '%')
                 ->orWhere('other_discounts', 'like', '%' . $request->search . '%')
-                ->orWhere('	transfer_price', 'like', '%' . $request->search . '%')
-                ->orWhere('	note', 'like', '%' . $request->search . '%')
-                ->orWhere('	price', 'like', '%' . $request->search . '%')
+                ->orWhere('transfer_price', 'like', '%' . $request->search . '%')
+                ->orWhere('note', 'like', '%' . $request->search . '%')
+                ->orWhere('price', 'like', '%' . $request->search . '%')
                 ->orWhereRelation('store','name','like','%'.$request->search.'%')
                 ->orWhereRelation('supplier','name','like','%'.$request->search.'%');
             });

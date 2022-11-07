@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\Null_;
 
 class ProductController extends Controller
 {
@@ -34,7 +35,12 @@ class ProductController extends Controller
     {
         $products = Product::where('status',1)->with('category:id,name', 'subCategory:id,name', 'tax:id,name', 'pharmacistForm:id,name')
             ->when($request->search, function ($q) use ($request) {
-                return $q->where('name', 'like', "%" . $request->search . "%");
+                return $q->where('nameAr', 'like', "%" . $request->search . "%")
+                ->orWhere('nameEn', 'like', '%' . $request->search . '%')
+                ->orWhereRelation('pharmacistForm', 'name', 'like', '%' . $request->search . '%')
+                ->orWhereRelation('category', 'name', 'like', '%' . $request->search . '%')
+                ->orWhereRelation('subCategory', 'name', 'like', '%' . $request->search . '%')
+                ->orWhereRelation('tax', 'name', 'like', '%' . $request->search . '%');
             })->latest()->paginate(15);
 
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
@@ -67,14 +73,13 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        if ($product->status == 1) {
-            $product->update([
-                "status" => 0
-            ]);
-        } else {
-            $product->update([
-                "status" => 1
-            ]);
+        if ($product->status == 1)
+        {
+            $product->update(["status" => 0]);
+        }
+        else
+        {
+            $product->update(["status" => 1]);
         }
         return $this->sendResponse([], 'Data exited successfully');
     }
@@ -113,7 +118,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+        // try {
             DB::beginTransaction();
 
             // Validator request
@@ -147,13 +152,33 @@ class ProductController extends Controller
             $request->image->storeAs('product', $image, 'general');
 
             $data = $request->only(['nameAr', 'nameEn', 'description', 'effectiveMaterial', 'barcode',/* 'maximum_product', 'Re_order_limit',*/ 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'sub_measurement_unit_id', 'pharmacistForm_id', 'count_unit']);
-            $product = Product::create($data);
-
-            // $data['sub_measurement_unit_id'] = 1;
 
             $data['image'] = $image;
 
+            $product = Product::create($data);
 
+            // if ($request->tax_id && $request->tax_id != '')
+            // {
+            //     $product = Product::create($data);
+            // }
+            // else
+            // {
+            //     $product = Product::create([
+            //         'nameAr' => $request->nameAr,
+            //         'nameEn' => $request->nameEn,
+            //         'description' => $request->description,
+            //         'effectiveMaterial' => $request->effectiveMaterial,
+            //         'barcode' => $request->barcode,
+            //         'image' => $image,
+            //         'category_id' => $request->category_id,
+            //         'sub_category_id' => $request->sub_category_id,
+            //         'tax_id' => '1',
+            //         'main_measurement_unit_id' => $request->main_measurement_unit_id,
+            //         'sub_measurement_unit_id' => $request->sub_measurement_unit_id,
+            //         'pharmacistForm_id' => $request->pharmacistForm_id,
+            //         'count_unit' => $request->count_unit,
+            //     ]);
+            // }
 
             $imageProduct = explode(',', $request->selling_methods[0]);
             $product->selling_methods()->attach($imageProduct);
@@ -177,25 +202,28 @@ class ProductController extends Controller
                 }
             }
 
-            if ($request->alternativeDetail) {
+            if ($request->alternativeDetail && $request-> alternativeDetail != Null) {
                 $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
                 foreach ($request->alternativeDetail as $alternativeDetail) {
-                    AlternativeDetail::create([
-                        'product_id'     => $product['id'],
-                        'alternative_id' => $alternativeDetail->alternative_id,
-                        'discount'       => $alternativeDetail->discount,
-                        'pharmacyPrice'  => $alternativeDetail->pharmacyPrice,
-                        'publicPrice'    => $alternativeDetail->publicPrice,
-                    ]);
+                    if($alternativeDetail->alternative_id && $alternativeDetail->alternative_id != Null)
+                    {
+                        AlternativeDetail::create([
+                            'product_id'     => $product['id'],
+                            'alternative_id' => $alternativeDetail->alternative_id,
+                            // 'discount'       => $alternativeDetail->discount,
+                            // 'pharmacyPrice'  => $alternativeDetail->pharmacyPrice,
+                            // 'publicPrice'    => $alternativeDetail->publicPrice,
+                        ]);
+                    }
                 }
             }
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+        // } catch (\Exception $e) {
+        //     DB::rollBack();
+        //     return $this->sendError('An error occurred in the system');
+        // }
     }
 
 

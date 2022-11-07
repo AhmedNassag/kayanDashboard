@@ -30,15 +30,10 @@ class SaleController extends Controller
             {
                 $q->when($request->search, function ($q) use ($request)
                 {
-                    return
-                        $q->where('discount_percentage', 'like', '%' . $request->search . '%')
-                        ->orWhere('discount_value', 'like', '%' . $request->search . '%')
-                        ->orWhere('other_discounts', 'like', '%' . $request->search . '%')
-                        ->orWhere('transfer_price', 'like', '%' . $request->search . '%')
-                        ->orWhere('note', 'like', '%' . $request->search . '%')
-                        ->orWhere('price', 'like', '%' . $request->search . '%')
-                        // ->orWhereRelation('client','user.name','like','%'.$request->search.'%')
-                        ->orWhereRelation('store','name','like','%'.$request->search.'%');
+                    return $q->Where('note', 'like', '%' . $request->search . '%')
+                    ->orWhere('price', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('client.user','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('store','name','like','%'.$request->search.'%');
                 });
             })
             ->where(function ($q) use ($request)
@@ -140,9 +135,9 @@ class SaleController extends Controller
 
             foreach ($request->product as $product)
             {
-                $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($sale['stock_id']);
-                if(intval($virtualStockQuantitiy->productQuantity) >= intval($product['quantity']))
-                {
+                // $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($sale['stock_id']);
+                // if(intval($virtualStockQuantitiy->productQuantity) >= intval($product['quantity']))
+                // {
                     SaleProduct::create
                     ([
                         'sale_id'               => $sale['id'],
@@ -156,11 +151,11 @@ class SaleController extends Controller
                     // ([
                     //     'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) - intval($product['quantity'])
                     // ]);
-                }
-                else
-                {
-                    return $this->sendError('الكمية المطلوبة غير متوفرة حالياً', []);
-                }
+                // }
+                // else
+                // {
+                //     return $this->sendError('الكمية المطلوبة غير متوفرة حالياً', []);
+                // }
             }
 
             if($request->payment_method == 'Delay' && $request->batch)
@@ -180,7 +175,6 @@ class SaleController extends Controller
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
-
         }
         catch (\Exception $e)
         {
@@ -299,9 +293,9 @@ class SaleController extends Controller
 
             foreach ($request->product as $product)
             {
-                $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($sale['stock_id']);
-                if (intval($virtualStockQuantitiy->productQuantity) >= intval($product['quantity']))
-                {
+                // $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($sale['stock_id']);
+                // if (intval($virtualStockQuantitiy->productQuantity) >= intval($product['quantity']))
+                // {
                     SaleProduct::create
                     ([
                         'sale_id'               => $sale['id'],
@@ -315,11 +309,11 @@ class SaleController extends Controller
                     // ([
                     //     'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) - intval($product['quantity'])
                     // ]);
-                }
-                else
-                {
-                    return $this->sendError('الكمية المطلوبة غير متوفرة حالياً', []);
-                }
+                // }
+                // else
+                // {
+                //     return $this->sendError('الكمية المطلوبة غير متوفرة حالياً', []);
+                // }
             }
 
             //
