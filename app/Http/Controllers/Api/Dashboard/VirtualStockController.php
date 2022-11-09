@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Price;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\VirtualStock;
@@ -48,34 +49,50 @@ class VirtualStockController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         try {
             DB::beginTransaction();
 
             // Validator request
-            $v = Validator::make($request->all(), [
-                'productQuantity' => 'required',
-                // 'pharmacyPrice' => 'required',
-                'publicPrice' => 'required',
-                'pharmacyDiscount' => 'required',
-                'kayanDiscount' => 'required',
-                'supplier_id' => 'required',
-                'category_id' => 'required',
-                'sub_category_id' => 'required',
-                'product_id' => 'required',
+            $v = Validator::make($request->all(),
+            [
+                'product.*.supplier_id'     => 'required',
+                'product.*.category_id'     => 'required',
+                'product.*.sub_category_id' => 'required',
+                'product.*.product_id'      => 'required',
+                'product.*.quantity'        => 'required',
+                'product.*.publicPrice'     => 'required',
+                'product.*.clientDiscount'  => 'required',
+                'product.*.kayanDiscount'   => 'required',
             ]);
 
-            if ($v->fails()) {
+            if ($v->fails())
+            {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $data = $request->only(['productQuantity','pharmacyPrice','publicPrice','pharmacyDiscount','kayanDiscount','category_id','sub_category_id','product_id','supplier_id']);
-            $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->pharmacyDiscount/100));
-            $virtualStock = VirtualStock::create($data);
+
+            foreach ($request->product as $product)
+            {
+                Price::create
+                ([
+                    'supplier_id'     => $product['supplier_id'],
+                    'category_id'     => $product['category_id'],
+                    'sub_category_id' => $product['sub_category_id'],
+                    'product_id'      => $product['product_id'],
+                    'quantity'        => $product['quantity'],
+                    'publicPrice'     => $product['publicPrice'],
+                    'clientDiscount'  => $product['clientDiscount'],
+                    'kayanDiscount'   => $product['kayanDiscount'],
+                    'pharmacyPrice'   => $product['publicPrice'] - ($product['publicPrice'] * ($product['clientDiscount'] / 100)),
+                    'kayanProfit'     => $product['kayanDiscount'] - $product['clientDiscount'],
+                ]);
+            }
 
             DB::commit();
-
             return $this->sendResponse([], 'Data exited successfully');
-
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
@@ -87,9 +104,18 @@ class VirtualStockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $virtualStocks = Price::where('supplier_id',$id)->with('product:id,nameAr', 'supplier:id,name', 'category:id,name', 'subCategory:id,name')
+        ->when($request->search, function ($q) use ($request) {
+            return $q->where('publicPrice', 'like', '%' . $request->search . '%')
+            ->orWhereRelation('product', 'nameAr', 'like', '%' . $request->search . '%')
+            ->orWhereRelation('supplier', 'name', 'like', '%' . $request->search . '%')
+            ->orWhereRelation('category', 'name', 'like', '%' . $request->search . '%')
+            ->orWhereRelation('subCategory', 'name', 'like', '%' . $request->search . '%');
+        })->latest()->paginate(10);
+
+        return $this->sendResponse(['virtualStocks' => $virtualStocks], 'Data exited successfully');
     }
 
     /**
@@ -100,24 +126,24 @@ class VirtualStockController extends Controller
      */
     public function edit($id)
     {
-        try
-        {
-            $virtualStock   = VirtualStock::with('product')->with('category')->with('subCategory')->with('supplier')->find($id);
-            $products       = Product::where('status',1)->get();
-            $suppliers      = Supplier::where('active',1)->select('id','name')->get();
-            $categories     = Category::where('status',1)->select('id','name')->get();
-            return $this->sendResponse
-            ([
-                'virtualStock' => $virtualStock,
-                'products'     => $products,
-                'suppliers'    => $suppliers,
-                'categories'   => $categories,
-            ], 'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
-            return $this->sendError('An error occurred in the system');
-        }
+        // try
+        // {
+        //     $virtualStock   = VirtualStock::with('product')->with('category')->with('subCategory')->with('supplier')->find($id);
+        //     $products       = Product::where('status',1)->get();
+        //     $suppliers      = Supplier::where('active',1)->select('id','name')->get();
+        //     $categories     = Category::where('status',1)->select('id','name')->get();
+        //     return $this->sendResponse
+        //     ([
+        //         'virtualStock' => $virtualStock,
+        //         'products'     => $products,
+        //         'suppliers'    => $suppliers,
+        //         'categories'   => $categories,
+        //     ], 'Data exited successfully');
+        // }
+        // catch (\Exception $e)
+        // {
+        //     return $this->sendError('An error occurred in the system');
+        // }
     }
 
     /**
@@ -146,7 +172,8 @@ class VirtualStockController extends Controller
                 'product_id' => 'required',
             ]);
 
-            if ($v->fails()) {
+            if ($v->fails())
+            {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
@@ -156,8 +183,9 @@ class VirtualStockController extends Controller
 
             DB::commit();
             return $this->sendResponse([],'Data exited successfully');
-        }catch (\Exception $e){
-
+        }
+        catch (\Exception $e)
+        {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }

@@ -1,518 +1,487 @@
 <template>
-  <div
-    :class="[
-      'page-wrapper',
-      this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
-    ]"
-  >
-    <div class="content container-fluid">
-      <notifications
-        :position="this.$i18n.locale == 'ar' ? 'top left' : 'top right'"
-      />
-      <!-- Page Header -->
-      <div class="page-header">
-        <div class="row align-items-center">
-          <div class="col">
-            <h3 class="page-title">{{ $t("global.Virtual Stock") }}</h3>
-            <ul class="breadcrumb">
-              <li class="breadcrumb-item">
-                <router-link :to="{ name: 'indexVirtualStock' }">
-                    {{ $t("global.Virtual Stock") }}
-                </router-link>
-              </li>
-              <li class="breadcrumb-item active">
-                {{ $t("virtualStock.CreateVirtualStock") }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <!-- /Page Header -->
-      <!-- Table -->
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="card">
-            <loader v-if="loading" />
-            <div class="card-body">
-              <div class="card-header pt-0 mb-4">
-                <router-link
-                  :to="{ name: 'indexVirtualStock' }"
-                  class="btn btn-custom btn-dark"
-                >
-                  {{ $t("global.back") }}
-                </router-link>
-              </div>
-              <div class="row">
-                <div class="col-sm">
-                  <div class="alert alert-danger text-center" v-if="errors['name']">
-                    {{ t("global.Exist", {field:t("global.Name")}) }}<br />
-                  </div>
-                  <form
-                    @submit.prevent="storeVirtualStock"
-                    class="needs-validation"
-                  >
-                    <div class="form-row row">
+    <div :class="['page-wrapper','page-wrapper-ar']">
 
-                        <!--Start Category Select-->
-                        <div class="col-md-6 mb-3">
-                            <label for="validationCustom07">
-                                {{ $t("global.Category") }}
-                            </label>
-                            <!-- <Select2 @change="getSubCategory(v$.category_id.$model)" v-model.trim="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" /> -->
-                            <select @change="getSubCategory(v$.category_id.$model)" v-model.trim="v$.category_id.$model" class="form-select">
-                                <option v-for="category in categories" :key="category.id" :value="category.id">
-                                    {{ category.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <!--End Category Select-->
+        <div class="content container-fluid">
 
-                        <!--Start SubCategory Select-->
-                        <div class="col-md-6 mb-3">
-                            <label for="validationCustom0">
-                                {{ $t("global.SubCategory") }}
-                            </label>
-                            <Select2 v-model.trim="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" />
-                            <!-- <select class="form-select" v-model.trim="v$.sub_category_id.$model">
-                                <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
-                                    {{ subCategory.name }}
-                                </option>
-                            </select> -->
-                        </div>
-                        <!--End SubCategory Select-->
-
-                        <!--Start Product Select-->
-                        <div class="col-md-6 mb-3">
-                            <label for="validationCustom00">
-                                {{ $t("global.Product") }}
-                            </label>
-                            <Select2 v-model.trim="v$.product_id.$model" :options="products" :settings="{ width: '100%' }" />
-                            <!-- <select class="form-select" v-model.trim="v$.product_id.$model">
-                                <option v-for="product in products" :key="product.id" :value="product.id">
-                                {{ product.nameAr }}
-                                </option>
-                            </select> -->
-                        </div>
-                        <!--End Product Name Select-->
-
-                        <!--Start Product Quantity-->
-                        <div class="col-md-6 mb-3">
-                            <label for="validationCustom05">
-                                {{ $t("global.Product Quantity") }}
-                            </label>
-                            <input
-                            type="number"
-                            class="form-control"
-                            v-model.trim="v$.productQuantity.$model"
-                            id="validationCustom05"
-                            :placeholder="$t('global.Product Quantity')"
-                            :class="{
-                                'is-invalid': v$.productQuantity.$error,
-                                'is-valid': !v$.productQuantity.$invalid,
-                            }"
-                            />
-                            <div class="valid-feedback">
-                                {{ $t("global.LooksGood") }}
-                            </div>
-                            <div class="invalid-feedback">
-                                <span v-if="v$.productQuantity.required.$invalid">
-                                    {{ $t("global.NameIsRequired") }}
-                                    <br/>
-                                </span>
-                            </div>
-                        </div>
-                        <!--End Product Quantity-->
-
-                        <!--Start Pharmacy Price-->
-                        <!-- <div class="col-md-6 mb-3">
-                            <label for="validationCustom05">
-                                {{ $t("global.Pharmacy Price") }}
-                            </label>
-                            <input
-                            disabled
-                            type="number"
-                            class="form-control"
-                            v-model.trim="v$.pharmacyPrice.$model"
-                            id="validationCustom05"
-                            :placeholder="$t('global.Pharmacy Price')"
-                            :class="{
-                                'is-invalid': v$.pharmacyPrice.$error,
-                                'is-valid': !v$.pharmacyPrice.$invalid,
-                            }"
-                            />
-                            <div class="valid-feedback">
-                                {{ $t("global.LooksGood") }}
-                            </div>
-                            <div class="invalid-feedback">
-                                <span v-if="v$.pharmacyPrice.required.$invalid">
-                                    {{ $t("global.NameIsRequired") }}
-                                    <br/>
-                                </span>
-                            </div>
-                        </div> -->
-                        <!--End Pharmacy Price-->
-
-                        <!--Start Public Price-->
-                        <div class="col-md-6 mb-3">
-                            <label for="validationCustom05">
-                                {{ $t("global.Public Price") }}
-                            </label>
-                            <input
-                            type="number"
-                            class="form-control"
-                            v-model.trim="v$.publicPrice.$model"
-                            id="validationCustom05"
-                            :placeholder="$t('global.Public Price')"
-                            :class="{
-                                'is-invalid': v$.publicPrice.$error,
-                                'is-valid': !v$.publicPrice.$invalid,
-                            }"
-                            />
-                            <div class="valid-feedback">
-                                {{ $t("global.LooksGood") }}
-                            </div>
-                            <div class="invalid-feedback">
-                                <span v-if="v$.publicPrice.required.$invalid">
-                                    {{ $t("global.NameIsRequired") }}
-                                    <br/>
-                                </span>
-                            </div>
-                        </div>
-                        <!--End Public Price-->
-
-                        <!--Start Pharmacy Discount-->
-                        <div class="col-md-6 mb-3">
-                            <label for="validationCustom05">
-                                {{ $t("global.Pharmacy Discount") }}
-                            </label>
-                            <input
-                            type="number"
-                            class="form-control"
-                            v-model.trim="v$.pharmacyDiscount.$model"
-                            id="validationCustom05"
-                            :placeholder="$t('global.Pharmacy Discount')"
-                            :class="{
-                                'is-invalid': v$.pharmacyDiscount.$error,
-                                'is-valid': !v$.pharmacyDiscount.$invalid,
-                            }"
-                            />
-                            <div class="valid-feedback">
-                                {{ $t("global.LooksGood") }}
-                            </div>
-                            <div class="invalid-feedback">
-                                <span v-if="v$.pharmacyDiscount.required.$invalid">
-                                    {{ $t("global.NameIsRequired") }}
-                                    <br/>
-                                </span>
-                            </div>
-                        </div>
-                        <!--End Pharmacy Discount-->
-
-                        <!--Start Kayan Discount-->
-                        <div class="col-md-6 mb-3">
-                            <label for="validationCustom05">
-                                {{ $t("global.Kayan Discount") }}
-                            </label>
-                            <input
-                            type="number"
-                            class="form-control"
-                            v-model.trim="v$.kayanDiscount.$model"
-                            id="validationCustom05"
-                            :placeholder="$t('global.Kayan Discount')"
-                            :class="{
-                                'is-invalid': v$.kayanDiscount.$error,
-                                'is-valid': !v$.kayanDiscount.$invalid,
-                            }"
-                            />
-                            <div class="valid-feedback">
-                                {{ $t("global.LooksGood") }}
-                            </div>
-                            <div class="invalid-feedback">
-                                <span v-if="v$.kayanDiscount.required.$invalid">
-                                    {{ $t("global.NameIsRequired") }}
-                                    <br/>
-                                </span>
-                            </div>
-                        </div>
-                        <!--End Kayan Discount-->
-
+            <notifications :position="'top left'"  />
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title">{{ $t("global.Virtual Stock") }}</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <router-link :to="{ name: 'indexVirtualStock' }">
+                                    {{ $t("global.Virtual Stock") }}
+                                </router-link>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                {{ $t("virtualStock.CreateVirtualStock") }}
+                            </li>
+                        </ul>
                     </div>
-
-                    <button class="btn btn-primary" type="submit">{{ $t("global.Submit") }}</button>
-                  </form>
                 </div>
-              </div>
             </div>
-          </div>
+            <!-- /Page Header -->
+            <!-- Table -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <loader v-if="loading" />
+                        <div class="card-body">
+                            <div class="card-header pt-0 mb-4">
+                                 <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <router-link
+                                            :to="{ name: 'indexVirtualStock' }"
+                                            class="btn btn-custom btn-dark"
+                                        >
+                                            {{ $t("global.back") }}
+                                        </router-link>
+                                    </div>
+
+                                    <div class="col-2 row justify-content-end">
+                                        <!-- <router-link
+                                            :to="{name: 'importVirtualStock'}"
+                                            class="btn btn-custom btn-success">
+                                            {{ $t('global.Import') }}
+                                        </router-link> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="alert alert-danger text-center" v-if="message.length > 0">{{ message }}<br/></div>
+                                    <!-- <div class="alert alert-danger text-center" v-if="errors['type']">{{ errors['type'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['client_id']">{{ errors['client_id'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['stock_id']">{{ errors['stock_id'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['payment_method']">{{ errors['payment_method'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['purchase_type']">{{ errors['purchase_type'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['price']">{{ errors['price'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['visa_percentage']">{{ errors['visa_percentage'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['visa_value']">{{ errors['visa_value'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['added_tax_percentage']">{{ errors['added_tax_percentage'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['added_tax_value']">{{ errors['added_tax_value'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['discount_percentage']">{{ errors['discount_percentage'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['discount_value']">{{ errors['discount_value'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['transfer_price']">{{ errors['transfer_price'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['note']">{{ errors['note'][0] }}<br/> </div>
+                                    <div class="alert alert-danger text-center" v-if="errors['product.0.product_id']">{{ errors['product.0.product_id'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['product.0.quantity']">{{ errors['product.0.quantity'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['product.0.price_before_discount']">{{ errors['product.0.price_before_discount'][0] }}<br/></div>
+                                    <div class="alert alert-danger text-center" v-if="errors['product.0.price_after_discount']">{{ errors['product.0.price_after_discount'][0] }}<br/></div> -->
+
+                                    <form @submit.prevent="storeVirtualStock" class="needs-validation">
+                                        <div class="form-row row">
+
+                                            <!--Start Sale Products-->
+                                            <div class="col-md-12 mb-12">
+                                                <div class="row account">
+                                                    <div class="col-md-12 mb-12 head-account">
+                                                        <h3>{{ $t('global.Products') }}</h3>
+                                                    </div>
+                                                    <div v-for="(it,index) in data.product" :key="it.id" class="col-md-12 mb-12 body-account row">
+
+                                                        <!--Start Category-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{ $t('global.mainCategory') }}</label>
+                                                            <select @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :class="['form-select',{'is-invalid':v$.product[index].category_id.$error,'is-valid':!v$.product[index].category_id.$invalid}]">
+                                                                <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+                                                            </select>
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.product[index].category_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Category-->
+
+                                                        <!--Start Sub Categoy-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{ $t('global.subCategory') }}</label>
+                                                            <select @change="getProduct(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :class="['form-select',{'is-invalid':v$.product[index].sub_category_id.$error,'is-valid':!v$.product[index].sub_category_id.$invalid}]">
+                                                                <option v-for="category in subCategory[index].subCategory" :key="category.id" :value="category.id">{{category.name}}</option>
+                                                            </select>
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.product[index].sub_category_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /></span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Sub Category-->
+
+                                                        <!--Start Product @change="getMeasurementUnit(it.product_id,index)"-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{ $t('global.Products') }}</label>
+                                                            <select v-model="it.product_id" :class="['form-select',{'is-invalid':v$.product[index].product_id.$error,'is-valid':!v$.product[index].product_id.$invalid}]">
+                                                                <option v-for="category in products[index].products" :key="category.id" :value="category.id">{{category.name}}</option>
+                                                            </select>
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.product[index].product_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Product-->
+
+                                                        <!--Start Quantity-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.Quantity')}}</label>
+                                                            <input type="number" class="form-control"
+                                                                   v-model.number="v$.product[index].quantity.$model"
+                                                                   :placeholder="$t('global.Quantity')"
+                                                                   :class="{'is-invalid':v$.product[index].quantity.$error,'is-valid':!v$.product[index].quantity.$invalid}"
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.product[index].quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                <span v-if="v$.product[index].quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Quantity-->
+
+                                                        <!--Start Public Price-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.Public Price')}}</label>
+                                                            <input type="text" class="form-control"
+                                                                v-model.number="data.product[index].publicPrice"
+                                                                :placeholder="$t('global.Public Price')"
+                                                            >
+                                                        </div>
+                                                        <!--End Public Price-->
+
+                                                        <!--Start Client Discount-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.Client Discount')}}</label>
+                                                            <input type="number" step="0.1" class="form-control"
+                                                                v-model.number="v$.product[index].clientDiscount.$model"
+                                                                :placeholder="$t('global.Client Discount')"
+                                                                :class="{'is-invalid':v$.product[index].clientDiscount.$error,'is-valid':!v$.product[index].clientDiscount.$invalid}"
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.product[index].clientDiscount.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                <span v-if="v$.product[index].clientDiscount.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Client Discount-->
+
+                                                        <!--Start Kayan Discount -->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.Kayan Discount')}}</label>
+                                                            <input type="number" step="0.1" class="form-control"
+                                                                v-model.number="v$.product[index].kayanDiscount.$model"
+                                                                :placeholder="$t('global.Kayan Discount')"
+                                                                :class="{'is-invalid':v$.product[index].kayanDiscount.$error,'is-valid':!v$.product[index].kayanDiscount.$invalid}"
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.product[index].kayanDiscount.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                <span v-if="v$.product[index].kayanDiscount.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Kayan Discount-->
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <button @click.prevent="addDebit" v-if="(data.product.length-1) == index"
+                                                                class="btn btn-sm btn-success me-2 mt-5">
+                                                                <i class="fas fa-clipboard-list"></i> {{$t('global.AddANewLine')}}
+                                                            </button>
+                                                            <button v-if="index" @click.prevent="deleteDebit(index)"
+                                                               data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2 mt-5">
+                                                                <i class="far fa-trash-alt"></i> {{$t('global.Delete')}}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--End Sale Product-->
+
+                                        </div>
+
+                                        <button class="btn btn-primary mt-2" type="submit">{{$t('global.Submit')}}</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Table -->
         </div>
-      </div>
-      <!-- /Table -->
     </div>
-  </div>
 </template>
 
 <script>
-
-import { computed, onMounted, reactive, toRefs, inject, ref } from "vue";
-import useVuelidate from "@vuelidate/core";
-import {
-  required,
-  minLength,
-  between,
-  maxLength,
-  alpha,
-  integer,
-} from "@vuelidate/validators";
+import {computed, onMounted, reactive,toRefs,inject,ref,watch} from "vue";
+import useVuelidate from '@vuelidate/core';
+import {required, minLength, between, maxLength, alpha, integer, numeric} from '@vuelidate/validators';
 import adminApi from "../../../api/adminAxios";
 import { notify } from "@kyvg/vue3-notification";
-import { useI18n } from "vue-i18n";
+import {useI18n} from "vue-i18n";
+
 
 export default {
-  name: "createVirtualStock",
-  data() {
-    return {
-      errors: {},
-    };
-  },
-  props:["id"],
+    name: "create",
+    data(){
+        return {
+            errors:{},
+        }
+    },
+    props:["id"],
+    setup(props){
+        const {t} = useI18n({});
+        const { id } = toRefs(props);
+        let loading = ref(false);
+        let message = ref('');
+        let clients = ref([]);
+        let stores = ref([]);
+        let categories = ref([]);
+        let productValidation = ref([{
+            category_id:{
+                required
+            },
+            sub_category_id:{
+                required
+            },
+            product_id:{
+                required
+            },
+            quantity: {
+                required,
+                numeric
+            },
+            publicPrice: {
+                required,
+                numeric
+            },
+            clientDiscount: {
+                required,
+                numeric
+            },
+            kayanDiscount: {
+                required,
+                numeric
+            },
+        }]);
 
-  setup(props){
-    const emitter = inject("emitter");
-    const { t } = useI18n({});
-    const { id } = toRefs(props);
-    let loading = ref(false);
-    let products = ref([]);
-    let categories = ref([]);
-    let subCategories = ref([]);
-
-
-    //start design
-    let addVirtualStock = reactive({
-        data: {
-            productQuantity: "",
-            // pharmacyPrice: "",
-            publicPrice: "",
-            pharmacyDiscount: "",
-            kayanDiscount:"",
-            supplier_id: id.value,
-            category_id:"",
-            sub_category_id:"",
-            product_id:"",
-            nameExist: false,
-        },
-    });
-
-    getProducts();
-    getCategories();
-    // getSubCategories();
-    let getSubCategory= (id) => {
-        loading.value = true;
-
-        adminApi.get(`/v1/dashboard/category/${id}`)
+        let getData = () => {
+            loading.value = true;
+            adminApi.get(`/v1/dashboard/saleInvoice/create`)
             .then((res) => {
                 let l = res.data.data;
-                subCategories.value = l.subCategories;
+                clients.value = l.clients;
+                stores.value = l.stores;
+                categories.value = l.categories;
             })
             .catch((err) => {
-                console.log(err.response);
+                console.log(err.response.data);
             })
             .finally(() => {
                 loading.value = false;
+            });
+        }
+
+        onMounted(() => {
+            getData();
+        });
+
+        let getSubCategory = (id,index) => {
+            loading.value = true;
+            adminApi.get(`/v1/dashboard/category/${id}`)
+            .then((res) => {
+                let l = res.data.data;
+                addJob.subCategory[index].subCategory = l.subCategories;
             })
-    };
+            .catch((err) => {
+                console.log(err.response.data);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+        }
 
-    const rules = computed(() => {
-      return {
-        productQuantity: {
-          required,
-        },
-        // pharmacyPrice: {
-        //   required,
-        // },
-        publicPrice: {
-          required,
-        },
-        pharmacyDiscount: {
-          required,
-        },
-        kayanDiscount: {
-          required,
-        },
-        category_id:{
-            required,
-        },
-        sub_category_id:{
-            required,
-        },
-        product_id:{
-            required,
-        },
-        // supplier_id:{
-        //     nullable,
-        // },
-      };
-    });
+        let getProduct = (category_id,sub_category_id,index) => {
+            loading.value = true;
+            adminApi.get(`/v1/dashboard/purchaseInvoiceProduct?category_id=${category_id}&sub_category_id=${sub_category_id}`)
+            .then((res) => {
+                let l = res.data.data;
+                addJob.products[index].products = l.products;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+        }
 
-    const v$ = useVuelidate(rules, addVirtualStock.data);
-
-    //Commons
-    function getProducts()
-    {
-        adminApi
-        .get(`/v1/dashboard/getProducts`)
-        .then((res) => {
-            products.value =res.data.data.products ;
-        })
-        .catch((err) => {
-            console.log(err.response.data);
-        })
-        .finally(() => {
-            loading.value = false;
+        let addJob =  reactive({
+            data:{
+                product:[
+                    {
+                        supplier_id: parseInt(id.value),
+                        category_id: null,
+                        sub_category_id: null,
+                        product_id: null,
+                        quantity: null,
+                        publicPrice: null,
+                        clientDiscount: null,
+                        kayanDiscount: null,
+                    }
+                ],
+            },
+            subCategory:[
+                {subCategory:[]}
+            ],
+            products:[
+                {products:[],send:true}
+            ],
         });
-    }
 
-    function getCategories()
-    {
-        adminApi
-        .get(`/v1/dashboard/getCategories`)
-        .then((res) => {
-            categories.value =res.data.data.categories ;
-        })
-        .catch((err) => {
-            console.log(err.response.data);
-        })
-        .finally(() => {
-            loading.value = false;
+        const rules = computed(() => {
+            return {
+                product:[
+                    ...productValidation.value
+                ],
+            }
         });
-    }
 
-    // function getSubCategories()
-    // {
-    //     adminApi
-    //     .get(`/v1/dashboard/getSubCategories`)
-    //     .then((res) => {
-    //         subCategories.value =res.data.data.subCategories ;
-    //     })
-    //     .catch((err) => {
-    //         console.log(err.response.data);
-    //     })
-    //     .finally(() => {
-    //         loading.value = false;
-    //     });
-    // }
-    //end common
+        const v$ = useVuelidate(rules,addJob.data);
 
-    return { id, loading, ...toRefs(addVirtualStock), v$,getSubCategory, categories, subCategories, products };
+        return {t,id,getProduct,getSubCategory,categories,clients,stores,loading,message,...toRefs(addJob),v$,productValidation};
+    },
+    methods: {
+        storeVirtualStock(){
+            this.v$.$validate();
 
-  },
-  methods: {
-    storeVirtualStock() {
-      this.v$.$validate();
+            if(!this.v$.$error){
+                this.loading = true;
+                this.errors = {};
+                this.message = '';
 
-      if (!this.v$.$error) {
-        this.loading = true;
-        this.errors = {};
-        let formData = new FormData();
-        formData.append("productQuantity", this.data.productQuantity);
-        formData.append("pharmacyPrice", this.data.pharmacyPrice);
-        formData.append("publicPrice", this.data.publicPrice);
-        formData.append("pharmacyDiscount", this.data.pharmacyDiscount);
-        formData.append("kayanDiscount", this.data.kayanDiscount);
-        formData.append("supplier_id", this.data.supplier_id);
-        formData.append("category_id", this.data.category_id);
-        formData.append("sub_category_id", this.data.sub_category_id);
-        formData.append("product_id", this.data.product_id);
-
-        adminApi
-          .post(`/v1/dashboard/virtualStock`, formData)
-          .then((res) => {
-            notify({
-              title: `تم الإضافة بنجاح <i class="fas fa-check-circle"></i>`,
-              type: "success",
-              duration: 5000,
-              speed: 2000,
+                adminApi.post(`/v1/dashboard/virtualStock`,this.data)
+                .then((res) => {
+                    notify({
+                        title: `${this.t('global.AddedSuccessfully')} <i class="fas fa-check-circle"></i>`,
+                        type: "success",
+                        duration: 5000,
+                        speed: 2000
+                    });
+                    this.resetForm();
+                    this.$nextTick(() => { this.v$.$reset() });
+                })
+                .catch((err) => {
+                    console.log(err.response)
+                    this.errors = err.response.data.errors;
+                    this.message = err.response.data.message;
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
+            }
+        },
+        addDebit(){
+            this.data.product.push({
+                supplier_id: parseInt(this.id),
+                category_id:null,
+                sub_category_id:null,
+                product_id:null,
+                quantity:null,
+                publicPrice:null,
+                clientDiscount:null,
+                kayanDiscount:null,
+            });
+            this.productValidation.push({
+                category_id:{
+                    required
+                },
+                sub_category_id:{
+                    required
+                },
+                product_id:{
+                    required
+                },
+                quantity: {
+                    required,
+                    numeric
+                },
+                publicPrice: {
+                    required,
+                    numeric
+                },
+                clientDiscount: {
+                    required,
+                    numeric
+                },
+                kayanDiscount: {
+                    required,
+                    numeric
+                },
             });
 
-            this.resetForm();
-            this.$nextTick(() => {
-              this.v$.$reset();
-            });
-          })
-          .catch((err) => {
-            this.nameExist = err.response.data.errors;
-          })
-          .finally(() => {
-            this.loading = false;
-          });
-      }
-    },
-    resetForm() {
-      this.data.productQuantity = "";
-      this.data.pharmacyPrice = "";
-      this.data.publicPrice = "";
-      this.data.pharmacyDiscount = "";
-      this.data.kayanDiscount = "";
-      this.data.category_id = "";
-      this.data.sub_category_id = "";
-      this.data.product_id = "";
-    //   this.data.supplier_id = "";
-
-    },
-  },
-};
+            this.subCategory.push({subCategory:[]});
+            this.products.push({products:[],send:true});
+            this.$nextTick(() => { this.v$.$reset() });
+        },
+        deleteDebit(index){
+            this.data.product.splice(index,1);
+            this.productValidation.splice(index,1);
+            this.subCategory.splice(index,1);
+            this.products.splice(index,1);
+            this.$nextTick(() => { this.v$.$reset() });
+        },
+        resetForm(){
+            this.data.product = [{
+                supplier_id: id.value,
+                category_id:null,
+                sub_category_id:null,
+                product_id:null,
+                quantity:null,
+                publicPrice:null,
+                clientDiscount:null,
+                kayanDiscount:null,
+            }];
+        }
+    }
+}
 </script>
 
 <style scoped>
 .coustom-select {
-  height: 100px;
+    height: 100px;
 }
-.card {
-  position: relative;
+.card{
+    position: relative;
 }
-
-.waves-effect {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  width: 200px;
-  height: 50px;
-  text-align: center;
-  line-height: 34px;
-  margin: auto;
+.account{
+    background-color: #0E67D0;
+    color: #000000 !important;
+    border-radius: 5px;
 }
 
-input[type="file"] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  filter: alpha(opacity=0);
-  opacity: 0;
+.account2{
+    background-color: #00DD2F;
+    color: #000000 !important;
+    border-radius: 5px;
 }
-
-.num-of-files {
-  text-align: center;
-  margin: 20px 0 30px;
+.head-account{
+    display: flex;
+    justify-content: center;
 }
-
-.container-images {
-  width: 90%;
-  position: relative;
-  margin: auto;
-  display: flex;
-  justify-content: space-evenly;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding: 10px;
-  border-radius: 20px;
-  background-color: #f7f7f7;
+.head-account h3{
+    color: #000000 !important;
+    font-weight: bold;
+}
+.body-account{
+    border-top: 3px solid #000000;
+    margin: 0 !important;
+}
+.text-height{
+    height: 46px !important;
+}
+.error-amount{
+    display: flex;
+    justify-content: center;
+    color: red;
+    margin: 10px;
 }
 </style>
