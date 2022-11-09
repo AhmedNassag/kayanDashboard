@@ -2720,7 +2720,7 @@ html.menu-opened body {
 .sidebar-menu li.active > a {
     color: #0E67D0;
     position: relative;
-    background: #FFFFFF;
+    background: #00DD2F;
     box-shadow: 0px 4px 4px rgb(0 0 0 / 6%);
     border-radius: 5px;
 }

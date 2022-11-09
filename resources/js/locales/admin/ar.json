@@ -556,6 +556,7 @@
         "Create Virtual Stock": "تعيين كمخزن",
         "Virtual Stock": "مخزن مورد",
         "Virtual Stocks": "مخازن الموردين",
+        "Import": "رفع ملف إكسيل",
         "Product Quantity": "كمية المنتج",
         "Pharmacy Price": "السعر للصيدلى",
         "Public Price": "السعر للجمهور",
@@ -1009,8 +1010,8 @@
         "EditStock": "تعديل مخزن"
     },
     "virtualStock": {
-        "CreateVirtualStock": "إضافة مخزن مورد",
-        "EditVirtualStock": "تعديل مخزن مورد"
+        "CreateVirtualStock": "إضافة منتجات للمخزن",
+        "EditVirtualStock": "تعديل منتجات للمخزن"
     },
     "purchase": {
         "CreatePurchase": "اضافة مشتريات",

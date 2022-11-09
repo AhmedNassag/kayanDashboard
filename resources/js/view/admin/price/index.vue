@@ -34,11 +34,11 @@
                                     </div>
                                     <div class="col-5 row justify-content-end">
                                         <!-- v-if="permission.includes('product create')" -->
-                                        <router-link
+                                        <!-- <router-link
                                            :to="{name: 'createPrice'}"
                                             class="btn btn-custom btn-warning">
                                             {{ $t("global.Add") }}
-                                        </router-link>
+                                        </router-link> -->
                                     </div>
                                 </div>
                             </div>
@@ -50,8 +50,8 @@
                                         <th class="text-center">{{ $t("global.Product") }}</th>
                                         <th class="text-center">{{ $t("global.MainCategory") }}</th>
                                         <th class="text-center">{{ $t("global.SubCategory") }}</th>
-                                        <!-- <th class="text-center">{{ $t("global.Company") }}</th> -->
                                         <th class="text-center">{{ $t("global.Supplier") }}</th>
+                                        <th class="text-center">{{ $t("global.Quantity") }}</th>
                                         <th class="text-center">{{ $t("global.Pharmacy Price") }}</th>
                                         <th class="text-center">{{ $t("global.Public Price") }}</th>
                                         <th class="text-center">{{ $t("global.Client Discount") }}</th>
@@ -66,10 +66,8 @@
                                         <td class="text-center">{{ item.product.nameAr }}</td>
                                         <td class="text-center">{{ item.category.name }}</td>
                                         <td class="text-center">{{ item.sub_category.name }}</td>
-                                        <!-- <td class="text-center" v-if="item.company_id">{{ item.company.name }}</td>
-                                        <td class="text-center" v-else>---</td> -->
-                                        <td class="text-center" v-if="item.supplier_id">{{ item.supplier.name }}</td>
-                                        <td class="text-center" v-else>---</td>
+                                        <td class="text-center">{{ item.supplier.name }}</td>
+                                        <td class="text-center">{{ item.quantity }}</td>
                                         <td class="text-center">{{ item.pharmacyPrice }}</td>
                                         <td class="text-center">{{ item.publicPrice }}</td>
                                         <td class="text-center">{{ item.clientDiscount }}</td>

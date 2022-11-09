@@ -60,6 +60,17 @@
                                             <td class="text-center">{{ item.address }}</td>
                                             <td class="text-center">{{ item.phone }}</td>
                                             <td class="text-center">
+                                                <!-- <router-link
+                                                    :to="{
+                                                        name: 'editVirtualStock',
+                                                        params: { id: item.id },
+                                                    }"
+                                                    v-if="permission.includes('virtualStock edit')"
+                                                    class="btn btn-sm btn-info me-2"
+                                                >
+                                                    <i class="fas fa-book-open"></i>
+                                                    {{ $t("global.ShowDetails") }}
+                                                </router-link> -->
                                                 <router-link :to="{
                                                     name: 'showVirtualStock',
                                                     params: { id: item.id },
@@ -69,9 +80,9 @@
                                                 </router-link>
 
                                                 <router-link :to="{
-                                                    name: 'editVirtualStock',
+                                                    name: 'createVirtualStock',
                                                     params: { id: item.id },
-                                                }" v-if="permission.includes('virtualStock edit')" class="btn btn-sm btn-warning me-2">
+                                                }" v-if="permission.includes('virtualStock create')" class="btn btn-sm btn-warning me-2">
                                                     <i class="fas fa-truck"></i>
                                                     {{ $t("global.Create Product") }}
                                                 </router-link>

@@ -121,6 +121,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
             // virtual stock
             Route::resource('virtualStock', 'VirtualStockController')->except(['show']);
+            Route::get('virtualStock/Show/{id}', 'VirtualStockController@show');
 
             // purchase
             Route::resource('purchase', 'PurchaseController')->except(['show']);

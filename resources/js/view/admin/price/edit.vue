@@ -41,59 +41,60 @@
                                             <!--Start Company And Supplier Supplier-->
                                             <div class="col-md-6 mb-3">
 
-                                                <!--Start Company Select-->
-                                                <!-- <div id="company" class="col-md-12 mb-3" v-if="companyShow == true">
-                                                    <label >{{ $t("global.Company") }}</label>
-                                                    <Select2 v-model="v$.company_id.$model" :options="companies" :settings="{ width: '100%' }" />
-                                                    <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                    <div class="invalid-feedback">
-                                                    </div>
-                                                    <input id ="myButton1" class="btn btn-secondary btn-ms" type="button" v-on:click="showSupplier()" value="مورد"/>
-                                                </div> -->
-                                                <!--End Company Select-->
-
                                                 <!--Start Supplier Select-->
                                                 <div id="supplier" class="col-md-12 mb-3">
                                                     <label for="validationCustom0">
                                                         {{ $t("global.Supplier") }}
                                                     </label>
-                                                    <Select2 v-model.trim="v$.supplier_id.$model" :options="suppliers" :settings="{ width: '100%' }" />
-                                                    <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                    <div class="invalid-feedback">
-                                                        <!-- <span v-if="v$.supplier_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /> </span> -->
+                                                    <!-- <Select2 v-model.trim="v$.supplier_id.$model" :options="suppliers" :settings="{ width: '100%' }" disabled/> -->
+                                                    <select
+                                                    name="type"
+                                                    class="form-control"
+                                                    v-model="v$.supplier_id.$model"
+                                                    :class="{'is-invalid':v$.supplier_id.$error,'is-valid':!v$.supplier_id.$invalid}"
+                                                    disabled
+                                                >
+                                                    <option v-for="supplier in suppliers" :key="supplier.id" :value="supplier.id" >
+                                                        {{ supplier.name }}
+                                                    </option>
+                                                </select>
+                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                     </div>
-                                                    <!-- <input id ="myButton2" class="btn btn-secondary btn-ms" type="button" v-on:click="showCompany()" value="شركة"/> -->
-                                                </div>
                                                 <!--End Supplier Select-->
 
                                             </div>
-                                            <!--End Company And Supplier Supplier-->
+                                            <!--End Supplier Select-->
 
                                             <!--Start Product Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label for="validationCustom00">
                                                     {{ $t("global.Product") }}
                                                 </label>
-                                                <Select2 v-model.trim="v$.product_id.$model" :options="products" :settings="{ width: '100%' }" />
-                                                <!-- <select class="form-control" v-model.trim="v$.product_id.$model">
-                                                    <option v-for="product in products" :key="product.id" :value="product.id">
-                                                        {{ product.product_name.nameAr }}
+                                                <!-- <Select2 v-model.trim="v$.product_id.$model" :options="products" :settings="{ width: '100%' }" disabled/> -->
+                                                <select
+                                                    name="type"
+                                                    class="form-control"
+                                                    v-model="v$.product_id.$model"
+                                                    :class="{'is-invalid':v$.product_id.$error,'is-valid':!v$.product_id.$invalid}"
+                                                    disabled
+                                                >
+                                                    <option v-for="product in products" :key="product.id" :value="product.id" >
+                                                        {{ product.name }}
                                                     </option>
-                                                </select> -->
+                                                </select>
                                             </div>
                                             <!--End Product Name Select-->
 
                                             <!--Start Category Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label >{{ $t("global.MainCategory") }}</label>
-                                                <!-- <Select2 @change="getSubCategory(v$.category_id.$model)" v-model="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" /> -->
                                                 <select @change="getSubCategory(v$.category_id.$model)"
                                                     name="type"
                                                     class="form-control"
                                                     v-model="v$.category_id.$model"
                                                     :class="{'is-invalid':v$.category_id.$error,'is-valid':!v$.category_id.$invalid}"
+                                                    disabled
                                                 >
-                                                    <option value="">---</option>
                                                     <option v-for="category in categories" :key="category.id" :value="category.id" >
                                                         {{ category.name }}
                                                     </option>
@@ -108,18 +109,18 @@
                                             <!--Start SubCategory Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label >{{ $t("global.SubCategory") }}</label>
-                                                <Select2 v-model="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" />
-                                                <!-- <select
+                                                <!-- <Select2 v-model="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" disabled/> -->
+                                                <select
                                                     name="type"
                                                     class="form-control"
                                                     v-model="v$.sub_category_id.$model"
                                                     :class="{'is-invalid':v$.sub_category_id.$error,'is-valid':!v$.sub_category_id.$invalid}"
+                                                    disabled
                                                 >
-                                                    <option value="">---</option>
                                                     <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id" >
                                                         {{ subCategory.name }}
                                                     </option>
-                                                </select> -->
+                                                </select>
                                                 <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.sub_category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
