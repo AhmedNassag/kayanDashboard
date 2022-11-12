@@ -917,6 +917,17 @@
                   {{ $t("sidebar.AboutBanners") }}
                 </router-link>
               </li>
+              <li
+                :class="[$route.name == 'AboutSectionIndex' ? 'active' : '']"
+                v-if="permission.includes('about read')"
+              >
+                <router-link
+                  :to="{ name: 'AboutSectionIndex' }"
+                  :class="['sidebar-menu-rtl']"
+                >
+                  {{ $t("sidebar.AboutSections") }}
+                </router-link>
+              </li>
             </ul>
           </li>
           <li class="submenu" v-if="permission.includes('management')">
