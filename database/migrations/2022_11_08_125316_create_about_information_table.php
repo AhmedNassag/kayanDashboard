@@ -15,6 +15,7 @@ class CreateAboutInformationTable extends Migration
     {
         Schema::create('about_information', function (Blueprint $table) {
             $table->id();
+            $table->string("image")->nullable();
             $table->string("header")->nullable();
             $table->string("sub_header")->nullable();
             $table->string("text")->nullable();

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class AboutSectionController extends Controller
 {
     private $aboutSectionRepository;
+
     public function __construct(AboutSectionRepository $aboutSectionRepository)
     {
         $this->middleware('permission:about read')->only("getAboutSections");
