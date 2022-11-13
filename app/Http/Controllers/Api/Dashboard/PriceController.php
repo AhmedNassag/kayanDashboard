@@ -23,13 +23,11 @@ class PriceController extends Controller
      */
     public function index(Request $request)
     {
-        $prices = Price::with('product:id,nameAr', 'supplier:id,name', 'category:id,name','subCategory:id,name')
+        $prices = Price::with('product:id,nameAr', 'supplier:id,name')
             ->when($request->search, function ($q) use ($request) {
                 return $q->where('publicPrice', 'like', '%' . $request->search . '%')
                 ->orWhereRelation('product', 'nameAr', 'like', '%' . $request->search . '%')
-                ->orWhereRelation('supplier', 'name', 'like', '%' . $request->search . '%')
-                ->orWhereRelation('category', 'name', 'like', '%' . $request->search . '%')
-                ->orWhereRelation('subCategory', 'name', 'like', '%' . $request->search . '%');
+                ->orWhereRelation('supplier', 'name', 'like', '%' . $request->search . '%');
             })->latest()->paginate(10);
 
         return $this->sendResponse(['prices' => $prices], 'Data exited successfully');

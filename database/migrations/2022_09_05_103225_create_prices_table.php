@@ -16,14 +16,12 @@ class CreatePricesTable extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('quantity')->nullable();
-            $table->decimal('pharmacyPrice')->nullable();
-            $table->decimal('publicPrice')->nullable();
-            $table->decimal('clientDiscount')->nullable();
-            $table->decimal('kayanDiscount')->nullable();
-            $table->decimal('kayanProfit')->nullable();
+            $table->double('pharmacyPrice')->nullable();
+            $table->double('publicPrice')->nullable();
+            $table->double('clientDiscount')->nullable();
+            $table->double('kayanDiscount')->nullable();
+            $table->double('kayanProfit')->nullable();
             $table->foreignId('product_id')->nullable()->constrained('products')->cascadeOnDelete();
-            $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnDelete();
-            $table->foreignId('sub_category_id')->nullable()->constrained('sub_categories')->cascadeOnDelete();
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->cascadeOnDelete();
             $table->timestamps();
         });

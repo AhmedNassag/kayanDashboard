@@ -38,38 +38,33 @@
                                         >
                                             {{ $t("global.back") }}
                                         </router-link>
+
                                     </div>
 
-                                    <div class="col-2 row justify-content-end">
+                                    <div class="col-5 row justify-content-end">
+                                        <form id="mainFormVirualStocks">
+                                            <div class="form-group">
+                                                <table class="table">
+                                                    <label class="form-group">{{ $t('global.UploadExcelFile') }}
+                                                        <input class="form-control" type="file" name="select_virtualStocks_file">
+                                                    </label>
+                                                    <button class="btn btn-success" style="margin:5px" type="submit" name="upload" value="تأكيد" @click.prevent="saveExcelVirtualStock">{{ $t('global.Add') }}</button>
+                                                </table>
+                                            </div>
+                                        </form>
+
                                         <!-- <router-link
                                             :to="{name: 'importVirtualStock'}"
                                             class="btn btn-custom btn-success">
                                             {{ $t('global.Import') }}
                                         </router-link> -->
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm">
                                     <div class="alert alert-danger text-center" v-if="message.length > 0">{{ message }}<br/></div>
-                                    <!-- <div class="alert alert-danger text-center" v-if="errors['type']">{{ errors['type'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['client_id']">{{ errors['client_id'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['stock_id']">{{ errors['stock_id'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['payment_method']">{{ errors['payment_method'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['purchase_type']">{{ errors['purchase_type'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['price']">{{ errors['price'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['visa_percentage']">{{ errors['visa_percentage'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['visa_value']">{{ errors['visa_value'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['added_tax_percentage']">{{ errors['added_tax_percentage'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['added_tax_value']">{{ errors['added_tax_value'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['discount_percentage']">{{ errors['discount_percentage'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['discount_value']">{{ errors['discount_value'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['transfer_price']">{{ errors['transfer_price'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['note']">{{ errors['note'][0] }}<br/> </div>
-                                    <div class="alert alert-danger text-center" v-if="errors['product.0.product_id']">{{ errors['product.0.product_id'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['product.0.quantity']">{{ errors['product.0.quantity'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['product.0.price_before_discount']">{{ errors['product.0.price_before_discount'][0] }}<br/></div>
-                                    <div class="alert alert-danger text-center" v-if="errors['product.0.price_after_discount']">{{ errors['product.0.price_after_discount'][0] }}<br/></div> -->
 
                                     <form @submit.prevent="storeVirtualStock" class="needs-validation">
                                         <div class="form-row row">
@@ -274,6 +269,12 @@ export default {
             })
             .catch((err) => {
                 console.log(err.response.data);
+                this.errors = err.response.data.errors;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
             })
             .finally(() => {
                 loading.value = false;
@@ -293,6 +294,12 @@ export default {
             })
             .catch((err) => {
                 console.log(err.response.data);
+                this.errors = err.response.data.errors;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
             })
             .finally(() => {
                 loading.value = false;
@@ -308,6 +315,12 @@ export default {
             })
             .catch((err) => {
                 console.log(err.response.data);
+                this.errors = err.response.data.errors;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
             })
             .finally(() => {
                 loading.value = false;
@@ -350,6 +363,37 @@ export default {
         return {t,id,getProduct,getSubCategory,categories,clients,stores,loading,message,...toRefs(addJob),v$,productValidation};
     },
     methods: {
+        //
+        saveExcelVirtualStock(){
+            var $mainFormVirualStocks = $('#mainFormVirualStocks')
+            var data2 = new FormData(mainFormVirualStocks)
+            adminApi.post(`/v1/dashboard/virtualStockExcel`,data2)
+            .then((res) => {
+                notify({
+                    title: `${this.t('global.AddedSuccessfully')} <i class="fas fa-check-circle"></i>`,
+                    type: "success",
+                    duration: 5000,
+                    speed: 2000
+                });
+                this.resetForm();
+                this.$nextTick(() => { this.v$.$reset() });
+            })
+            .catch((err) => {
+                this.errors = err.response.data.errors;
+                this.message = err.response.data.message;
+                console.log(err.response.data);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
+            })
+            .finally(() => {
+                this.loading = false;
+            });
+        },
+        //
+
         storeVirtualStock(){
             this.v$.$validate();
 
@@ -370,9 +414,14 @@ export default {
                     this.$nextTick(() => { this.v$.$reset() });
                 })
                 .catch((err) => {
-                    console.log(err.response)
                     this.errors = err.response.data.errors;
                     this.message = err.response.data.message;
+                    console.log(err.response.data);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ...',
+                        text: `يوجد خطأ..!!`,
+                    });
                 })
                 .finally(() => {
                     this.loading = false;

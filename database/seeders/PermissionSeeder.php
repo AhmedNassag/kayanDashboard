@@ -335,6 +335,19 @@ class PermissionSeeder extends Seeder
             ['name' => 'about read', 'role' => 'about'],
             ['name' => 'about edit', 'role' => 'about'],
 
+            // start financial Accounts
+            ['name' => 'AccountsTree read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            ['name' => 'AccountsTree create','role' => 'financial Accounts','category' => 'financial Accounts'],
+            ['name' => 'AccountsTree edit','role' => 'financial Accounts','category' => 'financial Accounts'],
+            ['name' => 'DailyRestriction read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            ['name' => 'DailyRestriction create','role' => 'financial Accounts','category' => 'financial Accounts'],
+            ['name' => 'DailyRestriction edit','role' => 'financial Accounts','category' => 'financial Accounts'],
+            ['name' => 'TrialBalance read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            ['name' => 'FinancialCenter read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            ['name' => 'IncomeList read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            ['name' => 'AccountStatement read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // end financial Accounts
+
         ];
 
         $notifies = [

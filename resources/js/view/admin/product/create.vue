@@ -459,8 +459,6 @@ export default {
         return {
             errors:{},
             isHidden: true,
-            // companyShow: true,
-            // supplierShow: false
         }
     },
     setup(){
@@ -471,7 +469,6 @@ export default {
         let taxes = ref([]);
         let pharmacistForms = ref([]);
         let sellingMethods = ref([]);
-        //
         let alternatives = ref([]);
         let alternativeDetailValidation = ref([{
             alternative_id: {
@@ -491,12 +488,10 @@ export default {
                 // numeric
             }
         }]);
-        //
 
         //start design
         let addProduct =  reactive({
             data:{
-                //
                 alternativeDetail: [
                     {
                         alternative_id: null,
@@ -505,19 +500,12 @@ export default {
                         publicPrice: null,
                     }
                 ],
-                //
-                // productName_id: null,
-                // supplier_id: null,
-                // company_id: null,
                 nullValue: null,
                 nameExist: false,
                 nameAr: null,
                 nameEn: null,
                 pharmacistForm_id: null,
                 barcode : null,
-                // count_unit : null,
-                // maximum_product: null,
-                // Re_order_limit: null,
                 description : null,
                 effectiveMaterial: null,
                 image : {},
@@ -525,14 +513,11 @@ export default {
                 category_id: null,
                 sub_category_id: null,
                 main_measurement_unit_id: null,
-                // sub_measurement_unit_id: null,
                 tax_id: null,
                 selling_methods: [],
-                //
                 alternativeDetails: [
                     { alternativeDetails: [], send: true }
                 ]
-                //
             }
         });
 
@@ -542,17 +527,12 @@ export default {
             adminApi.get(`/v1/dashboard/product/create`)
                 .then((res) => {
                     let l = res.data.data;
-                    // productNames.value = l.productNames;
-                    // suppliers.value = l.suppliers;
-                    // companies.value = l.companies;
                     categories.value = l.categories;
                     measures.value = l.measures;
                     taxes.value = l.taxes;
                     pharmacistForms.value = l.pharmacistForms;
                     sellingMethods.value = l.sellingMethods;
-                    //
                     alternatives.value = l.alternatives;
-                    //
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
@@ -596,20 +576,6 @@ export default {
                 alternativeDetail: [
                     ...alternativeDetailValidation.value
                 ],
-                //
-                // productName_id: {
-                //     required,
-                // },
-                // supplier_id: {
-                //     //required,
-                // },
-                // company_id: {
-                //     //required,
-                // },
-                // count_unit: {
-                //     required,
-                //     integer
-                // },
                 nameAr: {
                     minLength: minLength(3),
                     maxLength: maxLength(70),
@@ -627,14 +593,6 @@ export default {
                     required,
                     integer
                 },
-                // maximum_product: {
-                //     required,
-                //     integer
-                // },
-                // Re_order_limit: {
-                //     required,
-                //     integer
-                // },
                 effectiveMaterial: {
                     required,
                 },
@@ -657,10 +615,6 @@ export default {
                     required,
                     integer
                 },
-                // sub_measurement_unit_id: {
-                //     required,
-                //     integer
-                // },
                 tax_id: {
                     // required,
                     // integer
@@ -757,9 +711,6 @@ export default {
             preview2,
             numberOfImage,
             numberOfImage1,
-            // companies,
-            // suppliers,
-            // productNames,
             categories,
             measures,
             taxes,
@@ -767,10 +718,8 @@ export default {
             sellingMethods,
             pharmacistForms,
             getSubCategory,
-            //
             alternatives,
             alternativeDetailValidation,
-            //
         };
     },
     methods: {
@@ -778,16 +727,6 @@ export default {
         {
             this.data.barcode = Math.round(Math.random()*10000000000);
         },
-        // showCompany()
-        // {
-        //     this.companyShow = true;
-        //     this.supplierShow = false;
-        // },
-        // showSupplier()
-        // {
-        //     this.supplierShow = true;
-        //     this.companyShow = false;
-        // },
 
         storeProduct(){
             this.v$.$validate();
@@ -797,21 +736,14 @@ export default {
                 this.loading = true;
                 this.errors = {};
                 let formData = new FormData();
-                // formData.append("productName_id", this.data.productName_id);
-                // formData.append("supplier_id", this.data.supplier_id);
-                // formData.append('company_id',this.data.company_id);
                 formData.append("pharmacistForm_id", this.data.pharmacistForm_id);
                 formData.append('nameAr',this.data.nameAr);
                 formData.append('nameEn',this.data.nameEn);
                 formData.append('barcode',this.data.barcode);
-                // formData.append('count_unit',this.data.count_unit);
-                // formData.append('maximum_product',this.data.maximum_product);
-                // formData.append('Re_order_limit',this.data.Re_order_limit);
                 formData.append('effectiveMaterial',this.data.effectiveMaterial);
                 formData.append('description',this.data.description);
                 formData.append('category_id',this.data.category_id);
                 formData.append('sub_category_id',this.data.sub_category_id);
-                // formData.append('sub_measurement_unit_id',this.data.sub_measurement_unit_id);
                 formData.append('main_measurement_unit_id',this.data.main_measurement_unit_id);
                 formData.append('tax_id',this.data.tax_id);
                 formData.append('image',this.data.image);
@@ -853,7 +785,7 @@ export default {
 
             }
         },
-        //
+
         addAlternativeDetail() {
             this.data.alternativeDetail.push({
                 alternative_id: null,
@@ -883,27 +815,23 @@ export default {
             this.alternativeDetails.push({ alternativeDetails: [], send: true });
             this.$nextTick(() => { this.v$.$reset() });
         },
+
         deleteAlternativeDetail(index) {
             this.data.alternativeDetail.splice(index, 1);
             this.alternativeDetailValidation.splice(index, 1);
             this.alternativeDetails.splice(index, 1);
             this.$nextTick(() => { this.v$.$reset() });
         },
-        //
+
         resetForm(){
             document.querySelector('#container-images').innerHTML = '';
             document.querySelector('#container-images1').innerHTML = '';
             this.numberOfImage = 0;
             this.numberOfImage1 = 0;
-            // this.data.productName_id = null;
-            // this.data.supplier_id = null;
-            // this.data.company_id = null;
             this.data.pharmacistForm_id = null;
             this.data.barcode = null;
             this.data.nameAr = null;
             this.data.nameEn = null;
-            // this.data.maximum_product= null;
-            // this.data.Re_order_limit = null;
             this.data.description = null;
             this.effectiveMaterial = null;
             this.data.image= {};
@@ -911,11 +839,8 @@ export default {
             this.data.category_id = null;
             this.data.sub_category_id = null;
             this.data.main_measurement_unit_id = null;
-            // this.data.sub_measurement_unit_id = null;
-            // this.data.count_unit = null;
             this.data.tax_id = null;
             this.data.selling_methods = [];
-            //
             this.data.alternativeDetail = [
                 {
                     alternative_id: null,
@@ -924,7 +849,6 @@ export default {
                     publicPrice: null,
                 }
             ];
-            //
         }
     }
 }

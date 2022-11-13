@@ -19,7 +19,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-use phpDocumentor\Reflection\Types\Null_;
 
 class ProductController extends Controller
 {
@@ -86,7 +85,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        try {
+        try
+        {
             $categories      = Category::where('status',1)->select('id', 'name')->get();
             $measures        = Unit::select('id', 'name')->get();
             $tax             = Tax::where('status',1)->select('id', 'name')->get();
@@ -104,7 +104,9 @@ class ProductController extends Controller
                 'alternatives'    => $alternatives,
                 'clients'         => $clients
             ], 'Data exited successfully');
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             return $this->sendError('An error occurred in the system');
         }
     }
@@ -128,13 +130,11 @@ class ProductController extends Controller
                 'description'              => 'nullable',
                 'effectiveMaterial'        => 'required',
                 'barcode'                  => 'required|integer|unique:products,barcode',
-                // 'maximum_product'          => 'required|integer',
-                // 'Re_order_limit'           => 'required|integer',
                 'image'                    => 'required|file|mimes:png,jpg,jpeg',
                 'pharmacistForm_id'        => 'required|exists:pharmacist_forms,id',
                 'category_id'              => 'required|integer|exists:categories,id',
                 'sub_category_id'          => 'required|integer|exists:sub_categories,id',
-                'tax_id'                   => 'required|integer|exists:taxes,id',
+                // 'tax_id'                   => 'required|integer|exists:taxes,id',
                 'main_measurement_unit_id' => 'required|integer|exists:units,id',
                 'files'                    => 'required|array',
                 'files.*'                  => 'required|file|mimes:png,jpg,jpeg',
@@ -142,7 +142,8 @@ class ProductController extends Controller
                 'selling_methods.*'        => 'required|exists:selling_methods,id',
             ]);
 
-            if ($v->fails()) {
+            if ($v->fails())
+            {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
@@ -151,34 +152,29 @@ class ProductController extends Controller
             // picture move
             $request->image->storeAs('product', $image, 'general');
 
-            $data = $request->only(['nameAr', 'nameEn', 'description', 'effectiveMaterial', 'barcode',/* 'maximum_product', 'Re_order_limit',*/ 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'sub_measurement_unit_id', 'pharmacistForm_id', 'count_unit']);
 
-            $data['image'] = $image;
-
-            $product = Product::create($data);
-
-            // if ($request->tax_id && $request->tax_id != '')
-            // {
-            //     $product = Product::create($data);
-            // }
-            // else
-            // {
-            //     $product = Product::create([
-            //         'nameAr' => $request->nameAr,
-            //         'nameEn' => $request->nameEn,
-            //         'description' => $request->description,
-            //         'effectiveMaterial' => $request->effectiveMaterial,
-            //         'barcode' => $request->barcode,
-            //         'image' => $image,
-            //         'category_id' => $request->category_id,
-            //         'sub_category_id' => $request->sub_category_id,
-            //         'tax_id' => '1',
-            //         'main_measurement_unit_id' => $request->main_measurement_unit_id,
-            //         'sub_measurement_unit_id' => $request->sub_measurement_unit_id,
-            //         'pharmacistForm_id' => $request->pharmacistForm_id,
-            //         'count_unit' => $request->count_unit,
-            //     ]);
-            // }
+            if (!$request->tax_id || $request->tax_id == Null || $request->tax_id == 'null' || $request->tax_id == 0)
+            {
+                $product = Product::create([
+                    'nameAr' => $request->nameAr,
+                    'nameEn' => $request->nameEn,
+                    'effectiveMaterial' => $request->effectiveMaterial,
+                    'description' => $request->description,
+                    'barcode' => $request->barcode,
+                    'image' => $image,
+                    'category_id' => $request->category_id,
+                    'sub_category_id' => $request->sub_category_id,
+                    'tax_id' => Null,
+                    'pharmacistForm_id' => $request->pharmacistForm_id,
+                    'main_measurement_unit_id' => $request->main_measurement_unit_id,
+                ]);
+            }
+            else
+            {
+                $data = $request->only(['nameAr', 'nameEn', 'description', 'effectiveMaterial', 'barcode',/* 'maximum_product', 'Re_order_limit',*/ 'image', 'category_id', 'sub_category_id', 'tax_id', 'main_measurement_unit_id', 'sub_measurement_unit_id', 'pharmacistForm_id', 'count_unit']);
+                $data['image'] = $image;
+                $product = Product::create($data);
+            }
 
             $imageProduct = explode(',', $request->selling_methods[0]);
             $product->selling_methods()->attach($imageProduct);
@@ -192,7 +188,8 @@ class ProductController extends Controller
 
                     // picture move
                     $file->storeAs('product', $image, 'general');
-                    $product->media()->create([
+                    $product->media()->create
+                    ([
                         'file_name' => $image,
                         'file_size' => $file_size,
                         'file_type' => $file_type,
@@ -207,12 +204,10 @@ class ProductController extends Controller
                 foreach ($request->alternativeDetail as $alternativeDetail) {
                     if($alternativeDetail->alternative_id && $alternativeDetail->alternative_id != Null)
                     {
-                        AlternativeDetail::create([
+                        AlternativeDetail::create
+                        ([
                             'product_id'     => $product['id'],
                             'alternative_id' => $alternativeDetail->alternative_id,
-                            // 'discount'       => $alternativeDetail->discount,
-                            // 'pharmacyPrice'  => $alternativeDetail->pharmacyPrice,
-                            // 'publicPrice'    => $alternativeDetail->publicPrice,
                         ]);
                     }
                 }
@@ -220,7 +215,9 @@ class ProductController extends Controller
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
-        // } catch (\Exception $e) {
+        // }
+        // catch (\Exception $e)
+        // {
         //     DB::rollBack();
         //     return $this->sendError('An error occurred in the system');
         // }

@@ -47,8 +47,6 @@
                                         <tr>
                                             <th class="text-center">#</th>
                                             <th class="text-center">{{ $t("global.Product") }}</th>
-                                            <th class="text-center">{{ $t("global.MainCategory") }}</th>
-                                            <th class="text-center">{{ $t("global.SubCategory") }}</th>
                                             <th class="text-center">{{ $t("global.Quantity") }}</th>
                                             <th class="text-center">{{ $t("global.Pharmacy Price") }}</th>
                                             <th class="text-center">{{ $t("global.Public Price") }}</th>
@@ -61,8 +59,6 @@
                                         <tr v-for="(item, index) in virtualStocks" :key="item.id">
                                             <td class="text-center">{{ index + 1 }}</td>
                                             <td class="text-center">{{ item.product.nameAr }}</td>
-                                            <td class="text-center">{{ item.category.name }}</td>
-                                            <td class="text-center">{{ item.sub_category.name }}</td>
                                             <td class="text-center">{{ item.quantity }}</td>
                                             <td class="text-center">{{ item.pharmacyPrice }}</td>
                                             <td class="text-center">{{ item.publicPrice }}</td>
