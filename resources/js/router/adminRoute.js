@@ -94,6 +94,8 @@ import IncomeAccounts from "./adminRoute/IncomeAccounts";
 import incomeList from "./adminRoute/incomeList";
 import Opponents from "./adminRoute/Opponents";
 import trialBalance from "./adminRoute/trialBalance";
+import aboutSection from './adminRoute/about-section';
+import aboutInformations from './adminRoute/about-informations';
 const routes = [
     {
         path: '/',
@@ -230,7 +232,9 @@ const routes = [
             ...IncomeAccounts,
             ...incomeList,
             ...Opponents,
-            ...trialBalance
+            ...trialBalance,
+            ...aboutSection,
+            ...aboutInformations,
         ]
     },
     {

@@ -11,12 +11,18 @@
     "FIRST_BANNER": "البانر الاول",
     "SECOND_BANNER": "البانر الثاني",
     "THIRD_BANNER": "البانر الثالث",
+    "TOP_SECTION": "المقطع الاعلى",
+    "FIRST_SECTION": "المقطع الاول",
+    "SECOND_SECTION": "المقطع الثاني",
+    "THIRD_SECTION": "المقطع الثالث",
     "dashboard": {
         "Dashboard": "الرئيسيه"
     },
     "sidebar": {
         "AboutBanners": "بانر نبذه عنا",
+        "AboutSections": "مقاطع نبذه عنا",
         "About": "نبذه عنا",
+        "AboutInformations": "معلومات نبذ عنا",
         "TopFooterSections": "مقاطع اعلى الفوتر",
         "NeedHelp": "تحتاح لمساعدة",
         "OurStore": "متجرنا",
@@ -94,8 +100,14 @@
         "Percentage": "نسبة"
     },
     "global": {
+        "ImageNotFoundForThisSection":"لايوجد صورة لهذا المقطع",
         "FirstSection": "المقطع الاول",
+        "first_feature": "اول ميزة",
+        "second_feature": "ثاني ميزة",
+        "third_feature": "ثالث ميزة",
+        "Video": "فيديو",
         "AboutBanners": "بانرز",
+        "AboutSections": "مقاطع نبذه عنا",
         "About": "نبذه عنا",
         "SecondSection": "المقطع الثاني",
         "ThirdSection": "المقطع الثالث",
@@ -573,7 +585,7 @@
         "Sub Measurement Unit": "وحدة القياس الفرعية",
         "Count Unit": "عدد الوحدات داخل الفئة الفرعية",
         "Create Product": "إضافة منتجات",
-        "ShowDetails":"عرض تفاصيل",
+        "ShowDetails": "عرض تفاصيل",
         "YouCanNotModifyThisSafe": "لا تستطيع التعديل على هذه الخزنة !",
         "PurchaseInvoice": "فواتير الشراء",
         "PurchaseInvoiceNumber": "رقم فاتورة الشراء",

@@ -225,6 +225,23 @@
                         </div>
                       </div>
                     </div>
+                    <div
+                      v-if="
+                       selectedAboutBanner?.name == 'THIRD_BANNER'
+                      "
+                      class="col-lg-12"
+                    >
+                      <div class="form-group">
+                        <label for="head">{{ $t("global.Video") }}</label>
+                        <br />
+                        <input
+
+                           @change="uploadVideo"
+                            type="file"
+                        />
+
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -262,6 +279,7 @@ export default {
     const about_banner_store = inject("about_banner_store");
     const data = reactive({
       uploadedImage: null,
+      uploadedVideo: null,
       previewImage: "",
     });
     const form = reactive({
@@ -340,6 +358,10 @@ export default {
         data.previewImage = e.target.result;
       };
     }
+    function uploadVideo(e) {
+      const video = e.target.files[0];
+      data.uploadedVideo = video;
+    }
 
     function deleteImage() {
       data.uploadedImage = null;
@@ -390,6 +412,7 @@ export default {
       formData.append("url", form.url);
       formData.append("button_label", form.button_label);
       if (data.uploadedImage) formData.append("image", data.uploadedImage);
+      if (data.uploadedVideo) formData.append("video", data.uploadedVideo);
       if (form.sub_header) formData.append("sub_header", form.sub_header);
       if (form.first_text) formData.append("first_text", form.first_text);
       if (form.second_text) formData.append("second_text", form.second_text);
@@ -401,6 +424,7 @@ export default {
     function setForm() {
       v$.value.$reset();
       data.uploadedImage = null;
+      data.uploadedVideo = null;
       form.id = props.selectedAboutBanner.id;
       data.previewImage =
         props.selectedAboutBanner && props.selectedAboutBanner.image
@@ -431,6 +455,7 @@ export default {
       ...toRefs(form),
       v$,
       uploadImage,
+      uploadVideo,
       deleteImage,
       save,
       locale,

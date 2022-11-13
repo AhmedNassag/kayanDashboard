@@ -27,5 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AboutBannerSeeder::class);
         $this->call(MainAccountTableSeeder::class);
         $this->call(SubAccountTableSeeder::class);
+        $this->call(AboutSectionSeeder::class);
+        $this->call(AboutInformationsSeeder::class);
     }
 }
