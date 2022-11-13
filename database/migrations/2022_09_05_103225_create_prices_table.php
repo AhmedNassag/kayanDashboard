@@ -15,6 +15,7 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('quantity')->nullable();
             $table->decimal('pharmacyPrice')->nullable();
             $table->decimal('publicPrice')->nullable();
             $table->decimal('clientDiscount')->nullable();
