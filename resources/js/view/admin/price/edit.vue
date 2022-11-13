@@ -86,7 +86,7 @@
                                             <!--End Product Name Select-->
 
                                             <!--Start Category Select-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label >{{ $t("global.MainCategory") }}</label>
                                                 <select @change="getSubCategory(v$.category_id.$model)"
                                                     name="type"
@@ -103,13 +103,12 @@
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End Category Select-->
 
                                             <!--Start SubCategory Select-->
-                                            <div class="col-md-6 mb-3">
+                                            <!-- <div class="col-md-6 mb-3">
                                                 <label >{{ $t("global.SubCategory") }}</label>
-                                                <!-- <Select2 v-model="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" disabled/> -->
                                                 <select
                                                     name="type"
                                                     class="form-control"
@@ -125,7 +124,7 @@
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.sub_category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!--End SubCategory Select-->
 
                                             <!--Start Pharmacy Price-->

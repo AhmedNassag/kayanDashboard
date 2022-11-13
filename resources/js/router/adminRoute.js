@@ -85,6 +85,15 @@ import needHelp from './adminRoute/need-help';
 import ourStore from './adminRoute/our-store';
 import topFooterSection from './adminRoute/top-footer-section';
 import aboutBanner from './adminRoute/about-banner';
+import AccountStatement from "./adminRoute/AccountStatement";
+import Assets from "./adminRoute/Assets";
+import dailyRestriction from "./adminRoute/dailyRestriction";
+import ExpenseAccounts from "./adminRoute/ExpenseAccounts";
+import financialCenter from "./adminRoute/financialCenter";
+import IncomeAccounts from "./adminRoute/IncomeAccounts";
+import incomeList from "./adminRoute/incomeList";
+import Opponents from "./adminRoute/Opponents";
+import trialBalance from "./adminRoute/trialBalance";
 const routes = [
     {
         path: '/',
@@ -212,6 +221,16 @@ const routes = [
             ...ourStore,
             ...topFooterSection,
             ...aboutBanner,
+
+            ...AccountStatement,
+            ...Assets,
+            ...dailyRestriction,
+            ...ExpenseAccounts,
+            ...financialCenter,
+            ...IncomeAccounts,
+            ...incomeList,
+            ...Opponents,
+            ...trialBalance
         ]
     },
     {

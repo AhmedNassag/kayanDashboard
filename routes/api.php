@@ -122,6 +122,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // virtual stock
             Route::resource('virtualStock', 'VirtualStockController')->except(['show']);
             Route::get('virtualStock/Show/{id}', 'VirtualStockController@show');
+            Route::post('virtualStockExcel', 'VirtualStockController@saveExcelVirtualStock');
 
             // purchase
             Route::resource('purchase', 'PurchaseController')->except(['show']);
@@ -190,14 +191,37 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // Route::get('saleReportByCategory', 'SaleReportController@saleReportByCategory');
             // Route::get('saleReportByReturn', 'SaleReportController@saleReportByReturn');
 
+            // Main Account
+            Route::resource('mainAccount', 'MainAccountController');
+
+            // Sub Account
+            Route::get('subAccount/{main}/{id}', 'SubAccountController@index');
+            Route::get('getMainSub/{id}', 'SubAccountController@getMainSub');
+            Route::post('storeSubAccount/{main}/{id}', 'SubAccountController@store');
+            Route::put('updateSubAccount/{id}', 'SubAccountController@update');
+            Route::get('editSubAccount/{id}', 'SubAccountController@edit');
+
+            // Daily Restriction
+            Route::resource('dailyRestriction', 'DailyRestrictionController');
+
+            // trial Balance
+            Route::resource('trialBalance', 'TrialBalanceController');
+
+            // Financial Center
+            Route::resource('financialCenter', 'FinancialCenterController');
+
+            // Account Statement
+            Route::resource('accountStatement', 'AccountStatementController');
+            Route::get('accountDaily', 'AccountStatementController@accountDaily');
+
+            // Income List
+            Route::resource('incomeList', 'IncomeListController');
 
 
             //
             Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
-
             // refused
             Route::resource('refused', 'RefusedController')->except(['show']);
-
             // relations routes
             Route::get('getCategories', 'ProductController@getCategories');
             Route::get('getSubCategories', 'ProductController@getSubCategories');

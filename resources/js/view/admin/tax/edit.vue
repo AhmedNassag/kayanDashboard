@@ -134,7 +134,13 @@ export default {
                     addTax.data.rate = l.tax.rate;
                 })
                 .catch((err) => {
-                    console.log(err.response);
+                    console.log(err.response.data);
+                    this.errors = err.response.data.errors;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ...',
+                        text: `يوجد خطأ..!!`,
+                    });
                 })
                 .finally(() => {
                     loading.value = false;

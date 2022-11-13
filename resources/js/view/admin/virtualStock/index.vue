@@ -160,6 +160,12 @@ export default {
             })
             .catch((err) => {
                 console.log(err.response.data);
+                this.errors = err.response.data.errors;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
             })
             .finally(() => {
                 loading.value = false;
