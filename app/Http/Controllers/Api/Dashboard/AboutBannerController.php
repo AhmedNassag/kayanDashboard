@@ -22,9 +22,15 @@ class AboutBannerController extends Controller
         if ($request->file("image")) {
             $request->merge(["image" => $request->file("image")->store('about', 'general')]);
         }
+        if ($request->file("video")) {
+            $request->merge(["video" => $request->file("video")->store('about', 'general')]);
+        }
         $updateResult = $this->aboutBannerRepository->update($request->input());
         if ($request->file("image") && $updateResult["old_image"]) {
             Storage::disk('general')->delete($updateResult["old_image"]);
+        }
+        if ($request->file("video") && $updateResult["old_video"]) {
+            Storage::disk('general')->delete($updateResult["old_video"]);
         }
         return $updateResult["about_banner"];
     }

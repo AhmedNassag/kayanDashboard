@@ -21,6 +21,7 @@ class CreateAboutBannersTable extends Migration
             $table->string("url")->nullable();
             $table->string("button_label")->nullable();
             $table->string("image")->nullable();
+            $table->string("video")->nullable();
             $table->string("sub_header")->nullable(); //For last banner
             $table->string("first_text")->nullable(); //For first and last banner
             $table->string("second_text")->nullable(); //For first and last banner

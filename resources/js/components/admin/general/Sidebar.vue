@@ -928,6 +928,17 @@
                   {{ $t("sidebar.AboutSections") }}
                 </router-link>
               </li>
+              <li
+                :class="[$route.name == 'AboutInformationsIndex' ? 'active' : '']"
+                v-if="permission.includes('about read')"
+              >
+                <router-link
+                  :to="{ name: 'AboutInformationsIndex' }"
+                  :class="['sidebar-menu-rtl']"
+                >
+                  {{ $t("sidebar.AboutInformations") }}
+                </router-link>
+              </li>
             </ul>
           </li>
           <li class="submenu" v-if="permission.includes('management')">

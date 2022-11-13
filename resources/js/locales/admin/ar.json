@@ -22,6 +22,7 @@
         "AboutBanners": "بانر نبذه عنا",
         "AboutSections": "مقاطع نبذه عنا",
         "About": "نبذه عنا",
+        "AboutInformations": "معلومات نبذ عنا",
         "TopFooterSections": "مقاطع اعلى الفوتر",
         "NeedHelp": "تحتاح لمساعدة",
         "OurStore": "متجرنا",
@@ -101,6 +102,10 @@
     "global": {
         "ImageNotFoundForThisSection":"لايوجد صورة لهذا المقطع",
         "FirstSection": "المقطع الاول",
+        "first_feature": "اول ميزة",
+        "second_feature": "ثاني ميزة",
+        "third_feature": "ثالث ميزة",
+        "Video": "فيديو",
         "AboutBanners": "بانرز",
         "AboutSections": "مقاطع نبذه عنا",
         "About": "نبذه عنا",

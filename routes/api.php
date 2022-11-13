@@ -473,11 +473,16 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::get("", "AboutBannerController@getAboutBanners");
                 Route::post("", "AboutBannerController@update");
             });
-            
+
             //About sections
             Route::prefix("about-sections")->group(function () {
                 Route::get("", "AboutSectionController@getAboutSections");
                 Route::post("", "AboutSectionController@update");
+            });
+            //About information
+            Route::prefix("about-informations")->group(function () {
+                Route::get("", "AboutInformationController@getAboutInformations");
+                Route::post("", "AboutInformationController@update");
             });
             //start logout
             Route::post('logout', 'AuthDashboardController@logout');

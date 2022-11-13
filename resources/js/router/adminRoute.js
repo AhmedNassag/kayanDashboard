@@ -86,6 +86,7 @@ import ourStore from './adminRoute/our-store';
 import topFooterSection from './adminRoute/top-footer-section';
 import aboutBanner from './adminRoute/about-banner';
 import aboutSection from './adminRoute/about-section';
+import aboutInformations from './adminRoute/about-informations';
 const routes = [
     {
         path: '/',
@@ -214,6 +215,7 @@ const routes = [
             ...topFooterSection,
             ...aboutBanner,
             ...aboutSection,
+            ...aboutInformations,
         ]
     },
     {
