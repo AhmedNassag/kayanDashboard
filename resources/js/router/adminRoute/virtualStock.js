@@ -2,6 +2,7 @@ import indexVirtualStock from "../../view/admin/virtualStock/index";
 import createVirtualStock from "../../view/admin/virtualStock/create";
 import editVirtualStock from "../../view/admin/virtualStock/edit";
 import showVirtualStock from "../../view/admin/virtualStock/show";
+import importVirtualStock from "../../view/admin/virtualStock/import";
 import store from "../../store/admin";
 
 export default [
@@ -64,6 +65,20 @@ export default [
                     let permission = store.state.authAdmin.permission;
 
                     if(permission.includes('stock read')){
+                        return next();
+                    }else{
+                        return next({name:'Page404'});
+                    }
+                }
+            },
+            {
+                path: '',
+                name: 'importVirtualStock',
+                component: importVirtualStock,
+                beforeEnter: (to, from,next) => {
+                    let permission = store.state.authAdmin.permission;
+
+                    if(permission.includes('virtualStock create')){
                         return next();
                     }else{
                         return next({name:'Page404'});

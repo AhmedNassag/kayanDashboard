@@ -25,7 +25,7 @@
                     <div class="card">
                         <loader v-if="loading" />
                         <div class="card-body">
-                            <!-- <div class="card-header pt-0">
+                            <div class="card-header pt-0">
                                 <div class="row justify-content-between">
                                     <div class="col-5">
                                         {{ $t("global.Search") }}:
@@ -33,34 +33,43 @@
                                     </div>
                                     <div class="col-5 row justify-content-end">
                                         <router-link
-                                        v-if="permission.includes('virtualStock create')"
-                                        :to="{ name: 'createVirtualStock' }"
-                                        class="btn btn-custom btn-warning"
+                                            :to="{ name: 'indexVirtualStock' }"
+                                            class="btn btn-custom btn-dark"
                                         >
-                                        {{ $t("global.Add") }}
+                                            {{ $t("global.back") }}
                                         </router-link>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="table-responsive">
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
                                             <th class="text-center">#</th>
-                                            <th class="text-center">{{ $t("global.Name") }}</th>
-                                            <th class="text-center">{{ $t("global.Address") }}</th>
-                                            <th class="text-center">{{ $t("global.Phone") }}</th>
-                                            <th class="text-center">{{ $t("global.Action") }}</th>
+                                            <th class="text-center">{{ $t("global.Product") }}</th>
+                                            <th class="text-center">{{ $t("global.MainCategory") }}</th>
+                                            <th class="text-center">{{ $t("global.SubCategory") }}</th>
+                                            <th class="text-center">{{ $t("global.Quantity") }}</th>
+                                            <th class="text-center">{{ $t("global.Pharmacy Price") }}</th>
+                                            <th class="text-center">{{ $t("global.Public Price") }}</th>
+                                            <th class="text-center">{{ $t("global.Client Discount") }}</th>
+                                            <th class="text-center">{{ $t("global.Kayan Discount") }}</th>
+                                            <!-- <th class="text-center">{{ $t("global.Action") }}</th> -->
                                         </tr>
                                     </thead>
                                     <tbody v-if="virtualStocks.length">
                                         <tr v-for="(item, index) in virtualStocks" :key="item.id">
                                             <td class="text-center">{{ index + 1 }}</td>
-                                            <td class="text-center">{{ item.name }}</td>
-                                            <td class="text-center">{{ item.address }}</td>
-                                            <td class="text-center">{{ item.phone }}</td>
+                                            <td class="text-center">{{ item.product.nameAr }}</td>
+                                            <td class="text-center">{{ item.category.name }}</td>
+                                            <td class="text-center">{{ item.sub_category.name }}</td>
+                                            <td class="text-center">{{ item.quantity }}</td>
+                                            <td class="text-center">{{ item.pharmacyPrice }}</td>
+                                            <td class="text-center">{{ item.publicPrice }}</td>
+                                            <td class="text-center">{{ item.clientDiscount }}</td>
+                                            <td class="text-center">{{ item.kayanDiscount }}</td>
                                             <td class="text-center">
-                                                <router-link :to="{
+                                                <!-- <router-link :to="{
                                                     name: 'editVirtualStock',
                                                     params: { id: item.id },
                                                 }" v-if="permission.includes('virtualStock edit')" class="btn btn-sm btn-info me-2">
@@ -74,7 +83,7 @@
                                                 }" v-if="permission.includes('virtualStock edit')" class="btn btn-sm btn-warning me-2">
                                                     <i class="fas fa-truck"></i>
                                                     {{ $t("global.Create Product") }}
-                                                </router-link>
+                                                </router-link> -->
                                                 <!-- <a
                                                 href="#"
                                                 @click="deleteVirtualStock(item.id, index)"
@@ -117,16 +126,18 @@
 </template>
 
 <script>
-import { onMounted, inject, watch, ref, computed } from "vue";
+import { onMounted, inject, watch, ref, toRefs, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 import adminApi from "../../../api/adminAxios";
 
 export default {
     name: "index",
-    setup() {
+    props:["id"],
+    setup(props) {
         const emitter = inject("emitter");
         const { t } = useI18n({});
+        const { id } = toRefs(props);
 
         // get packages
         let virtualStocks = ref([]);
@@ -141,7 +152,7 @@ export default {
             loading.value = true;
 
             adminApi
-            .get(`/v1/dashboard/virtualStock?page=${page}&search=${search.value}`)
+            .get(`/v1/dashboard/virtualStock/Show/${id.value}?page=${page}&search=${search.value}`)
             .then((res) => {
                 let l = res.data.data;
                 virtualStocksPaginate.value = l.virtualStocks;

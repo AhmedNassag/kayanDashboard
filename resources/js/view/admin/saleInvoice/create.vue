@@ -538,7 +538,6 @@
                                                                 <th>{{ $t('global.Total Discount') }}</th>
                                                                 <th>{{ $t('global.TotalProductPrice') }}</th>
                                                                 <th>{{ $t('global.TotalQuantityPrice') }}</th>
-
                                                             </tr>
                                                         </thead>
                                                         <tbody>

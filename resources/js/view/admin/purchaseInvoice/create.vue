@@ -224,18 +224,18 @@
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.mainUnitMeasurement')}}</label>
                                                             <input type="text" disabled class="form-control"
-                                                                   v-model="data.product[index].mainUnitMeasurement"
-                                                                   @input="DebitAmount"
+                                                                v-model="data.product[index].mainUnitMeasurement"
+                                                                @input="DebitAmount"
                                                             >
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.countUnits')}}</label>
                                                             <input type="number" class="form-control"
-                                                                   v-model.number="v$.product[index].count_unit.$model"
-                                                                   @input="DebitAmount"
-                                                                   :placeholder="$t('global.countUnits')"
-                                                                   :class="{'is-invalid':v$.product[index].count_unit.$error,'is-valid':!v$.product[index].count_unit.$invalid}"
+                                                                v-model.number="v$.product[index].count_unit.$model"
+                                                                @input="DebitAmount"
+                                                                :placeholder="$t('global.countUnits')"
+                                                                :class="{'is-invalid':v$.product[index].count_unit.$error,'is-valid':!v$.product[index].count_unit.$invalid}"
                                                             >
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
@@ -247,18 +247,18 @@
                                                         <!-- <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.subUnitMeasurement')}}</label>
                                                             <input type="text" disabled class="form-control"
-                                                                   v-model="data.product[index].subUnitMeasurement"
-                                                                   @input="DebitAmount"
+                                                                v-model="data.product[index].subUnitMeasurement"
+                                                                @input="DebitAmount"
                                                             >
                                                         </div> -->
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.priceBeforeDiscount')}}</label>
                                                             <input type="number" step="0.1" class="form-control"
-                                                                   @change="validateLTE(index)"
-                                                                   v-model.number="v$.product[index].price_before_discount.$model"
-                                                                   :placeholder="$t('global.priceBeforeDiscount')"
-                                                                   :class="{'is-invalid':v$.product[index].price_before_discount.$error,'is-valid':!v$.product[index].price_before_discount.$invalid}"
+                                                                @change="validateLTE(index)"
+                                                                v-model.number="v$.product[index].price_before_discount.$model"
+                                                                :placeholder="$t('global.priceBeforeDiscount')"
+                                                                :class="{'is-invalid':v$.product[index].price_before_discount.$error,'is-valid':!v$.product[index].price_before_discount.$invalid}"
                                                             >
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
@@ -270,10 +270,10 @@
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.priceAfterDiscount')}}</label>
                                                             <input type="number" step="0.1" class="form-control"
-                                                                   @input="validateLTE(index)"
-                                                                   v-model.number="v$.product[index].price_after_discount.$model"
-                                                                   :placeholder="$t('global.priceAfterDiscount')"
-                                                                   :class="{'is-invalid':v$.product[index].price_after_discount.$error || !products[index].send,'is-valid':!v$.product[index].price_after_discount.$invalid && products[index].send}"
+                                                                @input="validateLTE(index)"
+                                                                v-model.number="v$.product[index].price_after_discount.$model"
+                                                                :placeholder="$t('global.priceAfterDiscount')"
+                                                                :class="{'is-invalid':v$.product[index].price_after_discount.$error || !products[index].send,'is-valid':!v$.product[index].price_after_discount.$invalid && products[index].send}"
                                                             >
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                             <div class="invalid-feedback">
