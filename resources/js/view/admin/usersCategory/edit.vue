@@ -189,7 +189,13 @@ export default {
                     image.value = l.usersCategory.media.file_name;
                 })
                 .catch((err) => {
-                    console.log(err.response);
+                    console.log(err.response.data);
+                    this.errors = err.response.data.errors;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ...',
+                        text: `يوجد خطأ..!!`,
+                    });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -286,7 +292,13 @@ export default {
 
                     })
                     .catch((err) => {
+                        console.log(err.response.data);
                         this.errors = err.response.data.errors;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ...',
+                            text: `يوجد خطأ..!!`,
+                        });
                     })
                     .finally(() => {
                         this.loading = false;

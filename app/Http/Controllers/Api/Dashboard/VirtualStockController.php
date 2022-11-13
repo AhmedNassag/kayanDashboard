@@ -12,6 +12,8 @@ use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Imports\VirtualStocksImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VirtualStockController extends Controller
 {
@@ -49,7 +51,6 @@ class VirtualStockController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
         try {
             DB::beginTransaction();
 
@@ -57,8 +58,6 @@ class VirtualStockController extends Controller
             $v = Validator::make($request->all(),
             [
                 'product.*.supplier_id'     => 'required',
-                'product.*.category_id'     => 'required',
-                'product.*.sub_category_id' => 'required',
                 'product.*.product_id'      => 'required',
                 'product.*.quantity'        => 'required',
                 'product.*.publicPrice'     => 'required',
@@ -76,8 +75,6 @@ class VirtualStockController extends Controller
                 Price::create
                 ([
                     'supplier_id'     => $product['supplier_id'],
-                    'category_id'     => $product['category_id'],
-                    'sub_category_id' => $product['sub_category_id'],
                     'product_id'      => $product['product_id'],
                     'quantity'        => $product['quantity'],
                     'publicPrice'     => $product['publicPrice'],
@@ -106,13 +103,11 @@ class VirtualStockController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $virtualStocks = Price::where('supplier_id',$id)->with('product:id,nameAr', 'supplier:id,name', 'category:id,name', 'subCategory:id,name')
+        $virtualStocks = Price::where('supplier_id',$id)->with('product:id,nameAr', 'supplier:id,name')
         ->when($request->search, function ($q) use ($request) {
             return $q->where('publicPrice', 'like', '%' . $request->search . '%')
             ->orWhereRelation('product', 'nameAr', 'like', '%' . $request->search . '%')
-            ->orWhereRelation('supplier', 'name', 'like', '%' . $request->search . '%')
-            ->orWhereRelation('category', 'name', 'like', '%' . $request->search . '%')
-            ->orWhereRelation('subCategory', 'name', 'like', '%' . $request->search . '%');
+            ->orWhereRelation('supplier', 'name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);
 
         return $this->sendResponse(['virtualStocks' => $virtualStocks], 'Data exited successfully');
@@ -216,5 +211,13 @@ class VirtualStockController extends Controller
         {
             return $this->sendError('An error occurred in the system');
         }
+    }
+
+
+
+    public function saveExcelVirtualStock(Request $request)
+    {
+        $path = $request->file('select_virtualStocks_file')->getRealPath();
+        Excel::import(new VirtualStocksImport, $path);
     }
 }
