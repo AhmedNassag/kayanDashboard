@@ -10,9 +10,11 @@ class AboutBannerRepository
     {
         $aboutBanner = AboutBanner::find($aboutBannerInput["id"]);
         $oldImage = $aboutBanner->image;
+        $oldVideo = $aboutBanner->video;
         $aboutBannerInput["image"] = $aboutBannerInput["image"] ?? $oldImage;
+        $aboutBannerInput["video"] = $aboutBannerInput["video"] ?? $oldVideo;
         $this->edit($aboutBanner, $aboutBannerInput);
-        return ["old_image" => $oldImage, "about_banner" => $aboutBanner];
+        return ["old_image" => $oldImage,"old_video" => $oldVideo, "about_banner" => $aboutBanner];
     }
     public function getAboutBanners()
     {
@@ -26,6 +28,7 @@ class AboutBannerRepository
         $aboutBanner->button_label = $aboutBannerInput["button_label"];
         $aboutBanner->url = $aboutBannerInput["url"];
         $aboutBanner->image = $aboutBannerInput["image"];
+        $aboutBanner->video = $aboutBannerInput["video"];
         $aboutBanner->sub_header = $aboutBannerInput["sub_header"] ?? null; //For last banner only
         $aboutBanner->first_text = $aboutBannerInput["first_text"] ?? null; //For first & last banner
         $aboutBanner->second_text = $aboutBannerInput["second_text"] ?? null; //For first & last banner

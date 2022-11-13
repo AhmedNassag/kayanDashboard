@@ -1573,6 +1573,36 @@
                                     {{ $t("sidebar.AboutBanners") }}
                                 </router-link>
                             </li>
+                            <li
+                                :class="[
+                                    $route.name == 'AboutSectionIndex'
+                                        ? 'active'
+                                        : '',
+                                ]"
+                                v-if="permission.includes('about read')"
+                            >
+                                <router-link
+                                    :to="{ name: 'AboutSectionIndex' }"
+                                    :class="['sidebar-menu-rtl']"
+                                >
+                                    {{ $t("sidebar.AboutSections") }}
+                                </router-link>
+                            </li>
+                            <li
+                                :class="[
+                                    $route.name == 'AboutInformationsIndex'
+                                        ? 'active'
+                                        : '',
+                                ]"
+                                v-if="permission.includes('about read')"
+                            >
+                                <router-link
+                                    :to="{ name: 'AboutInformationsIndex' }"
+                                    :class="['sidebar-menu-rtl']"
+                                >
+                                    {{ $t("sidebar.AboutInformations") }}
+                                </router-link>
+                            </li>
                         </ul>
                     </li>
                     <li
