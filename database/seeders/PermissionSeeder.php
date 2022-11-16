@@ -215,6 +215,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'TargetAchieved create', 'role' => 'CRM', 'category' => 'CRM'],
             ['name' => 'TargetAchieved edit', 'role' => 'CRM', 'category' => 'CRM'],
             ['name' => 'TargetAchieved delete', 'role' => 'CRM', 'category' => 'CRM'],
+
+
             //refused
             ['name' => 'refused read', 'role' => 'management'],
             ['name' => 'refused create', 'role' => 'management'],
@@ -347,6 +349,81 @@ class PermissionSeeder extends Seeder
             ['name' => 'IncomeList read','role' => 'financial Accounts','category' => 'financial Accounts'],
             ['name' => 'AccountStatement read','role' => 'financial Accounts','category' => 'financial Accounts'],
             // end financial Accounts
+
+            // start order
+            ['name' => 'order read', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'order create', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'order edit', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'order delete', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'avg price product', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'orderOnline read', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'orderOnline edit', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'orderOnline delete', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'orderReturned read', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'orderDelivered read', 'role' => 'order', 'category' => 'order'],
+            // end order
+            // start sitting
+            ['name' => 'setting read', 'role' => '', 'category' => 'Setting'],
+            ['name' => 'setting edit', 'role' => '', 'category' => 'Setting'],
+            // end setting
+            // start platform Accounts
+            ['name' => 'treasury read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasury create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasury edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasury delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'expense read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'expense create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'expense edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'expense delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income&expense read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income&expense create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income&expense edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income&expense delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasuriesIncome read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasuriesExpense read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'transferringTreasury read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'transferringTreasury create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'transferringTreasury edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'transferringTreasury delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'purchaseExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'supplierAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'financialCondition read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'supplierExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'supplierExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'supplierExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'supplierExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'clientExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'SupplierIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'clientIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'orderIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'purchaseReturnIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'CapitalOwnerAccount read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'CapitalOwnerAccount create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'CapitalOwnerAccount edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'CapitalOwnerAccount delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            // end platform Accounts
 
         ];
 

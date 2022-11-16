@@ -73,6 +73,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // supplier
             Route::resource('supplier', 'SupplierController')->except(['show']);
             Route::get('activationSupplier/{id}', 'SupplierController@activationSupplier');
+            Route::get('activeSupplier', 'SupplierController@activeSupplier');
 
             // category
             Route::resource('category', 'CategoryController')->except(['show']);
@@ -194,30 +195,110 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
             // Main Account
             Route::resource('mainAccount', 'MainAccountController');
-
             // Sub Account
             Route::get('subAccount/{main}/{id}', 'SubAccountController@index');
             Route::get('getMainSub/{id}', 'SubAccountController@getMainSub');
             Route::post('storeSubAccount/{main}/{id}', 'SubAccountController@store');
             Route::put('updateSubAccount/{id}', 'SubAccountController@update');
             Route::get('editSubAccount/{id}', 'SubAccountController@edit');
-
             // Daily Restriction
             Route::resource('dailyRestriction', 'DailyRestrictionController');
-
             // trial Balance
             Route::resource('trialBalance', 'TrialBalanceController');
-
             // Financial Center
             Route::resource('financialCenter', 'FinancialCenterController');
-
             // Account Statement
             Route::resource('accountStatement', 'AccountStatementController');
             Route::get('accountDaily', 'AccountStatementController@accountDaily');
-
             // Income List
             Route::resource('incomeList', 'IncomeListController');
 
+
+            /*----- Start routes -----*/
+            // order Delivered
+            Route::resource('orderDelivered','OrderDeliveredController');
+            // Order Direct
+            Route::resource('orderDirect','OrderDirectController');
+            Route::get('orderDirectStore','OrderDirectController@storeChoose');
+                // Route::get('orderDirectReport','OrderDirectController@orderDirectReport');
+            Route::get('orderDirectStatus/{id}','OrderDirectController@activeOrder');
+            // order Income
+            Route::resource('orderIncome','OrderIncomeController');
+            // order Online
+            Route::resource('orderOnline','OrderOnlineController');
+            // order Status
+            Route::resource('orderStatus','OrderStatusController');
+            // Representative
+                // Route::resource('representative','RepresentativeController')->except(['show']);
+                // Route::get('activeShift','RepresentativeController@activeShift');
+            Route::get('activeRepresentative','RepresentativeController@activeRepresentative');
+                // Route::post('representative/changePassword/{id}','RepresentativeController@changePassword');
+            // order Returned
+            Route::resource('orderReturned','OrderReturnedController');
+            /*----- End routes -----*/
+
+            /* */
+            // treasury management
+            Route::resource('treasury', 'TreasuryController');
+            Route::get('mainTreasury', 'TreasuryController@mainTreasury');
+            Route::get('activeTreasury', 'TreasuryController@activeTreasury');
+            Route::get('activationTreasury/{id}', 'TreasuryController@activationTreasury');
+            Route::get('treasuriesIncome/{id}', 'TreasuryController@treasuriesIncome');
+            Route::get('treasuriesExpense/{id}', 'TreasuryController@treasuriesExpense');
+            Route::get('treasuriesClientIncome/{id}', 'TreasuryController@clientIncomes');
+            Route::get('treasuriesSupplierIncome/{id}', 'TreasuryController@supplierIncomes');
+            Route::get('treasuriesOwnerIncomes/{id}', 'TreasuryController@ownerIncomes');
+            Route::get('treasuriesClientExpense/{id}', 'TreasuryController@clientExpense');
+            Route::get('treasuriesSupplierExpense/{id}', 'TreasuryController@supplierExpense');
+            Route::get('treasuriesOwnerExpense/{id}', 'TreasuryController@ownerExpense');
+            // income
+            Route::resource('income', 'IncomeController');
+            Route::get('mainIncome', 'IncomeController@mainIncome');
+            Route::get('activeIncome', 'IncomeController@activeIncome');
+            Route::get('activationIncome/{id}', 'IncomeController@activationIncome');
+            // expense
+            Route::resource('expense', 'ExpenseController');
+            Route::get('mainExpense', 'ExpenseController@mainExpense');
+            Route::get('activeExpense', 'ExpenseController@activeExpense');
+            Route::get('activationExpense/{id}', 'ExpenseController@activationExpense');
+            // income and expense
+            Route::resource('incomeAndExpense', 'IncomeAndExpenseController');
+            Route::get('calcIncome', 'IncomeAndExpenseController@calcIncome');
+            Route::get('editExpense/{id}/edit', 'IncomeAndExpenseController@editExpense');
+            Route::get('calcExpense', 'IncomeAndExpenseController@calcExpense');
+            // Transferring Treasury management
+            Route::resource('transferringTreasury', 'TransferringTreasuryController');
+            // supplier Expense
+            Route::resource('supplierExpense', 'SupplierExpensesController')->except('show');
+            // Supplier Incomes
+            Route::resource('SupplierIncomes', 'SupplierIncomesController')->except('show');
+            // client Expense
+            Route::resource('clientExpense', 'ClientExpensesController')->except('show');
+            // client Incomes
+            Route::resource('clientIncomes', 'ClientIncomesController')->except('show');
+            // Supplier Account Statement
+            Route::resource('SupplierAccountStatement', 'SupplierAccountStatementController');
+            // client Account Statement
+            Route::resource('clientAccountStatement', 'ClientAccountStatementController');
+            // Capital Owner Account
+            Route::resource('capitalOwnerAccount', 'CapitalOwnerAccountController');
+            // Main Account
+            Route::resource('mainAccount', 'MainAccountController');
+            // Sub Account
+            Route::get('subAccount/{main}/{id}', 'SubAccountController@index');
+            Route::get('getMainSub/{id}', 'SubAccountController@getMainSub');
+            Route::post('storeSubAccount/{main}/{id}', 'SubAccountController@store');
+            Route::put('updateSubAccount/{id}', 'SubAccountController@update');
+            Route::get('editSubAccount/{id}', 'SubAccountController@edit');
+            //Purchase Return Account
+            Route::post('purchaseReturnAccount', 'PurchaseReturnAccountController@purchaseReturnAccount');
+            Route::get('purchaseReturnAccount', 'PurchaseReturnAccountController@index');
+            //Purchase Expenses
+            Route::get('purchaseExpenses', 'PurchaseExpensesController@index');
+            // setting
+            Route::get('setting', 'SettingController@setting');
+            Route::resource('setting', 'SettingController');
+            /* */
 
             //
             Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');

@@ -8,7 +8,12 @@ class Supplier extends Model
 {
     protected $guarded = [];
 
-    protected $appends = ['text'];
+    protected $appends = ['text', 'name_supplier'];
+
+    public function getNameSupplierAttribute()
+    {
+        return $this->name;
+    }
 
     public function getTextAttribute()
     {
