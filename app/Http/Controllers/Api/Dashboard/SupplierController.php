@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use App\Models\Supplier;
 use App\Repositories\ShippingRepository;
 use App\Repositories\SupplierRepository;
 
@@ -49,5 +50,11 @@ class SupplierController extends Controller
     public function toggleActivation($id)
     {
         $this->supplierRepository->toggleActivation($id);
+    }
+
+    public function activeSupplier()
+    {
+        $suppliers = Supplier::where('status', 1)->get();
+        return $this->sendResponse(['suppliers' => $suppliers], 'Data exited successfully');
     }
 }

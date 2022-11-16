@@ -68,7 +68,8 @@
                                         <td class="text-center">{{ item.category.name }}</td>
                                         <td class="text-center">{{ item.sub_category.name }}</td>
                                         <td class="text-center">{{ item.pharmacist_form.name }}</td>
-                                        <td class="text-center">{{ item.tax.name }}</td>
+                                        <td class="text-center" v-if="item.tax">{{ item.tax.name }}</td>
+                                        <td class="text-center" v-else>---</td>
                                         <td class="text-center">
                                             <img
                                                 :src="'/upload/product/' + item.image"
