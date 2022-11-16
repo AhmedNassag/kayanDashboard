@@ -21,6 +21,7 @@ class CreatePricesTable extends Migration
             $table->double('clientDiscount')->nullable();
             $table->double('kayanDiscount')->nullable();
             $table->double('kayanProfit')->nullable();
+            $table->tinyInteger('best_offer')->default(0);
             $table->foreignId('product_id')->nullable()->constrained('products')->cascadeOnDelete();
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->cascadeOnDelete();
             $table->timestamps();

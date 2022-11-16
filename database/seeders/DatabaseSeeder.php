@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Deal;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,5 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SubAccountTableSeeder::class);
         $this->call(AboutSectionSeeder::class);
         $this->call(AboutInformationsSeeder::class);
+
+        Deal::creat(['limit' => 10]);
     }
 }
