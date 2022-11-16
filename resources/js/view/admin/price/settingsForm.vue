@@ -90,10 +90,11 @@
 <script>
 import useVuelidate from "@vuelidate/core";
 import { minValue, required } from "@vuelidate/validators";
-import dealClient from "../../../http-clients/deal-client";
 import { onMounted, reactive, toRefs } from "@vue/runtime-core";
 import { useI18n } from "vue-i18n";
 import { notify } from "@kyvg/vue3-notification";
+import adminApi from "../../../api/adminAxios";
+
 export default {
   setup(props, context) {
     const { t, locale } = useI18n({});
@@ -120,6 +121,12 @@ export default {
     onMounted(() => {
       getDealSettings();
     });
+    function insertDealSettingsRequest(formValue) {
+        return adminApi.post(`/v1/dashboard/best_offers/settings`, formValue);
+    }
+    function getDealSettingsRequest() {
+        return adminApi.get(`/v1/dashboard/best_offers/settings`);
+    }
     //Methods
     function save() {
       if (v$.value.$invalid) {
@@ -131,7 +138,7 @@ export default {
     //Commons
     function getDealSettings() {
       context.emit("loading", true);
-      dealClient.getDealSettings().then((response) => {
+      getDealSettingsRequest().then((response) => {
         context.emit("loading", false);
         data.dealSettings = response.data;
         form.end_at = data.dealSettings ? data.dealSettings.end_at : "";
@@ -140,8 +147,7 @@ export default {
     }
     function insertDealSettings() {
       context.emit("loading", true);
-      dealClient
-        .insertDealSettings(getForm())
+      insertDealSettingsRequest(getForm())
         .then((response) => {
           context.emit("loading", false);
           alertMessage("global.UpdatedSuccessfully");

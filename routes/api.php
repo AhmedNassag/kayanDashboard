@@ -104,6 +104,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // price
             Route::resource('price', 'PriceController')->except(['show']);
 
+
             // kayan price
             Route::resource('kayanPrice', 'KayanPriceController')->except(['show']);
             Route::get('kayanPrice/getProduct', 'KayanPriceController@getProduct');
@@ -396,18 +397,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::delete("{id}", "SliderController@delete");
             });
 
-            //Deals
-            Route::prefix("deals")->group(function () {
-                Route::prefix("settings")->group(function () {
-                    Route::post("", "DealController@insertDealSettings");
-                    Route::get("", "DealController@getDealSettings");
-                });
-                Route::get("products", "DealController@getProducts");
-                Route::post("", "DealController@store");
-                Route::put("", "DealController@update");
-                Route::delete("{id}", "DealController@delete");
-                Route::get("", "DealController@index");
+            //best offers
+            Route::prefix("best_offers/settings")->group(function () {
+                Route::post("", "PriceController@insertDealSettings");
+                Route::get("", "PriceController@getDealSettings");
             });
+            Route::post("price/markProductAsBestOffer", "PriceController@markProductAsBestOffer");
 
             //Best sellers
             Route::prefix("best-sellers")->group(function () {
