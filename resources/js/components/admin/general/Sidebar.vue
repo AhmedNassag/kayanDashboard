@@ -955,6 +955,8 @@
                     </li> -->
                     <!-- End Report Links -->
 
+
+
                     <!--start financial Accounts-->
                     <li
                         class="submenu"
@@ -1244,6 +1246,158 @@
                         </ul>
                     </li>
                     <!--end financial Accounts-->
+
+                    <!--start order-->
+                    <li class="submenu" v-if="permission.includes('order')">
+                        <a href="#" ><i class="fas fa-shopping-cart"></i> <span> {{$t('global.orders')}}</span>  <span :class="['menu-arrow menu-arrow-ar']"></span></a>
+                        <ul>
+                            <li :class="[$route.name == 'indexOrderDirect'? 'active': '']" v-if="permission.includes('order read')">
+                                <router-link :to="{name:'indexOrderDirect'}" :class="['sidebar-menu-rtl']">
+                                    {{$t('sidebar.OrderDirect')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexOrderOnline'? 'active': '']" v-if="permission.includes('orderOnline read')">
+                                <router-link :to="{name:'indexOrderOnline'}" :class="['sidebar-menu-rtl']">
+                                    {{$t('global.orderOnline')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexOrderReturned'? 'active': '']" v-if="permission.includes('orderReturned read')">
+                                <router-link :to="{name:'indexOrderReturned'}" :class="['sidebar-menu-rtl']">
+                                    {{$t('global.orderReturned')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexOrderDelivered'? 'active': '']" v-if="permission.includes('orderDelivered read')">
+                                <router-link :to="{name:'indexOrderDelivered'}" :class="['sidebar-menu-rtl']">
+                                    {{$t('global.orderDelivered')}}
+                                </router-link>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <!--end order-->
+
+
+                    <!--start platform accounts-->
+                    <li class="submenu" v-if="permission.includes('platform Accounts')">
+                        <a href="#" ><i class="fas fa-coins"></i> <span> {{$t('sidebar.Accounts')}}</span>  <span :class="['menu-arrow',this.$i18n.locale == 'ar'?'menu-arrow-ar':'']"></span></a>
+                        <ul>
+                            <li :class="[$route.name == 'indexTreasury'? 'active': '']" v-if="permission.includes('treasury read')">
+                                <router-link :to="{name:'indexTreasury',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('sidebar.TreasuryManagement')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexIncome'? 'active': '']" v-if="permission.includes('income read')">
+                                <router-link :to="{name:'indexIncome',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.IncomeItems')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexExpense'? 'active': '']" v-if="permission.includes('expense read')">
+                                <router-link :to="{name:'indexExpense',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.ExpenseItems')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexIncomeAndExpense'? 'active': '']" v-if="permission.includes('income&expense read')">
+                                <router-link :to="{name:'indexIncomeAndExpense',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('sidebar.IncomeAndExpense')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexSupplierExpenses'? 'active': '']" v-if="permission.includes('supplierExpenses read')">
+                                <router-link :to="{name:'indexSupplierExpenses',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                        {{$t('global.supplierExpenses')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexClientExpenses'? 'active': '']" v-if="permission.includes('clientExpenses read')">
+                                <router-link :to="{name:'indexClientExpenses',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                        {{$t('global.clientExpenses')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexPurchaseExpenses'? 'active': '']" v-if="permission.includes('purchaseExpenses read')">
+                                <router-link :to="{name:'indexPurchaseExpenses',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                        {{$t('global.purchaseExpenses')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexSupplierIncomes'? 'active': '']" v-if="permission.includes('SupplierIncomes read')">
+                                <router-link :to="{name:'indexSupplierIncomes',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.SupplierIncomes')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexClientIncomes'? 'active': '']" v-if="permission.includes('clientIncomes read')">
+                                <router-link :to="{name:'indexClientIncomes',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.clientIncomes')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexOrderIncomes'? 'active': '']" v-if="permission.includes('orderIncomes read')">
+                                <router-link :to="{name:'indexOrderIncomes',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.orderIncome')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexPurchaseReturnIncomes'? 'active': '']" v-if="permission.includes('purchaseReturnIncomes read')">
+                                <router-link :to="{name:'indexPurchaseReturnIncomes',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.IncomesPurchaseReturn')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexCapitalOwnerAccount'? 'active': '']" v-if="permission.includes('CapitalOwnerAccount read')">
+                                <router-link :to="{name:'indexCapitalOwnerAccount',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{  $t('global.capitalOwnerAccount') }}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'treasuriesIncome'? 'active': '']" v-if="permission.includes('treasuriesIncome read')">
+                                <router-link :to="{name:'treasuriesIncome',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('sidebar.treasuriesIncome')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'treasuriesExpense'? 'active': '']" v-if="permission.includes('treasuriesExpense read')">
+                                <router-link :to="{name:'treasuriesExpense',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.treasuriesExpense')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexTransferringTreasury'? 'active': '']" v-if="permission.includes('transferringTreasury read')">
+                                <router-link :to="{name:'indexTransferringTreasury',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.TransferringTreasury')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexSupplierAccountStatement'? 'active': '']" v-if="permission.includes('supplierAccountStatement read')">
+                                <router-link :to="{name:'indexSupplierAccountStatement',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.supplierAccountStatement')}}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'indexClientAccountStatement'? 'active': '']" v-if="permission.includes('clientAccountStatement read')">
+                                <router-link :to="{name:'indexClientAccountStatement',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.clientAccountStatement')}}
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--end platform accounts-->
+
+                    <!--start setting-->
+                    <li :class="[$route.name == 'indexSetting'? 'active': '']" v-if="permission.includes('setting read')">
+                        <router-link :to="{name:'indexSetting'}" >
+                            <i class="fas fa-cogs"></i>
+                            <span>{{ $t('sidebar.setting') }}</span>
+                            </router-link>
+                    </li>
+                    <!--end setting-->
+
 
                     <!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
                     <!------------------------------------------------------------------------------------------------------------------------------------------------------------------>

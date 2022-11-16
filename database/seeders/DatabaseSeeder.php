@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\OrderStatus;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,5 +30,15 @@ class DatabaseSeeder extends Seeder
         $this->call(SubAccountTableSeeder::class);
         $this->call(AboutSectionSeeder::class);
         $this->call(AboutInformationsSeeder::class);
+
+
+        
+        $this->call(OrderStatusTableSeerer::class);
+        $this->call(StoreTableSeeder::class);
+
+        $this->call(TreasuryTableSeeder::class);
+        $this->call(ExpenseTableSeeder::class);
+        $this->call(IncomeTableSeeder::class);
+        $this->call(SettingSeeder::class);
     }
 }

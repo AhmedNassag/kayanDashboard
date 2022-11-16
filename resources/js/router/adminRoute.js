@@ -96,6 +96,31 @@ import Opponents from "./adminRoute/Opponents";
 import trialBalance from "./adminRoute/trialBalance";
 import aboutSection from './adminRoute/about-section';
 import aboutInformations from './adminRoute/about-informations';
+//
+import orderDirect from './adminRoute/orderDirect';
+import orderOnline from "./adminRoute/orderOnline";
+import orderReturned from "./adminRoute/orderReturned";
+import orderDelivered from "./adminRoute/orderDelivered";
+import orderIncomes from "./adminRoute/orderIncomes";
+
+import capitalOwnerAccount from "./adminRoute/capitalOwnerAccount";
+import expense from "./adminRoute/expense";
+import income from "./adminRoute/income";
+import incomeAndExpense from "./adminRoute/incomeAndExpense";
+import transferringTreasury from "./adminRoute/transferringTreasury";
+import treasuriesExpense from "./adminRoute/treasuriesExpense";
+import treasuriesIncome from "./adminRoute/treasuriesIncome";
+import treasury from "./adminRoute/treasury";
+import purchaseExpenses from "./adminRoute/purchaseExpenses";
+import supplierExpenses from "./adminRoute/supplierExpenses";
+import clientExpenses from "./adminRoute/clientExpenses";
+import supplierIncomes from "./adminRoute/supplierIncomes";
+import clientIncome from "./adminRoute/clientIncome";
+import SupplierAccountStatement from "./adminRoute/SupplierAccountStatement";
+import ClientAccountStatement from "./adminRoute/ClientAccountStatement";
+import purchaseReturnIncomes from "./adminRoute/purchaseReturnIncomes";
+import setting from "./adminRoute/setting";
+//
 const routes = [
     {
         path: '/',
@@ -235,6 +260,29 @@ const routes = [
             ...trialBalance,
             ...aboutSection,
             ...aboutInformations,
+            //
+            ...orderDirect,
+            ...orderOnline,
+            ...orderReturned,
+            ...orderDelivered,
+            ...orderIncomes,
+            ...capitalOwnerAccount,
+            ...expense,
+            ...income,
+            ...incomeAndExpense,
+            ...transferringTreasury,
+            ...treasuriesExpense,
+            ...treasuriesIncome,
+            ...treasury,
+            ...purchaseExpenses,
+            ...supplierExpenses,
+            ...clientExpenses,
+            ...supplierIncomes,
+            ...clientIncome,
+            ...SupplierAccountStatement,
+            ...ClientAccountStatement,
+            ...purchaseReturnIncomes,
+            ...setting,
         ]
     },
     {

@@ -70,13 +70,13 @@
         "comServ": "خدمات الشركه",
         "desServ": "خدمات الديزاينر",
         "acdDegree": "الدرجة العلمية",
-        "TreasuryManagement": "ادارة الخزن",
-        "IncomeManagement": "الايرادات",
+        "TreasuryManagement": "إدارة الخزن",
+        "IncomeManagement": "الإيرادات",
         "Accounts": "حسابات المنصة",
         "FinancialAccounts": "حسابات المالية",
         "Expense": "المصروفات",
-        "IncomeAndExpense": "الايرادات والمصروفات",
-        "Management": "ادارة",
+        "IncomeAndExpense": "الإيرادات والمصروفات",
+        "Management": "إدارة",
         "Department": "الاقسام",
         "Jobs": "الوظائف",
         "unity": "نوع الوحده",
@@ -190,7 +190,7 @@
         "Units": "الوحدات",
         "Search": "بحث",
         "back": "رجوع",
-        "Add": "اضف",
+        "Add": "أضف",
         "Incomes": "الإيرادات",
         "Expenses": "المصروفات",
         "Active": "مفعل",
@@ -241,7 +241,7 @@
         "TotalExpense": "اجمالى المصروفات",
         "Next": "التالى",
         "Previous": "السابق",
-        "IncomeAndExpense": "الايرادات والمصروفات",
+        "IncomeAndExpense": "الإيرادات والمصروفات",
         "Title": "العنوان",
         "Notes": "ملاحظات",
         "Amount": "المبلغ",
@@ -849,10 +849,39 @@
         "Websiteimagesizes": "صور الموقع",
         "Mobilephoneimagesizes": "صور التطبيق",
         "linkCompany": "لينك الشركة",
-        "Ad start date": "تاريخ بداية الإعلان"
+        "Ad start date": "تاريخ بداية الإعلان",
+        "IncomeItems":"بنود الإيرادات",
+        "ExpenseItems":"بنود الواردات",
+        "supplierExpenses":"مصروفات إلى حساب الموردين",
+        "clientExpenses":"مصروفات إلى حساب العملاء",
+        "purchaseExpenses":"مصروفات الشراء",
+        "SupplierIncomes":"إيرادات من حساب الموردين",
+        "clientIncomes":"إيرادات من حساب العملاء",
+        "orderIncome":"إيرادات الطلبات",
+        "IncomesPurchaseReturn":"إيرادات مرتجع الشراء",
+        "capitalOwnerAccount":"حساب جارى شريك",
+        "supplierAccountStatement":"كشف حساب مورد",
+        "clientAccountStatement":"كشف حساب عميل",
+        "Recording of financial transactions":"تسجيل المعاملات المالية",
+        "ExpenseItem":"بند المصروفات",
+        "Date_Pay":"تاريخ الدفع",
+        "Treasury":"الخزنة",
+        "Balance":"الرصيد",
+        "client":"العميل",
+        "InvoiceResourceType":"نوع مورد الفاتورة",
+        "IncomeItem":"بند الإيرادات",
+        "PurchaseReturnInvoiceNumber":"رقم فاتورة مرتجع الشراء",
+        "ChooseClient":"اختر العميل",
+        "orderInvoiceNumber":"رقم فاتورة البيع",
+        "type":"النوع",
+        "clientsIncome":"إيرادات العملاء",
+        "SuppliersIncome":"إيرادات الموردين",
+        "clientsExpense":"مصروفات العملاء",
+        "SuppliersExpense":"مصروفات الموردين",
+        "orders":"الطلبات"
     },
     "treasury": {
-        "TreasuryManagement": "ادارة الخزن",
+        "TreasuryManagement": "إدارة الخزن",
         "CreateTreasury": "اضافة خزنة",
         "EditTreasury": "تعديل خزنة",
         "NameEn": "الاسم باللغة الانجليزية",
@@ -871,7 +900,7 @@
         "Submit": "تأكيد",
         "Search": "بحث",
         "back": "رجوع",
-        "Add": "اضف",
+        "Add": "أضف",
         "AreYouSureActive": "هل انت متاكد من التفعيل ؟",
         "AreYouSureInactive": "هل انت متاكد من ايقاف التفعيل ؟",
         "YouWontBeAbleToRevertThis": "لن تتمكن من التراجع عن هذا!",
@@ -886,47 +915,47 @@
         "AddedSuccessfully": "تمت الاضافة بنجاح"
     },
     "income": {
-        "CreateIncome": "اضافة بنود الايرادات",
-        "ChooseIncome": "اختر بند الايراد",
-        "EditIncome": "تعديل بند الايرادات",
-        "AddIncomingAccounts": "اضافة حسابات الايرادات",
-        "EditIncomingAccounts": "تعديل حسابات الايرادات"
+        "CreateIncome": "إضافة بنود الإيرادات",
+        "ChooseIncome": "اختر بند الإيراد",
+        "EditIncome": "تعديل بند الإيرادات",
+        "AddIncomingAccounts": "إضافة حسابات الإيرادات",
+        "EditIncomingAccounts": "تعديل حسابات الإيرادات"
     },
     "expense": {
-        "CreateExpense": "اضافة بنود المصروفات",
+        "CreateExpense": "إضافة بنود المصروفات",
         "ChooseExpense": "اختر بند المصروفات",
         "EditExpense": "تعديل بند المصروفات",
-        "AddExpensingAccounts": "اضافة حسابات المصروفات",
+        "AddExpensingAccounts": "إضافة حسابات المصروفات",
         "EditExpensingAccounts": "تعديل حسابات المصروفات"
     },
     "department": {
-        "CreateDepartment": "اضافة قسم",
+        "CreateDepartment": "إضافة قسم",
         "ChooseDepartment": "اختر القسم",
         "EditDepartment": "تعديل القسم"
     },
     "job": {
-        "CreateJob": "اضافة وظيفة",
+        "CreateJob": "إضافة وظيفة",
         "ChooseJob": "اختر الوظيفة",
         "EditJob": "تعديل الوظيفة"
     },
     "employee": {
-        "CreateEmployee": "اضافة موظف",
+        "CreateEmployee": "إضافة موظف",
         "EditEmployee": "تعديل بيانات الموظف"
     },
     "role": {
-        "CreateRole": "اضافة ادوار الموظفين",
-        "EditRole": "تعديل ادوار الموظفين"
+        "CreateRole": "إضافة أدوار الموظفين",
+        "EditRole": "تعديل أدوار الموظفين"
     },
     "CommissionPlanManagement": {
         "CreateCommissionPlanManagement": "اضافة إدارة خطة العمولة",
         "EditCommissionPlanManagement": "تعديل إدارة خطة العمولة"
     },
     "Target": {
-        "CreateTarget": "اضافة هدف",
+        "CreateTarget": "إضافة هدف",
         "EditTarget": "تعديل الهدف"
     },
     "advisorPackage": {
-        "CreateAdvisorPackage": "اضافة باقات مستشار شطبنا",
+        "CreateAdvisorPackage": "إضافة باقات مستشار شطبنا",
         "EditAdvisorPackage": "تعديل باقات مستشار شطبنا",
         "ShowAdvisorPackage": "عرض باقات مستشار شطبنا"
     },
