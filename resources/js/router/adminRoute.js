@@ -60,7 +60,6 @@ import login from "../view/admin/login";
 import forgetPassword from "../view/admin/forgetPassword";
 import resetPassword from "../view/admin/resetPassword";
 import unit from './adminRoute/unit';
-import deal from './adminRoute/deal';
 import bestSeller from './adminRoute/best-seller';
 import alsoBought from './adminRoute/also-bought';
 import mostPopular from './adminRoute/most-popular';
@@ -227,7 +226,6 @@ const routes = [
             ...refused,
             ...unit,
             ...termAndCondition,
-            ...deal,
             ...bestSeller,
             ...alsoBought,
             ...mostPopular,
