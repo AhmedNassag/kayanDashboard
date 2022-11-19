@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Alternative;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Traits\Message;
 use Illuminate\Support\Facades\DB;
@@ -20,10 +21,12 @@ class AlternativeController extends Controller
      */
     public function index(Request $request)
     {
-        $alternatives = Alternative::with('media:file_name,mediable_id')
+        $alternatives = Alternative::with('media:file_name,mediable_id','category', 'subCategory')
             ->when($request->search, function ($q) use ($request) {
                 return $q->where('nameAr', 'like', '%' . $request->search . '%')
-                ->orWhere('nameEn', 'like', '%' . $request->search . '%');
+                ->orWhere('nameEn', 'like', '%' . $request->search . '%')
+                ->orWhereRelation('category', 'name', 'like', '%' . $request->search . '%')
+                ->orWhereRelation('subCategory', 'name', 'like', '%' . $request->search . '%');
             })->latest()->paginate(10);
 
         return $this->sendResponse(['alternatives' => $alternatives], 'Data exited successfully');
@@ -54,7 +57,14 @@ class AlternativeController extends Controller
      */
     public function create()
     {
-        //
+        try {
+            $categories = Category::where('status', 1)->select('id', 'name')->get();
+            return $this->sendResponse([
+                'categories'      => $categories,
+            ], 'Data exited successfully');
+        } catch (\Exception $e) {
+            return $this->sendError('An error occurred in the system');
+        }
     }
 
     /**
@@ -70,15 +80,17 @@ class AlternativeController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'nameAr' => 'required|unique:alternatives,nameAr',
-                'nameEn' => 'required|unique:alternatives,nameEn',
+                'nameAr'          => 'required|unique:alternatives,nameAr',
+                'nameEn'          => 'required|unique:alternatives,nameEn',
+                'category_id'     => 'required|integer|exists:categories,id',
+                'sub_category_id' => 'required|integer|exists:sub_categories,id',
                 'file' => 'required|file|mimes:png,jpg,jpeg',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $data = $request->only(['nameAr','nameEn']);
+            $data = $request->only(['nameAr', 'nameEn', 'category_id', 'sub_category_id']);
 
             $alternative = Alternative::create($data);
 
@@ -130,8 +142,11 @@ class AlternativeController extends Controller
         try {
 
             $alternative = Alternative::with('media:file_name,mediable_id')->find($id);
-
-            return $this->sendResponse(['alternative' => $alternative], 'Data exited successfully');
+            $categories = Category::where('status', 1)->select('id', 'name')->get();
+            return $this->sendResponse([
+                'alternative' => $alternative,
+                'categories'  => $categories,
+            ], 'Data exited successfully');
         } catch (\Exception $e) {
 
             return $this->sendError('An error occurred in the system');
@@ -154,16 +169,18 @@ class AlternativeController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'nameAr' => 'required',
-                'nameEn' => 'required',
-                'file' => 'nullable' . ($request->hasFile('file') ? '|file|mimes:jpeg,jpg,png' : ''),
+                'nameAr'          => 'required',
+                'nameEn'          => 'required',
+                'category_id'     => 'required|integer|exists:categories,id',
+                'sub_category_id' => 'required|integer|exists:sub_categories,id',
+                'file'            => 'nullable' . ($request->hasFile('file') ? '|file|mimes:jpeg,jpg,png' : ''),
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['nameAr', 'nameEn', 'status']);
+            $data = $request->only(['nameAr', 'nameEn', 'category_id', 'sub_category_id', 'status']);
 
             $alternative->update($data);
 

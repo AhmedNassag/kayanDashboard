@@ -120,6 +120,37 @@
                                             </div>
                                             <!--End NameEn-->
 
+                                            <!--Start Category Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label >{{ $t("global.MainCategory") }}</label>
+                                                <select @change="getSubCategory(v$.category_id.$model)"
+                                                    name="type"
+                                                    class="form-select"
+                                                    v-model="v$.category_id.$model"
+                                                    :class="{'is-invalid':v$.category_id.$error,'is-valid':!v$.category_id.$invalid}"
+                                                >
+                                                    <option v-for="category in categories" :key="category.id" :value="category.id" >
+                                                        {{ category.name }}
+                                                    </option>
+                                                </select>
+                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
+                                                </div>
+                                            </div>
+                                            <!--End Category Select-->
+
+                                            <!--Start SubCategory Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label >{{ $t("global.SubCategory") }}</label>
+                                                <Select2 v-model="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" />
+                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.sub_category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
+                                                </div>
+                                            </div>
+                                            <!--End SubCategory Select-->
+
                                             <!--Start Image-->
                                             <div class="col-md-12 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
@@ -186,6 +217,8 @@ export default {
 
         // get create Package
         let loading = ref(false);
+        let categories = ref([]);
+        let subCategories = ref([]);
         let image = ref('');
 
         let getAlternative = () => {
@@ -194,18 +227,22 @@ export default {
             adminApi.get(`/v1/dashboard/alternative/${id.value}/edit`)
                 .then((res) => {
                     let l = res.data.data;
-                    addAlternative.data.nameAr = l.alternative.nameAr;
-                    addAlternative.data.nameEn = l.alternative.nameEn;
-                    image.value = l.alternative.media.file_name;
+                    addAlternative.data.nameAr          = l.alternative.nameAr;
+                    addAlternative.data.nameEn          = l.alternative.nameEn;
+                    addAlternative.data.category_id     = l.alternative.category_id;
+                    addAlternative.data.sub_category_id = l.alternative.sub_category_id;
+                    image.value                         = l.alternative.media.file_name;
+                    categories.value                    = l.categories;
+                    getSubCategory(l.product.category_id);
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
                     console.log(err.response);
-                    // Swal.fire({
-                    //     icon: 'error',
-                    //     title: 'يوجد خطأ...',
-                    //     text: 'يوجد خطأ ما..!!',
-                    // });
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
                 })
                 .finally(() => {
                     loading.value = false;
@@ -216,11 +253,35 @@ export default {
             getAlternative();
         });
 
+        let getSubCategory= (id) => {
+            loading.value = true;
+
+            adminApi.get(`/v1/dashboard/category/${id}`)
+                .then((res) => {
+                    let l = res.data.data;
+                    subCategories.value = l.subCategories;
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                    this.errors = err.response.data.errors;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
+                })
+                .finally(() => {
+                    loading.value = false;
+                })
+        };
+
         //start design
         let addAlternative =  reactive({
             data:{
                 nameAr : '',
                 nameEn: '',
+                category_id: null,
+                sub_category_id: null,
                 file : {}
             }
         });
@@ -236,7 +297,13 @@ export default {
                     minLength: minLength(3),
                     maxLength: maxLength(100),
                     required
-                }
+                },
+                category_id: {
+                    required,
+                },
+                sub_category_id: {
+                    required,
+                },
             };
         });
 
@@ -274,7 +341,18 @@ export default {
 
         const numberOfImage = ref(0);
 
-        return {id,loading,...toRefs(addAlternative),v$,preview,numberOfImage,image};
+        return {
+            id,
+            loading,
+            ...toRefs(addAlternative),
+            v$,
+            preview,
+            numberOfImage,
+            image,
+            categories,
+            subCategories,
+            getSubCategory,
+        };
     },
     methods: {
         editAlternative(){
@@ -288,6 +366,8 @@ export default {
                 let formData = new FormData();
                 formData.append('nameAr',this.data.nameAr);
                 formData.append('nameEn', this.data.nameEn);
+                formData.append('category_id', this.data.category_id);
+                formData.append('sub_category_id', this.data.sub_category_id);
                 formData.append('file',this.data.file);
                 formData.append('_method','PUT');
 

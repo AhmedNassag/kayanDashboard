@@ -10,6 +10,7 @@ import tax from './adminRoute/tax';
 import company from './adminRoute/company';
 import pharmacistForm from './adminRoute/pharmacistForm';
 import price from './adminRoute/price';
+import alternativePrice from './adminRoute/alternativePrice';
 import kayanPrice from './adminRoute/kayanPrice';
 import sellingMethod from './adminRoute/sellingMethod';
 import shift from './adminRoute/shift';
@@ -187,6 +188,7 @@ const routes = [
             ...alternative,
             ...product,
             ...price,
+            ...alternativePrice,
             ...kayanPrice,
             ...sellingMethod,
             ...shift,

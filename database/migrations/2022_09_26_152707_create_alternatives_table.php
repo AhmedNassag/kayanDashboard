@@ -17,6 +17,8 @@ class CreateAlternativesTable extends Migration
             $table->id();
             $table->string('nameAr');
             $table->string('nameEn');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('sub_category_id')->nullable()->constrained('sub_categories')->cascadeOnDelete();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

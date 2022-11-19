@@ -130,7 +130,6 @@
                                             <!--Start Category Select-->
                                             <div class="col-md-6 mb-3">
                                                 <label >{{ $t("global.MainCategory") }}</label>
-                                                <!-- <Select2 @change="getSubCategory(v$.category_id.$model)" v-model="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" /> -->
                                                 <select @change="getSubCategory(v$.category_id.$model)"
                                                     name="type"
                                                     class="form-select"

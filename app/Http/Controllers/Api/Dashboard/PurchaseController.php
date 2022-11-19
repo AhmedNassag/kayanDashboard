@@ -10,6 +10,7 @@ use App\Models\Purchase;
 use App\Models\PurchaseProduct;
 use App\Models\Stock;
 use App\Models\Supplier;
+use App\Models\Treasury;
 use App\Models\VirtualStock;
 use App\Traits\Message;
 use Illuminate\Http\Request;
@@ -65,12 +66,24 @@ class PurchaseController extends Controller
 
     public function create()
     {
-        $categories = Category::where('status', 1)->get();
-        $stores = Stock::get();
-        $suppliers = Supplier::where('active',1)->get();
-        $clients = Client::with('user')->get();
+        // $categories = Category::where('status', 1)->get();
+        // $stores = Stock::get();
+        // $suppliers = Supplier::where('active',1)->get();
+        // $clients = Client::with('user')->get();
+        $products   =  Product::where('status', 1)->with('mainMeasurementUnit', 'subMeasurementUnit')->get();
+        $stores     = Stock::get();
+        $suppliers  = Supplier::where('active', 1)->get();
+        $clients    = Client::get();
+        $treasuries = Treasury::where('active', 1)->get();
+        return $this->sendResponse([
+            'products' => $products,
+            'stores' => $stores,
+            'suppliers' => $suppliers,
+            'clients' => $clients,
+            'treasuries' => $treasuries
+        ], 'Data exited successfully');
 
-        return $this->sendResponse(['categories'=> $categories, 'stores'=>$stores, 'suppliers'=>$suppliers, 'clients'=>$clients], 'Data exited successfully');
+        // return $this->sendResponse(['categories'=> $categories, 'stores'=>$stores, 'suppliers'=>$suppliers, 'clients'=>$clients], 'Data exited successfully');
     }
 
 

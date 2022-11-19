@@ -11,9 +11,17 @@ class Alternative extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['text'];
+    protected $appends = [
+        'name', 'text'
+    ];
+
 
     public function getTextAttribute()
+    {
+        return $this->nameAr;
+    }
+
+    public function getNameAttribute()
     {
         return $this->nameAr;
     }
@@ -27,5 +35,15 @@ class Alternative extends Model
     public function alternativeDetails()
     {
         return $this->hasMany(AlternativeDetail::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 }
