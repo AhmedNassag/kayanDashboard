@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Imports\VirtualStocksImport;
+use App\Imports\VirtualStocksAlternativeImport;
+use App\Models\AlternativePrice;
 use Maatwebsite\Excel\Facades\Excel;
 
 class VirtualStockController extends Controller
@@ -215,9 +217,61 @@ class VirtualStockController extends Controller
 
 
 
+    public function virtualStockAlternative(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Validator request
+            $v = Validator::make(
+                $request->all(),
+                [
+                    'alternative.*.supplier_id'     => 'required',
+                    'alternative.*.alternative_id'  => 'required',
+                    'alternative.*.quantity'        => 'required',
+                    'alternative.*.publicPrice'     => 'required',
+                    'alternative.*.clientDiscount'  => 'required',
+                    'alternative.*.kayanDiscount'   => 'required',
+                ]
+            );
+
+            if ($v->fails()) {
+                return $this->sendError('There is an error in the data', $v->errors());
+            }
+
+            foreach ($request->alternative as $alternative) {
+                AlternativePrice::create([
+                        'supplier_id'     => $alternative['supplier_id'],
+                        'alternative_id'  => $alternative['alternative_id'],
+                        'quantity'        => $alternative['quantity'],
+                        'publicPrice'     => $alternative['publicPrice'],
+                        'clientDiscount'  => $alternative['clientDiscount'],
+                        'kayanDiscount'   => $alternative['kayanDiscount'],
+                        'pharmacyPrice'   => $alternative['publicPrice'] - ($alternative['publicPrice'] * ($alternative['clientDiscount'] / 100)),
+                        'kayanProfit'     => $alternative['kayanDiscount'] - $alternative['clientDiscount'],
+                    ]);
+            }
+
+            DB::commit();
+            return $this->sendResponse([], 'Data exited successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->sendError('An error occurred in the system');
+        }
+    }
+
+
+
     public function saveExcelVirtualStock(Request $request)
     {
         $path = $request->file('select_virtualStocks_file')->getRealPath();
         Excel::import(new VirtualStocksImport, $path);
+    }
+
+
+    public function saveExcelVirtualStockAlternative(Request $request)
+    {
+        $path = $request->file('select_virtualStocks_file')->getRealPath();
+        Excel::import(new VirtualStocksAlternativeImport, $path);
     }
 }

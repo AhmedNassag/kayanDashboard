@@ -59,6 +59,19 @@ class ProductController extends Controller
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
 
+
+    public function alternativeProduct(Request $request)
+    {
+        $alternatives = Alternative::where([
+            ['status', 1],
+            ['category_id', $request->category_id],
+            ['sub_category_id', $request->sub_category_id]
+        ])->get();
+
+        return $this->sendResponse(['alternatives'=>$alternatives], 'Data exited successfully');
+    }
+
+
     /**
      * get active Product
      */
@@ -120,7 +133,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // try {
+        try {
             DB::beginTransaction();
 
             // Validator request
@@ -215,12 +228,12 @@ class ProductController extends Controller
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
-        // }
-        // catch (\Exception $e)
-        // {
-        //     DB::rollBack();
-        //     return $this->sendError('An error occurred in the system');
-        // }
+        }
+        catch (\Exception $e)
+        {
+            DB::rollBack();
+            return $this->sendError('An error occurred in the system');
+        }
     }
 
 

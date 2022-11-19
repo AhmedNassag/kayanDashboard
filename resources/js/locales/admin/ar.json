@@ -97,7 +97,8 @@
         "sponser": "الراعي",
         "userReport": " المستخدمين",
         "Shippings": "طرق الشحن",
-        "Percentage": "نسبة"
+        "Percentage": "نسبة",
+        "OrderDirect":"الطلبات المباشرة"
     },
     "global": {
         "ImageNotFoundForThisSection":"لايوجد صورة لهذا المقطع",
@@ -343,6 +344,7 @@
         "Maximum Limit": "أقصى كمية للمخزن",
         "ReOrder Limit": "حد إعادة الطلب",
         "Products Prices": "أسعار المنتجات",
+        "Alternatives Prices":"أسعار البدائل",
         "Storages": "الخزن",
         "Storage": "الخزنة",
         "Successfully added": "تم الاضافة بنجاح",
@@ -585,6 +587,7 @@
         "Sub Measurement Unit": "وحدة القياس الفرعية",
         "Count Unit": "عدد الوحدات داخل الفئة الفرعية",
         "Create Product": "إضافة منتجات",
+        "Create Alternative":"إضافة بدائل",
         "ShowDetails": "عرض تفاصيل",
         "YouCanNotModifyThisSafe": "لا تستطيع التعديل على هذه الخزنة !",
         "PurchaseInvoice": "فواتير الشراء",
@@ -878,7 +881,16 @@
         "SuppliersIncome":"إيرادات الموردين",
         "clientsExpense":"مصروفات العملاء",
         "SuppliersExpense":"مصروفات الموردين",
-        "orders":"الطلبات"
+        "orders":"الطلبات",
+        "sellInvoiceNumber":"رقم فاتورة البيع",
+        "orderOnline":"طلبات التطبيق",
+        "orderReturned":"الطلبات المرتجعة",
+        "orderDelivered":"الطلبات الناجحة",
+        "sellingMethod":"طريقة البيع",
+        "otherDiscount":"خصومات أخرى",
+        "otherPrice":"قيمة الخصم",
+        "TotalTax":"إجمالى الضريبة",
+        "TotalPriceAfterTaxx":"إجمالى السعر بعد الضريبة"
     },
     "treasury": {
         "TreasuryManagement": "إدارة الخزن",
@@ -1056,7 +1068,8 @@
     },
     "virtualStock": {
         "CreateVirtualStock": "إضافة منتجات للمخزن",
-        "EditVirtualStock": "تعديل منتجات للمخزن"
+        "EditVirtualStock": "تعديل منتجات للمخزن",
+        "CreateAlternativesVirtualStock":"إضافة بدائل للمخزن"
     },
     "purchase": {
         "CreatePurchase": "اضافة مشتريات",
