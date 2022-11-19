@@ -487,20 +487,6 @@
                                     {{ $t("global.Alternatives Prices") }}
                                 </router-link>
                             </li>
-
-                            <li
-                                v-if="permission.includes('deal read')"
-                                :class="[
-                                    $route.name == 'DealIndex' ? 'active' : '',
-                                ]"
-                            >
-                                <router-link
-                                    :to="{ name: 'DealIndex' }"
-                                    :class="['sidebar-menu-rtl']"
-                                >
-                                    {{ $t("sidebar.PriceBestDeals") }}
-                                </router-link>
-                            </li>
                         </ul>
                     </li>
                     <!-- End Price Links -->

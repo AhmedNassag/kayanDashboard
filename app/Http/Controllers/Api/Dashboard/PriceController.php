@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DealRequest;
 use App\Models\Category;
+use App\Models\Deal;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -24,12 +26,17 @@ class PriceController extends Controller
     public function index(Request $request)
     {
         $prices = Price::with('product:id,nameAr', 'supplier:id,name')
-            ->when($request->search, function ($q) use ($request) {
+        ->where(function($q) use($request){
+            $q->when($request->search, function ($q) use ($request) {
                 return $q->where('publicPrice', 'like', '%' . $request->search . '%')
                 ->orWhereRelation('product', 'nameAr', 'like', '%' . $request->search . '%')
                 ->orWhereRelation('supplier', 'name', 'like', '%' . $request->search . '%');
-            })->latest()->paginate(10);
-
+            });
+        })->orWhere(function($q) use($request){
+            $q->when($request->filter_best_offers == 'best_offers', function ($q) use ($request) {
+                return $q->where('best_offer',1);
+            });
+        })->latest()->paginate(10);
         return $this->sendResponse(['prices' => $prices], 'Data exited successfully');
     }
 
@@ -220,6 +227,38 @@ class PriceController extends Controller
         catch (\Exception $e)
         {
             return $this->sendError('An error occurred in the system');
+        }
+    }
+
+
+    //General settings of deal
+    public function insertDealSettings(DealRequest $request)
+    {
+        $deal = Deal::first();
+        $dealInput=$request->validated();
+        if($deal){
+            $deal->end_at = $dealInput["end_at"];
+            $deal->limit = $dealInput["limit"];
+            $deal->save();
+        }else{
+            Deal::create($dealInput);
+        }
+    }
+
+    public function getDealSettings()
+    {
+        return Deal::first();
+    }
+
+    public function markProductAsBestOffer(Request $request)
+    {
+        $product_price=Price::findOrFail($request->product_id);
+        $best_offers_count=Price::where('best_offer',1)->count();
+        $deat_limit = Deal::first()->limit;
+        if( $product_price->best_offer == 1 || $deat_limit > $best_offers_count){
+            $product_price->update(['best_offer' => $product_price->best_offer == 0 ? 1 :0]);
+        }else{
+            return response()->json(['limit' => $deat_limit],404);
         }
     }
 }

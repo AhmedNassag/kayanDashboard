@@ -2,7 +2,11 @@
 
 namespace Database\Seeders;
 
+<<<<<<< HEAD
+use App\Models\Deal;
+=======
 use App\Models\OrderStatus;
+>>>>>>> 7d5ab008ba29c005befea9563be389beac2d0a05
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -31,6 +35,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AboutSectionSeeder::class);
         $this->call(AboutInformationsSeeder::class);
 
+<<<<<<< HEAD
+        Deal::creat(['limit' => 10]);
+=======
 
         
         $this->call(OrderStatusTableSeerer::class);
@@ -40,5 +47,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ExpenseTableSeeder::class);
         $this->call(IncomeTableSeeder::class);
         $this->call(SettingSeeder::class);
+>>>>>>> 7d5ab008ba29c005befea9563be389beac2d0a05
     }
 }

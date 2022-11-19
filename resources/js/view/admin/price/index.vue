@@ -1,6 +1,7 @@
 <template>
     <div :class="['page-wrapper','page-wrapper-ar']">
         <div class="content container-fluid">
+            <SettingsForm :dealSettings="dealSettings" @loading="loading = $event" />
 
             <!-- Page Header -->
             <div class="page-header">
@@ -28,17 +29,26 @@
                         <div class="card-body">
                             <div class="card-header pt-0">
                                 <div class="row justify-content-between">
-                                    <div class="col-5">
+                                    <div class="col-md-4 col-sm-12">
                                         {{ $t("global.Search") }}:
-                                        <input type="search" v-model="search" class="custom"/>
+                                        <input type="search" v-model="search" class="form-control"/>
                                     </div>
-                                    <div class="col-5 row justify-content-end">
-                                        <!-- v-if="permission.includes('product create')" -->
-                                        <!-- <router-link
-                                           :to="{name: 'createPrice'}"
-                                            class="btn btn-custom btn-warning">
-                                            {{ $t("global.Add") }}
-                                        </router-link> -->
+                                    <div class="col-md-4 col-sm-12">
+                                        {{ $t("global.Filter Best Offers") }}:
+                                        <select v-model="filter_best_offers" class="form-control" @change="getPrice">
+                                            <option value=""></option>
+                                            <option value="best_offers">{{$t('global.Best Offers')}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 row justify-content-end">
+                                        <button
+                                            data-toggle="modal"
+                                            data-target="#settingsFormModal"
+                                            v-if="permission.includes('product edit')"
+                                            class="btn btn-custom btn-warning"
+                                            >
+                                            {{ $t("global.Settings") }}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -55,6 +65,7 @@
                                         <th class="text-center">{{ $t("global.Client Discount") }}</th>
                                         <th class="text-center">{{ $t("global.Kayan Discount") }}</th>
                                         <th class="text-center">{{ $t("global.Kayan Profit") }}</th>
+                                        <th class="text-center">{{ $t("global.Best Offer") }}</th>
                                         <th class="text-center">{{ $t("global.Action") }}</th>
                                     </tr>
                                     </thead>
@@ -69,6 +80,7 @@
                                         <td class="text-center">{{ item.clientDiscount }}</td>
                                         <td class="text-center">{{ item.kayanDiscount }}</td>
                                         <td class="text-center">{{ item.kayanProfit }}</td>
+                                        <td class="text-center"><button @click="markProductAsBestOffer(item.id)" :class="['btn btn-sm' , item.best_offer == 1 ? 'btn-primary':'btn-secondary']"><i class="fa fa-star"></i></button></td>
                                         <td class="text-center">
                                             <router-link
                                                 :to="{name: 'editPrice',params:{id:item.id}}"
@@ -115,16 +127,23 @@
 import {onMounted, watch, ref,computed} from "vue";
 import {useStore} from "vuex";
 import adminApi from "../../../api/adminAxios";
-
+import SettingsForm from "./settingsForm.vue";
+import { useI18n } from "vue-i18n";
+import { notify } from "@kyvg/vue3-notification";
 export default {
     name: "index",
+    components: {
+        SettingsForm,
+    },
     setup() {
 
         // get packages
         let prices = ref([]);
+        let {t} = useI18n();
         let pricesPaginate = ref({});
         let loading = ref(false);
         const search = ref('');
+        const filter_best_offers = ref('');
         let store = useStore();
 
         let permission = computed(() => store.getters['authAdmin/permission']);
@@ -132,7 +151,7 @@ export default {
         let getPrice = (page = 1) => {
             loading.value = true;
 
-            adminApi.get(`/v1/dashboard/price?page=${page}&search=${search.value}`)
+            adminApi.get(`/v1/dashboard/price?page=${page}&search=${search.value}&filter_best_offers=${filter_best_offers.value}`)
                 .then((res) => {
                     let l = res.data.data;
                     pricesPaginate.value = l.prices;
@@ -156,6 +175,21 @@ export default {
                 getPrice();
             }
         });
+
+        const markProductAsBestOffer = async(id)=>{
+            adminApi.post(`/v1/dashboard/price/markProductAsBestOffer`,{product_id:id}).then(()=>{
+                getPrice();
+            }).catch((e) => {
+                if(e.response.data.limit){
+                    notify({
+                        title: `${t('global.The Maximum limit of best offers is ')} ${e.response.data.limit}`,
+                        type: "error",
+                        duration: 5000,
+                        speed: 2000,
+                    });
+                }
+            })
+        }
 
 
         function deletePrice(id, index) {
@@ -227,7 +261,9 @@ export default {
         //     });
         // }
 
-        return {getPrice, loading,permission, search, deletePrice, pricesPaginate,prices};
+
+
+        return {getPrice,filter_best_offers, loading,permission, search, deletePrice, pricesPaginate,prices,markProductAsBestOffer};
 
     },
     data() {
