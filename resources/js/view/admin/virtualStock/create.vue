@@ -308,7 +308,7 @@ export default {
 
         let getProduct = (category_id,sub_category_id,index) => {
             loading.value = true;
-            adminApi.get(`/v1/dashboard/purchaseInvoiceProduct?category_id=${category_id}&sub_category_id=${sub_category_id}`)
+            adminApi.get(`/v1/dashboard/purchaseInvoiceProduct2?category_id=${category_id}&sub_category_id=${sub_category_id}&supplier_id=${parseInt(id.value)}`)
             .then((res) => {
                 let l = res.data.data;
                 addJob.products[index].products = l.products;

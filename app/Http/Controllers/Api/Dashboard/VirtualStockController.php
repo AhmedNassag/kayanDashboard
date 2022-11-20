@@ -74,17 +74,19 @@ class VirtualStockController extends Controller
 
             foreach ($request->product as $product)
             {
-                Price::create
-                ([
-                    'supplier_id'     => $product['supplier_id'],
-                    'product_id'      => $product['product_id'],
-                    'quantity'        => $product['quantity'],
-                    'publicPrice'     => $product['publicPrice'],
-                    'clientDiscount'  => $product['clientDiscount'],
-                    'kayanDiscount'   => $product['kayanDiscount'],
-                    'pharmacyPrice'   => $product['publicPrice'] - ($product['publicPrice'] * ($product['clientDiscount'] / 100)),
-                    'kayanProfit'     => $product['kayanDiscount'] - $product['clientDiscount'],
-                ]);
+                if(!Price::where('supplier_id', $product['supplier_id'])->where('product_id', $product['product_id'])->first()){
+                    Price::create([
+                            'supplier_id'     => $product['supplier_id'],
+                            'product_id'      => $product['product_id'],
+                            'quantity'        => $product['quantity'],
+                            'publicPrice'     => $product['publicPrice'],
+                            'clientDiscount'  => $product['clientDiscount'],
+                            'kayanDiscount'   => $product['kayanDiscount'],
+                            'pharmacyPrice'   => $product['publicPrice'] - ($product['publicPrice'] * ($product['clientDiscount'] / 100)),
+                            'kayanProfit'     => $product['kayanDiscount'] - $product['clientDiscount'],
+                        ]);
+                }
+
             }
 
             DB::commit();
@@ -273,5 +275,21 @@ class VirtualStockController extends Controller
     {
         $path = $request->file('select_virtualStocks_file')->getRealPath();
         Excel::import(new VirtualStocksAlternativeImport, $path);
+    }
+
+    public function purchaseInvoiceProduct(Request $request)
+    {
+        $products = Product::whereDoesntHave('prices',function($q) use($request){
+            $q->where('supplier_id',$request->supplier_id);
+        })->
+        where([
+            ['status', 1],
+            ['category_id', $request->category_id],
+            ['sub_category_id', $request->sub_category_id]
+        ])
+        ->with('mainMeasurementUnit', 'subMeasurementUnit')
+        ->get();
+
+        return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
 }

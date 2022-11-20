@@ -5,12 +5,19 @@ namespace App\Http\Controllers\Api\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\ClientAccount;
+use App\Models\ClientExpense;
+use App\Models\ExaminationRecord;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseProduct;
 use App\Models\Stock;
+use App\Models\StoreProduct;
 use App\Models\Supplier;
+use App\Models\SupplierAccount;
+use App\Models\SupplierExpense;
 use App\Models\Treasury;
+use App\Models\User;
 use App\Models\VirtualStock;
 use App\Traits\Message;
 use Illuminate\Http\Request;
@@ -28,65 +35,37 @@ class PurchaseController extends Controller
      */
     public function index(Request $request)
     {
-        $purchases = Purchase::with(['purchaseProducts.product.mainMeasurementUnit','store','supplier'])
-        ->where(function ($q) use ($request)
-        {
-            $q->when($request->search, function ($q) use ($request)
-            {
-                return $q->where('discount_percentage', 'like', '%' . $request->search . '%')
-                ->orWhere('discount_value', 'like', '%' . $request->search . '%')
-                ->orWhere('other_discounts', 'like', '%' . $request->search . '%')
-                ->orWhere('transfer_price', 'like', '%' . $request->search . '%')
-                ->orWhere('note', 'like', '%' . $request->search . '%')
-                ->orWhere('price', 'like', '%' . $request->search . '%')
-                ->orWhereRelation('store','name','like','%'.$request->search.'%')
-                ->orWhereRelation('supplier','name','like','%'.$request->search.'%');
+        $purchases = Purchase::with(['purchaseProducts.product.mainMeasurementUnit', 'store'])
+        ->where(function ($q) use ($request) {
+            $q->when($request->search, function ($q) use ($request) {
+                return $q->where('note', 'like', '%' . $request->search . '%')
+                    ->orWhere('price', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('store', 'name', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('supplier', 'name_supplier', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('user', 'name', 'like', '%' . $request->search . '%');
             });
-        })
-        ->where(function ($q) use ($request)
-        {
-            $q->when($request->from_date && $request->to_date, function ($q) use ($request)
-            {
+        })->where(function ($q) use ($request) {
+            $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
                 $q->whereDate('created_at', ">=", $request->from_date)
-                ->whereDate('created_at', "<=", $request->to_date);
+                    ->whereDate('created_at', "<=", $request->to_date);
             });
-        })
-        ->where(function ($q) use ($request)
-        {
-            $q->when($request->purchase_id, function ($q) use ($request)
-            {
+        })->where(function ($q) use ($request) {
+            $q->when($request->purchase_id, function ($q) use ($request) {
                 $q->where('id', $request->purchase_id);
             });
         })->latest()->paginate(5);
-
         return $this->sendResponse(['purchases' => $purchases], 'Data exited successfully');
     }
 
-
-
     public function create()
     {
-        // $categories = Category::where('status', 1)->get();
-        // $stores = Stock::get();
-        // $suppliers = Supplier::where('active',1)->get();
-        // $clients = Client::with('user')->get();
-        $products   =  Product::where('status', 1)->with('mainMeasurementUnit', 'subMeasurementUnit')->get();
-        $stores     = Stock::get();
-        $suppliers  = Supplier::where('active', 1)->get();
-        $clients    = Client::get();
+        $products =  Product::where('status', 1)->with('mainMeasurementUnit', 'subMeasurementUnit', 'company')->get();
+        $stores = Stock::get();
+        $suppliers = Supplier::where('status', 1)->get();
+        $clients = User::where('status', 1)->whereAuthId(2)->whereJsonContains('role_name', 'client')->get();
         $treasuries = Treasury::where('active', 1)->get();
-        return $this->sendResponse([
-            'products' => $products,
-            'stores' => $stores,
-            'suppliers' => $suppliers,
-            'clients' => $clients,
-            'treasuries' => $treasuries
-        ], 'Data exited successfully');
-
-        // return $this->sendResponse(['categories'=> $categories, 'stores'=>$stores, 'suppliers'=>$suppliers, 'clients'=>$clients], 'Data exited successfully');
+        return $this->sendResponse(['products' => $products, 'stores' => $stores, 'suppliers' => $suppliers, 'clients' => $clients, 'treasuries' => $treasuries], 'Data exited successfully');
     }
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -96,105 +75,195 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
+
             // Validator request
-            $v = Validator::make($request->all(),
-            [
-                'stock_id' => 'required|integer|exists:stocks,id',
-                'supplier_id' => 'required|integer|exists:suppliers,id',
-                'discount_percentage' => 'nullable|numeric',
-                'discount_value' => 'nullable|numeric',
-                'other_discounts' => 'nullable|numeric',
-                'transfer_price' => 'nullable|numeric',
-                'note' => 'required|string|min:5',
+            $v = Validator::make($request->all(), [
+                'store_id' => 'required|integer|exists:stores,id',
+                'treasury_id' => 'required|integer|exists:treasuries,id',
+                'supplier_id' => 'nullable|required_if:type_invoice,==,1|integer|exists:suppliers,id',
+                'type_invoice' => 'required|integer',
+                'is_received' => 'required|integer',
+                'note' => 'nullable|string|min:5',
                 'price' => 'required|numeric',
                 'product.*.product_id' => 'required|integer|exists:products,id',
-                'product.*.quantity' => 'required|integer',
-                'product.*.count_unit' => 'required|integer',
-                'product.*.price_before_discount' => 'required|numeric',
-                'product.*.price_after_discount' => 'required|numeric|lte:product.*.price_before_discount',
-                'product.*.production_date' => 'required|date',
-                'product.*.expiry_date' => 'required|date|after:product.*.production_date',
+                'product.*.quantity' => 'required|numeric',
+                'product.*.sub_quantity' => 'required|numeric',
+                'product.*.count_unit' => 'required|numeric',
+                'product.*.price' => 'required|numeric',
+                'product.*.production_date' => 'nullable|date',
+                'product.*.expiry_date' => 'nullable|date|after:product.*.production_date',
             ]);
 
-            if ($v->fails())
-            {
+            if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
+            $product_price = 0;
 
-            // $purchase = Purchase::create($request->all());
-            $purchase = Purchase::create
-            ([
-                'stock_id'            => $request->stock_id,
-                'supplier_id'         => $request->supplier_id,
-                'discount_percentage' => $request->discount_percentage,
-                'discount_value'      => $request->discount_value,
-                'other_discounts'     => $request->other_discounts,
-                'transfer_price'      => $request->transfer_price,
-                'note'                => $request->note,
-                'price'               => $request->price,
+            $purchase = Purchase::create([
+                'store_id' => $request->store_id,
+                'supplier_id' => $request->type_invoice == 1 ? $request->supplier_id : null,
+                'user_id' => $request->type_invoice == 0 ? $request->supplier_id : null,
+                'note' => $request->note,
+                'price' => $request->price,
+                'is_received' => $request->is_received,
+                'type_invoice' => $request->type_invoice,
             ]);
 
-            foreach ($request->product as $product)
-            {
-                PurchaseProduct::create
-                ([
+            foreach ($request->product as $product) {
+                PurchaseProduct::create([
                     'product_id' => $product['product_id'],
                     'quantity' => $product['quantity'],
-                    'price_before_discount' => $product['price_before_discount'],
-                    'price_after_discount' => $product['price_after_discount'],
+                    'sub_quantity' => $product['sub_quantity'],
+                    'price' => $product['price'],
                     'production_date' => $product['production_date'],
                     'expiry_date' => $product['expiry_date'],
                     'purchase_id' => $purchase['id'],
                     'count_unit' => $product['count_unit'],
                 ]);
+                $product_price +=  $product['quantity'] * $product['price'];
+                $product_price +=  $product['sub_quantity'] * ($product['price'] / $product['count_unit']);
+            }
 
-                // $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($purchase['stock_id']);
-                // $virtualStockQuantitiy->update
-                // ([
-                //     'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) + intval($product['quantity'])
-                // ]);
+            $amount_accounts = $product_price - $request->price;
+
+            if ($product_price != $request->price) {
+                if ($request->type_invoice == 1) {
+                    SupplierAccount::create([
+                        'supplier_id' => $request->supplier_id,
+                        'purchase_id' => $purchase['id'],
+                        'amount' => $amount_accounts
+                    ]);
+                    if ($request->price > 0) {
+                        SupplierExpense::create([
+                            'supplier_id' => $request->supplier_id,
+                            'expense_id' => 1,
+                            'treasury_id' => $request->treasury_id,
+                            'purchase_id' => $purchase['id'],
+                            'amount' => $request->price,
+                            'payment_date' => now(),
+                            'user_id' => auth()->id(),
+                        ]);
+                    }
+                } else {
+                    ClientAccount::create([
+                        'user_id' => $request->supplier_id,
+                        'purchase_id' => $purchase['id'],
+                        'amount' => $amount_accounts
+                    ]);
+                    if ($request->price > 0) {
+                        ClientExpense::create([
+                            'client_id' => $request->supplier_id,
+                            'expense_id' => 1,
+                            'treasury_id' => $request->treasury_id,
+                            'purchase_id' => $purchase['id'],
+                            'amount' => $request->price,
+                            'payment_date' => now(),
+                            'user_id' => auth()->id(),
+                        ]);
+                    }
+                }
+            } else {
+                if ($request->type_invoice == 1 && $request->price > 0) {
+
+                    SupplierExpense::create([
+                        'supplier_id' => $request->supplier_id,
+                        'expense_id' => 1,
+                        'treasury_id' => $request->treasury_id,
+                        'purchase_id' => $purchase['id'],
+                        'amount' => $request->price,
+                        'payment_date' => now(),
+                        'user_id' => auth()->id(),
+                    ]);
+                } else {
+                    if ($request->price > 0) {
+                        ClientExpense::create([
+                            'client_id' => $request->supplier_id,
+                            'expense_id' => 1,
+                            'treasury_id' => $request->treasury_id,
+                            'purchase_id' => $purchase['id'],
+                            'amount' => $request->price,
+                            'payment_date' => now(),
+                            'user_id' => auth()->id(),
+                        ]);
+                    }
+                }
+            }
+
+            if ($request->is_received == 1) {
+                $purchase_products = PurchaseProduct::where('purchase_id', $purchase['id'])->get();
+                $this->storeProduct($purchase_products, $purchase);
             }
 
             DB::commit();
+
             return $this->sendResponse([], 'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
-
     }
 
+    public function storeProduct($purchase_products, $purchase)
+    {
 
+        $employee_id = auth()->user()->id;
+
+        $examination = ExaminationRecord::create([
+            'user_id' => $employee_id,
+            'purchase_id' => $purchase['id']
+        ]);
+
+        foreach ($purchase_products as $value) {
+
+            $product = Product::find($value['product_id']);
+
+            StoreProduct::create([
+                'examination_record_id' => $examination->id,
+                'product_status_id' => 1,
+                'product_id' => $value['product_id'],
+                'main_measurement_unit_id' => $product->main_measurement_unit_id,
+                'sub_measurement_unit_id' => $product->sub_measurement_unit_id,
+                'sub_category_id' => $product->sub_category_id,
+                'store_id' => $purchase['store_id'],
+                'quantity' => $value['quantity'],
+                'sub_quantity' => $value['sub_quantity'],
+                'expiry_date' => $value['expiry_date'],
+                'production_date' => $value['production_date'],
+                'count_unit' => $value['count_unit'],
+                'purchase_product_id' => $value['id'],
+                'sub_quantity_order' => 0,
+            ]);
+        }
+    }
 
     public function edit($id)
     {
-        try
-        {
-            $purchase = Purchase::with(['purchaseProducts'=>function($q)
-            {
-                $q->with(['product' =>function($qu)
-                {
-                    $qu->with('mainMeasurementUnit','subMeasurementUnit');
+        try {
+
+            $purchase = Purchase::with(['user', 'supplier', 'purchaseProducts' => function ($q) {
+                $q->with(['product' => function ($qu) {
+                    $qu->with('mainMeasurementUnit', 'subMeasurementUnit');
                 }]);
             }])->find($id);
 
-            $categories = Category::where('status', 1)->get();
             $stores = Stock::get();
-            $suppliers = Supplier::where('active',1)->get();
+            $suppliers = Supplier::where('status', 1)->with('supplierExpense', function ($q) use ($id) {
+                $q->where('purchase_id', $id);
+            })->get();
+            $products =  Product::where('status', 1)->with('mainMeasurementUnit', 'subMeasurementUnit', 'company')->get();
+            $clients = User::where('status', 1)->whereAuthId(2)->whereJsonContains('role_name', 'client')
+            ->with('clientExpense', function ($q) use ($id) {
+                $q->where('purchase_id', $id);
+            })->get();
+            $treasuries = Treasury::where('active', 1)->get();
+            return $this->sendResponse(['purchase' => $purchase, 'treasuries' => $treasuries, 'clients' => $clients, 'products' => $products, 'stores' => $stores, 'suppliers' => $suppliers], 'Data exited successfully');
+        } catch (\Exception $e) {
 
-            return $this->sendResponse(['purchase' => $purchase,'categories' => $categories,'stores'=>$stores,'suppliers'=>$suppliers], 'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
             return $this->sendError('An error occurred in the system');
         }
     }
-
 
 
     /**
@@ -217,85 +286,160 @@ class PurchaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try
-        {
+        try {
+
             DB::beginTransaction();
+
             // Validator request
-            $v = Validator::make($request->all(),
-            [
-                'stock_id' => 'required|integer|exists:stocks,id',
-                'supplier_id' => 'required|integer|exists:suppliers,id',
-                'discount_percentage' => 'nullable|numeric',
-                'discount_value' => 'nullable|numeric',
-                'other_discounts' => 'nullable|numeric',
-                'transfer_price' => 'nullable|numeric',
-                'note' => 'required|string|min:5',
+            $v = Validator::make($request->all(), [
+                'store_id' => 'required|integer|exists:stores,id',
+                'treasury_id' => 'required|integer|exists:treasuries,id',
+                'supplier_id' => 'nullable|required_if:type_invoice,==,1|integer|exists:suppliers,id',
+                'type_invoice' => 'required|integer',
+                'is_received' => 'required|integer',
+                'note' => 'nullable|string|min:5',
                 'price' => 'required|numeric',
                 'product.*.product_id' => 'required|integer|exists:products,id',
-                'product.*.quantity' => 'required|integer',
-                'product.*.count_unit' => 'required|integer',
-                'product.*.price_before_discount' => 'required|numeric',
-                'product.*.price_after_discount' => 'required|numeric|lte:product.*.price_before_discount',
-                'product.*.production_date' => 'required|date',
-                'product.*.expiry_date' => 'required|date|after:product.*.production_date',
+                'product.*.quantity' => 'required|numeric',
+                'product.*.sub_quantity' => 'required|numeric',
+                'product.*.count_unit' => 'required|numeric',
+                'product.*.price' => 'required|numeric',
+                'product.*.production_date' => 'nullable|date',
+                'product.*.expiry_date' => 'nullable|date|after:product.*.production_date',
             ]);
 
-            if ($v->fails())
-            {
+            if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-
+            $product_price = 0;
             $purchase = Purchase::find($id);
-            // $purchase->update($request->all());
-            $purchase->update
-            ([
-                'stock_id'            => $request->stock_id,
-                'supplier_id'         => $request->supplier_id,
-                'discount_percentage' => $request->discount_percentage,
-                'discount_value'      => $request->discount_value,
-                'other_discounts'     => $request->other_discounts,
-                'transfer_price'      => $request->transfer_price,
-                'note'                => $request->note,
-                'price'               => $request->price,
+
+            $purchase->update([
+                'store_id' => $request->store_id,
+                'supplier_id' => $request->type_invoice == 1 ? $request->supplier_id : null,
+                'user_id' => $request->type_invoice == 0 ? $request->supplier_id : null,
+                'note' => $request->note,
+                'price' => $request->price,
+                'is_received' => $request->is_received,
+                'type_invoice' => $request->type_invoice,
             ]);
-            foreach ($purchase->purchaseProducts as $data)
-            {
+
+            foreach ($purchase->purchaseProducts as $data) {
                 $data->delete();
             }
 
-            foreach ($request->product as $product)
-            {
-                PurchaseProduct::create
-                ([
+            foreach ($request->product as $product) {
+                PurchaseProduct::create([
                     'product_id' => $product['product_id'],
                     'quantity' => $product['quantity'],
-                    'price_before_discount' => $product['price_before_discount'],
-                    'price_after_discount' => $product['price_after_discount'],
+                    'sub_quantity' => $product['sub_quantity'],
+                    'price' => $product['price'],
                     'production_date' => $product['production_date'],
                     'expiry_date' => $product['expiry_date'],
-                    'purchase_id' => $purchase['id'],
+                    'purchase_id' => $id,
                     'count_unit' => $product['count_unit'],
                 ]);
-
-                // $virtualStockQuantitiy = VirtualStock::where('product_id', $product['product_id'])->find($purchase['stock_id']);
-                // $virtualStockQuantitiy->update
-                // ([
-                //     'productQuantity' =>  intval($virtualStockQuantitiy->productQuantity) + intval($product['quantity'])
-                // ]);
+                $product_price +=  $product['quantity'] * $product['price'];
+                $product_price +=  $product['sub_quantity'] * ($product['price'] / $product['count_unit']);
             }
 
-            DB::commit();
-            return $this->sendResponse([], 'Data exited successfully');
+            foreach ($purchase->supplierExpense as $data) {
+                $data->delete();
+            }
 
-        }
-        catch (\Exception $e)
-        {
+            foreach ($purchase->clientExpense as $data) {
+                $data->delete();
+            }
+
+            foreach ($purchase->supplierAccounts as $data) {
+                $data->delete();
+            }
+
+            foreach ($purchase->clientAccount as $data) {
+                $data->delete();
+            }
+
+            $amount_accounts = $product_price - $request->price;
+
+            if ($product_price != $request->price) {
+                if ($request->type_invoice == 1) {
+
+                    SupplierAccount::create([
+                        'supplier_id' => $request->supplier_id,
+                        'purchase_id' => $purchase['id'],
+                        'amount' => $amount_accounts
+                    ]);
+                    if ($request->price > 0) {
+                        SupplierExpense::create([
+                            'supplier_id' => $request->supplier_id,
+                            'expense_id' => 1,
+                            'treasury_id' => $request->treasury_id,
+                            'purchase_id' => $purchase['id'],
+                            'amount' => $request->price,
+                            'payment_date' => now(),
+                            'user_id' => auth()->id(),
+                        ]);
+                    }
+                } else {
+                    ClientAccount::create([
+                        'user_id' => $request->supplier_id,
+                        'purchase_id' => $purchase['id'],
+                        'amount' => $amount_accounts
+                    ]);
+                    if ($request->price > 0) {
+                        ClientExpense::create([
+                            'client_id' => $request->supplier_id,
+                            'expense_id' => 1,
+                            'treasury_id' => $request->treasury_id,
+                            'purchase_id' => $purchase['id'],
+                            'amount' => $request->price,
+                            'payment_date' => now(),
+                            'user_id' => auth()->id(),
+                        ]);
+                    }
+                }
+            } else {
+                if ($request->type_invoice == 1 && $request->price > 0) {
+
+                    SupplierExpense::create([
+                        'supplier_id' => $request->supplier_id,
+                        'expense_id' => 1,
+                        'treasury_id' => $request->treasury_id,
+                        'purchase_id' => $purchase['id'],
+                        'amount' => $request->price,
+                        'payment_date' => now(),
+                        'user_id' => auth()->id(),
+                    ]);
+                } else {
+                    if ($request->price > 0) {
+                        ClientExpense::create([
+                            'client_id' => $request->supplier_id,
+                            'expense_id' => 1,
+                            'treasury_id' => $request->treasury_id,
+                            'purchase_id' => $purchase['id'],
+                            'amount' => $request->price,
+                            'payment_date' => now(),
+                            'user_id' => auth()->id(),
+                        ]);
+                    }
+                }
+            }
+
+            if ($request->is_received == 1) {
+                $purchase_products = PurchaseProduct::where('purchase_id', $purchase['id'])->get();
+                $this->storeProduct($purchase_products, $purchase);
+            }
+
+
+            DB::commit();
+
+            return $this->sendResponse([], 'Data exited successfully');
+        } catch (\Exception $e) {
+
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
     }
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -305,40 +449,12 @@ class PurchaseController extends Controller
      */
     public function destroy($id)
     {
-        $purchase=Purchase::find($id);
-        if ($purchase->purchaseReturns == null && $purchase->examinationRecord == null)
-        {
+        $purchase = Purchase::find($id);
+        if ($purchase->purchaseReturns == null && $purchase->examinationRecord == null) {
             $purchase->delete();
-            return $this->sendResponse([],'Deleted successfully');
-        }
-        else
-        {
+            return $this->sendResponse([], 'Deleted successfully');
+        } else {
             return $this->sendError('ID is not exist');
         }
-    }
-
-
-
-    //start relations functions
-    public function getSuppliers()
-    {
-        $suppliers = Supplier::where('active',1)->get();
-        return $this->sendResponse(['suppliers' => $suppliers], 'Data exited successfully');
-    }
-
-
-
-    public function productPrice($id)
-    {
-        $productPrice = PurchaseProduct::where('product_id',$id)->select('price_after_discount')->latest()->get();
-        return $this->sendResponse(['productPrice' => $productPrice], 'Data exited successfully');
-    }
-
-
-
-    public function getProducts()
-    {
-        $products = Product::where('status',1)->get();
-        return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
 }

@@ -83,7 +83,20 @@
                                                     </option>
                                                 </select>
                                             </div>
-                                            <!--End Product Name Select-->
+                                            <!--End Product Select-->
+
+                                            <!--Start Quantity-->
+                                            <div class="col-md-6 mb-3">
+                                                <label>{{ $t("global.Quantity") }}</label>
+                                                <input
+                                                    type="number" class="form-control"
+                                                    v-model="v$.quantity.$model"
+                                                    :placeholder="$t('global.Quantity')"
+                                                    :class="{'is-invalid':v$.quantity.$error,'is-valid':!v$.quantity.$invalid}"
+                                                >
+                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                            </div>
+                                            <!--End Quantity-->
 
                                             <!--Start Category Select-->
                                             <!-- <div class="col-md-6 mb-3">
@@ -222,8 +235,6 @@ export default {
     data(){
         return {
             errors:{},
-            // companyShow: true,
-            // supplierShow: false
         }
     },
     props:["id"],
@@ -234,7 +245,6 @@ export default {
         let loading = ref(false);
         let products = ref([]);
         let suppliers = ref([]);
-        // let companies = ref([]);
         let categories = ref([]);
         let subCategories = ref([]);
 
@@ -244,10 +254,10 @@ export default {
                 nullValue: null,
                 product_id: null,
                 supplier_id: null,
-                category_id: null,
-                sub_category_id: null,
-                // company_id: null,
+                // category_id: null,
+                // sub_category_id: null,
                 // pharmacyPrice: null,
+                quantity: null,
                 publicPrice : null,
                 clientDiscount: null,
                 kayanDiscount : null,
@@ -263,11 +273,10 @@ export default {
                     let l = res.data.data;
                     addPrice.data.product_id = l.price.product_id;
                     addPrice.data.supplier_id = l.price.supplier_id;
-                    // addPrice.data.company_id = l.price.company_id;
-                    addPrice.data.category_id = l.price.category_id;
-                    addPrice.data.sub_category_id = l.price.sub_category_id;
-
+                    // addPrice.data.category_id = l.price.category_id;
+                    // addPrice.data.sub_category_id = l.price.sub_category_id;
                     // addPrice.data.pharmacyPrice = l.price.pharmacyPrice;
+                    addPrice.data.quantity = l.price.quantity;
                     addPrice.data.publicPrice = l.price.publicPrice;
                     addPrice.data.clientDiscount = l.price.clientDiscount;
                     addPrice.data.kayanDiscount = l.price.kayanDiscount;
@@ -275,7 +284,6 @@ export default {
 
                     products.value = l.products;
                     suppliers.value = l.suppliers;
-                    // companies.value = l.companies;
                     categories.value = l.categories;
                     getSubCategory(l.price.category_id);
                 })
@@ -315,17 +323,17 @@ export default {
                 supplier_id: {
                     //required,
                 },
-                // company_id: {
+                quantity: {
                 //     //required,
+                },
+                // category_id: {
+                //     required,
+                //     integer
                 // },
-                category_id: {
-                    required,
-                    integer
-                },
-                sub_category_id: {
-                    required,
-                    integer
-                },
+                // sub_category_id: {
+                //     required,
+                //     integer
+                // },
                 // pharmacyPrice: {
                 //     required,
                 // },
@@ -352,7 +360,6 @@ export default {
             v$,
             products,
             suppliers,
-            // companies,
             categories,
             subCategories,
             getSubCategory,
@@ -360,16 +367,6 @@ export default {
         };
     },
     methods: {
-        // showCompany()
-        // {
-        //     this.companyShow = true;
-        //     this.supplierShow = false;
-        // },
-        // showSupplier()
-        // {
-        //     this.supplierShow = true;
-        //     this.companyShow = false;
-        // },
 
         editPrice(){
             this.v$.$validate();
@@ -382,11 +379,10 @@ export default {
                 let formData = new FormData();
                 formData.append("product_id", this.data.product_id);
                 formData.append("supplier_id", this.data.supplier_id);
-                // formData.append('company_id',this.data.company_id);
-                formData.append('category_id',this.data.category_id);
-                formData.append('sub_category_id',this.data.sub_category_id);
-
+                // formData.append('category_id',this.data.category_id);
+                // formData.append('sub_category_id',this.data.sub_category_id);
                 // formData.append('pharmacyPrice',this.data.pharmacyPrice);
+                formData.append("quantity", this.data.quantity);
                 formData.append('publicPrice',this.data.publicPrice);
                 formData.append('clientDiscount',this.data.clientDiscount);
                 formData.append('kayanDiscount',this.data.kayanDiscount);
