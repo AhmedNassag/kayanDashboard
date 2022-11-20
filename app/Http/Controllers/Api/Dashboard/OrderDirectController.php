@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\DirectOrders;
+use App\Models\Offer;
 use App\Models\OfferDiscount;
 use App\Models\Order;
 use App\Models\OrderDetails;
@@ -10,6 +12,7 @@ use App\Models\OrderStatus;
 use App\Models\OrderStoreProduct;
 use App\Models\Product;
 use App\Models\ProductPricing;
+use App\Models\Stock;
 use App\Models\Store;
 use App\Models\StoreProduct;
 use App\Models\Tax;
@@ -26,7 +29,7 @@ class OrderDirectController extends Controller
 
     public function activeOrder($id)
     {
-        $order = Order::find($id);
+        $order = DirectOrders::find($id);
 
         $order->update([
             "order_status_id" => 5
@@ -42,7 +45,7 @@ class OrderDirectController extends Controller
      */
     public function index(Request $request)
     {
-        $orders= Order::
+        $orders= DirectOrders::
         where('is_online',0)
         ->whereNotIn('order_status_id',[6,7])
         ->with('orderOtherOffer')
@@ -88,7 +91,7 @@ class OrderDirectController extends Controller
 
     public function orderDirectReport(Request $request)
     {
-        $orders= Order::
+        $orders= DirectOrders::
             where('order_status_id',5)
             ->with('orderOtherOffer')
             ->with([
@@ -137,15 +140,13 @@ class OrderDirectController extends Controller
      */
     public function create()
     {
-        $tax = Tax::select('id','name','percentage')->where('status',true)->get();
+        $tax = Tax::select('id','name','rate')->where('status',true)->get();
 
-        $offerDiscount = OfferDiscount::select('id','name','type','value')->where('status',true)->get();
+        $offerDiscount = Offer::select('id','name', 'discount', 'ratio')->where('active',true)->where('start_date','>=',now()->format('Y-m-d'))->get();
 
-        $stores = Store::get();
+        $stores = Stock::get();
 
-        $clients = User::whereAuthId(2)->with(['client' => function ($q){
-            $q->select('user_id','selling_method_id')->with('sellingMethod:id,name');
-        }])->whereJsonContains('role_name','client')->get();
+        $clients = User::get();
 
         return $this->sendResponse([
             'taxs' => $tax,
@@ -157,7 +158,7 @@ class OrderDirectController extends Controller
 
     public function storeChoose(Request $request)
     {
-        $productStore =  Product::select('id','name','barcode','count_unit')
+        $productStore =  Product::select('id','name','barcode')
             ->whereRelation('storeProducts.store','store_id',$request->store_id)
             ->whereRelation('productPrice','selling_method_id',$request->selling_method_id)
             ->with(['productPrice' => function ($q) use($request){
@@ -186,7 +187,7 @@ class OrderDirectController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'store_id' => 'required|integer|exists:stores,id',
+                'store_id' => 'required|integer|exists:stocks,id',
                 'client_id' => 'required|integer|exists:users,id',
                 'selling_method_id' => 'required|integer|exists:selling_methods,id',
                 'discounts.*' => 'nullable' ,
@@ -251,7 +252,7 @@ class OrderDirectController extends Controller
             }
             $totalAfterTax = $totalAfterDiscount + $tax;
 
-            $order = Order::create([
+            $order = DirectOrders::create([
                 'user_id' => $request->client_id,
                 'store_id' => $request->store_id,
                 'discount_offer' => $discount,
@@ -352,7 +353,7 @@ class OrderDirectController extends Controller
 
         $offerDiscount = OfferDiscount::select('id','name','type','value')->where('status',true)->get();
 
-        $order = Order::with('orderOtherOffer')->
+        $order = DirectOrders::with('orderOtherOffer')->
         with([
             'orderOffer',
             'orderTax',
@@ -414,7 +415,7 @@ class OrderDirectController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $order = Order::find($id);
+            $order = DirectOrders::find($id);
 
             if($order->orderDetails){
                 foreach ($order->orderDetails as $detail){
@@ -582,7 +583,7 @@ class OrderDirectController extends Controller
     public function destroy($id)
     {
         try {
-            $order = Order::find($id);
+            $order = DirectOrders::find($id);
             if ($order && $order->order_status_id == 1){
                 foreach ($order->orderDetails as $detail){
                     foreach ($detail->orderStoreProducts as $orderStoreProduct){

@@ -16,12 +16,12 @@ class CreatePurchaseProductsTable extends Migration
         Schema::create('purchase_products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->foreignId('purchase_id')->constrained('purchases')->cascadeOnDelete();
+            $table->foreignId('purchase_id')->nullable()->constrained('purchases')->cascadeOnDelete();
             $table->integer('quantity')->default(0);
-            $table->double('price_before_discount',25,2)->default(0);
-            $table->double('price_after_discount',25,2)->default(0);
-            $table->date('expiry_date');
-            $table->date('production_date');
+            $table->integer('sub_quantity')->default(0);
+            $table->double('price', 25, 2)->default(0);
+            $table->date('expiry_date')->nullable();
+            $table->date('production_date')->nullable();
             $table->integer('count_unit')->default(0);
             $table->timestamps();
         });

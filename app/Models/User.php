@@ -87,12 +87,106 @@ class User extends Authenticatable implements JWTSubject
 
 
     //
-    public function examinationRecords (){
-        return $this->hasMany(ExaminationRecord::class,'user_id');
+
+    public function representative()
+    {
+        return $this->hasOne(Representative::class);
     }
 
-    public function purchaseReturns (){
-        return $this->hasMany(PurchaseReturn::class,'user_id');
+    public function banks()
+    {
+        return $this->hasOne(Bank::class, 'user_id');
+    }
+
+    public function examinationRecords()
+    {
+        return $this->hasMany(ExaminationRecord::class, 'user_id');
+    }
+
+    public function purchaseReturns()
+    {
+        return $this->hasMany(PurchaseReturn::class, 'user_id');
+    }
+
+    public function clientPurchaseReturns()
+    {
+        return $this->hasMany(PurchaseReturn::class, 'client_id');
+    }
+
+    public function pricingHistories()
+    {
+        return $this->hasMany(PricingHistory::class);
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
+
+    public function upcomingPayment()
+    {
+        return $this->hasMany(UpcomingPayment::class, 'user_id');
+    }
+
+    public function suggestionUser()
+    {
+        return $this->hasMany(SuggestionUser::class);
+    }
+
+    public function clientAccounts()
+    {
+        return $this->hasMany(ClientAccount::class, 'user_id', 'id');
+    }
+
+    public function purchases()
+    {
+
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'App.Models.User.' . $this->id;
+    }
+
+    public function addSupplierExpense(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SupplierExpense::class, 'user_id');
+    }
+
+    public function addClientExpense(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ClientExpense::class, 'user_id');
+    }
+
+    public function clientExpense(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ClientExpense::class, 'client_id');
+    }
+
+    public function supplierIncome(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SupplierIncome::class);
+    }
+
+    public function addClientIncome(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ClientExpense::class, 'user_id');
+    }
+
+    public function clientIncome(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ClientExpense::class, 'client_id');
+    }
+
+    public function clientOrders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function representativeOrders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class, 'representative_id');
     }
 
 }
