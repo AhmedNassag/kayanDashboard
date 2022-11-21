@@ -41,7 +41,7 @@ export default [
                 }
             },
             {
-                path: 'edit/:id(\\d+)',
+                path: 'createAlternative/:id(\\d+)',
                 name: 'editVirtualStock',
                 component: editVirtualStock,
                 props: true,

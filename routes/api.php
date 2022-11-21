@@ -106,6 +106,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // price
             Route::resource('price', 'PriceController')->except(['show']);
 
+            // alternativePrice
+            Route::resource('alternativePrice', 'AlternativePriceController')->except(['show']);
 
             // kayan price
             Route::resource('kayanPrice', 'KayanPriceController')->except(['show']);
@@ -124,8 +126,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
             // virtual stock
             Route::resource('virtualStock', 'VirtualStockController')->except(['show']);
+            Route::get('purchaseInvoiceProduct2', 'VirtualStockController@purchaseInvoiceProduct');
             Route::get('virtualStock/Show/{id}', 'VirtualStockController@show');
             Route::post('virtualStockExcel', 'VirtualStockController@saveExcelVirtualStock');
+            Route::post('virtualStockExcelAlternative', 'VirtualStockController@saveExcelVirtualStockAlternative');
+            Route::post('virtualStockAlternative', 'VirtualStockController@virtualStockAlternative');
 
             // purchase
             Route::resource('purchase', 'PurchaseController')->except(['show']);
@@ -303,6 +308,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
             //
             Route::get('purchaseInvoiceProduct', 'ProductController@purchaseInvoiceProduct');
+            Route::get('alternativeProduct', 'ProductController@alternativeProduct');
             // refused
             Route::resource('refused', 'RefusedController')->except(['show']);
             // relations routes

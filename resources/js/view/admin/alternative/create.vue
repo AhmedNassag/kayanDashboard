@@ -205,6 +205,37 @@
                                             </div>
                                             <!--End NameEn-->
 
+                                            <!--Start Category Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label >{{ $t("global.MainCategory") }}</label>
+                                                <select @change="getSubCategory(v$.category_id.$model)"
+                                                    name="type"
+                                                    class="form-select"
+                                                    v-model="v$.category_id.$model"
+                                                    :class="{'is-invalid':v$.category_id.$error,'is-valid':!v$.category_id.$invalid}"
+                                                >
+                                                    <option v-for="category in categories" :key="category.id" :value="category.id" >
+                                                        {{ category.name }}
+                                                    </option>
+                                                </select>
+                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
+                                                </div>
+                                            </div>
+                                            <!--End Category Select-->
+
+                                            <!--Start SubCategory Select-->
+                                            <div class="col-md-6 mb-3">
+                                                <label >{{ $t("global.SubCategory") }}</label>
+                                                <Select2 v-model="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" />
+                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.sub_category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
+                                                </div>
+                                            </div>
+                                            <!--End SubCategory Select-->
+
                                             <!--Start Image-->
                                             <div class="col-md-12 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
@@ -245,7 +276,7 @@
                                                 </div>
                                             </div>
                                             <!--End Image-->
-                                            
+
                                         </div>
 
                                         <button class="btn btn-primary" type="submit">
@@ -291,12 +322,60 @@ export default {
         const { t } = useI18n({});
         //
         let loading = ref(false);
+        let categories = ref([]);
+        let subCategories = ref([]);
+
+        let getAlternative= () => {
+            loading.value = true;
+
+            adminApi.get(`/v1/dashboard/alternative/create`)
+                .then((res) => {
+                    let l = res.data.data;
+                    categories.value = l.categories;
+                })
+                .catch((err) => {
+                    this.errors = err.response.data.errors;
+                    console.log(err.response);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطأ...',
+                        text: 'يوجد خطأ ما..!!',
+                    });
+                })
+                .finally(() => {
+                    loading.value = false;
+                })
+        };
+
+        let getSubCategory= (id) => {
+            loading.value = true;
+
+            adminApi.get(`/v1/dashboard/category/${id}`)
+            .then((res) => {
+                let l = res.data.data;
+                subCategories.value = l.subCategories;
+            })
+            .catch((err) => {
+                this.errors = err.response.data.errors;
+                console.log(err.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'يوجد خطأ...',
+                    text: 'يوجد خطأ ما..!!',
+                });
+            })
+            .finally(() => {
+                loading.value = false;
+            })
+        };
 
         //start design
         let addAlternative = reactive({
             data: {
                 nameAr: "",
                 nameEn: "",
+                category_id: null,
+                sub_category_id: null,
                 file: {},
                 nameExist: false,
             },
@@ -312,6 +391,12 @@ export default {
                 nameEn: {
                     minLength: minLength(3),
                     maxLength: maxLength(100),
+                    required,
+                },
+                category_id: {
+                    required,
+                },
+                sub_category_id: {
                     required,
                 },
                 file: {
@@ -352,12 +437,19 @@ export default {
 
         const numberOfImage = ref(0);
 
+        onMounted(() => {
+            getAlternative();
+        });
+
         return {
             loading,
             ...toRefs(addAlternative),
             v$,
             preview,
             numberOfImage,
+            getSubCategory,
+            categories,
+            subCategories,
         };
     },
     methods: {
@@ -370,6 +462,8 @@ export default {
                 let formData = new FormData();
                 formData.append("nameAr", this.data.nameAr);
                 formData.append("nameEn", this.data.nameEn);
+                formData.append("category_id", this.data.category_id);
+                formData.append("sub_category_id", this.data.sub_category_id);
                 formData.append("file", this.data.file);
 
                 adminApi
@@ -405,6 +499,8 @@ export default {
         resetForm() {
             this.data.nameAr = "";
             this.data.nameEn = "";
+            this.data.category_id = null;
+            this.data.sub_category_id = null;
             this.data.file = {};
         },
     },

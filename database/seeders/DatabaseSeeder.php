@@ -40,7 +40,6 @@ class DatabaseSeeder extends Seeder
         MostPopular::creat(['limit' => 10]);
         $this->call(OrderStatusTableSeerer::class);
         $this->call(StoreTableSeeder::class);
-
         $this->call(TreasuryTableSeeder::class);
         $this->call(ExpenseTableSeeder::class);
         $this->call(IncomeTableSeeder::class);

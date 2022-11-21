@@ -166,7 +166,7 @@
                     <!-- End Pharmacist Form Link -->
 
                     <!-- Start Storage Link -->
-                    <li
+                    <!-- <li
                         v-if="permission.includes('storage read')"
                         :class="[
                             {
@@ -182,7 +182,7 @@
                             <i class="fa fa-home" aria-hidden="true"></i>
                             <span>{{ $t("global.Storages") }}</span>
                         </router-link>
-                    </li>
+                    </li> -->
                     <!-- End Storage Link -->
 
                     <!-- Start Complaint Link -->
@@ -464,7 +464,27 @@
                                     :to="{ name: 'indexPrice' }"
                                     :class="['sidebar-menu-rtl']"
                                 >
-                                    {{ $t("global.Prices") }}
+                                    {{ $t("global.Products Prices") }}
+                                </router-link>
+                            </li>
+
+                            <li
+                                v-if="permission.includes('price read')"
+                                :class="[
+                                    {
+                                        active: [
+                                            'indexAlternativePrice',
+                                            'createAlternativePrice',
+                                            'editAlternativePrice',
+                                        ].includes($route.name),
+                                    },
+                                ]"
+                            >
+                                <router-link
+                                    :to="{ name: 'indexAlternativePrice' }"
+                                    :class="['sidebar-menu-rtl']"
+                                >
+                                    {{ $t("global.Alternatives Prices") }}
                                 </router-link>
                             </li>
                         </ul>

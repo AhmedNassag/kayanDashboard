@@ -37,10 +37,10 @@ class Price extends Model
     //     return $this->belongsTo(SubCategory::class,'sub_category_id');
     // }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class,'company_id');
-    }
+    // public function company()
+    // {
+    //     return $this->belongsTo(Company::class,'company_id');
+    // }
 
     public function supplier()
     {
