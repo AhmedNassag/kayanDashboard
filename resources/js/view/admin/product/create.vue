@@ -165,7 +165,6 @@
                       <!--Start Category Select-->
                       <div class="col-md-6 mb-3">
                         <label>{{ $t("global.MainCategory") }}</label>
-                        <!-- <Select2 @change="getSubCategory(v$.category_id.$model)" v-model="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" /> -->
                         <select
                           @change="getSubCategory(v$.category_id.$model)"
                           name="type"
@@ -233,44 +232,6 @@
                         </div>
                       </div>
                       <!--End Main Measurement Select-->
-
-                      <!--Start Count Unit Select-->
-                      <!-- <div class="col-md-6 mb-3">
-                                                <label >عدد الوحدات داخل الفئة الفرعية </label>
-                                                <input
-                                                    type="number" class="form-control"
-                                                    v-model="v$.count_unit.$model"
-                                                    placeholder="عدد الوحدات داخل الفئة الفرعية"
-                                                    :class="{'is-invalid':v$.count_unit.$error,'is-valid':!v$.count_unit.$invalid}"
-                                                >
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.count_unit.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                    <span v-if="v$.count_unit.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
-                                                </div>
-                                            </div> -->
-                      <!--End Count Unit Select-->
-
-                      <!--Start Sub Measurement Select-->
-                      <!-- <div class="col-md-6 mb-3">
-                                                <label >وحدة القياس الفرعية</label>
-                                                <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    v-model="v$.sub_measurement_unit_id.$model"
-                                                    :class="{'is-invalid':v$.sub_measurement_unit_id.$error,'is-valid':!v$.sub_measurement_unit_id.$invalid}"
-                                                >
-                                                    <option value="">---</option>
-                                                    <option v-for="measure in measures" :key="measure.id" :value="measure.id" >
-                                                        {{ measure.name }}
-                                                    </option>
-                                                </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.sub_measurement_unit_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div>
-                                            </div> -->
-                      <!--End Sub Measurement Select-->
 
                       <!--Start Tax Select-->
                       <div class="col-md-6 mb-3">
@@ -546,13 +507,16 @@
                                 >
                                   <span v-if="it.alternative_id">
                                     <img
-                                      :src="'/upload/product/'+it.image"
+                                      :src="'/upload/product/' + it.image"
                                       alt="product-image"
-                                      style="width: 50px; height: 50px;border-radius: 50%;"
+                                      style="
+                                        width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                      "
                                     />
-                                  {{
-                                    it.name
-                                  }}</span>
+                                    {{ it.name }}</span
+                                  >
                                   <span v-else>{{
                                     $t("global.Alternative")
                                   }}</span>
@@ -595,7 +559,7 @@
                                     "
                                   >
                                     <img
-                                      :src="'/upload/product/'+altr.image"
+                                      :src="'/upload/product/' + altr.image"
                                       alt="product-image"
                                       style="width: 50px; height: 50px"
                                     />

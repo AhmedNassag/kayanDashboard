@@ -1,23 +1,23 @@
 <template>
-    <div
-      :class="[
-        'page-wrapper',
-        this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
-      ]"
-    >
+    <div :class="['page-wrapper','page-wrapper-ar']">
 
         <div class="content container-fluid">
 
-            <notifications :position="this.$i18n.locale == 'ar' ? 'top left' : 'top right'"/>
-
+            <notifications :position="'top left'"  />
             <!-- Page Header -->
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
                         <h3 class="page-title">{{ $t("global.Virtual Stock") }}</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><router-link :to="{name: 'indexVirtualStock'}">{{ $t("global.Virtual Stock") }}</router-link></li>
-                            <li class="breadcrumb-item active">{{ $t("virtualStock.EditVirtualStock") }}</li>
+                            <li class="breadcrumb-item">
+                                <router-link :to="{ name: 'indexVirtualStock' }">
+                                    {{ $t("global.Virtual Stock") }}
+                                </router-link>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                {{ $t("virtualStock.CreateAlternativesVirtualStock") }}
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -30,209 +30,169 @@
                         <loader v-if="loading" />
                         <div class="card-body">
                             <div class="card-header pt-0 mb-4">
-                                <router-link
-                                    :to="{name: 'indexVirtualStock'}"
-                                    class="btn btn-custom btn-dark"
-                                >
-                                    {{ $t("global.back") }}
-                                </router-link>
+                                 <div class="row justify-content-between">
+                                    <div class="col-5">
+                                        <router-link
+                                            :to="{ name: 'indexVirtualStock' }"
+                                            class="btn btn-custom btn-dark"
+                                        >
+                                            {{ $t("global.back") }}
+                                        </router-link>
+
+                                    </div>
+
+                                    <div class="col-5 row justify-content-end">
+                                        <form id="mainFormVirualStocks">
+                                            <div class="form-group">
+                                                <table class="table">
+                                                    <label class="form-group">{{ $t('global.UploadExcelFile') }}
+                                                        <input class="form-control" type="file" name="select_virtualStocks_file">
+                                                    </label>
+                                                    <button class="btn btn-success" style="margin:5px" type="submit" name="upload" value="تأكيد" @click.prevent="saveExcelVirtualStock">{{ $t('global.Add') }}</button>
+                                                </table>
+                                            </div>
+                                        </form>
+
+                                        <!-- <router-link
+                                            :to="{name: 'importVirtualStock'}"
+                                            class="btn btn-custom btn-success">
+                                            {{ $t('global.Import') }}
+                                        </router-link> -->
+
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm">
-                                    <div
-                                        class="alert alert-danger text-center"
-                                        v-if="errors['name']"
-                                    >
-                                        {{ t("global.Exist", {field:t("global.Name")}) }} <br />
-                                    </div>
-                                    <form @submit.prevent="editVirtualStock" class="needs-validation">
+                                    <div class="alert alert-danger text-center" v-if="message.length > 0">{{ message }}<br/></div>
+
+                                    <form @submit.prevent="storeVirtualStock" class="needs-validation">
                                         <div class="form-row row">
 
-                                            <!--Start Category Select-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom07">
-                                                    {{ $t("global.Category") }}
-                                                </label>
-                                                <!-- <Select2 @change="getSubCategory(v$.category_id.$model)" v-model.trim="v$.category_id.$model" :options="categories" :settings="{ width: '100%' }" /> -->
-                                                <select @change="getSubCategory(v$.category_id.$model)" class="form-select" v-model.trim="v$.category_id.$model">
-                                                    <option v-for="category in categories" :key="category.id" :value="category.id">
-                                                        {{ category.name }}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <!--End Category Select-->
+                                            <!--Start Sale Alternatives-->
+                                            <div class="col-md-12 mb-12">
+                                                <div class="row account">
+                                                    <div class="col-md-12 mb-12 head-account">
+                                                        <h3>{{ $t('global.Alternatives') }}</h3>
+                                                    </div>
+                                                    <div v-for="(it,index) in data.alternative" :key="it.id" class="col-md-12 mb-12 body-account row">
 
-                                            <!--Start SubCategory Select-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom0">
-                                                    {{ $t("global.SubCategory") }}
-                                                </label>
-                                                <Select2 v-model.trim="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" />
-                                                <!-- <select class="form-select" v-model.trim="v$.sub_category_id.$model">
-                                                    <option v-for="subCategory in subCategories" :key="subCategory.id" :value="subCategory.id">
-                                                        {{ subCategory.name }}
-                                                    </option>
-                                                </select> -->
-                                            </div>
-                                            <!--End SubCategory Select-->
+                                                        <!--Start Category-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{ $t('global.mainCategory') }}</label>
+                                                            <select @change="getSubCategory(it.category_id,index)" v-model="it.category_id" :class="['form-select',{'is-invalid':v$.alternative[index].category_id.$error,'is-valid':!v$.alternative[index].category_id.$invalid}]">
+                                                                <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+                                                            </select>
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.alternative[index].category_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Category-->
 
-                                            <!--Start Product Select-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom00">
-                                                    {{ $t("global.Product") }}
-                                                </label>
-                                                <Select2 v-model.trim="v$.product_id.$model" :options="products" :settings="{ width: '100%' }" />
-                                                <!-- <select class="form-select" v-model.trim="v$.product_id.$model">
-                                                    <option v-for="product in products" :key="product.id" :value="product.id">
-                                                        {{ product.nameAr }}
-                                                    </option>
-                                                </select> -->
-                                            </div>
-                                            <!--End Product Name Select-->
+                                                        <!--Start Sub Categoy-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{ $t('global.subCategory') }}</label>
+                                                            <select @change="getAlternative(it.category_id,it.sub_category_id,index)" v-model="it.sub_category_id" :class="['form-select',{'is-invalid':v$.alternative[index].sub_category_id.$error,'is-valid':!v$.alternative[index].sub_category_id.$invalid}]">
+                                                                <option v-for="category in subCategory[index].subCategory" :key="category.id" :value="category.id">{{category.name}}</option>
+                                                            </select>
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.alternative[index].sub_category_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /></span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Sub Category-->
 
-                                            <!--Start Product Quantity-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom05">
-                                                    {{ $t("global.Product Quantity") }}
-                                                </label>
-                                                <input
-                                                type="number"
-                                                class="form-control"
-                                                v-model.trim="v$.productQuantity.$model"
-                                                id="validationCustom05"
-                                                :placeholder="$t('global.Product Quantity')"
-                                                :class="{
-                                                    'is-invalid': v$.productQuantity.$error,
-                                                    'is-valid': !v$.productQuantity.$invalid,
-                                                }"
-                                                />
-                                                <div class="valid-feedback">
-                                                    {{ $t("global.LooksGood") }}
-                                                </div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.productQuantity.required.$invalid">
-                                                        {{ $t("global.NameIsRequired") }}
-                                                        <br/>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <!--End Product Quantity-->
+                                                        <!--Start Alternative @change="getMeasurementUnit(it.alternative_id,index)"-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{ $t('global.Alternatives') }}</label>
+                                                            <select v-model="it.alternative_id" :class="['form-select',{'is-invalid':v$.alternative[index].alternative_id.$error,'is-valid':!v$.alternative[index].alternative_id.$invalid}]">
+                                                                <option v-for="category in alternatives[index].alternatives" :key="category.id" :value="category.id">{{category.name}}</option>
+                                                            </select>
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.alternative[index].alternative_id.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Alternative-->
 
-                                            <!--Start Pharmacy Price-->
-                                            <!-- <div class="col-md-6 mb-3">
-                                                <label for="validationCustom05">
-                                                    {{ $t("global.Pharmacy Price") }}
-                                                </label>
-                                                <input
-                                                type="number"
-                                                class="form-control"
-                                                v-model.trim="v$.pharmacyPrice.$model"
-                                                id="validationCustom05"
-                                                :placeholder="$t('global.Pharmacy Price')"
-                                                :class="{
-                                                    'is-invalid': v$.pharmacyPrice.$error,
-                                                    'is-valid': !v$.pharmacyPrice.$invalid,
-                                                }"
-                                                />
-                                                <div class="valid-feedback">
-                                                    {{ $t("global.LooksGood") }}
-                                                </div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.pharmacyPrice.required.$invalid">
-                                                        {{ $t("global.NameIsRequired") }}
-                                                        <br/>
-                                                    </span>
-                                                </div>
-                                            </div> -->
-                                            <!--End Pharmacy Price-->
+                                                        <!--Start Quantity-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.Quantity')}}</label>
+                                                            <input type="number" class="form-control"
+                                                                   v-model.number="v$.alternative[index].quantity.$model"
+                                                                   :placeholder="$t('global.Quantity')"
+                                                                   :class="{'is-invalid':v$.alternative[index].quantity.$error,'is-valid':!v$.alternative[index].quantity.$invalid}"
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.alternative[index].quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                <span v-if="v$.alternative[index].quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Quantity-->
 
-                                            <!--Start Public Price-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom05">
-                                                    {{ $t("global.Public Price") }}
-                                                </label>
-                                                <input
-                                                type="number"
-                                                class="form-control"
-                                                v-model.trim="v$.publicPrice.$model"
-                                                id="validationCustom05"
-                                                :placeholder="$t('global.Public Price')"
-                                                :class="{
-                                                    'is-invalid': v$.publicPrice.$error,
-                                                    'is-valid': !v$.publicPrice.$invalid,
-                                                }"
-                                                />
-                                                <div class="valid-feedback">
-                                                    {{ $t("global.LooksGood") }}
-                                                </div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.publicPrice.required.$invalid">
-                                                        {{ $t("global.NameIsRequired") }}
-                                                        <br/>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <!--End Public Price-->
+                                                        <!--Start Public Price-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.Public Price')}}</label>
+                                                            <input type="text" class="form-control"
+                                                                v-model.number="data.alternative[index].publicPrice"
+                                                                :placeholder="$t('global.Public Price')"
+                                                            >
+                                                        </div>
+                                                        <!--End Public Price-->
 
-                                            <!--Start Pharmacy Discount-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom05">
-                                                    {{ $t("global.Pharmacy Discount") }}
-                                                </label>
-                                                <input
-                                                type="number"
-                                                class="form-control"
-                                                v-model.trim="v$.pharmacyDiscount.$model"
-                                                id="validationCustom05"
-                                                :placeholder="$t('global.Pharmacy Discount')"
-                                                :class="{
-                                                    'is-invalid': v$.pharmacyDiscount.$error,
-                                                    'is-valid': !v$.pharmacyDiscount.$invalid,
-                                                }"
-                                                />
-                                                <div class="valid-feedback">
-                                                    {{ $t("global.LooksGood") }}
-                                                </div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.pharmacyDiscount.required.$invalid">
-                                                        {{ $t("global.NameIsRequired") }}
-                                                        <br/>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <!--End Pharmacy Discount-->
+                                                        <!--Start Client Discount-->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.Client Discount')}}</label>
+                                                            <input type="number" step="0.1" class="form-control"
+                                                                v-model.number="v$.alternative[index].clientDiscount.$model"
+                                                                :placeholder="$t('global.Client Discount')"
+                                                                :class="{'is-invalid':v$.alternative[index].clientDiscount.$error,'is-valid':!v$.alternative[index].clientDiscount.$invalid}"
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.alternative[index].clientDiscount.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                <span v-if="v$.alternative[index].clientDiscount.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Client Discount-->
 
-                                            <!--Start Kayan Discount-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom05">
-                                                    {{ $t("global.Kayan Discount") }}
-                                                </label>
-                                                <input
-                                                type="number"
-                                                class="form-control"
-                                                v-model.trim="v$.kayanDiscount.$model"
-                                                id="validationCustom05"
-                                                :placeholder="$t('global.Kayan Discount')"
-                                                :class="{
-                                                    'is-invalid': v$.kayanDiscount.$error,
-                                                    'is-valid': !v$.kayanDiscount.$invalid,
-                                                }"
-                                                />
-                                                <div class="valid-feedback">
-                                                    {{ $t("global.LooksGood") }}
+                                                        <!--Start Kayan Discount -->
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.Kayan Discount')}}</label>
+                                                            <input type="number" step="0.1" class="form-control"
+                                                                v-model.number="v$.alternative[index].kayanDiscount.$model"
+                                                                :placeholder="$t('global.Kayan Discount')"
+                                                                :class="{'is-invalid':v$.alternative[index].kayanDiscount.$error,'is-valid':!v$.alternative[index].kayanDiscount.$invalid}"
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.alternative[index].kayanDiscount.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                <span v-if="v$.alternative[index].kayanDiscount.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                            </div>
+                                                        </div>
+                                                        <!--End Kayan Discount-->
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <button @click.prevent="addDebit" v-if="(data.alternative.length-1) == index"
+                                                                class="btn btn-sm btn-success me-2 mt-5">
+                                                                <i class="fas fa-clipboard-list"></i> {{$t('global.AddANewLine')}}
+                                                            </button>
+                                                            <button v-if="index" @click.prevent="deleteDebit(index)"
+                                                               data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2 mt-5">
+                                                                <i class="far fa-trash-alt"></i> {{$t('global.Delete')}}
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.kayanDiscount.required.$invalid">
-                                                        {{ $t("global.NameIsRequired") }}
-                                                        <br/>
-                                                    </span>
-                                                </div>
+
                                             </div>
-                                            <!--End Kayan Discount-->
+                                            <!--End Sale Alternative-->
 
                                         </div>
 
-                                        <button class="btn btn-primary" type="submit">{{ $t("global.Submit") }}</button>
+                                        <button class="btn btn-primary mt-2" type="submit">{{$t('global.Submit')}}</button>
                                     </form>
                                 </div>
                             </div>
@@ -246,96 +206,91 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive, toRefs, inject, ref } from "vue";
-import useVuelidate from "@vuelidate/core";
-import {required, minLength, maxLength, integer} from '@vuelidate/validators';
+import {computed, onMounted, reactive,toRefs,inject,ref,watch} from "vue";
+import useVuelidate from '@vuelidate/core';
+import {required, minLength, between, maxLength, alpha, integer, numeric} from '@vuelidate/validators';
 import adminApi from "../../../api/adminAxios";
 import { notify } from "@kyvg/vue3-notification";
-import { useI18n } from "vue-i18n";
+import {useI18n} from "vue-i18n";
+
 
 export default {
-    name: "editVirtualStock",
+    name: "create",
     data(){
         return {
-            errors:{}
+            errors:{},
         }
     },
     props:["id"],
     setup(props){
-        const emitter = inject("emitter");
+        const {t} = useI18n({});
         const { id } = toRefs(props);
-        const { t } = useI18n({});
-
-        // get create Package
         let loading = ref(false);
-        let products = ref([]);
+        let message = ref('');
+        let clients = ref([]);
+        let stores = ref([]);
         let categories = ref([]);
-        let subCategories = ref([]);
+        let alternativeValidation = ref([{
+            category_id:{
+                required
+            },
+            sub_category_id:{
+                required
+            },
+            alternative_id:{
+                required
+            },
+            quantity: {
+                required,
+                numeric
+            },
+            publicPrice: {
+                required,
+                numeric
+            },
+            clientDiscount: {
+                required,
+                numeric
+            },
+            kayanDiscount: {
+                required,
+                numeric
+            },
+        }]);
 
-        let getVirtualStock = () => {
+        let getData = () => {
             loading.value = true;
-
-            adminApi.get(`/v1/dashboard/virtualStock/${id.value}/edit`)
-                .then((res) => {
-                    let l = res.data.data;
-
-                    addVirtualStock.data.productQuantity = l.virtualStock.productQuantity;
-                    // addVirtualStock.data.pharmacyPrice = l.virtualStock.pharmacyPrice;
-                    addVirtualStock.data.publicPrice = l.virtualStock.publicPrice;
-                    addVirtualStock.data.pharmacyDiscount = l.virtualStock.pharmacyDiscount;
-                    addVirtualStock.data.kayanDiscount = l.virtualStock.kayanDiscount;
-                    addVirtualStock.data.supplier_id = l.virtualStock.supplier_id;
-                    addVirtualStock.data.category_id = l.virtualStock.category_id;
-                    addVirtualStock.data.sub_category_id = l.virtualStock.sub_category_id;
-                    addVirtualStock.data.product_id  = l.virtualStock.product_id ;
-
-                    suppliers.value = l.suppliers;
-                    categories.value = l.categories;
-                    getSubCategory(l.price.category_id);
-                })
-                .catch((err) => {
-                    console.log(err.response.data);
-                    this.errors = err.response.data.errors;
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'خطأ...',
-                        text: `يوجد خطأ..!!`,
-                    });
-                })
-                .finally(() => {
-                    loading.value = false;
-                })
+            adminApi.get(`/v1/dashboard/saleInvoice/create`)
+            .then((res) => {
+                let l = res.data.data;
+                clients.value = l.clients;
+                stores.value = l.stores;
+                categories.value = l.categories;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+                this.errors = err.response.data.errors;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
+            })
+            .finally(() => {
+                loading.value = false;
+            });
         }
 
         onMounted(() => {
-            getVirtualStock();
+            getData();
         });
 
-        //start design
-        let addVirtualStock =  reactive({
-            data:{
-                productQuantity: "",
-                // pharmacyPrice: "",
-                publicPrice: "",
-                pharmacyDiscount: "",
-                kayanDiscount:"",
-                // supplier_id: "",
-                category_id:"",
-                sub_category_id:"",
-                product_id:"",
-            }
-        });
-
-        getProducts();
-        getCategories();
-        // getSubCategories();
-        let getSubCategory= (id) => {
+        let getSubCategory = (id,index) => {
             loading.value = true;
-
             adminApi.get(`/v1/dashboard/category/${id}`)
             .then((res) => {
                 let l = res.data.data;
-                subCategories.value = l.subCategories;
+                addJob.subCategory[index].subCategory = l.subCategories;
             })
             .catch((err) => {
                 console.log(err.response.data);
@@ -348,146 +303,122 @@ export default {
             })
             .finally(() => {
                 loading.value = false;
+            });
+        }
+
+        let getAlternative = (category_id,sub_category_id,index) => {
+            loading.value = true;
+            adminApi.get(`/v1/dashboard/alternativeProduct?category_id=${category_id}&sub_category_id=${sub_category_id}`)
+            .then((res) => {
+                let l = res.data.data;
+                console.log(l)
+                addJob.alternatives[index].alternatives = l.alternatives;
+                console.log(alternatives);
             })
-        };
+            .catch((err) => {
+                console.log(err.response.data);
+                this.errors = err.response.data.errors;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+        }
+
+        let addJob =  reactive({
+            data:{
+                alternative:[
+                    {
+                        supplier_id: parseInt(id.value),
+                        category_id: null,
+                        sub_category_id: null,
+                        alternative_id: null,
+                        quantity: null,
+                        publicPrice: null,
+                        clientDiscount: null,
+                        kayanDiscount: null,
+                    }
+                ],
+            },
+            subCategory:[
+                {subCategory:[]}
+            ],
+            alternatives:[
+                {alternatives:[],send:true}
+            ],
+        });
 
         const rules = computed(() => {
             return {
-                productQuantity: {
-                    required,
-                },
-                // pharmacyPrice: {
-                //     required,
-                // },
-                publicPrice: {
-                    required,
-                },
-                pharmacyDiscount: {
-                    required,
-                },
-                kayanDiscount: {
-                    required,
-                },
-                category_id:{
-                    required,
-                },
-                sub_category_id:{
-                    required,
-                },
-                product_id:{
-                    required,
-                },
-                // supplier_id:{
-                //     required,
-                // },
-
-            };
+                alternative:[
+                    ...alternativeValidation.value
+                ],
+            }
         });
 
-        const v$ = useVuelidate(rules,addVirtualStock.data);
+        const v$ = useVuelidate(rules,addJob.data);
 
-        //Commons
-        function getProducts()
-        {
-            adminApi
-            .get(`/v1/dashboard/getProducts`)
-            .then((res) => {
-                products.value =res.data.data.products ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-                this.errors = err.response.data.errors;
-                Swal.fire({
-                    icon: 'error',
-                    title: 'خطأ...',
-                    text: `يوجد خطأ..!!`,
-                });
-            })
-            .finally(() => {
-                loading.value = false;
-            });
-        }
-
-        function getCategories()
-        {
-            adminApi
-            .get(`/v1/dashboard/getCategories`)
-            .then((res) => {
-                categories.value =res.data.data.categories ;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-                this.errors = err.response.data.errors;
-                Swal.fire({
-                    icon: 'error',
-                    title: 'خطأ...',
-                    text: `يوجد خطأ..!!`,
-                });
-            })
-            .finally(() => {
-                loading.value = false;
-            });
-        }
-
-        // function getSubCategories()
-        // {
-        //     adminApi
-        //     .get(`/v1/dashboard/getSubCategories`)
-        //     .then((res) => {
-        //         subCategories.value =res.data.data.subCategories ;
-        //     })
-        //     .catch((err) => {
-                // console.log(err.response.data);
-                // this.errors = err.response.data.errors;
-                // Swal.fire({
-                //     icon: 'error',
-                //     title: 'خطأ...',
-                //     text: `يوجد خطأ..!!`,
-                // });
-        //     })
-        //     .finally(() => {
-        //         loading.value = false;
-        //     });
-        // }
-        //end common
-
-        return {id,loading,...toRefs(addVirtualStock),v$,getSubCategory,categories,subCategories,products};
+        return {t,id,getAlternative,getSubCategory,categories,clients,stores,loading,message,...toRefs(addJob),v$,alternativeValidation};
     },
     methods: {
-        editVirtualStock(){
+        //
+        saveExcelVirtualStock(){
+            var $mainFormVirualStocks = $('#mainFormVirualStocks')
+            var data2 = new FormData(mainFormVirualStocks)
+            adminApi.post(`/v1/dashboard/virtualStockExcelAlternative`,data2)
+            .then((res) => {
+                notify({
+                    title: `${this.t('global.AddedSuccessfully')} <i class="fas fa-check-circle"></i>`,
+                    type: "success",
+                    duration: 5000,
+                    speed: 2000
+                });
+                this.resetForm();
+                this.$nextTick(() => { this.v$.$reset() });
+            })
+            .catch((err) => {
+                this.errors = err.response.data.errors;
+                this.message = err.response.data.message;
+                console.log(err.response.data);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
+            })
+            .finally(() => {
+                this.loading = false;
+            });
+        },
+        //
+
+        storeVirtualStock(){
             this.v$.$validate();
 
             if(!this.v$.$error){
-
                 this.loading = true;
                 this.errors = {};
+                this.message = '';
 
-                let formData = new FormData();
-                formData.append("productQuantity", this.data.productQuantity);
-                // formData.append("pharmacyPrice", this.data.pharmacyPrice);
-                formData.append("publicPrice", this.data.publicPrice);
-                formData.append("pharmacyDiscount", this.data.pharmacyDiscount);
-                formData.append("kayanDiscount", this.data.kayanDiscount);
-                // formData.append("supplier_id", this.data.supplier_id);
-                formData.append("category_id", this.data.category_id);
-                formData.append("sub_category_id", this.data.sub_category_id);
-                formData.append("product_id", this.data.product_id);
-                formData.append('_method','PUT');
-
-                adminApi.post(`/v1/dashboard/virtualStock/${this.id}`,formData)
+                adminApi.post(`/v1/dashboard/virtualStockAlternative`,this.data)
                 .then((res) => {
                     notify({
-                        title: `تم التعديل بنجاح <i class="fas fa-check-circle"></i>`,
+                        title: `${this.t('global.AddedSuccessfully')} <i class="fas fa-check-circle"></i>`,
                         type: "success",
                         duration: 5000,
                         speed: 2000
                     });
-
+                    this.resetForm();
+                    this.$nextTick(() => { this.v$.$reset() });
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
+                    this.message = err.response.data.message;
                     console.log(err.response.data);
-                    this.errors = err.response.data.errors;
                     Swal.fire({
                         icon: 'error',
                         title: 'خطأ...',
@@ -497,8 +428,69 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
-
             }
+        },
+        addDebit(){
+            this.data.alternative.push({
+                supplier_id: parseInt(this.id),
+                category_id:null,
+                sub_category_id:null,
+                alternative_id:null,
+                quantity:null,
+                publicPrice:null,
+                clientDiscount:null,
+                kayanDiscount:null,
+            });
+            this.alternativeValidation.push({
+                category_id:{
+                    required
+                },
+                sub_category_id:{
+                    required
+                },
+                alternative_id:{
+                    required
+                },
+                quantity: {
+                    required,
+                    numeric
+                },
+                publicPrice: {
+                    required,
+                    numeric
+                },
+                clientDiscount: {
+                    required,
+                    numeric
+                },
+                kayanDiscount: {
+                    required,
+                    numeric
+                },
+            });
+
+            this.subCategory.push({subCategory:[]});
+            this.alternatives.push({alternatives:[],send:true});
+            this.$nextTick(() => { this.v$.$reset() });
+        },
+        deleteDebit(index){
+            this.data.alternative.splice(index,1);
+            this.alternativeValidation.splice(index,1);
+            this.subCategory.splice(index,1);
+            this.alternatives.splice(index,1);
+            this.$nextTick(() => { this.v$.$reset() });
+        },
+        resetForm(){
+            this.data.alternative = [{
+                supplier_id: id.value,
+                category_id:null,
+                sub_category_id:null,
+                alternative_id:null,
+                quantity:null,
+                publicPrice:null,
+                clientDiscount:null,
+                kayanDiscount:null,
+            }];
         }
     }
 }
@@ -511,50 +503,36 @@ export default {
 .card{
     position: relative;
 }
-
-.waves-effect {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    width: 200px;
-    height: 50px;
-    text-align: center;
-    line-height: 34px;
-    margin: auto;
+.account{
+    background-color: #0E67D0;
+    color: #000000 !important;
+    border-radius: 5px;
 }
 
-input[type="file"] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    filter: alpha(opacity=0);
-    opacity: 0;
+.account2{
+    background-color: #00DD2F;
+    color: #000000 !important;
+    border-radius: 5px;
 }
-
-.num-of-files{
-    text-align: center;
-    margin: 20px 0 30px;
-}
-
-.container-images {
-    width: 90%;
-    position: relative;
-    margin: auto;
+.head-account{
     display: flex;
-    justify-content: space-evenly;
-    gap: 20px;
-    flex-wrap: wrap;
-    padding: 10px;
-    border-radius: 20px;
-    background-color: #f7f7f7;
+    justify-content: center;
+}
+.head-account h3{
+    color: #000000 !important;
+    font-weight: bold;
+}
+.body-account{
+    border-top: 3px solid #000000;
+    margin: 0 !important;
+}
+.text-height{
+    height: 46px !important;
+}
+.error-amount{
+    display: flex;
+    justify-content: center;
+    color: red;
+    margin: 10px;
 }
 </style>

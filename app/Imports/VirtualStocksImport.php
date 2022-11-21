@@ -3,7 +3,6 @@
 namespace App\Imports;
 
 use App\Models\Price;
-use App\Models\Supplier;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class VirtualStocksImport implements ToModel

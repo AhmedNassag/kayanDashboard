@@ -170,10 +170,11 @@ class PriceController extends Controller
             $v = Validator::make($request->all(),
             [
                 'product_id'     => 'required|integer|exists:products,id',
-                'category_id'    => 'required|integer|exists:categories,id',
-                'sub_category_id' => 'required|integer|exists:sub_categories,id',
+                // 'category_id'    => 'required|integer|exists:categories,id',
+                // 'sub_category_id' => 'required|integer|exists:sub_categories,id',
                 'supplier_id'    => 'required|integer|exists:suppliers,id',
                 // 'pharmacyPrice'  => 'required',
+                'quantity' => 'required',
                 'publicPrice'    => 'required',
                 'clientDiscount' => 'required',
                 'kayanDiscount'  => 'required',
@@ -184,7 +185,7 @@ class PriceController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount','kayanProfit', 'supplier_id'/*, 'company_id'*/]);
+            $data = $request->only(['product_id', 'supplier_id', 'quantity', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount','kayanProfit']);
 
             $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->clientDiscount / 100));
 

@@ -11,11 +11,16 @@ class Tax extends Model
 
     protected $guarded = [];
 
-    protected $appends=['text'];
+    protected $appends=['text', 'percentage'];
 
     public function getTextAttribute()
     {
         return $this->name;
+    }
+
+    public function getPercentageAttribute()
+    {
+        return $this->rate;
     }
 
     //start relations

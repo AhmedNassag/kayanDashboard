@@ -66,7 +66,7 @@
                                                     v-model="data.store_id"
                                                     :class="['form-select',{'is-invalid':v$.store_id.$error,'is-valid':!v$.store_id.$invalid}]"
                                                 >
-                                                    <option v-for="store in stores" :kay="store.id" :value="store.id">{{store.name}}</option>
+                                                    <option v-for="store in stores" :key="store.id" :value="store.id">{{store.name}}</option>
                                                 </select>
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                 <div class="invalid-feedback">
@@ -127,7 +127,7 @@
                                                     <div class="col-md-12 mb-12 head-account">
                                                         <h3>{{ $t('global.Products') }}</h3>
                                                     </div>
-                                                    <div v-for="(it,index) in data.product" class="col-md-12 mb-12 body-account row">
+                                                    <div v-for="(it,index) in data.product" :key="it.id" class="col-md-12 mb-12 body-account row">
 
                                                         <div class="col-md-2 mb-3 position-relative">
                                                             <label>{{ $t('global.Products') }}</label>
@@ -282,13 +282,13 @@
                                             </div>
 
                                             <div class="col-md-6 mb-3" v-if="offerDiscounts.length > 0">
-                                                <label>{{ $t('global.offerDisco') }}</label>
+                                                <label>{{ $t('global.offers') }}</label>
                                                 <select multiple v-model="data.discounts" :class="['form-select']">
                                                     <option
                                                         v-for="discount in offerDiscounts"
-                                                        :kay="discount.id" :value="discount.id"
+                                                        :key="discount.id" :value="discount.id"
                                                     >
-                                                        {{discount.name}} -- {{ discount.type == 'fixed' ? `${discount.value} EGP`: `${discount.value} %`}}
+                                                        {{discount.name}} -- {{ discount.ratio == 0 ? `${discount.discount} EGP`: `% ${discount.discount} `}}
                                                     </option>
                                                 </select>
                                             </div>
@@ -298,9 +298,9 @@
                                                 <select multiple v-model="data.taxs" :class="['form-select']">
                                                     <option
                                                         v-for="tax in taxs"
-                                                        :kay="tax.id" :value="tax.id"
+                                                        :key="tax.id" :value="tax.id"
                                                     >
-                                                        {{tax.name}} -- {{tax.percentage}} %
+                                                        {{tax.name}} -- % {{tax.rate}}
                                                     </option>
                                                 </select>
                                             </div>
@@ -758,7 +758,7 @@ export default {
 
             taxs.value.forEach((el) => {
                 if(addJob.data.taxs.includes(el.id)){
-                    totalTax.value += parseFloat(el.percentage);
+                    totalTax.value += parseFloat(el.rate);
                 }
             });
             taxValue.value = ((totalProductAfterDiscount.value * totalTax.value) / 100);

@@ -60,17 +60,6 @@
                                             <td class="text-center">{{ item.address }}</td>
                                             <td class="text-center">{{ item.phone }}</td>
                                             <td class="text-center">
-                                                <!-- <router-link
-                                                    :to="{
-                                                        name: 'editVirtualStock',
-                                                        params: { id: item.id },
-                                                    }"
-                                                    v-if="permission.includes('virtualStock edit')"
-                                                    class="btn btn-sm btn-info me-2"
-                                                >
-                                                    <i class="fas fa-book-open"></i>
-                                                    {{ $t("global.ShowDetails") }}
-                                                </router-link> -->
                                                 <router-link :to="{
                                                     name: 'showVirtualStock',
                                                     params: { id: item.id },
@@ -86,15 +75,14 @@
                                                     <i class="fas fa-truck"></i>
                                                     {{ $t("global.Create Product") }}
                                                 </router-link>
-                                                <!-- <a
-                                                href="#"
-                                                @click="deleteVirtualStock(item.id, index)"
-                                                v-if="permission.includes('virtualStock delete')"
-                                                data-bs-target="#staticBackdrop"
-                                                class="btn btn-sm btn-danger me-2"
-                                                >
-                                                    <i class="far fa-trash-alt"></i>
-                                                </a> -->
+
+                                                <router-link :to="{
+                                                    name: 'editVirtualStock',
+                                                    params: { id: item.id },
+                                                }" v-if="permission.includes('virtualStock edit')" class="btn btn-sm btn-secondary me-2">
+                                                    <i class="fas fa-truck"></i>
+                                                    {{ $t("global.Create Alternative") }}
+                                                </router-link>
                                             </td>
                                         </tr>
                                     </tbody>
