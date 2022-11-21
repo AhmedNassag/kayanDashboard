@@ -92,7 +92,6 @@ class ProductController extends Controller
             $tax             = Tax::where('status',1)->select('id', 'name')->get();
             $sellingMethods  = SellingMethod::where('status',1)->select('id', 'name')->get();
             $pharmacistForms = PharmacistForm::select('id', 'name')->get();
-            $alternatives    = Alternative::select('id', 'nameAr')->get();
             $clients         = Client::with('user')->get();
 
             return $this->sendResponse([
@@ -101,7 +100,6 @@ class ProductController extends Controller
                 'taxes'           => $tax,
                 'sellingMethods'  => $sellingMethods,
                 'pharmacistForms' => $pharmacistForms,
-                'alternatives'    => $alternatives,
                 'clients'         => $clients
             ], 'Data exited successfully');
         }
@@ -199,19 +197,7 @@ class ProductController extends Controller
                 }
             }
 
-            if ($request->alternativeDetail && $request-> alternativeDetail != Null) {
-                $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
-                foreach ($request->alternativeDetail as $alternativeDetail) {
-                    if($alternativeDetail->alternative_id && $alternativeDetail->alternative_id != Null)
-                    {
-                        AlternativeDetail::create
-                        ([
-                            'product_id'     => $product['id'],
-                            'alternative_id' => $alternativeDetail->alternative_id,
-                        ]);
-                    }
-                }
-            }
+            $this->associateAlternativeProducts($request,$product);
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
@@ -226,7 +212,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $products = Product::where('sub_category_id	', $id)->get();
+        $products = Product::where('sub_category_id	', $id)->with('related:id,image,nameAr')->get();
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
 
@@ -240,13 +226,12 @@ class ProductController extends Controller
     public function edit($id)
     {
         try {
-            $product         = Product::where('status',1)->with(['media:mediable_id,file_name,id', 'alternativeDetails'])->find($id);
+            $product         = Product::where('status',1)->with(['media:mediable_id,file_name,id','related:id,image,nameAr'])->find($id);
             $categories      = Category::where('status',1)->select('id', 'name')->get();
             $measures        = Unit::select('id', 'name')->get();
             $taxes           = Tax::where('status',1)->select('id', 'name')->get();
             $pharmacistForms = PharmacistForm::select('id', 'name')->get();
             $sellingMethods  = SellingMethod::where('status',1)->select('id', 'name')->get();
-            $alternatives    = Alternative::select('id', 'nameAr')->get();
             $sellingMethodChange = $product->selling_methods;
 
             return $this->sendResponse([
@@ -256,7 +241,6 @@ class ProductController extends Controller
                 'taxes'               => $taxes,
                 'pharmacistForms'     => $pharmacistForms,
                 'sellingMethods'      => $sellingMethods,
-                'alternatives'        => $alternatives,
                 'sellingMethodChange' => $sellingMethodChange
             ], 'Data exited successfully');
         } catch (\Exception $e) {
@@ -342,23 +326,7 @@ class ProductController extends Controller
                 }
             }
 
-            if ($request->alternativeDetail != null) {
-                $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
-                foreach ($request->alternativeDetail as $alternativeDetail) {
-                    if ($alternativeDetail->alternative_id != null && $alternativeDetail->discount != null && $alternativeDetail->pharmacyPrice != null && $alternativeDetail->publicPrice != null) {
-                        foreach ($product->alternativeDetails as $data) {
-                            $data->delete();
-                        }
-                        AlternativeDetail::create([
-                            'product_id'     => $product['id'],
-                            'alternative_id' => $alternativeDetail->alternative_id,
-                            'discount'       => $alternativeDetail->discount,
-                            'pharmacyPrice'  => $alternativeDetail->pharmacyPrice,
-                            'publicPrice'    => $alternativeDetail->publicPrice,
-                        ]);
-                    }
-                }
-            }
+            $this->associateAlternativeProducts($request,$product);
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
@@ -451,5 +419,36 @@ class ProductController extends Controller
     {
         $units = Unit::get();
         return $this->sendResponse(['units' => $units], 'Data exited successfully');
+    }
+
+    public function getAlternativesProducts(Request $request)
+    {
+        $alternatives = Product::
+        where(function($q) use($request){
+            $q->when($request->altr_search,function($q) use($request){
+                $q->where('nameAr','like',"%$request->altr_search%")
+                ->orWhere('nameEn','like',"%$request->altr_search%")
+                ->orWhere('effectiveMaterial','like',"%$request->altr_search%")
+                ->orWhere('description','like',"%$request->altr_search%")
+                ->orWhere('barcode','like',"%$request->altr_search%");
+            });
+        })
+        ->where(function($q) use($request){
+            $q->when($request->product_id,function($q) use($request){
+                $q->where('id','!=',$request->product_id);
+            });
+        })
+        ->select('id', 'nameAr','image')->latest()->take(10)->get();
+
+        return response()->json(['alternatives' => $alternatives]);
+
+    }
+
+    public function associateAlternativeProducts($request,$product)
+    {
+        if ($request->alternativeDetail && $request-> alternativeDetail != Null) {
+            $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
+            $product->related()->sync(collect($request->alternativeDetail)->where('alternative_id','!=',$product->id)->unique('alternative_id')->pluck('alternative_id')->toArray());
+        }
     }
 }

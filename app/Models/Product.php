@@ -16,6 +16,9 @@ class Product extends Model
         'name', 'text'
     ];
 
+    public function related(){
+        return $this->belongsToMany(Product::class,'related_products','product_id','related_id');
+    }
 
     public function getTextAttribute()
     {
@@ -73,10 +76,10 @@ class Product extends Model
         return $this->hasMany(Refused::class);
     }
 
-    public function alternativeDetails()
-    {
-        return $this->hasMany(AlternativeDetail::class);
-    }
+    // public function alternativeDetails()
+    // {
+    //     return $this->hasMany(AlternativeDetail::class);
+    // }
     //
     public function mainMeasurementUnit()
     {
