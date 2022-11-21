@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-<<<<<<< HEAD
+use App\Models\AlsoBought;
+use App\Models\BestSeller;
 use App\Models\Deal;
-=======
+use App\Models\MostPopular;
 use App\Models\OrderStatus;
->>>>>>> 7d5ab008ba29c005befea9563be389beac2d0a05
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -34,12 +34,10 @@ class DatabaseSeeder extends Seeder
         $this->call(SubAccountTableSeeder::class);
         $this->call(AboutSectionSeeder::class);
         $this->call(AboutInformationsSeeder::class);
-
-<<<<<<< HEAD
         Deal::creat(['limit' => 10]);
-=======
-
-        
+        BestSeller::creat(['limit' => 10]);
+        AlsoBought::creat(['limit' => 10]);
+        MostPopular::creat(['limit' => 10]);
         $this->call(OrderStatusTableSeerer::class);
         $this->call(StoreTableSeeder::class);
 
@@ -47,6 +45,5 @@ class DatabaseSeeder extends Seeder
         $this->call(ExpenseTableSeeder::class);
         $this->call(IncomeTableSeeder::class);
         $this->call(SettingSeeder::class);
->>>>>>> 7d5ab008ba29c005befea9563be389beac2d0a05
     }
 }
