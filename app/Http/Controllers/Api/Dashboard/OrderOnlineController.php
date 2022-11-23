@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\DirectOrders;
 use App\Models\OfferDiscount;
 use App\Models\Order;
 use App\Models\OrderDetails;
@@ -30,7 +31,7 @@ class OrderOnlineController extends Controller
      */
     public function index(Request $request)
     {
-        $orders= Order::where([
+        $orders= DirectOrders::where([
             ['is_online',1],
             ['order_status_id','!=',5],
         ])->where([
@@ -78,7 +79,7 @@ class OrderOnlineController extends Controller
     }
 
     public function show($id){
-        $order = Order::where('is_online',1)->with(['orderStatus','orderOtherOffer','user' => function ($q){
+        $order = DirectOrders::where('is_online',1)->with(['orderStatus','orderOtherOffer','user' => function ($q){
             $q->with('client');
         },'orderOffer','orderTax','orderDetails' => function ($q) {
             $q->with(['sellingMethod:id,name',
@@ -144,7 +145,7 @@ class OrderOnlineController extends Controller
 
         $offerDiscount = OfferDiscount::select('id','name','type','value')->where('status',true)->get();
 
-        $order = Order::with('orderOtherOffer')->
+        $order = DirectOrders::with('orderOtherOffer')->
         with([
             'orderOffer',
             'orderTax',
@@ -206,7 +207,7 @@ class OrderOnlineController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $order = Order::find($id);
+            $order = DirectOrders::find($id);
 
             if($order->orderDetails){
                 foreach ($order->orderDetails as $detail){
@@ -347,7 +348,7 @@ class OrderOnlineController extends Controller
     public function destroy($id)
     {
         try {
-            $order = Order::find($id);
+            $order = DirectOrders::find($id);
             if ($order && $order->order_status_id == 1){
                 foreach ($order->orderDetails as $detail){
                     foreach ($detail->orderStoreProducts as $orderStoreProduct){

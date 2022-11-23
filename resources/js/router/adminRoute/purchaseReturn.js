@@ -1,6 +1,5 @@
 import indexPurchaseReturn from "../../view/admin/purchaseReturn/index";
 import createPurchaseReturn from "../../view/admin/purchaseReturn/create";
-import editPurchaseReturn from "../../view/admin/purchaseReturn/edit";
 import store from "../../store/admin";
 
 export default [
@@ -18,6 +17,20 @@ export default [
                     let permission = store.state.authAdmin.permission;
 
                     if(permission.includes('PurchaseReturn read')){
+                        return next();
+                    }else{
+                        return next({name:'Page404'});
+                    }
+                }
+            },
+            {
+                path: 'create',
+                name: 'createPurchaseReturn',
+                component: createPurchaseReturn,
+                beforeEnter: (to, from,next) => {
+                    let permission = store.state.authAdmin.permission;
+
+                    if(permission.includes('PurchaseReturn create')){
                         return next();
                     }else{
                         return next({name:'Page404'});

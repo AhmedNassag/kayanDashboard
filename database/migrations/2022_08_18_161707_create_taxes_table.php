@@ -16,8 +16,9 @@ class CreateTaxesTable extends Migration
         Schema::create('taxes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('rate')->nullable();
+            $table->unsignedDecimal('percentage')->nullable();
             $table->boolean('status')->default(true);
+            $table->boolean('app')->default(false);
             $table->timestamps();
         });
     }

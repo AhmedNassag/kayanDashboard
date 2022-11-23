@@ -91,7 +91,7 @@
                                     </thead>
                                     <tbody v-if="purchases.length">
                                         <tr v-for="(item,index) in purchases"  :key="item.id">
-                                            <td>{{ item.id }}</td>
+                                            <td>{{ index + 1 }}</td>
                                             <td>{{ is_suppler ==1 ? item.supplier.name_supplier : item.client.name}}</td>
                                             <td>{{ item.purchase_id }}</td>
                                             <td>{{ item.amount }}</td>
@@ -172,24 +172,24 @@
                                                                                         <th>{{ $t('global.TotalPrice') }}</th>
                                                                                     </tr>
                                                                                     </thead>
-                                                                                    <tbody>
-                                                                                    <tr v-for="(it,index) in item.purchase.purchase_products" v-if="item.purchase.purchase_products" :key="it.id">
-                                                                                        <td>{{ index +1}}</td>
-                                                                                        <td>{{ it.product.name }}</td>
-                                                                                        <td>{{ it.quantity }}</td>
-                                                                                        <td>{{ it.price }} ج.م</td>
-                                                                                        <td>{{ it.sub_quantity }}</td>
-                                                                                        <td>{{ parseFloat(it.price / it.count_unit).toFixed(2) }} ج.م</td>
-                                                                                        <td>{{ parseFloat(it.quantity * it.price) + parseFloat(it.sub_quantity * (it.price / it.count_unit)) }} ج.م</td>
-                                                                                    </tr>
-                                                                                    <tr v-else>
-                                                                                        <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
-                                                                                    </tr>
-
+                                                                                    <tbody v-if="item.purchase.purchase_products">
+                                                                                        <tr v-for="(it,index) in item.purchase.purchase_products" :key="it.id">
+                                                                                            <td>{{ index +1}}</td>
+                                                                                            <td>{{ it.product.name }}</td>
+                                                                                            <td>{{ it.quantity }}</td>
+                                                                                            <td>{{ it.price }} ج.م</td>
+                                                                                            <td>{{ it.sub_quantity }}</td>
+                                                                                            <td>{{ parseFloat(it.price / it.count_unit).toFixed(2) }} ج.م</td>
+                                                                                            <td>{{ parseFloat(it.quantity * it.price) + parseFloat(it.sub_quantity * (it.price / it.count_unit)) }} ج.م</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                    <tbody v-else>
+                                                                                        <tr>
+                                                                                            <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
+                                                                                        </tr>
                                                                                     </tbody>
                                                                                 </table>
                                                                             </div>
-
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -347,7 +347,7 @@ export default {
 
 
 .amount{
-    background-color: #fcb00c;
+    background-color: #0E67D0;
     color: #000;
     padding: 10px;
 }
@@ -368,7 +368,7 @@ export default {
     background: #000;
 }
 .head-table h3{
-    color: #ffc107;
+    color: #0E67D0;
     text-align: center;
 }
 .total-head{
@@ -377,7 +377,7 @@ export default {
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    background-color: #fcb00c !important;
+    background-color: #0E67D0 !important;
     border-radius: 10px;
 }
 .custom-modal .close span {

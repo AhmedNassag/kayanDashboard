@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(CreateAdminSeeder::class);
         $this->call(ProductStatusSeeder::class);
+        $this->call(SellingMethodSeeder::class);
         $this->call(SellerCategorySeeder::class);
         $this->call(AdvertiseViewSeeder::class);
         $this->call(AdvertisePageSeeder::class);
@@ -34,7 +35,8 @@ class DatabaseSeeder extends Seeder
 
         // Deal::creat(['limit' => 10]);
 
-
+        $this->call(CitySeeder::class);
+        $this->call(AreaSeeder::class);
         $this->call(OrderStatusTableSeerer::class);
         $this->call(StoreTableSeeder::class);
         $this->call(TreasuryTableSeeder::class);

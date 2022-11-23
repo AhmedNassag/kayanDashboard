@@ -21,78 +21,70 @@ class Purchase extends Model
 
     public function getPriceAttribute($value)
     {
-        if (count($this->supplierExpense) > 0) {
-            return  $this->supplierExpense()->sum('amount');
-        } elseif (count($this->clientExpense) > 0) {
-            return  $this->clientExpense()->sum('amount');
+        if (count($this->supplierExpense) > 0){
+            return  $this->supplierExpense()->sum('amount') ;
+        }elseif (count($this->clientExpense) > 0){
+            return  $this->clientExpense()->sum('amount') ;
         }
-        return  $value;
+        return  $value ;
     }
 
     public function getQuantityAttribute()
     {
-        return  $this->purchaseProducts()->sum('quantity') + $this->purchaseProducts()->sum('sub_quantity');
+        return  $this->purchaseProducts()->sum('quantity') + $this->purchaseProducts()->sum('sub_quantity') ;
     }
     public function getSenderNameAttribute()
     {
-        if ($this->supplier_id != null) {
+        if ($this->supplier_id != null){
             return $this->supplier->name_supplier;
-        } else {
+        }else{
             return $this->user->name;
         }
     }
 
-    public function getProductPriceAttribute()
-    {
+    public function getProductPriceAttribute(){
         $product_price = 0;
 
-        foreach ($this->purchaseProducts as $product) {
+        foreach ($this->purchaseProducts as $product){
             $product_price +=  $product['quantity'] * $product['price'];
-            $product_price +=  $product['sub_quantity'] * ($product['price'] / $product['count_unit']);
+            $product_price +=  $product['sub_quantity'] * ($product['price'] / $product['count_unit']) ;
         }
 
         return $product_price;
     }
 
-    public function purchaseProducts()
-    {
+    public function purchaseProducts(){
 
         return $this->hasMany(PurchaseProduct::class);
     }
 
-    public function store()
-    {
-        return $this->belongsTo(Store::class, 'store_id');
+    public function store(){
+        return $this->belongsTo(Store::class,'store_id');
     }
 
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class, 'supplier_id');
+    public function supplier(){
+        return $this->belongsTo(Supplier::class,'supplier_id');
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
     }
 
-    public function examinationRecord()
-    {
+    public function examinationRecord(){
 
-        return $this->hasOne(ExaminationRecord::class, 'purchase_id');
+        return $this->hasOne(ExaminationRecord::class,'purchase_id');
+
     }
 
-    public function purchaseReturns()
-    {
-        return $this->hasOne(PurchaseReturn::class, 'purchase_id');
+    public function purchaseReturns (){
+        return $this->hasOne(PurchaseReturn::class,'purchase_id');
     }
 
-    public function supplierAccounts()
-    {
+    public function supplierAccounts(){
         return $this->hasMany(SupplierAccount::class);
     }
 
-    public function clientAccount()
-    {
+    public function clientAccount(){
         return $this->hasMany(ClientAccount::class);
     }
 

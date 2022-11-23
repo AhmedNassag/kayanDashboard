@@ -44,13 +44,13 @@
                                                            v-model="toDate">
                                                 </div>
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label >{{$t('global.PurchaseInvoiceNumber')}}</label>
                                                     <input type="number" class="form-control date-input"
                                                            v-model="purchase_id">
                                                 </div>
 
-                                                <div class="col-md-3 mt-4">
+                                                <div class="col-md-2">
                                                     <button class="btn btn-primary" type="submit">{{$t('global.Search')}}</button>
                                                 </div>
 
@@ -79,20 +79,22 @@
                                             <th>{{$t('global.InvoiceNumber')}}</th>
                                             <th>{{ $t('global.Supplier') }}</th>
                                             <th>{{ $t('global.Store') }}</th>
-                                            <th>{{ $t('global.Notes') }}</th>
-                                            <th>{{ $t('global.TotalPrice') }}</th>
+                                            <th>{{ $t('global.paid up') }}</th>
                                             <th>{{ $t('global.Date') }}</th>
+                                            <th>{{ $t('global.Notes') }}</th>
                                             <th>{{ $t('global.Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="purchases.length">
-                                        <tr v-for="(item,index) in purchases" :key="item.id">
+                                        <tr v-for="(item,index) in purchases"  :key="item.id">
                                             <td>{{ item.id }}</td>
-                                            <td>{{ item.supplier.name }}</td>
+                                            <td>{{ item.sender_name }}</td>
                                             <td>{{ item.store.name }}</td>
-                                            <td>{{ item.note }}</td>
-                                            <td>{{ item.total_price }}</td>
-                                            <td>{{ dateFormat(item.created_at) }}</td>
+
+                                            <td>{{ item.price }}</td>
+
+                                            <td>{{  dateFormat(item.created_at) }}</td>
+                                            <td>{{ item.note ? item.note : "---" }}</td>
                                             <td>
 
                                                 <a href="javascript:void(0);"
@@ -163,18 +165,12 @@
 
                                                                                     <div class="col-md-6">
                                                                                         <p>{{$t('global.DateOrder')}} : {{dateFormat(item.created_at)}}</p>
-                                                                                        <p>{{$t('global.Supplier')}} : {{ item.supplier.name }}</p>
-                                                                                        <p>{{$t('global.TotalPriceBeforeDiscount')}} : {{ item.price }} ج.م</p>
-                                                                                        <p>{{$t('global.discountPercentage')}} : {{ item.discount_percentage }} %</p>
-
+                                                                                        <p>{{$t('global.paid up')}} : {{ item.price }} ج.م</p>
                                                                                     </div>
 
                                                                                     <div class="col-md-6">
-                                                                                        <p>{{$t('global.discountValue')}} : {{ item.discount_value }} ج.م</p>
-                                                                                        <p>{{$t('global.otherDiscounts')}} : {{ item.other_discounts }} ج.م</p>
-                                                                                        <p>{{$t('global.transferPrice')}} : {{ item.transfer_price }} ج.م</p>
-                                                                                        <p>{{$t('global.TotalPriceAfterDiscount')}} : {{ item.total_price }} ج.م</p>
-
+                                                                                        <p>{{$t('global.Supplier')}} : {{ item.sender_name }}</p>
+                                                                                        <p>{{$t('global.TotalProductPrice')}} : {{ item.product_price }} ج.م</p>
                                                                                     </div>
 
                                                                                 </div>
@@ -184,31 +180,27 @@
                                                                                     <tr>
                                                                                         <th>#</th>
                                                                                         <th>{{ $t('global.Products') }}</th>
-                                                                                        <th>{{ $t('global.Quantity') }}</th>
+                                                                                        <th>{{ $t('global.TotalAccount') }}</th>
                                                                                         <th>{{ $t('global.Price') }}</th>
-                                                                                        <th>{{ $t('global.expiryDate') }}</th>
+                                                                                        <th>{{ $t('global.Partial') }}</th>
+                                                                                        <th>{{ $t('global.Price') }}</th>
                                                                                         <th>{{ $t('global.TotalPrice') }}</th>
                                                                                     </tr>
                                                                                     </thead>
                                                                                     <tbody v-if="item.purchase_products">
-                                                                                    <tr v-for="(it,index) in item.purchase_products" :key="it.id">
-                                                                                        <td>{{ index +1}}</td>
-                                                                                        <td>{{ it.product.name }}</td>
-                                                                                        <td>{{ it.quantity }} ( {{it.product.main_measurement_unit.name}} )</td>
-                                                                                        <td>{{ it.price_after_discount }}</td>
-                                                                                        <td>{{ it.expiry_date }}</td>
-                                                                                        <td>{{ it.quantity * it.price_after_discount }}</td>
-                                                                                    </tr>
-                                                                                    <!-- <tr v-else>
-                                                                                        <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
-                                                                                    </tr> -->
-
+                                                                                        <tr v-for="(it,index) in item.purchase_products" :key="it.id">
+                                                                                            <td>{{ index +1}}</td>
+                                                                                            <td>{{ it.product.name }}</td>
+                                                                                            <td>{{ it.quantity }}</td>
+                                                                                            <td>{{ it.price }} ج.م</td>
+                                                                                            <td>{{ it.sub_quantity }}</td>
+                                                                                            <td>{{ parseFloat(it.price / it.count_unit).toFixed(2) }} ج.م</td>
+                                                                                            <td>{{ parseFloat(it.quantity * it.price) + parseFloat(it.sub_quantity * (it.price / it.count_unit)) }} ج.م</td>
+                                                                                        </tr>
                                                                                     </tbody>
                                                                                     <tbody v-else>
                                                                                         <tr>
-                                                                                            <th class="text-center" colspan="15">
-                                                                                                {{ $t("global.NoDataFound") }}
-                                                                                            </th>
+                                                                                            <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 </table>
@@ -242,7 +234,7 @@
             </div>
 
             <!-- start Pagination -->
-            <Pagination :data="purchasesPaginate" @pagination-change-page="getIncome">
+            <Pagination :limit="2" :data="purchasesPaginate" @pagination-change-page="getIncome">
                 <template #prev-nav>
                     <span>&lt; {{$t('global.Previous')}}</span>
                 </template>
@@ -278,12 +270,6 @@ export default {
 
         let getIncome = (page = 1) => {
             loading.value = true;
-            if (!fromDate.value){
-                fromDate.value = new Date().toISOString().split('T')[0];
-            }
-            if (!toDate.value){
-                toDate.value = new Date().toISOString().split('T')[0];
-            }
 
             adminApi.get(`/v1/dashboard/purchaseInvoice?page=${page}&purchase_id=${purchase_id.value}&from_date=${fromDate.value}&to_date=${toDate.value}&search=${search.value}`)
                 .then((res) => {
@@ -350,7 +336,14 @@ export default {
         }
 
         let dateFormat = (item) => {
-            return new Date(item).toDateString();
+            let now = new Date(item);
+            let st = `
+                 ${now.getUTCHours()}:${now.getUTCMinutes()}:${now.getUTCSeconds()}
+                ${now.getUTCFullYear().toString()}
+                 /${(now.getUTCMonth() + 1).toString()}
+                 /${now.getUTCDate()}
+            `;
+            return st;
         }
 
         let printData = (id) => {

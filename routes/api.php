@@ -42,7 +42,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('examinationRecord', 'ExaminationRecordController');
 
             // purchase return
-            Route::resource('purchaseReturn', 'PurchaseReturnController');
+            // Route::resource('purchaseReturn', 'PurchaseReturnController');
 
             // purchase invoice
             Route::resource('purchaseInvoice', 'PurchaseController');
@@ -87,9 +87,14 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('usersCategory', 'UsersCategoryController')->except(['show']);
             Route::get('activationUsersCategory/{id}', 'UsersCategoryController@activationUsersCategory');
 
+            // discount
+            Route::resource('discount', 'DiscountController')->except(['show']);
+            Route::get('activationDiscount/{id}', 'DiscountController@activationDiscount');
+            
             // tax
             Route::resource('tax', 'TaxController')->except(['show']);
             Route::get('activationTax/{id}', 'TaxController@activationTax');
+            Route::get('activationTaxApp/{id}', 'TaxController@activationTaxApp');
 
             // pharmacist form
             Route::resource('pharmacistForm', 'PharmacistFormController')->except(['show']);
@@ -122,6 +127,31 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
             // stock
             Route::resource('stock', 'StockController')->except(['show']);
+
+            // store
+            Route::resource('store', 'StoreController');
+            Route::get('activationStore/{id}', 'StoreController@activationStore');
+            Route::get('mainStore/{id}', 'StoreController@MainStore');
+            Route::get('activeStore', 'StoreController@activeStore');
+
+            // examination Record
+            Route::resource('examinationRecord', 'ExaminationRecordController');
+
+            // Purchase Return
+            Route::resource('purchaseReturn', 'PurchaseReturnController');
+
+            //Purchase Return Account
+            Route::post('purchaseReturnAccount', 'PurchaseReturnAccountController@purchaseReturnAccount');
+            Route::get('purchaseReturnAccount', 'PurchaseReturnAccountController@index');
+
+            //Purchase Expenses
+            Route::get('purchaseExpenses', 'PurchaseExpensesController@index');
+
+            // Products Pricing
+            Route::resource('productsPricing', 'ProductsPricingController');
+
+            //city
+            Route::resource('province', 'ProvinceController');
 
             // virtual stock
             Route::resource('virtualStock', 'VirtualStockController')->except(['show']);

@@ -19,7 +19,7 @@ class Store extends Model
     // start relation
 
     public function province(){
-        return $this->belongsTo(Province::class);
+        return $this->belongsTo(City::class, 'city_id');
     }
 
     public function area(){

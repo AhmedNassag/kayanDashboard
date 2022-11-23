@@ -60,6 +60,7 @@
                       <th>#</th>
                       <th>{{ $t("global.Name") }}</th>
                       <th>{{ $t("global.City") }}</th>
+                      <th>{{ $t("global.shipping_price")}}</th>
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
@@ -68,6 +69,7 @@
                       <td>{{ index + 1 }}</td>
                       <td>{{ area.name }}</td>
                       <td>{{ area.city.name }}</td>
+                      <td>{{ area.shipping_price }}</td>
                       <td>
                         <a
                           href="#"

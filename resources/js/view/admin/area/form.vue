@@ -65,6 +65,26 @@
                     </div>
                   </div>
                 </div>
+                //
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">{{ $t("global.shipping_price") }}</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      v-model="v$.shipping_price.$model"
+                      :class="{
+                        'is-invalid': v$.shipping_price.$error,
+                      }"
+                    />
+                    <div class="invalid-feedback">
+                      <div v-for="error in v$.shipping_price.$errors" :key="error">
+                        {{ $t("global.shipping_price") + " " + $t(error.$validator) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                //
               </div>
             </div>
             <div class="modal-footer">
@@ -99,10 +119,12 @@ export default {
     const form = reactive({
       id: null,
       name: "",
+      shipping_price: "",
       city_id: null,
     });
     const rules = {
       name: { required },
+      shipping_price: {required},
       city_id: { required },
     };
     const v$ = useVuelidate(rules, form);
@@ -164,6 +186,7 @@ export default {
       return {
         id: props.selectedArea ? props.selectedArea.id : null,
         name: form.name,
+        shipping_price: form.shipping_price,
         city_id: form.city_id,
         city_name: getCurrentCityName(),
       };
@@ -171,6 +194,7 @@ export default {
     function setForm() {
       v$.value.$reset();
       form.name = props.selectedArea ? props.selectedArea.name : "";
+      form.shipping_price = props.selectedArea.shipping_price;
       form.city_id = getCurrentCityId();
       data.nameExist = false;
     }

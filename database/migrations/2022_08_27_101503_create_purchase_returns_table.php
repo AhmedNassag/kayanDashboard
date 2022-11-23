@@ -19,7 +19,7 @@ class CreatePurchaseReturnsTable extends Migration
             $table->foreignId('purchase_id')->nullable()->constrained('purchases')->cascadeOnDelete();
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->cascadeOnDelete();
             $table->foreignId('client_id')->nullable()->constrained('suppliers')->cascadeOnDelete();
-            $table->foreignId('store_id')->constrained('stocks')->cascadeOnDelete();
+            $table->foreignId('store_id')->constrained('stores')->cascadeOnDelete();
             $table->text('note')->nullable();
             $table->boolean('is_account')->default(false);
             $table->timestamps();

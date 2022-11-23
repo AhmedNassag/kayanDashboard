@@ -3,10 +3,12 @@ import Index from '../view/admin/Dashboard.vue';
 import department from './adminRoute/department';
 import alternative from './adminRoute/alternative';
 import product from './adminRoute/product';
+import ProductsPricing from './adminRoute/ProductPricing';
 import category from './adminRoute/category';
 import subCategory from './adminRoute/subCategory';
 import usersCategory from './adminRoute/usersCategory';
 import tax from './adminRoute/tax';
+import discount from './adminRoute/discount';
 import company from './adminRoute/company';
 import pharmacistForm from './adminRoute/pharmacistForm';
 import price from './adminRoute/price';
@@ -78,6 +80,7 @@ import newsletter from './adminRoute/newsletter';
 import purchaseInvoice from './adminRoute/purchaseInvoice';
 import examinationRecord from './adminRoute/examinationRecord';
 import purchaseReturn from './adminRoute/purchaseReturn';
+import earnedDiscount from './adminRoute/earnedDiscount';
 import salePoint from './adminRoute/sale-point';
 import termAndCondition from './adminRoute/term-and-condtion';
 import footerLink from './adminRoute/footer-link';
@@ -186,6 +189,7 @@ const routes = [
             ...company,
             ...alternative,
             ...product,
+            ...ProductsPricing,
             ...price,
             ...alternativePrice,
             ...kayanPrice,
@@ -196,6 +200,7 @@ const routes = [
             ...simpleAdvertise,
             ...virtualStock,
             ...purchase,
+            ...earnedDiscount,
             ...saleInvoice,
             ...saleRecord,
             ...saleReturn,
@@ -248,6 +253,7 @@ const routes = [
             ...ourStore,
             ...topFooterSection,
             ...aboutBanner,
+            ...discount,
 
             ...AccountStatement,
             ...Assets,

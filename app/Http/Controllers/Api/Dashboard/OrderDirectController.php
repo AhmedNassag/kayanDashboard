@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\DirectOrders;
-use App\Models\Offer;
 use App\Models\OfferDiscount;
 use App\Models\Order;
 use App\Models\OrderDetails;
@@ -12,7 +11,6 @@ use App\Models\OrderStatus;
 use App\Models\OrderStoreProduct;
 use App\Models\Product;
 use App\Models\ProductPricing;
-use App\Models\Stock;
 use App\Models\Store;
 use App\Models\StoreProduct;
 use App\Models\Tax;
@@ -140,13 +138,15 @@ class OrderDirectController extends Controller
      */
     public function create()
     {
-        $tax = Tax::select('id','name','rate')->where('status',true)->get();
+        $tax = Tax::select('id','name','percentage')->where('status',true)->get();
 
-        $offerDiscount = Offer::select('id','name', 'discount', 'ratio')->where('active',true)->where('start_date','>=',now()->format('Y-m-d'))->get();
+        $offerDiscount = OfferDiscount::select('id','name','type','value')->where('status',true)->get();
 
-        $stores = Stock::get();
+        $stores = Store::get();
 
-        $clients = User::get();
+        $clients = User::whereAuthId(2)->with(['client' => function ($q){
+            $q->select('user_id','selling_method_id')->with('sellingMethod:id,name');
+        }])->whereJsonContains('role_name','client')->get();
 
         return $this->sendResponse([
             'taxs' => $tax,
@@ -158,7 +158,7 @@ class OrderDirectController extends Controller
 
     public function storeChoose(Request $request)
     {
-        $productStore =  Product::select('id','name','barcode')
+        $productStore =  Product::select('id','name','barcode','count_unit')
             ->whereRelation('storeProducts.store','store_id',$request->store_id)
             ->whereRelation('productPrice','selling_method_id',$request->selling_method_id)
             ->with(['productPrice' => function ($q) use($request){
@@ -187,7 +187,7 @@ class OrderDirectController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'store_id' => 'required|integer|exists:stocks,id',
+                'store_id' => 'required|integer|exists:stores,id',
                 'client_id' => 'required|integer|exists:users,id',
                 'selling_method_id' => 'required|integer|exists:selling_methods,id',
                 'discounts.*' => 'nullable' ,
