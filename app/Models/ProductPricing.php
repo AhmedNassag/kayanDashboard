@@ -48,6 +48,6 @@ class ProductPricing extends Model
     }
 
     public function measurementUnit(){
-        return $this->belongsTo(MeasurementUnit::class,'measurement_unit_id');
+        return $this->belongsTo(Unit::class,'measurement_unit_id');
     }
 }

@@ -1,20 +1,20 @@
 <template>
-    <div :class="['page-wrapper','page-wrapper-ar']">
+    <div :class="['page-wrapper', 'page-wrapper-ar']">
 
         <div class="content container-fluid">
 
-            <notifications position="top left"  />
+            <notifications position="top left" />
 
             <!-- Page Header -->
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">{{ $t("global.Product") }}</h3>
+                        <h3 class="page-title">المنتجات</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <router-link :to="{name: 'indexProduct'}">{{ $t("global.Product") }}</router-link>
+                                <router-link :to="{ name: 'indexProduct' }">المنتجات</router-link>
                             </li>
-                            <li class="breadcrumb-item active">{{ $t("product.CreateProduct") }}</li>
+                            <li class="breadcrumb-item active">اضافه منتج</li>
                         </ul>
                     </div>
                 </div>
@@ -27,291 +27,296 @@
                         <loader v-if="loading" />
                         <div class="card-body">
                             <div class="card-header pt-0 mb-4">
-                                <router-link :to="{name: 'indexProduct'}" class="btn btn-custom btn-dark">{{ $t("global.back") }}</router-link>
+                                <router-link :to="{ name: 'indexProduct' }" class="btn btn-custom btn-dark">
+                                    رجوع
+                                </router-link>
                             </div>
                             <div class="row">
                                 <div class="col-sm">
                                     <form @submit.prevent="storeProduct" class="needs-validation">
                                         <div class="form-row row">
 
-                                            <!--Start NameAr-->
+                                            <!--Start Name Ar-->
                                             <div class="col-md-6 mb-3">
-                                                <label for="validationCustom01">
-                                                    {{ $t("global.NameAr") }}
-                                                </label>
+                                                <label for="validationCustom01">اسم المنتج بالعربية</label>
                                                 <input type="text" class="form-control" v-model.trim="v$.nameAr.$model"
-                                                    id="validationCustom01" :placeholder="$t('global.NameAr')" :class="{
-                                                      'is-invalid': v$.nameAr.$error || data.nameExist,
-                                                      'is-valid': !v$.nameAr.$invalid,
-                                                    }" />
-                                                <div class="valid-feedback">
-                                                    {{ $t("global.LooksGood") }}
-                                                </div>
+                                                    id="validationCustom01" placeholder="اسم المنتج بالعربية"
+                                                    :class="{ 'is-invalid': v$.nameAr.$error, 'is-valid': !v$.nameAr.$invalid }">
+                                                <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.nameAr.required.$invalid">
-                                                        {{ $t("global.NameIsRequired") }}
-                                                        <br />
+                                                    <span v-if="v$.nameAr.required.$invalid"> هذا الحقل مطلوب<br />
                                                     </span>
-                                                    <span v-if="v$.nameAr.maxLength.$invalid">
-                                                        {{ $t("global.NameIsMustHaveAtLeast") }}
-                                                        {{ v$.nameAr.minLength.$params.min }}
-                                                        {{ $t("global.Letters") }}
-                                                        <br />
-                                                    </span>
-                                                    <span v-if="v$.nameAr.minLength.$invalid">
-                                                        {{ $t("global.NameIsMustHaveAtMost") }}
-                                                        {{ v$.nameAr.maxLength.$params.max }}
-                                                        {{ $t("global.Letters") }}
-                                                        <br />
-                                                    </span>
-                                                    <span v-if="!v$.nameAr.$invalid && data.nameExist">
-                                                        {{ $t("global.NameIsExist") }}
-                                                    </span>
+                                                    <span v-if="v$.nameAr.maxLength.$invalid"> يجب ان يكون علي الاقل {{
+                                                            v$.nameAr.minLength.$params.min
+                                                    }} حرف <br /></span>
+                                                    <span v-if="v$.nameAr.minLength.$invalid">يجب ان يكون علي اكثر {{
+                                                            v$.nameAr.maxLength.$params.max
+                                                    }} حرف</span>
                                                 </div>
                                             </div>
-                                            <!--End NameAr-->
+                                            <!--End Name Ar-->
 
-                                            <!--Start NameEn-->
+                                            <!--Start Name En-->
                                             <div class="col-md-6 mb-3">
-                                                <label for="validationCustom01">
-                                                    {{ $t("global.NameEn") }}
-                                                </label>
+                                                <label for="validationCustom01">اسم المنتج بالإنجليزية</label>
                                                 <input type="text" class="form-control" v-model.trim="v$.nameEn.$model"
-                                                    id="validationCustom01" :placeholder="$t('global.NameEn')" :class="{
-                                                      'is-invalid': v$.nameEn.$error || data.nameExist,
-                                                      'is-valid': !v$.nameEn.$invalid,
-                                                    }" />
-                                                <div class="valid-feedback">
-                                                    {{ $t("global.LooksGood") }}
-                                                </div>
+                                                    id="validationCustom01" placeholder="اسم المنتج بالإنجليزية"
+                                                    :class="{ 'is-invalid': v$.nameEn.$error, 'is-valid': !v$.nameEn.$invalid }">
+                                                <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.nameEn.required.$invalid">
-                                                        {{ $t("global.NameIsRequired") }}
-                                                        <br />
+                                                    <span v-if="v$.nameEn.required.$invalid"> هذا الحقل مطلوب<br />
                                                     </span>
-                                                    <span v-if="v$.nameEn.maxLength.$invalid">
-                                                        {{ $t("global.NameIsMustHaveAtLeast") }}
-                                                        {{ v$.nameEn.minLength.$params.min }}
-                                                        {{ $t("global.Letters") }}
-                                                        <br />
-                                                    </span>
-                                                    <span v-if="v$.nameEn.minLength.$invalid">
-                                                        {{ $t("global.NameIsMustHaveAtMost") }}
-                                                        {{ v$.nameEn.maxLength.$params.max }}
-                                                        {{ $t("global.Letters") }}
-                                                        <br />
-                                                    </span>
-                                                    <span v-if="!v$.nameEn.$invalid && data.nameExist">
-                                                        {{ $t("global.NameIsExist") }}
-                                                    </span>
+                                                    <span v-if="v$.nameEn.maxLength.$invalid"> يجب ان يكون علي الاقل {{
+                                                            v$.nameEn.minLength.$params.min
+                                                    }} حرف <br /></span>
+                                                    <span v-if="v$.nameEn.minLength.$invalid">يجب ان يكون علي اكثر {{
+                                                            v$.nameEn.maxLength.$params.max
+                                                    }} حرف</span>
                                                 </div>
                                             </div>
-                                            <!--End NameEn-->
+                                            <!--End Name En-->
 
-                                            <!--Start Barcode-->
+                                            <!--Start BarCode-->
                                             <div class="col-md-6 mb-3">
-                                                <label for="validationCustom01">{{ $t("global.BarCode") }}</label>
-                                                <input
-                                                    type="number" class="form-control"
-                                                    v-model.trim="v$.barcode.$model"
-                                                    id="validationCustom056"
-                                                    :placeholder="$t('global.BarCode')"
-                                                    :class="{'is-invalid':v$.barcode.$error,'is-valid':!v$.barcode.$invalid}"
+                                                <label for="validationCustom01">الباركود </label>
+                                                <input type="number" class="form-control"
+                                                    v-model.trim="v$.barcode.$model" id="validationCustom056"
+                                                    placeholder="الباركود"
+                                                    :class="{ 'is-invalid': v$.barcode.$error, 'is-valid': !v$.barcode.$invalid }">
+
+                                                <button
+                                                type="button"
+                                                class="btn btn-secondary btn-sm"
+                                                @click="myFunction()"
                                                 >
-                                                <button type="button" class="btn btn-secondary btn-sm" @click="myFunction()">{{ $t("global.Generate Random") }}</button>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                {{ $t("global.Generate Random") }}
+                                                </button>
+                                                <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.barcode.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                    <span v-if="v$.barcode.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
+                                                    <span v-if="v$.barcode.integer.$invalid"> يجب ان يكون رقم
+                                                        <br /></span>
                                                 </div>
                                             </div>
                                             <!--End BarCode-->
 
-                                            <!--Start Category Select-->
+                                            <!--Start Category-->
                                             <div class="col-md-6 mb-3">
-                                                <label >{{ $t("global.MainCategory") }}</label>
-                                                <select @change="getSubCategory(v$.category_id.$model)"
-                                                    name="type"
-                                                    class="form-select"
-                                                    v-model="v$.category_id.$model"
-                                                    :class="{'is-invalid':v$.category_id.$error,'is-valid':!v$.category_id.$invalid}"
-                                                >
-                                                    <option v-for="category in categories" :key="category.id" :value="category.id" >
+                                                <label>الفئه الرئيسية</label>
+                                                <select @change="getSubCategory(v$.category_id.$model)" name="type"
+                                                    class="form-select" v-model="v$.category_id.$model"
+                                                    :class="{ 'is-invalid': v$.category_id.$error, 'is-valid': !v$.category_id.$invalid }">
+                                                    <option value="">---</option>
+                                                    <option v-for="category in categories" :key="category.id"
+                                                        :value="category.id">
                                                         {{ category.name }}
                                                     </option>
                                                 </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
+                                                    <span v-if="v$.category_id.required.$invalid"> هذا الحقل مطلوب<br />
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <!--End Category Select-->
+                                            <!--End Category-->
 
-                                            <!--Start SubCategory Select-->
+                                            <!--Start Sub Category-->
                                             <div class="col-md-6 mb-3">
-                                                <label >{{ $t("global.SubCategory") }}</label>
-                                                <Select2 v-model="v$.sub_category_id.$model" :options="subCategories" :settings="{ width: '100%' }" />
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.sub_category_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div>
-                                            </div>
-                                            <!--End SubCategory Select-->
-
-                                            <!--Start Main Measurement Select-->
-                                            <div class="col-md-6 mb-3">
-                                                <label >وحدة القياس الرئيسية</label>
-                                                <Select2 v-model="v$.main_measurement_unit_id.$model" :options="measures" :settings="{ width: '100%' }" />
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.main_measurement_unit_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div>
-                                            </div>
-                                            <!--End Main Measurement Select-->
-
-                                            <!--Start Count Unit Select-->
-                                            <!-- <div class="col-md-6 mb-3">
-                                                <label >عدد الوحدات داخل الفئة الفرعية </label>
-                                                <input
-                                                    type="number" class="form-control"
-                                                    v-model="v$.count_unit.$model"
-                                                    placeholder="عدد الوحدات داخل الفئة الفرعية"
-                                                    :class="{'is-invalid':v$.count_unit.$error,'is-valid':!v$.count_unit.$invalid}"
-                                                >
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.count_unit.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                    <span v-if="v$.count_unit.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
-                                                </div>
-                                            </div> -->
-                                            <!--End Count Unit Select-->
-
-                                            <!--Start Sub Measurement Select-->
-                                            <!-- <div class="col-md-6 mb-3">
-                                                <label >وحدة القياس الفرعية</label>
-                                                <select
-                                                    name="type"
-                                                    class="form-control"
-                                                    v-model="v$.sub_measurement_unit_id.$model"
-                                                    :class="{'is-invalid':v$.sub_measurement_unit_id.$error,'is-valid':!v$.sub_measurement_unit_id.$invalid}"
-                                                >
+                                                <label>الفئه الفرعية</label>
+                                                <select name="type" class="form-select"
+                                                    v-model="v$.sub_category_id.$model"
+                                                    :class="{ 'is-invalid': v$.sub_category_id.$error, 'is-valid': !v$.sub_category_id.$invalid }">
                                                     <option value="">---</option>
-                                                    <option v-for="measure in measures" :key="measure.id" :value="measure.id" >
-                                                        {{ measure.name }}
+                                                    <option v-for="category in subCategories" :key="category.id"
+                                                        :value="category.id">
+                                                        {{ category.name }}
                                                     </option>
                                                 </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.sub_measurement_unit_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div>
-                                            </div> -->
-                                            <!--End Sub Measurement Select-->
-
-                                            <!--Start Tax Select-->
-                                            <div class="col-md-6 mb-3">
-                                                <label >{{ $t("global.Tax") }}</label>
-                                                <Select2 v-model="v$.tax_id.$model" :options="taxes" :settings="{ width: '100%' }" />
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <!-- <div class="invalid-feedback">
-                                                    <span v-if="v$.tax_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                </div> -->
-                                            </div>
-                                            <!--End Tax Select-->
-
-                                            <!--Start PharmacistForm Select-->
-                                            <div class="col-md-6 mb-3">
-                                                <label >{{ $t("global.Pharmacist Form") }}</label>
-                                                <Select2 v-model="v$.pharmacistForm_id.$model" :options="pharmacistForms" :settings="{ width: '100%' }" />
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.pharmacistForm_id.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
+                                                    <span v-if="v$.sub_category_id.required.$invalid"> هذا الحقل
+                                                        مطلوب<br /> </span>
                                                 </div>
                                             </div>
-                                            <!--End PharmacistForm Select-->
+                                            <!--End Sub Category-->
 
-                                            <!--Start MaxMount-->
-                                            <!-- <div class="col-md-6 mb-3">
-                                                <label for="validationCustom055">{{ $t("global.MaxMount") }}</label>
-                                                <input
-                                                    type="number" class="form-control"
-                                                    v-model.trim="v$.maximum_product.$model"
-                                                    id="validationCustom055"
-                                                    :placeholder="$t('global.MaxMount')"
-                                                    :class="{'is-invalid':v$.maximum_product.$error,'is-valid':!v$.maximum_product.$invalid}"
-                                                >
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.maximum_product.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                    <span v-if="v$.maximum_product.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
-                                                </div>
-                                            </div> -->
-                                            <!--Start MaxMount-->
-
-                                            <!--Start Re Order Limit-->
-                                            <!-- <div class="col-md-6 mb-3">
-                                                <label>{{ $t("global.Re Order Limit") }}</label>
-                                                <input
-                                                    type="number" class="form-control"
-                                                    v-model="v$.Re_order_limit.$model"
-                                                    :placeholder="$t('global.Re Order Limit')"
-                                                    :class="{'is-invalid':v$.Re_order_limit.$error,'is-valid':!v$.Re_order_limit.$invalid}"
-                                                >
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span v-if="v$.Re_order_limit.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
-                                                    <span v-if="v$.Re_order_limit.integer.$invalid">{{ $t("global.ThisFieldMustBeANumber") }}<br /></span>
-                                                </div>
-                                            </div> -->
-                                            <!--End Re Order Limit-->
-
-                                            <!--Start Effective Material-->
+                                            <!--End Effective Material-->
                                             <div class="col-md-6 mb-3">
-                                                <label>{{ $t("global.Effective Material") }}</label>
-                                                <input
-                                                    type="text" class="form-control"
-                                                    v-model="v$.effectiveMaterial.$model"
-                                                    :placeholder="$t('global.Effective Material')"
-                                                    :class="{'is-invalid':v$.effectiveMaterial.$error,'is-valid':!v$.effectiveMaterial.$invalid}"
-                                                >
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                <label for="validationCustom01">المادة الفعالة  </label>
+                                                <input type="text" class="form-control" v-model.trim="v$.effectiveMaterial.$model"
+                                                    id="validationCustom01" placeholder="اسم المنتج"
+                                                    :class="{ 'is-invalid': v$.effectiveMaterial.$error, 'is-valid': !v$.effectiveMaterial.$invalid }">
+                                                <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.effectiveMaterial.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
+                                                    <span v-if="v$.effectiveMaterial.required.$invalid"> هذا الحقل مطلوب<br />
+                                                    </span>
+                                                    <span v-if="v$.effectiveMaterial.maxLength.$invalid"> يجب ان يكون علي الاقل {{
+                                                            v$.effectiveMaterial.minLength.$params.min
+                                                    }} حرف <br /></span>
+                                                    <span v-if="v$.effectiveMaterial.minLength.$invalid">يجب ان يكون علي اكثر {{
+                                                            v$.effectiveMaterial.maxLength.$params.max
+                                                    }} حرف</span>
                                                 </div>
                                             </div>
                                             <!--End Effective Material-->
 
-                                            <!--Start Selling Method Select-->
+                                            <!--Start Pharmacist Form-->
                                             <div class="col-md-6 mb-3">
-                                                <label >{{ $t("global.Selling Method") }}</label>
-                                                <select
-                                                    name="type"
-                                                    class="form-select"
-                                                    multiple
-                                                    v-model="v$.selling_methods.$model"
-                                                    :class="{'is-invalid':v$.selling_methods.$error,'is-valid':!v$.selling_methods.$invalid}"
-                                                >
-                                                    <option v-for="sellingMethod in sellingMethods" :key="sellingMethod.id" :value="sellingMethod.id" >
+                                                <label>الشكل الصيدلى</label>
+                                                <select name="type" class="form-select"
+                                                    v-model="v$.pharmacistForm_id.$model"
+                                                    :class="{ 'is-invalid': v$.pharmacistForm_id.$error, 'is-valid': !v$.pharmacistForm_id.$invalid }">
+                                                    <option value="">---</option>
+                                                    <option v-for="pharmacistForm in pharmacistForms"
+                                                        :key="pharmacistForm.id" :value="pharmacistForm.id">
+                                                        {{ pharmacistForm.name }}
+                                                    </option>
+                                                </select>
+                                                <div class="valid-feedback">تبدو جيده</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.pharmacistForm_id.required.$invalid"> هذا الحقل
+                                                        مطلوب<br /> </span>
+                                                </div>
+                                            </div>
+                                            <!--End Pharmacist Form-->
+
+                                            <!--Start Main Measurement Unit-->
+                                            <div class="col-md-6 mb-3">
+                                                <label>وحدة القياس الرئيسية</label>
+                                                <select name="type" class="form-select"
+                                                    v-model="v$.main_measurement_unit_id.$model"
+                                                    :class="{ 'is-invalid': v$.main_measurement_unit_id.$error, 'is-valid': !v$.main_measurement_unit_id.$invalid }">
+                                                    <option value="">---</option>
+                                                    <option v-for="measure in measures" :key="measure.id"
+                                                        :value="measure.id">
+                                                        {{ measure.name }}
+                                                    </option>
+                                                </select>
+                                                <div class="valid-feedback">تبدو جيده</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.main_measurement_unit_id.required.$invalid"> هذا
+                                                        الحقل مطلوب<br /> </span>
+                                                </div>
+                                            </div>
+                                            <!--End Main Measurement Unit-->
+
+                                            <!--Start Count Unit-->
+                                            <div class="col-md-6 mb-3">
+                                                <label>عدد الوحدات داخل الفئة الفرعية </label>
+                                                <input type="number" class="form-control" v-model="v$.count_unit.$model"
+                                                    @input="subPrice" placeholder="عدد الوحدات داخل الفئة الفرعية"
+                                                    :class="{ 'is-invalid': v$.count_unit.$error, 'is-valid': !v$.count_unit.$invalid }">
+                                                <div class="valid-feedback">تبدو جيده</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.count_unit.required.$invalid"> هذا الحقل مطلوب<br />
+                                                    </span>
+                                                    <span v-if="v$.count_unit.integer.$invalid"> يجب ان يكون رقم
+                                                        <br /></span>
+                                                </div>
+                                            </div>
+                                            <!--End Count Unit-->
+
+                                            <!--Start Sub Measurement Unit-->
+                                            <div class="col-md-6 mb-3">
+                                                <label>وحدة القياس الفرعية</label>
+                                                <select name="type" class="form-select"
+                                                    v-model="v$.sub_measurement_unit_id.$model"
+                                                    :class="{ 'is-invalid': v$.sub_measurement_unit_id.$error, 'is-valid': !v$.sub_measurement_unit_id.$invalid }">
+                                                    <option value="">---</option>
+                                                    <option v-for="measure in measures" :key="measure.id"
+                                                        :value="measure.id">
+                                                        {{ measure.name }}
+                                                    </option>
+                                                </select>
+                                                <div class="valid-feedback">تبدو جيده</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.sub_measurement_unit_id.required.$invalid"> هذا الحقل
+                                                        مطلوب<br /> </span>
+                                                </div>
+                                            </div>
+                                            <!--End Sub Measurement Unit-->
+
+                                            <!--Start Selling Method-->
+                                            <div class="col-md-6 mb-3">
+                                                <label>البيع</label>
+                                                <select name="type" class="form-select" multiple
+                                                    v-model="v$.selling_method.$model"
+                                                    :class="{ 'is-invalid': v$.selling_method.$error, 'is-valid': !v$.selling_method.$invalid }">
+                                                    <option v-for="sellingMethod in sellingMethods"
+                                                        :key="sellingMethod.id" :value="sellingMethod.id">
                                                         {{ sellingMethod.name }}
                                                     </option>
                                                 </select>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
-                                                    <span v-if="v$.selling_methods.required.$invalid">{{ $t("global.NameIsRequired") }}<br /></span>
+                                                    <span v-if="v$.selling_method.required.$invalid"> هذا الحقل
+                                                        مطلوب<br /> </span>
                                                 </div>
                                             </div>
-                                            <!--Start Selling Method Select-->
+                                            <!--End Selling Method-->
+
+                                            <!--Start Re Order Limit-->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="validationCustom055">حد اعادة الطلب</label>
+                                                <input type="number" class="form-control"
+                                                    v-model.trim="v$.Re_order_limit.$model" id="validationCustom055"
+                                                    placeholder="حد اعادة الطلب"
+                                                    :class="{ 'is-invalid': v$.Re_order_limit.$error, 'is-valid': !v$.Re_order_limit.$invalid }">
+                                                <div class="valid-feedback">تبدو جيده</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.Re_order_limit.required.$invalid"> هذا الحقل
+                                                        مطلوب<br /> </span>
+                                                    <span v-if="v$.Re_order_limit.integer.$invalid"> يجب ان يكون رقم
+                                                        <br /></span>
+                                                </div>
+                                            </div>
+                                            <!--End Re Order Limit-->
+
+                                            <!--Start Maximum Product-->
+                                            <div class="col-md-6 mb-3">
+                                                <label>اقصي كمية فى المخزن</label>
+                                                <input type="number" class="form-control"
+                                                    v-model.trim="v$.maximum_product.$model"
+                                                    placeholder="اقصي كمية فى المخزن"
+                                                    :class="{ 'is-invalid': v$.maximum_product.$error, 'is-valid': !v$.maximum_product.$invalid }">
+                                                <div class="valid-feedback">تبدو جيده</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.maximum_product.required.$invalid"> هذا الحقل
+                                                        مطلوب<br /> </span>
+                                                    <span v-if="v$.maximum_product.integer.$invalid"> يجب ان يكون رقم
+                                                        <br /></span>
+                                                </div>
+                                            </div>
+                                            <!--End Maximum Product-->
+
+                                            <!--Start Sell App-->
+                                            <div class="col-md-6 mb-3">
+                                                <label>اماكن ظهور المنتج</label>
+                                                <select name="type" class="form-select" v-model="v$.sell_app.$model"
+                                                    :class="{ 'is-invalid': v$.sell_app.$error, 'is-valid': !v$.sell_app.$invalid }">
+                                                    <option value="1">
+                                                        {{ $t('global.OfferInDirectSellingAndApplication') }}</option>
+                                                    <option value="0">{{ $t('global.OfferedForDirectSalesOnly') }}
+                                                    </option>
+                                                </select>
+                                                <div class="valid-feedback">تبدو جيده</div>
+                                                <div class="invalid-feedback">
+                                                    <span v-if="v$.sell_app.required.$invalid"> هذا الحقل مطلوب<br />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!--End Sell App-->
 
                                             <!--Start Description-->
-                                            <div class="col-md-6 mb-3">
-                                                <label for="validationCustom034">{{ $t("global.Description") }}</label>
+                                            <div class="col-md-12 mb-3">
+                                                <label for="validationCustom034">الوصف</label>
                                                 <textarea type="text" class="form-control custom-textarea"
-                                                          v-model.trim="v$.description.$model"
-                                                          id="validationCustom034"
-                                                          :placeholder="$t('global.Description')"
-                                                          :class="{'is-invalid':v$.description.$error,'is-valid':!v$.description.$invalid}"
-                                                ></textarea>
-                                                <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
+                                                    v-model.trim="v$.description.$model" id="validationCustom034"
+                                                    placeholder="الوصف"
+                                                    :class="{ 'is-invalid': v$.description.$error, 'is-valid': !v$.description.$invalid }"></textarea>
+                                                <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
+                                                    <span v-if="v$.description.required.$invalid"> هذا الحقل مطلوب<br />
+                                                    </span>
                                                 </div>
                                             </div>
                                             <!--End Description-->
@@ -320,20 +325,16 @@
                                             <div class="col-md-3 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
                                                     <span>
-                                                        {{ $t("global.ChooseImage") }}
+                                                        Choose files
                                                         <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
                                                     </span>
-                                                    <input
-                                                        name="mediaPackage"
-                                                        type="file"
-                                                        @change="preview"
-                                                        id="mediaPackage"
-                                                        accept="image/png,jepg,jpg"
-                                                    >
+                                                    <input name="mediaPackage" type="file" @change="preview"
+                                                        id="mediaPackage" accept="image/png,jepg,jpg">
                                                 </div>
-                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
-                                                <p class="num-of-files">{{numberOfImage ? numberOfImage + ' Files Selected' : 'No Files Chosen' }}</p>
-                                                <div class="container-images" id="container-images" v-show="data.image && numberOfImage"></div>
+                                                <span class="text-danger text-center">اقصي حجم لا يتعدي 2mb</span>
+                                                <p class="num-of-files">{{ numberOfImage ? numberOfImage + ' Files Selected' : 'No Files Chosen' }}</p>
+                                                <div class="container-images" id="container-images"
+                                                    v-show="data.image && numberOfImage"></div>
                                                 <div class="container-images" v-show="!numberOfImage">
                                                     <figure>
                                                         <figcaption>
@@ -344,25 +345,20 @@
                                             </div>
                                             <!--End Image-->
 
-                                            <!--Start Multiple Images-->
+                                            <!--Start Multiple Image-->
                                             <div class="col-md-9 row flex-fill">
                                                 <div class="btn btn-outline-primary waves-effect">
                                                     <span>
-                                                        {{ $t("global.ChooseImage") }}
+                                                        Choose files
                                                         <i class="fas fa-cloud-upload-alt ml-3" aria-hidden="true"></i>
                                                     </span>
-                                                    <input
-                                                        name="mediaPackage[]"
-                                                        type="file"
-                                                        multiple
-                                                        @change="preview2"
-                                                        id="mediaPackage1"
-                                                        accept="image/png,jepg,jpg"
-                                                    >
+                                                    <input name="mediaPackage[]" type="file" multiple @change="preview2"
+                                                        id="mediaPackage1" accept="image/png,jepg,jpg">
                                                 </div>
-                                                <span class="text-danger text-center">{{ $t("global.ImageValidation") }}</span>
-                                                <p class="num-of-files">{{numberOfImage1 ? numberOfImage1 + ' Files Selected' : 'No Files Chosen' }}</p>
-                                                <div class="container-images" id="container-images1" v-show="data.files && numberOfImage1"></div>
+                                                <span class="text-danger text-center">اقصي حجم لا يتعدي 2mb</span>
+                                                <p class="num-of-files">{{ numberOfImage1 ? numberOfImage1 + ' Files Selected' : 'No Files Chosen' }}</p>
+                                                <div class="container-images" id="container-images1"
+                                                    v-show="data.files && numberOfImage1"></div>
                                                 <div class="container-images" v-show="!numberOfImage1">
                                                     <figure>
                                                         <figcaption>
@@ -371,67 +367,123 @@
                                                     </figure>
                                                 </div>
                                             </div>
-                                            <!--End Multiple Images-->
+                                            <!--End Multiple Image-->
 
 
-                                            <!--Start Alternative Details-->
-                                            <div class="col-md-4 m-3">
-                                                <button class="btn btn-success" v-on:click="isHidden = !isHidden" v-if="isHidden">{{ $t('global.Add Alternative') }}</button>
-                                            </div>
-                                            <div class="col-md-12 mb-3 mt-5 alternativeDetail-option" id="alternativeDetail" v-if="!isHidden">
-                                                <div class="row account">
-                                                    <div class="col-md-12 mb-12 head-account">
-                                                        <h3>{{ $t('global.alternatives') }}</h3>
+
+                                            <!--Start TheBalanceOfTheFirstDuration-->
+                                            <div class="col-md-12 mb-3 mt-5">
+                                                <div class="sec-body row">
+                                                    <div class="col-md-12 mb-12 sec-head">
+                                                        <h3>
+                                                            {{ $t('global.TheBalanceOfTheFirstDuration') }}
+                                                        </h3>
                                                     </div>
-                                                    <div v-for="(it,index) in data.alternativeDetail" :key="it.id" class="col-md-12 mb-12 body-account row">
-                                                        <!--Start Alternative-->
-                                                        <div class="col-md-3 mb-3">
-                                                            <label>{{ $t('global.Alternative') }}</label>
-                                                            <Select2 v-model.trim="it.alternative_id" :options="alternatives" :settings="{ width: '100%' }" />
+
+                                                    <div class="col-md-3 mb-3">
+                                                        <label>
+                                                            {{ $t('global.Quantity') }}
+                                                            ( {{ $t('global.TotalAccount') }} )
+                                                        </label>
+                                                        <input type="number" class="form-control"
+                                                            v-model.number="v$.quantity.$model"
+                                                            :placeholder="$t('global.Quantity') + '(' + data.mainUnitMeasurement + ')'"
+                                                            :class="{ 'is-invalid': v$.quantity.$error, 'is-valid': !v$.quantity.$invalid }">
+                                                        <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+                                                        <div class="invalid-feedback">
+                                                            <span
+                                                                v-if="v$.quantity.required.$invalid">{{ $t('global.ThisFieldIsRequired') }}<br />
+                                                            </span>
+                                                            <span
+                                                                v-if="v$.quantity.numeric.$invalid">{{ $t('global.ThisFieldIsNumeric') }}
+                                                                <br /></span>
                                                         </div>
-                                                        <!--End Alternative-->
-
-                                                        <!--Start Discount-->
-                                                        <!-- <div class="col-md-4 mb-4">
-                                                            <label>{{$t('global.Discount')}}</label>
-                                                            <input type="number" step="0.1" class="form-control" v-model.number="it.discount" :placeholder="$t('global.Discount')">
-                                                        </div> -->
-                                                        <!--End Discount-->
-
-                                                        <!--Start Pharmacy Price-->
-                                                        <!-- <div class="col-md-4 mb-4">
-                                                            <label>{{$t('global.Pharmacy Price')}}</label>
-                                                            <input type="number" step="0.1" class="form-control" v-model.number="it.pharmacyPrice" :placeholder="$t('global.Pharmacy Price')">
-                                                        </div> -->
-                                                        <!--End Pharmacy Price-->
-
-                                                        <!--Start Public Price-->
-                                                        <!-- <div class="col-md-4 mb-4">
-                                                            <label>{{$t('global.Public Price')}}</label>
-                                                            <input type="number" step="0.1" class="form-control" v-model.number="it.publicPrice" :placeholder="$t('global.Public Price')">
-                                                        </div> -->
-                                                        <!--End Public Price-->
-
-                                                        <div class="col-md-3 mb-3">
-                                                            <button @click.prevent="addAlternativeDetail" v-if="(data.alternativeDetail.length-1) == index" class="btn btn-sm btn-success me-2 mt-5">
-                                                                <i class="fas fa-clipboard-list"></i> {{$t('global.AddANewLine')}}
-                                                            </button>
-                                                            <button v-if="index" @click.prevent="deleteAlternativeDetail(index)" data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2 mt-5">
-                                                                <i class="far fa-trash-alt"></i> {{$t('global.Delete')}}
-                                                            </button>
-                                                        </div>
-
                                                     </div>
+
+                                                    <div class="col-md-3 mb-3">
+                                                        <label>
+                                                            {{ $t('global.price') }}
+                                                            ( {{ $t('global.TotalAccount') }} )
+                                                        </label>
+                                                        <input type="number" step="0.1" class="form-control"
+                                                            @input="subPrice" v-model.number="v$.price.$model"
+                                                            :placeholder="$t('global.price') + ' (' + data.mainUnitMeasurement + ')'"
+                                                            :class="{ 'is-invalid': v$.price.$error, 'is-valid': !v$.price.$invalid }">
+                                                        <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+                                                        <div class="invalid-feedback">
+                                                            <span
+                                                                v-if="v$.price.required.$invalid">{{ $t('global.ThisFieldIsRequired') }}<br />
+                                                            </span>
+                                                            <span
+                                                                v-if="v$.price.numeric.$invalid">{{ $t('global.ThisFieldIsNumeric') }}
+                                                                <br /></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3 mb-3">
+                                                        <label>
+                                                            {{ $t('global.Quantity') }}
+                                                            ( {{ $t('global.Partial') }} )
+                                                        </label>
+                                                        <input type="number" class="form-control"
+                                                            v-model.number="v$.sub_quantity.$model"
+                                                            :placeholder="$t('global.RequiredQuantity') + '(' + data.subUnitMeasurement + ')'"
+                                                            :class="{ 'is-invalid': v$.sub_quantity.$error, 'is-valid': !v$.sub_quantity.$invalid }">
+                                                        <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+                                                        <div class="invalid-feedback">
+                                                            <span
+                                                                v-if="v$.sub_quantity.required.$invalid">{{ $t('global.ThisFieldIsRequired') }}<br />
+                                                            </span>
+                                                            <span
+                                                                v-if="v$.sub_quantity.numeric.$invalid">{{ $t('global.ThisFieldIsNumeric') }}
+                                                                <br /></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3 mb-3">
+                                                        <label>
+                                                            {{ $t('global.price') }}
+                                                            ( {{ $t('global.Partial') }} )
+                                                        </label>
+                                                        <input type="number" step="0.1" class="form-control" disabled
+                                                            v-model.number="v$.sub_price.$model"
+                                                            :placeholder="$t('global.price') + ' (' + data.subUnitMeasurement + ')'"
+                                                            :class="{ 'is-invalid': v$.sub_price.$error, 'is-valid': !v$.sub_price.$invalid }">
+                                                        <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+                                                        <div class="invalid-feedback">
+                                                            <span
+                                                                v-if="v$.sub_price.required.$invalid">{{ $t('global.ThisFieldIsRequired') }}<br />
+                                                            </span>
+                                                            <span
+                                                                v-if="v$.sub_price.numeric.$invalid">{{ $t('global.ThisFieldIsNumeric') }}
+                                                                <br /></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3 mb-3">
+                                                        <label>{{ $t('global.ChooseStore') }}</label>
+
+                                                        <select v-model="data.store_id"
+                                                            :class="['form-select', { 'is-invalid': v$.store_id.$error, 'is-valid': !v$.store_id.$invalid }]">
+                                                            <option v-for="store in stores" :key="store.id"
+                                                                :value="store.id">{{ store.name }}</option>
+                                                        </select>
+                                                        <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+                                                        <div class="invalid-feedback">
+                                                            <span
+                                                                v-if="v$.store_id.required.$invalid">{{ $t('global.StoreIsRequired') }}<br />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
+
                                             </div>
-                                            <div class="col-md-4 col-offset-7 mb-3">
-                                                <button class="btn btn-danger" v-on:click="isHidden = true"  v-if="!isHidden">{{ $t('global.Cancel Alternative') }}</button>
-                                            </div>
-                                            <!--End Alternative Details-->
+                                            <!--End TheBalanceOfTheFirstDuration-->
 
                                         </div>
 
-                                        <button class="btn btn-primary" type="submit">{{ $t("global.Submit") }}</button>
+                                        <button class="btn btn-primary" type="submit">اضافه</button>
                                     </form>
                                 </div>
                             </div>
@@ -445,157 +497,128 @@
 </template>
 
 <script>
-import {computed, onMounted, reactive,toRefs,ref} from "vue";
+import { computed, onMounted, reactive, toRefs, ref, watch } from "vue";
 import useVuelidate from '@vuelidate/core';
-import {required,minLength,maxLength,numeric,integer} from '@vuelidate/validators';
+import { required, minLength, maxLength, numeric, integer } from '@vuelidate/validators';
 import adminApi from "../../../api/adminAxios";
 import { notify } from "@kyvg/vue3-notification";
 
 
 export default {
-    name: "createProduct",
-    data(){
+    name: "createDepartment",
+    data() {
         return {
-            errors:{},
-            isHidden: true,
+            errors: {}
         }
     },
-    setup(){
+    setup() {
         let loading = ref(false);
+        let pharmacistForms = ref([]);
         let categories = ref([]);
         let subCategories = ref([]);
         let measures = ref([]);
-        let taxes = ref([]);
-        let pharmacistForms = ref([]);
         let sellingMethods = ref([]);
-        let alternatives = ref([]);
-        let alternativeDetailValidation = ref([{
-            alternative_id: {
-                // required,
-                // numeric
-            },
-            discount: {
-                // required,
-                // numeric
-            },
-            pharmacyPrice: {
-                // required,
-                // numeric
-            },
-            publicPrice: {
-                // required,
-                // numeric
-            }
-        }]);
+        let stores = ref([]);
 
         //start design
-        let addProduct =  reactive({
-            data:{
-                alternativeDetail: [
-                    {
-                        alternative_id: null,
-                        discount: null,
-                        pharmacyPrice: null,
-                        publicPrice: null,
-                    }
-                ],
-                nullValue: null,
-                nameExist: false,
-                nameAr: null,
-                nameEn: null,
-                pharmacistForm_id: null,
-                barcode : null,
-                description : null,
-                effectiveMaterial: null,
-                image : {},
-                files : [],
+        let addProduct = reactive({
+            data: {
+                nameAr: '',
+                nameEn: '',
+                effectiveMaterial: '',
+                barcode: '',
+                count_unit: null,
+                maximum_product: null,
+                Re_order_limit: null,
+                description: '',
+                image: {},
+                files: [],
                 category_id: null,
                 sub_category_id: null,
+                pharmacistForm_id: null,
                 main_measurement_unit_id: null,
-                tax_id: null,
-                selling_methods: [],
-                alternativeDetails: [
-                    { alternativeDetails: [], send: true }
-                ]
+                sub_measurement_unit_id: null,
+                selling_method: [],
+                sell_app: 1,
+                quantity: 0,
+                sub_quantity: 0,
+                price: 0,
+                sub_price: 0,
+                mainUnitMeasurement: '',
+                subUnitMeasurement: '',
+                store_id: 1,
             }
         });
 
-        let getProduct= () => {
+        let getProduct = () => {
             loading.value = true;
 
             adminApi.get(`/v1/dashboard/product/create`)
                 .then((res) => {
                     let l = res.data.data;
+                    pharmacistForms.value = l.pharmacistForms;
                     categories.value = l.categories;
                     measures.value = l.measures;
-                    taxes.value = l.taxes;
-                    pharmacistForms.value = l.pharmacistForms;
                     sellingMethods.value = l.sellingMethods;
-                    alternatives.value = l.alternatives;
+                    stores.value = l.stores;
                 })
                 .catch((err) => {
-                    this.errors = err.response.data.errors;
                     console.log(err.response);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'يوجد خطأ...',
-                        text: 'يوجد خطأ ما..!!',
-                    });
                 })
                 .finally(() => {
                     loading.value = false;
                 })
         };
 
-        let getSubCategory= (id) => {
+        let getSubCategory = (id) => {
             loading.value = true;
 
             adminApi.get(`/v1/dashboard/category/${id}`)
-            .then((res) => {
-                let l = res.data.data;
-                subCategories.value = l.subCategories;
-            })
-            .catch((err) => {
-                this.errors = err.response.data.errors;
-                console.log(err.response);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'يوجد خطأ...',
-                    text: 'يوجد خطأ ما..!!',
-                });
-            })
-            .finally(() => {
-                loading.value = false;
-            })
+                .then((res) => {
+                    let l = res.data.data;
+                    subCategories.value = l.subCategories;
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                })
+                .finally(() => {
+                    loading.value = false;
+                })
         };
 
         const rules = computed(() => {
             return {
-                //
-                alternativeDetail: [
-                    ...alternativeDetailValidation.value
-                ],
                 nameAr: {
                     minLength: minLength(3),
                     maxLength: maxLength(70),
-                    required,
+                    required
                 },
                 nameEn: {
                     minLength: minLength(3),
                     maxLength: maxLength(70),
-                    required,
+                    required
                 },
-                pharmacistForm_id: {
-                    required,
+                effectiveMaterial: {
+                    minLength: minLength(3),
+                    maxLength: maxLength(70),
+                    required
                 },
                 barcode: {
+                    integer
+                },
+                count_unit: {
                     required,
                     integer
                 },
-                effectiveMaterial: {
+                Re_order_limit: {
                     required,
+                    integer
                 },
-                description: {},
+                maximum_product: {
+                    required,
+                    integer
+                },
+                description: { required },
                 image: {
                     required
                 },
@@ -610,32 +633,52 @@ export default {
                     required,
                     integer
                 },
+                pharmacistForm_id: {
+                    required,
+                    integer
+                },
                 main_measurement_unit_id: {
                     required,
                     integer
                 },
-                tax_id: {
-                    // required,
-                    // integer
+                sub_measurement_unit_id: {
+                    required,
+                    integer
                 },
-                selling_methods: {
+                selling_method: {
                     required
                 },
-                //
-                alternativeDetail: {
-                    // required
-                }
-                //
+                sell_app: {
+                    required
+                },
+                price: {
+                    required,
+                    numeric
+                },
+                sub_price: {
+                    required,
+                    numeric
+                },
+                quantity: {
+                    required,
+                    numeric
+                },
+                sub_quantity: {
+                    required,
+                    numeric
+                },
+                store_id: {
+                    required
+                },
             }
         });
 
-        const v$ = useVuelidate(rules,addProduct.data);
-
+        const v$ = useVuelidate(rules, addProduct.data);
 
         let preview = (e) => {
 
             let containerImages = document.querySelector('#container-images');
-            if(numberOfImage.value){
+            if (numberOfImage.value) {
                 containerImages.innerHTML = '';
             }
             addProduct.data.image = {};
@@ -653,8 +696,8 @@ export default {
 
             reader.onload = () => {
                 let img = document.createElement('img');
-                img.setAttribute('src',reader.result);
-                figure.insertBefore(img,figcap);
+                img.setAttribute('src', reader.result);
+                figure.insertBefore(img, figcap);
             }
 
             containerImages.appendChild(figure);
@@ -665,14 +708,14 @@ export default {
         let preview2 = (e) => {
 
             let containerImages = document.querySelector('#container-images1');
-            if(numberOfImage.value){
+            if (numberOfImage.value) {
                 containerImages.innerHTML = '';
             }
             addProduct.data.files = [];
 
             numberOfImage1.value = e.target.files.length;
 
-            for(let file of e.target.files){
+            for (let file of e.target.files) {
 
                 addProduct.data.files.push(file);
                 let reader = new FileReader();
@@ -684,8 +727,8 @@ export default {
 
                 reader.onload = () => {
                     let img = document.createElement('img');
-                    img.setAttribute('src',reader.result);
-                    figure.insertBefore(img,figcap);
+                    img.setAttribute('src', reader.result);
+                    figure.insertBefore(img, figcap);
                 }
 
                 containerImages.appendChild(figure);
@@ -697,9 +740,26 @@ export default {
         const numberOfImage = ref(0);
         const numberOfImage1 = ref(0);
 
+        let subPrice = () => {
+            addProduct.data.sub_price = parseFloat(addProduct.data.price / addProduct.data.count_unit).toFixed(2);
+        }
 
         onMounted(() => {
             getProduct();
+        });
+
+        watch(() => addProduct.data.main_measurement_unit_id, (after, before) => {
+            let v = measures.value.filter((el) => el.id == addProduct.data.main_measurement_unit_id);
+            if (v.length > 0) {
+                addProduct.data.mainUnitMeasurement = v[0].name;
+            }
+        });
+
+        watch(() => addProduct.data.sub_measurement_unit_id, (after, before) => {
+            let v = measures.value.filter((el) => el.id == addProduct.data.sub_measurement_unit_id);
+            if (v.length > 0) {
+                addProduct.data.subUnitMeasurement = v[0].name;
+            }
         });
 
         return {
@@ -708,146 +768,111 @@ export default {
             v$,
             preview,
             preview2,
+            subPrice,
+            stores,
             numberOfImage,
             numberOfImage1,
+            pharmacistForms,
             categories,
             measures,
-            taxes,
             subCategories,
-            sellingMethods,
-            pharmacistForms,
             getSubCategory,
-            alternatives,
-            alternativeDetailValidation,
+            sellingMethods
         };
     },
     methods: {
-        myFunction()
-        {
-            this.data.barcode = Math.round(Math.random()*10000000000);
+        myFunction() {
+            this.data.barcode = Math.round(Math.random() * 10000000000);
         },
 
-        storeProduct(){
+        storeProduct() {
             this.v$.$validate();
 
-            if(!this.v$.$error){
+            if (!this.v$.$error) {
 
                 this.loading = true;
                 this.errors = {};
                 let formData = new FormData();
-                formData.append("pharmacistForm_id", this.data.pharmacistForm_id);
-                formData.append('nameAr',this.data.nameAr);
-                formData.append('nameEn',this.data.nameEn);
-                formData.append('barcode',this.data.barcode);
-                formData.append('effectiveMaterial',this.data.effectiveMaterial);
-                formData.append('description',this.data.description);
-                formData.append('category_id',this.data.category_id);
-                formData.append('sub_category_id',this.data.sub_category_id);
-                formData.append('main_measurement_unit_id',this.data.main_measurement_unit_id);
-                formData.append('tax_id',this.data.tax_id);
-                formData.append('image',this.data.image);
-                formData.append('selling_methods',this.data.selling_methods);
-                formData.append('alternativeDetail', JSON.stringify(this.data.alternativeDetail));
-                for( var i = 0; i < this.numberOfImage1; i++ ){
+                formData.append('quantity', this.data.quantity);
+                formData.append('store_id', this.data.store_id);
+                formData.append('sub_quantity', this.data.sub_quantity);
+                formData.append('price', this.data.price);
+                formData.append('sub_price', this.data.sub_price);
+                formData.append('nameAr', this.data.nameAr);
+                formData.append('nameEn', this.data.nameEn);
+                formData.append('effectiveMaterial', this.data.effectiveMaterial);
+                formData.append('barcode', this.data.barcode);
+                formData.append('count_unit', this.data.count_unit);
+                formData.append('maximum_product', this.data.maximum_product);
+                formData.append('Re_order_limit', this.data.Re_order_limit);
+                formData.append('description', this.data.description);
+                formData.append('category_id', this.data.category_id);
+                formData.append('sub_category_id', this.data.sub_category_id);
+                formData.append('pharmacistForm_id', this.data.pharmacistForm_id);
+                formData.append('sub_measurement_unit_id', this.data.sub_measurement_unit_id);
+                formData.append('main_measurement_unit_id', this.data.main_measurement_unit_id);
+                formData.append('sell_app', this.data.sell_app);
+                formData.append('image', this.data.image);
+                formData.append('selling_method', this.data.selling_method);
+                formData.append('quantity', this.data.quantity);
+                for (var i = 0; i < this.numberOfImage1; i++) {
                     let file = this.data.files[i];
                     formData.append('files[' + i + ']', file);
                 }
 
-                adminApi.post(`/v1/dashboard/product`,formData)
-                //
-                // adminApi.post(`/v1/dashboard/product`, this.data)
+                adminApi.post(`/v1/dashboard/product`, formData)
+                    .then((res) => {
 
-                .then((res) => {
+                        notify({
+                            title: `تم الاضافه بنجاح <i class="fas fa-check-circle"></i>`,
+                            type: "success",
+                            duration: 5000,
+                            speed: 2000
+                        });
 
-                    notify({
-                        title: `تم الاضافه بنجاح <i class="fas fa-check-circle"></i>`,
-                        type: "success",
-                        duration: 5000,
-                        speed: 2000
+                        this.resetForm();
+                        this.$nextTick(() => { this.v$.$reset() });
+                    })
+                    .catch((err) => {
+                        this.errors = err.response.data.errors;
+                        console.log(err.response);
+                    })
+                    .finally(() => {
+                        this.loading = false;
                     });
-
-                    this.resetForm();
-                    this.$nextTick(() => { this.v$.$reset() });
-                })
-                .catch((err) => {
-                    this.errors = err.response.data.errors;
-                    console.log(err.response);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'يوجد خطأ...',
-                        text: 'يوجد خطأ ما..!!',
-                    });
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
 
             }
         },
-
-        addAlternativeDetail() {
-            this.data.alternativeDetail.push({
-                alternative_id: null,
-                discount: null,
-                pharmacyPrice: null,
-                publicPrice: null,
-            });
-            this.alternativeDetailValidation.push({
-                alternative_id: {
-                    // required,
-                    // numeric
-                },
-                discount: {
-                    // required,
-                    // numeric
-                },
-                pharmacyPrice: {
-                    // required,
-                    // numeric
-                },
-                publicPrice: {
-                    // required,
-                    // numeric
-                }
-            });
-
-            this.alternativeDetails.push({ alternativeDetails: [], send: true });
-            this.$nextTick(() => { this.v$.$reset() });
-        },
-
-        deleteAlternativeDetail(index) {
-            this.data.alternativeDetail.splice(index, 1);
-            this.alternativeDetailValidation.splice(index, 1);
-            this.alternativeDetails.splice(index, 1);
-            this.$nextTick(() => { this.v$.$reset() });
-        },
-
-        resetForm(){
+        resetForm() {
             document.querySelector('#container-images').innerHTML = '';
             document.querySelector('#container-images1').innerHTML = '';
+            document.querySelector('#mediaPackage1').value = '';
+            document.querySelector('#mediaPackage').value = '';
             this.numberOfImage = 0;
             this.numberOfImage1 = 0;
-            this.data.pharmacistForm_id = null;
-            this.data.barcode = null;
-            this.data.nameAr = null;
-            this.data.nameEn = null;
-            this.data.description = null;
-            this.effectiveMaterial = null;
-            this.data.image= {};
+            this.data.nameAr = '';
+            this.data.nameEn = '';
+            this.data.barcode = '';
+            this.data.count_unit = null;
+            this.data.Re_order_limit = null;
+            this.data.maximum_product = null;
+            this.data.description = '';
+            this.data.image = {};
             this.data.files = [];
             this.data.category_id = null;
             this.data.sub_category_id = null;
+            this.data.pharmacistForm_id = null;
             this.data.main_measurement_unit_id = null;
-            this.data.tax_id = null;
-            this.data.selling_methods = [];
-            this.data.alternativeDetail = [
-                {
-                    alternative_id: null,
-                    discount: null,
-                    pharmacyPrice: null,
-                    publicPrice: null,
-                }
-            ];
+            this.data.sub_measurement_unit_id = null;
+            this.data.selling_method = [];
+            this.data.sell_app = 1;
+            this.data.quantity = 0;
+            this.data.sub_quantity = 0;
+            this.data.price = 0;
+            this.data.sub_price = 0;
+            this.data.store_id = 1;
+            this.data.mainUnitMeasurement = '';
+            this.data.subUnitMeasurement = '';
         }
     }
 }
@@ -912,35 +937,30 @@ input[type="file"] {
     height: 150px;
 }
 
-.account {
+.sec-body {
+    border: 3px solid #0E67D0;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.sec-head {
     background-color: #0E67D0;
-    color: #000000 !important;
-    border-radius: 5px;
+    color: #000;
+    border-radius: 11px;
+    padding: 5px;
+    text-align: center;
+    margin-bottom: 8px;
+    margin-top: 10px;
 }
 
-.head-account {
-    display: flex;
-    justify-content: center;
+.sec-body:hover .sec-head {
+    border: 3px solid #00DD2F;
+    padding: 2px;
+    border-radius: 11px;
+    background-color: #00DD2F;
 }
 
-.head-account h3 {
-    color: #000000 !important;
-    font-weight: bold;
-}
-
-.body-account {
-    border-top: 3px solid #000000;
-    margin: 0 !important;
-}
-
-.text-height {
-    height: 46px !important;
-}
-
-.error-amount {
-    display: flex;
-    justify-content: center;
-    color: red;
-    margin: 10px;
+.sec-head h3 {
+    font-weight: 700;
 }
 </style>

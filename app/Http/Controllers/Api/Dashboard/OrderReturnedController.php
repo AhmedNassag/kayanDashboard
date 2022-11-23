@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\DirectOrders;
 use App\Models\Order;
 use App\Traits\Message;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class OrderReturnedController extends Controller
      */
     public function index(Request $request)
     {
-        $orders= Order::where(function ($q){
+        $orders= DirectOrders::where(function ($q){
             return $q->where('order_status_id',6)
                 ->orWhere('order_status_id',7);
         })->with(['orderStatus','representative:id,name','orderOtherOffer','user' => function ($q){
@@ -64,7 +65,7 @@ class OrderReturnedController extends Controller
     }
 
     public function show($id){
-        $order = Order::with(['orderStatus','orderOtherOffer','user' => function ($q){
+        $order = DirectOrders::with(['orderStatus','orderOtherOffer','user' => function ($q){
             $q->with('client');
         },'orderOffer','orderTax','orderDetails' => function ($q) {
             $q->with(['sellingMethod:id,name',

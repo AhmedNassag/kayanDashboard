@@ -11,21 +11,27 @@ class Tax extends Model
 
     protected $guarded = [];
 
-    protected $appends=['text', 'percentage'];
+    protected $appends=['text'];
 
     public function getTextAttribute()
     {
         return $this->name;
     }
 
-    public function getPercentageAttribute()
-    {
-        return $this->rate;
-    }
 
     //start relations
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function directOrders()
+    {
+        return $this->morphedByMany(DirectOrders::class,'order','order_taxes','tax_id','order_id');
+    }
+
+    public function onlineOrders()
+    {
+        return $this->morphedByMany(Order::class,'order', 'order_taxes', 'tax_id', 'order_id');
     }
 }

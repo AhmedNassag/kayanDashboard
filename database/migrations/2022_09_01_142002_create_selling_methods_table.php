@@ -15,8 +15,9 @@ class CreateSellingMethodsTable extends Migration
     {
         Schema::create('selling_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('name');
             $table->boolean('status')->default(true);
+            $table->integer('order_amount')->default(0)->nullable();
             $table->timestamps();
         });
     }

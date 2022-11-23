@@ -54,7 +54,7 @@ class SupplierController extends Controller
 
     public function activeSupplier()
     {
-        $suppliers = Supplier::where('status', 1)->get();
+        $suppliers = Supplier::where('active', 1)->get();
         return $this->sendResponse(['suppliers' => $suppliers], 'Data exited successfully');
     }
 }

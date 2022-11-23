@@ -17,16 +17,16 @@ class OrderDetails extends Model
     }
 
     public function mainMeasurementUnit(){
-        return $this->belongsTo(MeasurementUnit::class,'main_measurement_unit_id');
+        return $this->belongsTo(Unit::class,'main_measurement_unit_id');
     }
 
     public function subMeasurementUnit(){
-        return $this->belongsTo(MeasurementUnit::class,'sub_measurement_unit_id');
+        return $this->belongsTo(Unit::class,'sub_measurement_unit_id');
     }
 
     public function order()
     {
-        return $this->belongsTo(Order::class,'order_id');
+        return $this->belongsTo(DirectOrders::class,'order_id');
     }
 
     public function user()

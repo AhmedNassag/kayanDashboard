@@ -16,7 +16,8 @@ class ClientRepository
             "name" => $client["name"],
             "email" => $client["email"],
             "status" => 1,
-            'phone' => $client["phone"]
+            'phone' => $client["phone"],
+            'role_name' => ['client']
         ]);
         $client = Client::create([
             "store_name" => $client["store_name"],
