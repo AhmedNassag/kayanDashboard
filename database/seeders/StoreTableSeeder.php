@@ -14,12 +14,12 @@ class StoreTableSeeder extends Seeder
      */
     public function run()
     {
-        // Store::create([
-        //     'name' => 'المخزن الرئيس',
-        //     'phone' => '01234567890',
-        //     'province_id' => 1,
-        //     'area_id' => 1,
-        //     'main' => 1,
-        // ]);
+        Store::create([
+            'name' => 'المخزن الرئيسى',
+            'phone' => '01234567890',
+            'city_id' => 1,
+            'area_id' => 1,
+            'main' => 1,
+        ]);
     }
 }

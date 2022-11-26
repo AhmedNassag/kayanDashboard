@@ -1,23 +1,24 @@
-import indexStock from "../../view/admin/stock/index";
-import createStock from "../../view/admin/stock/create";
-import editStock from "../../view/admin/stock/edit";
+import indexStore from "../../view/admin/store/index";
+import createStore  from "../../view/admin/store/create";
+import editStore  from "../../view/admin/store/edit";
+import showStore  from "../../view/admin/store/show";
 import store from "../../store/admin";
 
 export default [
     {
-        path: 'stock',
+        path: 'store',
         component:  {
             template:'<router-view />',
         },
         children:[
             {
                 path: '',
-                name: 'indexStock',
-                component: indexStock,
+                name: 'indexStore',
+                component: indexStore ,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('stock read')){
+                    if(permission.includes('store read')){
                         return next();
                     }else{
                         return next({name:'Page404'});
@@ -26,12 +27,12 @@ export default [
             },
             {
                 path: 'create',
-                name: 'createStock',
-                component: createStock,
+                name: 'createStore',
+                component: createStore ,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('stock create')){
+                    if(permission.includes('store create')){
                         return next();
                     }else{
                         return next({name:'Page404'});
@@ -40,13 +41,29 @@ export default [
             },
             {
                 path: 'edit/:id(\\d+)',
-                name: 'editStock',
-                component: editStock,
+                name: 'editStore',
+                component: editStore ,
                 props: true,
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('stock edit')){
+                    if(permission.includes('store edit')){
+                        return next();
+                    }else{
+                        return next({name:'Page404'});
+                    }
+                }
+            },
+
+            {
+                path: 'showProduct/:id(\\d+)',
+                name: 'showStore',
+                component: showStore ,
+                props: true,
+                beforeEnter: (to, from,next) => {
+                    let permission = store.state.authAdmin.permission;
+
+                    if(permission.includes('store read')){
                         return next();
                     }else{
                         return next({name:'Page404'});

@@ -16,7 +16,7 @@ class CreateAreasTable extends Migration
         Schema::create('areas', function (Blueprint $table) {
             $table->id();
             $table->string("name")->nullable();
-            $table->integer("shipping_price")->default(0);
+            $table->integer('shipping_price')->default(0);
             $table->foreignId('city_id')->constrained('cities');
             $table->timestamps();
         });

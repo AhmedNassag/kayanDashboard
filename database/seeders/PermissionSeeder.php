@@ -46,11 +46,16 @@ class PermissionSeeder extends Seeder
             ['name' => 'usersCategory create', 'role' => 'management'],
             ['name' => 'usersCategory edit', 'role' => 'management'],
             ['name' => 'usersCategory delete', 'role' => 'management'],
+            //discount
+            ['name' => 'discount read', 'role' => '', 'category' => 'Discount'],
+            ['name' => 'discount create', 'role' => '', 'category' => 'Discount'],
+            ['name' => 'discount edit', 'role' => '', 'category' => 'Discount'],
+            ['name' => 'discount delete', 'role' => '', 'category' => 'Discount'],
             //tax
-            ['name' => 'tax read', 'role' => 'management'],
-            ['name' => 'tax create', 'role' => 'management'],
-            ['name' => 'tax edit', 'role' => 'management'],
-            ['name' => 'tax delete', 'role' => 'management'],
+            ['name' => 'tax read', 'role' => '', 'category' => 'Tax'],
+            ['name' => 'tax create', 'role' => '', 'category' => 'Tax'],
+            ['name' => 'tax edit', 'role' => '', 'category' => 'Tax'],
+            ['name' => 'tax delete', 'role' => '', 'category' => 'Tax'],
             //company
             ['name' => 'company read', 'role' => 'management'],
             ['name' => 'company create', 'role' => 'management'],
@@ -91,6 +96,20 @@ class PermissionSeeder extends Seeder
             ['name' => 'shift create', 'role' => 'management'],
             ['name' => 'shift edit', 'role' => 'management'],
             ['name' => 'shift delete', 'role' => 'management'],
+            // start Store Management
+            ['name' => 'store read', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            ['name' => 'store create', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            ['name' => 'store edit', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            ['name' => 'store delete', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+
+            ['name' => 'examinationRecords read', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            ['name' => 'examinationRecords create', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            ['name' => 'examinationRecords edit', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+
+            ['name' => 'ProductsPricing read', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            ['name' => 'ProductsPricing edit', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // end Store Management
+
             //stock
             ['name' => 'stock read', 'role' => 'management'],
             ['name' => 'stock create', 'role' => 'management'],
@@ -273,15 +292,23 @@ class PermissionSeeder extends Seeder
             ['name' => 'sale-point edit', 'role' => ''],
             ['name' => 'sale-point delete', 'role' => ''],
             //Purchase Invoice
-            ['name' => 'PurchaseInvoice read', 'role' => 'buy'],
-            ['name' => 'PurchaseInvoice create', 'role' => 'buy'],
-            ['name' => 'PurchaseInvoice edit', 'role' => 'buy'],
-            ['name' => 'PurchaseInvoice delete', 'role' => 'buy'],
-            ['name' => 'PurchaseReturn read', 'role' => 'buy'],
+            ['name' => 'PurchaseInvoice read', 'role' => 'buy', 'category' => 'Purchase Invoice'],
+            ['name' => 'PurchaseInvoice create', 'role' => 'buy', 'category' => 'Purchase Invoice'],
+            ['name' => 'PurchaseInvoice edit', 'role' => 'buy', 'category' => 'Purchase Invoice'],
+            ['name' => 'PurchaseInvoice delete', 'role' => 'buy', 'category' => 'Purchase Invoice'],
+            //PurchaseReturn
+            ['name' => 'PurchaseReturn read', 'role' => 'buy', 'category' => 'Purchase Return'],
+            ['name' => 'PurchaseReturn create', 'role' => 'buy', 'category' => 'Purchase Return'],
+            ['name' => 'PurchaseReturn delete', 'role' => 'buy', 'category' => 'Purchase Return'],
+            //EarnedDiscount
+            ['name' => 'EarnedDiscount read', 'role' => 'buy', 'category' => 'Earned Discount'],
+            ['name' => 'EarnedDiscount create', 'role' => 'buy', 'category' => 'Earned Discount'],
+            ['name' => 'EarnedDiscount edit', 'role' => 'buy', 'category' => 'Earned Discount'],
+            ['name' => 'EarnedDiscount delete', 'role' => 'buy', 'category' => 'Earned Discount'],
             //Examination Records
-            ['name' => 'examinationRecords read', 'role' => 'buy'],
-            ['name' => 'examinationRecords create', 'role' => 'buy'],
-            ['name' => 'examinationRecords edit', 'role' => 'buy'],
+            // ['name' => 'examinationRecords read', 'role' => 'buy'],
+            // ['name' => 'examinationRecords create', 'role' => 'buy'],
+            // ['name' => 'examinationRecords edit', 'role' => 'buy'],
             //Newsletters
             ['name' => 'newsletter read', 'role' => ''],
             //Sliders

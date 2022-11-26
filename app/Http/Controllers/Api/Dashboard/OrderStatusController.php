@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\ClientAccount;
 use App\Models\ClientIncome;
+use App\Models\DirectOrders;
 use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\OrderRetuen;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Validator;
 class OrderStatusController extends Controller
 {
     use Message;
-    use NotificationTrait;
+    // use NotificationTrait;
 
     /**
      * Display a listing of the resource.
@@ -54,7 +55,7 @@ class OrderStatusController extends Controller
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $order = Order::find($request->order_id);
+            $order = DirectOrders::find($request->order_id);
             $order->update([
                'order_status_id' => $request->order_status_id,
                'representative_id' => $request->representative_id ? $request->representative_id : $order->representative_id,

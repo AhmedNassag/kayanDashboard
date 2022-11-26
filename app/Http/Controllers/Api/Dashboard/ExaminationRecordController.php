@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExaminationRecord;
+use App\Models\Product;
 use App\Models\ProductStatus;
 use App\Models\Purchase;
+use App\Models\PurchaseProduct;
 use App\Models\PurchaseReturn;
 use App\Models\ReturnProduct;
 use App\Models\StoreProduct;
@@ -33,9 +35,9 @@ class ExaminationRecordController extends Controller
             ->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
                     return $q->where('note', 'like', '%' . $request->search . '%')
-                    ->orWhere('id', $request->search)   
-                    ->orWhereRelation('store','name','like','%'.$request->search.'%')
-                    ->orWhereRelation('supplier','name','like','%'.$request->search.'%');
+                        ->orWhereRelation('store','name','like','%'.$request->search.'%')
+                        ->orWhereRelation('supplier','name_supplier','like','%'.$request->search.'%')
+                        ->orWhereRelation('user','name','like','%'.$request->search.'%');
                 });
             })->where(function ($q) use ($request) {
                 $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
@@ -51,8 +53,7 @@ class ExaminationRecordController extends Controller
         return $this->sendResponse(['purchases' => $purchases], 'Data exited successfully');
     }
 
-    public function create()
-    {
+    public function create(){
       //
     }
 
@@ -70,17 +71,18 @@ class ExaminationRecordController extends Controller
             // Validator request
             $v = Validator::make($request->all(), [
                 'purchase_id' => 'required|integer|exists:purchases,id',
-                'stock_id' => 'required|integer|exists:stocks,id',
-                'supplier_id' => 'required|integer|exists:suppliers,id',
+                'store_id' => 'required|integer|exists:stores,id',
                 'notes_received' => 'nullable|string|min:5',
                 'notes_return' => 'nullable|string|min:5',
                 'product.*.product_id' => 'required|integer|exists:products,id',
                 'product.*.product_status_id' => 'required|integer|exists:product_statuses,id',
                 'product.*.quantity_received' => 'required|integer',
+                'product.*.sub_quantity_received' => 'required|integer',
                 'product.*.return_quantity' => 'required|integer',
+                'product.*.return_sub_quantity' => 'required|integer',
                 'product.*.count_unit' => 'required|integer',
-                'product.*.production_date' => 'required|date',
-                'product.*.expiry_date' => 'required|date|after:product.*.production_date',
+                'product.*.production_date' => 'nullable|date',
+                'product.*.expiry_date' => 'nullable|date|after:product.*.production_date',
                 'product.*.note' => 'nullable|string|min:3',
             ]);
 
@@ -94,6 +96,10 @@ class ExaminationRecordController extends Controller
             if ($request->return > 0){
                $this->purchaseReturn($request);
             }
+            $purchase = Purchase::find($request->purchase_id);
+            $purchase->update([
+                'is_received' => 1,
+            ]);
 
             DB::commit();
 
@@ -113,21 +119,27 @@ class ExaminationRecordController extends Controller
         $examination = ExaminationRecord::create([
             'user_id'=>$employee_id,
             'purchase_id'=>$request->purchase_id,
-            'note'=>$request->notes_received
+            'note'=>$request->notes_received,
         ]);
 
         foreach ($request->product as $value){
-            if ($value['quantity_received'] > 0 ){
+            if ($value['quantity_received'] > 0 || $value['sub_quantity_received']){
+                $product = Product::find($value['product_id']);
                 StoreProduct::create([
                     'examination_record_id'=>$examination->id,
                     'product_status_id'=>$value['product_status_id'],
                     'product_id'=>$value['product_id'],
-                    'stock_id'=>$request['stock_id'],
+                    'main_measurement_unit_id'=>$product->main_measurement_unit_id,
+                    'sub_measurement_unit_id'=>$product->sub_measurement_unit_id,
+                    'sub_category_id'=> $product->sub_category_id,
+                    'store_id'=>$request['store_id'],
                     'quantity'=>$value['quantity_received'],
+                    'sub_quantity'=>$value['sub_quantity_received'],
                     'expiry_date'=>$value['expiry_date'],
                     'production_date'=>$value['production_date'],
                     'count_unit'=>$value['count_unit'],
                     'purchase_product_id'=>$value['purchase_product_id'],
+                    'sub_quantity_order'=>0,
                 ]);
             }
         }
@@ -137,21 +149,28 @@ class ExaminationRecordController extends Controller
 
         $employee_id = auth()->user()->id;
 
+        $purchase = Purchase::find($request->purchase_id);
+
         $PurchaseReturn = PurchaseReturn::create([
             'user_id'=>$employee_id,
             'purchase_id'=>$request->purchase_id,
-            'supplier_id'=>$request->supplier_id,
-            'stock_id'=>$request->stock_id,
+            'supplier_id'=>$purchase->type_invoice == 1 ? $purchase->supplier_id: null,
+            'client_id'=>$purchase->type_invoice == 0 ? $purchase->user_id: null,
+            'store_id'=>$request->store_id,
             'note'=>$request->notes_return
         ]);
 
         foreach ($request->product as $value){
 
-            if ($value['return_quantity'] > 0 ){
+            if ($value['return_quantity'] > 0 || $value['return_sub_quantity'] > 0){
+                $purchase_product = PurchaseProduct::find($value['purchase_product_id']);
                 ReturnProduct::create([
                     'purchase_return_id'=>$PurchaseReturn->id,
                     'product_id'=>$value['product_id'],
                     'quantity'=>$value['return_quantity'],
+                    'sub_quantity'=>$value['return_sub_quantity'],
+                    'price'=>$purchase_product['price'],
+                    'sub_price'=>$purchase_product['price'] / $purchase_product['count_unit'],
                     'note'=>$value['note'],
                     'purchase_product_id'=>$value['purchase_product_id'],
                 ]);
@@ -212,17 +231,18 @@ class ExaminationRecordController extends Controller
             // Validator request
             $v = Validator::make($request->all(), [
                 'purchase_id' => 'required|integer|exists:purchases,id',
-                'stock_id' => 'required|integer|exists:stocks,id',
-                'supplier_id' => 'required|integer|exists:suppliers,id',
+                'store_id' => 'required|integer|exists:stores,id',
                 'notes_received' => 'nullable|string|min:5',
                 'notes_return' => 'nullable|string|min:5',
                 'product.*.product_id' => 'required|integer|exists:products,id',
                 'product.*.product_status_id' => 'required|integer|exists:product_statuses,id',
                 'product.*.quantity_received' => 'required|integer',
+                'product.*.sub_quantity_received' => 'required|integer',
                 'product.*.return_quantity' => 'required|integer',
+                'product.*.return_sub_quantity' => 'required|integer',
                 'product.*.count_unit' => 'required|integer',
-                'product.*.production_date' => 'required|date',
-                'product.*.expiry_date' => 'required|date|after:product.*.production_date',
+                'product.*.production_date' => 'nullable|date',
+                'product.*.expiry_date' => 'nullable|date|after:product.*.production_date',
                 'product.*.note' => 'nullable|string|min:3',
             ]);
 
@@ -230,9 +250,12 @@ class ExaminationRecordController extends Controller
                 return $this->sendError('There is an error in the data', $v->errors());
             }
             $purchase = Purchase::find($id);
-            $purchase->examinationRecord->delete();
-            $purchase->purchaseReturns->delete();
-
+            if ($purchase->examinationRecord){
+                $purchase->examinationRecord->delete();
+            }
+            if ( $purchase->purchaseReturns ){
+                $purchase->purchaseReturns->delete();
+            }
             if ($request->received > 0){
                 $this->storeProduct($request);
             }

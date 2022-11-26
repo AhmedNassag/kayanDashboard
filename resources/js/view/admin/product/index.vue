@@ -6,14 +6,14 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">{{ $t("global.Products") }}</h3>
+                        <h3 class="page-title">المنتاجات</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <router-link :to="{name: 'dashboard'}">
-                                    {{ $t("dashboard.Dashboard") }}
+                                    الرئيسية
                                 </router-link>
                             </li>
-                            <li class="breadcrumb-item active">{{ $t("global.Products") }}</li>
+                            <li class="breadcrumb-item active">المنتاجات</li>
                         </ul>
                     </div>
 
@@ -29,7 +29,7 @@
                             <div class="card-header pt-0">
                                 <div class="row justify-content-between">
                                     <div class="col-5">
-                                        {{ $t("global.Search") }}:
+                                        بحث :
                                         <input type="search" v-model="search" class="custom"/>
                                     </div>
                                     <div class="col-5 row justify-content-end">
@@ -37,7 +37,7 @@
                                             v-if="permission.includes('product create')"
                                            :to="{name: 'createProduct'}"
                                             class="btn btn-custom btn-warning">
-                                            {{ $t("global.Add") }}
+                                            اضافه
                                         </router-link>
                                     </div>
                                 </div>
@@ -46,44 +46,35 @@
                                 <table class="table mb-0">
                                     <thead>
                                     <tr>
-                                        <th class="text-center">#</th>
-                                        <th class="text-center">{{ $t("global.NameAr") }}</th>
-                                        <th class="text-center">{{ $t("global.NameEn") }}</th>
-                                        <th class="text-center"> {{ $t("global.Category") }}</th>
-                                        <th class="text-center">{{ $t("global.SubCategory") }}</th>
-                                        <th class="text-center">{{ $t("global.Pharmacist Form") }}</th>
-                                        <th class="text-center">{{ $t("global.Tax") }}</th>
-                                        <th class="text-center">{{ $t("global.Image") }}</th>
-                                        <th class="text-center">{{ $t("global.Status") }}</th>
-                                        <th class="text-center">{{ $t("global.Action") }}</th>
+                                        <th>#</th>
+                                        <th>اسم المنتج بالعربية</th>
+                                        <th>اسم المنتج بالإنجليزية</th>
+                                        <th>الفئه</th>
+                                        <th>الصورة</th>
+                                        <th>الحاله</th>
+                                        <th>الاجراءات</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="products.length">
-                                    <tr v-for="(item,index) in products" :key="item.id">
-                                        <td class="text-center">{{ index + 1 }}</td>
-                                        <td class="text-center" v-if="item.nameAr">{{ item.nameAr }}</td>
-                                        <td class="text-center" v-else>---</td>
-                                        <td class="text-center" v-if="item.nameEn">{{ item.nameEn }}</td>
-                                        <td class="text-center" v-else>---</td>
-                                        <td class="text-center">{{ item.category.name }}</td>
-                                        <td class="text-center">{{ item.sub_category.name }}</td>
-                                        <td class="text-center">{{ item.pharmacist_form.name }}</td>
-                                        <td class="text-center" v-if="item.tax">{{ item.tax.name }}</td>
-                                        <td class="text-center" v-else>---</td>
-                                        <td class="text-center">
+                                    <tr v-for="(item,index) in products"  :key="item.id">
+                                        <td>{{ item.id }}</td>
+                                        <td>{{ item.nameAr }}</td>
+                                        <td>{{ item.nameEn }}</td>
+                                        <td>{{ item.category.name }}</td>
+                                        <td>
                                             <img
                                                 :src="'/upload/product/' + item.image"
                                                 :alt="item.name"
                                                 class="custom-img"
                                             />
                                         </td>
-                                        <td class="text-center">
+                                        <td>
                                             <a href="#" @click="activationProduct(item.id,item.status,index)">
                                                 <span :class="[parseInt(item.status) ? 'text-success hover': 'text-danger hover']">{{
                                                         parseInt(item.status) ? 'تفعيل' : 'ايقاف تفعيل' }}</span>
                                             </a>
                                         </td>
-                                        <td class="text-center">
+                                        <td>
                                             <router-link
                                                 :to="{name: 'editProduct',params:{id:item.id}}"
                                                v-if="permission.includes('product edit')"
@@ -96,11 +87,12 @@
                                                 <i class="far fa-trash-alt"></i>
                                             </a>
                                         </td>
+
                                     </tr>
                                     </tbody>
                                     <tbody v-else>
                                         <tr>
-                                            <th class="text-center" colspan="7">{{ $t("global.NoDataFound") }}</th>
+                                            <th class="text-center" colspan="7">لا يوجد بيانات</th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -111,12 +103,12 @@
             </div>
             <!-- /Table -->
             <!-- start Pagination -->
-            <Pagination :data="productsPaginate" @pagination-change-page="getProduct">
+            <Pagination :limit="2" :data="productsPaginate" @pagination-change-page="getProduct">
                 <template #prev-nav>
-                    <span>&lt; {{ $t("global.Previous") }}</span>
+                    <span>&lt; السابق</span>
                 </template>
                 <template #next-nav>
-                    <span>{{ $t("global.Next") }} &gt;</span>
+                    <span>التالي &gt;</span>
                 </template>
             </Pagination>
             <!-- end Pagination -->
@@ -174,14 +166,13 @@ export default {
 
         function deleteProduct(id, index) {
             Swal.fire({
-                title: `هل انت متأكد من الحذف ؟`,
-                text: `لن تتمكن من التراجع عن هذا!`,
+                title: `هل تريد هذف هذا العنصر ؟ `,
+                text: `لن تتمكن من التراجع عن هذا`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'نعم',
-                cancelButtonText: 'لا'
+                confirmButtonText: 'Yes'
             }).then((result) => {
                 if (result.isConfirmed) {
 
@@ -199,8 +190,8 @@ export default {
                         .catch((err) => {
                             Swal.fire({
                                 icon: 'error',
-                                title: `يوجد خطا في النظام...`,
-                                text: `لا تستطيع الحذف !`,
+                                title: `يوجد خطا`,
+                                text: `يوجد خطا في النظام!`,
                             });
                         });
                 }
@@ -209,14 +200,13 @@ export default {
 
         function activationProduct(id, active,index) {
             Swal.fire({
-                title: `${active ? 'هل انت متاكد من ايقاف التفعيل ؟' : 'هل انت متاكد من التفعيل ؟'} `,
-                text: `لن تتمكن من التراجع عن هذا!`,
+                title: `${active ? 'هل انت متاكد من ايقاف التفعيل ؟' : 'هل انت متاكد من التفعيل  ؟'} `,
+                text: `لم تتمكن من التراجع عن هذا`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'نعم',
-                cancelButtonText: 'لا'
+                confirmButtonText: 'Yes'
             }).then((result) => {
                 if (result.isConfirmed) {
 

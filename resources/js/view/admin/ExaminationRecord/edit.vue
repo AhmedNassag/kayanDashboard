@@ -33,8 +33,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm">
-                                    <div class="alert alert-danger text-center" v-if="errors['stock_id']">{{ errors['stock_id'][0] }}<br /> </div>
-                                    <div class="alert alert-danger text-center" v-if="errors['supplier_id']">{{ errors['supplier_id'][0] }}<br /> </div>
+                                    <div class="alert alert-danger text-center" v-if="errors['store_id']">{{ errors['store_id'][0] }}<br /> </div>
                                     <div class="alert alert-danger text-center" v-if="errors['purchase_id']">{{ errors['purchase_id'][0] }}<br /> </div>
                                     <div class="alert alert-danger text-center" v-if="errors['notes_received']">{{ errors['notes_received'][0] }}<br /> </div>
                                     <div class="alert alert-danger text-center" v-if="errors['notes_return']">{{ errors['notes_return'][0] }}<br /> </div>
@@ -80,14 +79,14 @@
 
                                             <div class="col-md-6 mb-3">
                                                 <label>{{$t('global.NotesReceived')}}</label>
-                                                <textarea rows="4" cols="5" v-model.trim="data.notes_received" :class="['form-control text-height']" :placeholder="$t('global.NotesReceived')"></textarea>
+                                                <textarea rows="4" cols="5" v-model.trim="data.notes_received" :class="['form-control text-height is-valid']" :placeholder="$t('global.NotesReceived')"></textarea>
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
 
                                             </div>
 
                                             <div class="col-md-6 mb-3" v-if="data.return">
                                                 <label>{{$t('global.NotesReturn')}}</label>
-                                                <textarea rows="4" cols="5" v-model.trim="data.notes_return" :class="['form-control text-height']" :placeholder="$t('global.NotesReturn')"></textarea>
+                                                <textarea rows="4" cols="5" v-model.trim="data.notes_return" :class="['form-control text-height is-valid']" :placeholder="$t('global.NotesReturn')"></textarea>
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
 
                                             </div>
@@ -107,9 +106,23 @@
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
-                                                            <label>{{$t('global.RequiredQuantity')}} ( {{data.product[index].mainUnitMeasurement}} )</label>
+                                                            <label>{{$t('global.RequiredQuantity')}} ( {{data.product[index].mainUnitMeasurement}} ) ( {{$t('global.TotalAccount')}} )</label>
                                                             <input type="text" disabled class="form-control"
                                                                    v-model="data.product[index].RequiredQuantity"
+                                                            >
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.RequiredQuantity')}} ( {{data.product[index].subUnitMeasurement}} ) ( {{$t('global.Partial')}} )</label>
+                                                            <input type="text" disabled class="form-control"
+                                                                   v-model="data.product[index].RequiredSubQuantity"
+                                                            >
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.countUnits')}}</label>
+                                                            <input type="text" disabled class="form-control"
+                                                                   v-model="data.product[index].count_unit"
                                                             >
                                                         </div>
 
@@ -128,29 +141,8 @@
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
-                                                            <label>{{$t('global.mainUnitMeasurement')}}</label>
-                                                            <input type="text" disabled class="form-control"
-                                                                   v-model="data.product[index].mainUnitMeasurement"
-                                                            >
-                                                        </div>
-
-                                                        <div class="col-md-3 mb-3">
-                                                            <label>{{$t('global.countUnits')}}</label>
-                                                            <input type="text" disabled class="form-control"
-                                                                   v-model="data.product[index].count_unit"
-                                                            >
-                                                        </div>
-
-                                                        <!-- <div class="col-md-3 mb-3">
-                                                            <label>{{$t('global.subUnitMeasurement')}}</label>
-                                                            <input type="text" disabled class="form-control"
-                                                                   v-model="data.product[index].subUnitMeasurement"
-                                                            >
-                                                        </div> -->
-
-                                                        <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.productStatus') }}</label>
-                                                            <!-- <Select2 v-model="data.product[index].product_status_id" :options="productStatuses" :settings="{ width: '100%' }" /> -->
+
                                                             <select  v-model="data.product[index].product_status_id " :class="['form-select',{'is-invalid':v$.product[index].product_status_id.$error,'is-valid':!v$.product[index].product_status_id.$invalid}]">
                                                                 <option v-for="status in productStatuses" :key="status.id" :value="status.id">{{status.name}}</option>
                                                             </select>
@@ -161,7 +153,7 @@
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
-                                                            <label>{{$t('global.quantityReceived')}}</label>
+                                                            <label>{{$t('global.quantityReceived')}} ( {{$t('global.TotalAccount')}} )</label>
                                                             <input type="number" class="form-control"
                                                                    @input="quantityReceived(index)"
                                                                    v-model.number="v$.product[index].quantity_received.$model"
@@ -176,7 +168,7 @@
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
-                                                            <label>{{$t('global.returnQuantity')}}</label>
+                                                            <label>{{$t('global.returnQuantity')}} ( {{$t('global.TotalAccount')}} )</label>
                                                             <input type="number" class="form-control"
                                                                    @input="returnQuantity(index)"
                                                                    v-model.number="v$.product[index].return_quantity.$model"
@@ -190,7 +182,37 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-3 mb-3" v-if="data.product[index].return_quantity">
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.quantityReceived')}} ( {{$t('global.Partial')}} )</label>
+                                                            <input type="number" class="form-control"
+                                                                   @input="subQuantityReceived(index)"
+                                                                   v-model.number="v$.product[index].sub_quantity_received.$model"
+                                                                   :placeholder="$t('global.quantityReceived')"
+                                                                   :class="{'is-invalid':v$.product[index].sub_quantity_received.$error,'is-valid':!v$.product[index].sub_quantity_received.$invalid}"
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.product[index].sub_quantity_received.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                <span v-if="v$.product[index].sub_quantity_received.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3">
+                                                            <label>{{$t('global.returnQuantity')}} ( {{$t('global.Partial')}} )</label>
+                                                            <input type="number" class="form-control"
+                                                                   @input="returnSubQuantity(index)"
+                                                                   v-model.number="v$.product[index].return_sub_quantity.$model"
+                                                                   :placeholder="$t('global.returnQuantity')"
+                                                                   :class="{'is-invalid':v$.product[index].return_sub_quantity.$error,'is-valid':!v$.product[index].return_sub_quantity.$invalid}"
+                                                            >
+                                                            <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                            <div class="invalid-feedback">
+                                                                <span v-if="v$.product[index].return_sub_quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                <span v-if="v$.product[index].return_sub_quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3 mb-3" v-if="data.product[index].return_quantity || data.product[index].return_sub_quantity">
                                                             <label>{{$t('global.ReasonForReturn')}}</label>
                                                             <textarea rows="4" cols="5" v-model.trim="data.product[index].note" :class="['form-control text-height']"></textarea>
 
@@ -271,40 +293,49 @@ export default {
                 .then((res) => {
                     let l = res.data.data;
                     storeName.value = l.purchase.store.name;
-                    supplierName.value = l.purchase.supplier.name_supplier;
+                    supplierName.value = l.purchase.sender_name;
                     notesInvoice.value = l.purchase.note;
                     quantityInvoice.value = l.purchase.quantity;
                     productStatuses.value = l.productStatuses;
-                    addJob.data.stock_id = l.purchase.stock_id;
-                    addJob.data.supplier_id = l.purchase.supplier_id;
+                    addJob.data.store_id = l.purchase.store_id;
                     addJob.data.purchase_id = id;
                     addJob.data.received = 0;
                     addJob.data.return = 0;
-                    addJob.data.notes_received = l.purchase.examination_record.note ?? '';
-                    addJob.data.notes_return = l.purchase.purchase_returns.note ?? '';
+                    addJob.data.notes_received = l.purchase.examination_record ? l.purchase.examination_record.note: '';
+                    addJob.data.notes_return = l.purchase.purchase_returns ? l.purchase.purchase_returns.note: '';
 
                     l.purchase.purchase_products.forEach((el,index)=>{
                         let quantity_received = 0;
+                        let sub_quantity_received = 0;
                         let return_quantity = 0;
+                        let return_sub_quantity = 0;
                         let noteProduct = '';
                         let product_status_id=''
 
-                        l.purchase.examination_record.store_products.forEach((elm)=>{
-                            if (elm.product_id == el.product_id){
-                                quantity_received = elm.quantity
-                                product_status_id = elm.product_status_id
-                            }
-                        });
-                        l.purchase.purchase_returns.return_products.forEach((elmen)=>{
-                            if (elmen.product_id == el.product_id){
-                                return_quantity = elmen.quantity
-                                noteProduct = elmen.note
-                            }
-                        });
+                        if (l.purchase.examination_record){
+                            l.purchase.examination_record.store_products.forEach((elm)=>{
+                                if (elm.product_id == el.product_id){
+                                    quantity_received = elm.quantity
+                                    sub_quantity_received = elm.sub_quantity
+                                    product_status_id = elm.product_status_id
+                                }
+                            });
+                        }
+
+                        if (l.purchase.purchase_returns){
+                            l.purchase.purchase_returns.return_products.forEach((elmen)=>{
+                                if (elmen.product_id == el.product_id){
+                                    return_quantity = elmen.quantity
+                                    return_sub_quantity = elmen.sub_quantity
+                                    noteProduct = elmen.note
+                                }
+                            });
+                        }
 
                         addJob.data.product.push({
                             productName: el.product.name,
                             RequiredQuantity: el.quantity,
+                            RequiredSubQuantity: el.sub_quantity,
                             subUnitMeasurement: el.product.sub_measurement_unit.name,
                             mainUnitMeasurement: el.product.main_measurement_unit.name,
                             count_unit: el.count_unit,
@@ -312,22 +343,34 @@ export default {
                             expiry_date: el.expiry_date,
                             product_id: el.product_id,
                             quantity_received: quantity_received,
+                            sub_quantity_received: sub_quantity_received,
                             return_quantity: return_quantity,
+                            return_sub_quantity: return_sub_quantity,
                             note: noteProduct,
                             product_status_id: product_status_id,
                             purchase_product_id:el.id,
 
                         });
 
-                        addJob.data.received += quantity_received;
-                        addJob.data.return += return_quantity;
+                        addJob.data.received += parseInt(quantity_received) ;
+                        addJob.data.received += parseInt(sub_quantity_received) ;
+                        addJob.data.return += parseInt(return_quantity);
+                        addJob.data.return += parseInt(return_sub_quantity);
 
                         productValidation.value.push({
                             quantity_received: {
                                 required,
                                 numeric
                             },
+                            sub_quantity_received: {
+                                required,
+                                numeric
+                            },
                             return_quantity: {
+                                required,
+                                numeric
+                            },
+                            return_sub_quantity: {
                                 required,
                                 numeric
                             },
@@ -356,8 +399,7 @@ export default {
                 ],
                 notes_received:'',
                 notes_return:'',
-                stock_id:'',
-                supplier_id:'',
+                store_id:'',
                 purchase_id:'',
                 received : 0,
                 return : 0,
@@ -380,6 +422,18 @@ export default {
             return  addJob.data.product[index].return_quantity
         }
 
+        let subQuantityReceived = (index) =>{
+            addJob.data.product[index].return_sub_quantity = addJob.data.product[index].RequiredSubQuantity - addJob.data.product[index].sub_quantity_received;
+            totalQantity();
+            return  addJob.data.product[index].return_sub_quantity
+        }
+
+        let returnSubQuantity = (index) =>{
+            addJob.data.product[index].sub_quantity_received =   addJob.data.product[index].RequiredSubQuantity - addJob.data.product[index].return_sub_quantity;
+            totalQantity();
+            return addJob.data.product[index].sub_quantity_received
+        }
+
         let returnQuantity = (index) =>{
             addJob.data.product[index].quantity_received =   addJob.data.product[index].RequiredQuantity - addJob.data.product[index].return_quantity;
             totalQantity();
@@ -390,14 +444,16 @@ export default {
             addJob.data.received = 0;
             addJob.data.return = 0;
             addJob.data.product.forEach((el) => {
-                addJob.data.received += el.quantity_received;
-                addJob.data.return += el.return_quantity;
+                addJob.data.received += parseInt(el.quantity_received);
+                addJob.data.received += parseInt(el.sub_quantity_received);
+                addJob.data.return += parseInt(el.return_quantity);
+                addJob.data.return += parseInt(el.return_sub_quantity);
             });
         }
 
         const v$ = useVuelidate(rules,addJob.data);
 
-        return {t,notesInvoice,productStatuses,quantityReceived,returnQuantity,quantityInvoice,supplierName,storeName,loading,...toRefs(addJob),v$,productValidation};
+        return {t,notesInvoice,productStatuses,subQuantityReceived,returnSubQuantity,quantityReceived,returnQuantity,quantityInvoice,supplierName,storeName,loading,...toRefs(addJob),v$,productValidation};
     },
     methods: {
         storeJob(){
@@ -440,7 +496,7 @@ export default {
     position: relative;
 }
 .account{
-    background-color: #0E67D0;
+    background-color: #0e67d0;
     color: #000000 !important;
     border-radius: 5px;
 }
