@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseReturn extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $guarded=['id'];
 
     protected $casts = [
         'is_account' => 'integer',
@@ -22,55 +23,48 @@ class PurchaseReturn extends Model
 
     public function getSenderNameAttribute()
     {
-        if ($this->supplier_id != null) {
+        if ($this->supplier_id != null){
             return $this->supplier->name_supplier;
-        } else {
+        }else{
             return $this->client->name;
         }
     }
 
 
-    public function getTotalPriceAttribute()
-    {
-        $main_quantity = $this->returnProducts->sum(function ($item) {
+    public function getTotalPriceAttribute(){
+        $main_quantity = $this->returnProducts->sum(function ($item){
             return $item->price * $item->quantity;
         });
 
-        $sub_quantity = $this->returnProducts->sum(function ($item) {
+        $sub_quantity = $this->returnProducts->sum(function ($item){
             return $item->sub_price * $item->sub_quantity;
         });
 
         return $main_quantity + $sub_quantity;
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
     }
 
-    public function purchase()
-    {
-        return $this->belongsTo(Purchase::class, 'purchase_id');
+    public function purchase(){
+        return $this->belongsTo(Purchase::class,'purchase_id');
     }
 
-    public function store()
-    {
-        return $this->belongsTo(Store::class, 'store_id');
+    public function store(){
+        return $this->belongsTo(Store::class,'store_id');
     }
 
-    public function returnProducts()
-    {
+    public function returnProducts(){
         return $this->hasMany(ReturnProduct::class);
     }
 
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class, 'supplier_id');
+    public function supplier(){
+        return $this->belongsTo(Supplier::class,'supplier_id');
     }
 
-    public function client()
-    {
-        return $this->belongsTo(User::class, 'client_id', 'id');
+    public function client(){
+        return $this->belongsTo(User::class,'client_id','id');
     }
 
     public function supplierIncome(): \Illuminate\Database\Eloquent\Relations\HasMany

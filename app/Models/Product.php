@@ -12,8 +12,14 @@ class Product extends Model
     protected $guarded = [];
     // protected $casts = ['saleMethods' => 'array'];
 
+
+    protected $casts = [
+        'status' => 'integer',
+        'sell_app' => 'integer'
+    ];
+
     protected $appends = [
-        'name', 'text'
+        'name', 'text', 'image_path'
     ];
 
     public function related(){
@@ -30,11 +36,7 @@ class Product extends Model
         return $this->nameAr;
     }
 
-    //start raletions
-    public function media()
-    {
-        return $this->morphMany(Media::class, 'mediable');
-    }
+    //start raletions   
 
     public function selling_methods()
     {
@@ -44,21 +46,6 @@ class Product extends Model
     public function pharmacistForm()
     {
         return $this->belongsTo(PharmacistForm::class, 'pharmacistForm_id');
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-
-    public function subCategory()
-    {
-        return $this->belongsTo(SubCategory::class, 'sub_category_id');
-    }
-
-    public function tax()
-    {
-        return $this->belongsTo(Tax::class, 'tax_id');
     }
 
     public function unit()
@@ -81,6 +68,27 @@ class Product extends Model
     //     return $this->hasMany(AlternativeDetail::class);
     // }
     //
+
+    //append img path
+
+    public function getImagePathAttribute(): string
+    {
+        $file_name = $this->image;
+        return asset('upload/product/' . $file_name);
+    }
+
+    // start relation
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
+    }
+
     public function mainMeasurementUnit()
     {
         return $this->belongsTo(Unit::class, 'main_measurement_unit_id');
@@ -91,22 +99,65 @@ class Product extends Model
         return $this->belongsTo(Unit::class, 'sub_measurement_unit_id');
     }
 
+    public function tax()
+    {
+        return $this->belongsTo(Tax::class);
+    }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
+
+    public function  selling_method()
+    {
+        return $this->belongsToMany(SellingMethod::class, 'product_selling_methods', 'product_id', 'selling_method_id');
+    }
+
+    public function purchaseProducts()
+    {
+
+        return $this->hasMany(PurchaseProduct::class);
+    }
+
     public function storeProducts()
     {
         return $this->hasMany(StoreProduct::class, 'product_id');
     }
+
 
     public function returnProducts()
     {
         return $this->hasMany(ReturnProduct::class, 'product_id');
     }
 
-    public function purchaseProducts()
+    public function productPrice()
     {
-        return $this->hasMany(PurchaseProduct::class);
+        return $this->hasMany(ProductPricing::class, 'product_id');
     }
-    public function prices()
+
+    public function pricingHistories()
     {
-        return $this->hasMany(Price::class);
+        return $this->hasMany(PricingHistory::class);
+    }
+
+    public function popupAds()
+    {
+        return $this->hasOne(PopupAds::class);
+    }
+
+    public function orderProduct()
+    {
+        return $this->hasMany(OrderStoreProduct::class);
+    }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetails::class);
+    }
+
+    public function orderRetuen()
+    {
+        return $this->hasMany(OrderRetuen::class);
     }
 }

@@ -11,6 +11,6 @@ class OrderStatus extends Model
     protected $guarded=['id'];
 
     public function orders(){
-        return $this->hasMany(Order::class,'order_status_id');
+        return $this->hasMany(DirectOrders::class,'order_status_id');
     }
 }

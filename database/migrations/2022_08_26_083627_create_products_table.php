@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->string('effectiveMaterial')->nullable();
             $table->text('description');
             $table->unsignedBigInteger('barcode');
-            // $table->integer('Re_order_limit')->nullable();
-            // $table->integer('maximum_product')->nullable();
+            $table->integer('Re_order_limit')->nullable();
+            $table->integer('maximum_product')->nullable();
             $table->text('image')->nullable();
             $table->boolean('status')->default(true);
             $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnDelete();
@@ -31,7 +31,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('main_measurement_unit_id')->nullable()->constrained('units')->cascadeOnDelete();
             $table->foreignId('sub_measurement_unit_id')->default(1)->constrained('units')->cascadeOnDelete();
             $table->integer('count_unit')->default(0);
-
+            $table->boolean('sell_app')->default(true);
             $table->timestamps();
 
         });

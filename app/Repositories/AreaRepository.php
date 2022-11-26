@@ -19,6 +19,7 @@ class AreaRepository
         $area = Area::find($areaInput["id"]);
         $area->name = $areaInput["name"];
         $area->city_id = $areaInput["city_id"];
+        $area->shipping_price = $areaInput["shipping_price"];
         $area->save();
         $area["city"] = ["name" => $areaInput["city_name"]];
         return $area;

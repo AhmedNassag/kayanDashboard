@@ -44,14 +44,14 @@
                                                            v-model="toDate">
                                                 </div>
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label >{{$t('global.PurchaseInvoiceNumber')}}</label>
                                                     <input type="number" class="form-control date-input"
                                                            v-model="purchase_id">
 
                                                 </div>
 
-                                                <div class="col-md-3 mt-4">
+                                                <div class="col-md-2">
                                                     <button class="btn btn-primary" type="submit">{{$t('global.Search')}}</button>
                                                 </div>
 
@@ -79,12 +79,14 @@
                                         </tr>
                                     </thead>
                                     <tbody v-if="purchases.length">
-                                        <tr v-for="item in purchases" :key="item.id">
-                                            <td>{{ item.id }}</td>
-                                            <td>{{ item.supplier.name }}</td>
+                                        <tr v-for="(item,index) in purchases"  :key="item.id">
+                                            <td>{{ index + 1 }}</td>
+                                            <td>{{ item.sender_name }}</td>
                                             <td>{{ item.store.name }}</td>
-                                            <td>{{ item.note }}</td>
+                                            <td>{{ item.note ?? '---' }}</td>
+
                                             <td>{{  dateFormat(item.created_at) }}</td>
+
                                             <td>
                                                 <a href="javascript:void(0);"
                                                    class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
@@ -152,12 +154,13 @@
                                                                                         <img src="/web/img/logo.png" alt="Logo">
                                                                                     </div>
 
+                                                                                    <div class="col-md-6">
+                                                                                        <p>{{$t('global.Supplier')}} : {{ item.sender_name }}</p>
+                                                                                    </div>
 
                                                                                     <div class="col-md-6">
                                                                                         <p>{{$t('global.DateOrder')}} : {{dateFormat(item.created_at)}}</p>
-                                                                                        <p>{{$t('global.Supplier')}} : {{ item.supplier.name }}</p>
                                                                                     </div>
-
 
                                                                                 </div>
                                                                                 <table class="table table-center table-hover mb-0 datatable">
@@ -165,38 +168,33 @@
                                                                                     <tr>
                                                                                         <th>#</th>
                                                                                         <th>{{ $t('global.Products') }}</th>
-                                                                                        <th>{{ $t('global.Quantity') }}</th>
-                                                                                        <th>{{ $t('global.productionDate') }}</th>
-                                                                                        <th>{{ $t('global.expiryDate') }}</th>
-                                                                                        <th class="text-center">{{ $t('global.priceBeforeDiscount') }}</th>
-                                                                                        <th class="text-center">{{ $t('global.priceAfterDiscount') }}</th>
-                                                                                        <!-- <th v-if="item.is_received == 0">{{ $t('global.ProductDetails') }}</th>
-                                                                                        <th v-if="item.is_received == 1">{{ $t('global.quantityReceived') }}</th>
-                                                                                        <th v-if="item.is_received == 1">{{ $t('global.returnQuantity') }}</th> -->
+                                                                                        <th v-if="item.is_received == 0">{{ $t('global.TotalAccount') }}</th>
+                                                                                        <th v-if="item.is_received == 0">{{ $t('global.Partial') }}</th>
+                                                                                        <th v-if="item.is_received == 0">{{ $t('global.productionDate') }}</th>
+                                                                                        <th v-if="item.is_received == 0">{{ $t('global.expiryDate') }}</th>
+                                                                                        <th v-if="item.is_received == 1">{{ $t('global.quantityReceived') }} {{ $t('global.TotalAccount') }}</th>
+                                                                                        <th v-if="item.is_received == 1">{{ $t('global.quantityReceived') }} {{ $t('global.Partial') }}</th>
+                                                                                        <th v-if="item.is_received == 1">{{ $t('global.returnQuantity') }} {{ $t('global.TotalAccount') }}</th>
+                                                                                        <th v-if="item.is_received == 1">{{ $t('global.returnQuantity') }} {{ $t('global.Partial') }}</th>
                                                                                     </tr>
                                                                                     </thead>
                                                                                     <tbody v-if="item.purchase_products">
                                                                                         <tr v-for="(it,index) in item.purchase_products" :key="it.id">
                                                                                             <td>{{ index +1}}</td>
                                                                                             <td>{{ it.product.name }}</td>
-                                                                                            <td>{{ it.quantity }} ( {{it.product.main_measurement_unit.name}} )</td>
-                                                                                            <td>{{ it.production_date }}</td>
-                                                                                            <td>{{ it.expiry_date }}</td>
-                                                                                            <td class="text-center">{{ it.price_before_discount }}</td>
-                                                                                            <td class="text-center">{{ it.price_after_discount }}</td>
-                                                                                            <!-- <td v-if="item.is_received == 0">{{it.product.main_measurement_unit.name}} {{$t('global.ThereIs')}} {{it.count_unit}} {{it.product.sub_measurement_unit.name}}</td>
+                                                                                            <td v-if="item.is_received == 0">{{ it.quantity }}</td>
+                                                                                            <td v-if="item.is_received == 0">{{ it.sub_quantity }}</td>
+                                                                                            <td v-if="item.is_received == 0">{{ it.production_date ?? '---' }}</td>
+                                                                                            <td v-if="item.is_received == 0">{{ it.expiry_date ?? '---'}}</td>
                                                                                             <td v-if="item.is_received == 1">{{ it.quantity_received }}</td>
-                                                                                            <td v-if="item.is_received == 1">{{ it.return_quantity }}</td> -->
+                                                                                            <td v-if="item.is_received == 1">{{ it.sub_quantity_received }}</td>
+                                                                                            <td v-if="item.is_received == 1">{{ it.return_quantity }}</td>
+                                                                                            <td v-if="item.is_received == 1">{{ it.return_sub_quantity }}</td>
                                                                                         </tr>
-                                                                                        <!-- <tr v-else>
-                                                                                            <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
-                                                                                        </tr> -->
                                                                                     </tbody>
                                                                                     <tbody v-else>
                                                                                         <tr>
-                                                                                            <th class="text-center" colspan="15">
-                                                                                                {{ $t("global.NoDataFound") }}
-                                                                                            </th>
+                                                                                            <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                 </table>
@@ -235,7 +233,7 @@
             </div>
 
             <!-- start Pagination -->
-            <Pagination :data="purchasesPaginate" @pagination-change-page="getIncome">
+            <Pagination :limit="2" :data="purchasesPaginate" @pagination-change-page="getIncome">
                 <template #prev-nav>
                     <span>&lt; {{$t('global.Previous')}}</span>
                 </template>
@@ -272,12 +270,6 @@ export default {
 
         let getIncome = (page = 1) => {
             loading.value = true;
-            if (!fromDate.value){
-                fromDate.value = new Date().toISOString().split('T')[0];
-            }
-            if (!toDate.value){
-                toDate.value = new Date().toISOString().split('T')[0];
-            }
 
             adminApi.get(`/v1/dashboard/examinationRecord?page=${page}&purchase_id=${purchase_id.value}&from_date=${fromDate.value}&to_date=${toDate.value}&search=${search.value}`)
                 .then((res) => {
@@ -288,12 +280,15 @@ export default {
                     l.purchases.data.forEach((pr)=>{
                         pr.purchase_products.forEach((el,index)=>{
                             let quantity_received = 0;
+                            let sub_quantity_received = 0;
                             let return_quantity = 0;
+                            let return_sub_quantity = 0;
                             if (pr.is_received ==1){
                                 if(pr.examination_record){
                                     pr.examination_record.store_products.forEach((elm)=>{
                                         if (elm.product_id == el.product_id){
-                                            quantity_received = elm.quantity
+                                            quantity_received = elm.quantity;
+                                            sub_quantity_received = elm.sub_quantity;
                                         }
                                     });
                                 }
@@ -301,14 +296,17 @@ export default {
 
                                     pr.purchase_returns.return_products.forEach((elmen) => {
                                         if (elmen.product_id == el.product_id) {
-                                            return_quantity = elmen.quantity
+                                            return_quantity = elmen.quantity;
+                                            return_sub_quantity = elmen.sub_quantity;
                                         }
                                     });
                                 }
                             }
 
                             pr.purchase_products[index].quantity_received = quantity_received;
+                            pr.purchase_products[index].sub_quantity_received = sub_quantity_received;
                             pr.purchase_products[index].return_quantity = return_quantity;
+                            pr.purchase_products[index].return_sub_quantity = return_sub_quantity;
                         })
                     })
                     purchases.value = l.purchases.data;
@@ -337,7 +335,14 @@ export default {
         }
 
         let dateFormat = (item) => {
-            return new Date(item).toDateString();
+            let now = new Date(item);
+            let st = `
+                 ${now.getUTCHours()}:${now.getUTCMinutes()}:${now.getUTCSeconds()}
+                ${now.getUTCFullYear().toString()}
+                 /${(now.getUTCMonth() + 1).toString()}
+                 /${now.getUTCDate()}
+            `;
+            return st;
         }
 
         let printData = (id) => {
@@ -386,7 +391,7 @@ export default {
 
 
 .amount{
-    background-color: #0E67D0;
+    background-color: #0e67d0;
     color: #000;
     padding: 10px;
 }
@@ -407,7 +412,7 @@ export default {
     background: #000;
 }
 .head-table h3{
-    color: #0E67D0;
+    color: #0e67d0;
     text-align: center;
 }
 .total-head{
@@ -416,7 +421,7 @@ export default {
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    background-color: #0E67D0 !important;
+    background-color: #0e67d0 !important;
     border-radius: 10px;
 }
 .custom-modal .close span {

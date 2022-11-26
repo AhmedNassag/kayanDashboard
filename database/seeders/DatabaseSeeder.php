@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(CreateAdminSeeder::class);
         $this->call(ProductStatusSeeder::class);
+        $this->call(SellingMethodSeeder::class);
         $this->call(SellerCategorySeeder::class);
         $this->call(AdvertiseViewSeeder::class);
         $this->call(AdvertisePageSeeder::class);
@@ -34,10 +35,12 @@ class DatabaseSeeder extends Seeder
         $this->call(SubAccountTableSeeder::class);
         $this->call(AboutSectionSeeder::class);
         $this->call(AboutInformationsSeeder::class);
-        Deal::create(['limit' => 10]);
-        BestSeller::create(['limit' => 10]);
-        AlsoBought::create(['limit' => 10]);
-        MostPopular::create(['limit' => 10]);
+        $this->call(CitySeeder::class);
+        $this->call(AreaSeeder::class);
+        Deal::creat(['limit' => 10]);
+        BestSeller::creat(['limit' => 10]);
+        AlsoBought::creat(['limit' => 10]);
+        MostPopular::creat(['limit' => 10]);
         $this->call(OrderStatusTableSeerer::class);
         $this->call(StoreTableSeeder::class);
         $this->call(TreasuryTableSeeder::class);

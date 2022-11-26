@@ -26,6 +26,7 @@ class UpdateAreaRequest extends FormRequest
         return [
             "id" => "required",
             "name" => "required|unique:areas,name," . $this->id,
+            "shipping_price" => "required|integer",
         ];
     }
 }
