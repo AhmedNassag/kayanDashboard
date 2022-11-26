@@ -231,7 +231,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // order Income
             Route::resource('orderIncome','OrderIncomeController');
             // order Online
-            Route::resource('orderOnline','OrderOnlineController');
+            // Route::resource('orderOnline','OrderOnlineController');
             // order Status
             Route::resource('orderStatus','OrderStatusController');
             // Representative
@@ -243,6 +243,18 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('orderReturned','OrderReturnedController');
             /*----- End routes -----*/
 
+
+
+
+            // orders
+            Route::resource('orders','OrderController');
+
+            // update orders
+            Route::post('updateOrderStatus/{id}','OrderController@updateOrderStatus');
+            //hold orders
+            Route::post('holdOrder/{id}','OrderController@holdOrder');
+            // cancel order
+            Route::post('cancelOrder/{id}','OrderController@cancelOrder');
             /* */
             // treasury management
             Route::resource('treasury', 'TreasuryController');

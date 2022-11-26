@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,35 +12,11 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'order_status_id' => 'integer',
-        'is_shipping' => 'integer',
-        'is_online' => 'integer',
-    ];
-
-    public function orderOffer()
-    {
-        return $this->hasMany(OrderOfferDiscount::class,'order_id');
-    }
-
-    public function orderDiscount()
-    {
-        return $this->hasMany(OrderDiscount::class,'order_id');
-    }
+    protected $appends=['area_name','city_name'];
 
     public function orderTax()
     {
         return $this->hasMany(OrderTax::class,'order_id');
-    }
-
-    public function orderDetails()
-    {
-        return $this->hasMany(OrderDetails::class,'order_id');
-    }
-
-    public function orderOtherOffer()
-    {
-        return $this->hasOne(OrderOtherDiscount::class,'order_id');
     }
 
     public function user()
@@ -54,21 +31,33 @@ class Order extends Model
     public function orderStatus(){
         return $this->belongsTo(OrderStatus::class,'order_status_id');
     }
+    public function area(){
+        return $this->belongsTo(Area::class);
+    }
+    public function city(){
+        return $this->belongsTo(City::class);
+    }
 
     public function representative(){
         return $this->belongsTo(User::class,'representative_id');
     }
 
-    public function orderReturn(){
-        return $this->hasMany(OrderRetuen::class,'order_id');
+    public function products()
+    {
+        return $this->hasMany(CartItem::class,'order_id');
     }
 
-    public function clientAccounts(){
-        return $this->hasMany(ClientAccount::class,'order_id');
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y/m/d  (H:i)');
     }
-
-    public function clientIncomes(){
-        return $this->hasMany(ClientIncome::class,'order_id');
+    public function getCityNameAttribute($value)
+    {
+        return $this->city->name;
+    }
+    public function getAreaNameAttribute($value)
+    {
+        return $this->area->name;
     }
 
 }

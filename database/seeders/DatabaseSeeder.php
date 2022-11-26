@@ -34,10 +34,10 @@ class DatabaseSeeder extends Seeder
         $this->call(SubAccountTableSeeder::class);
         $this->call(AboutSectionSeeder::class);
         $this->call(AboutInformationsSeeder::class);
-        Deal::creat(['limit' => 10]);
-        BestSeller::creat(['limit' => 10]);
-        AlsoBought::creat(['limit' => 10]);
-        MostPopular::creat(['limit' => 10]);
+        Deal::create(['limit' => 10]);
+        BestSeller::create(['limit' => 10]);
+        AlsoBought::create(['limit' => 10]);
+        MostPopular::create(['limit' => 10]);
         $this->call(OrderStatusTableSeerer::class);
         $this->call(StoreTableSeeder::class);
         $this->call(TreasuryTableSeeder::class);
