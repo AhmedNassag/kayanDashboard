@@ -106,6 +106,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // product
             Route::resource('product', 'ProductController');
             Route::get('activationProduct/{id}', 'ProductController@activationProduct');
+            Route::get('getAlternativesProducts', 'ProductController@getAlternativesProducts');
 
             // price
             Route::resource('price', 'PriceController')->except(['show']);

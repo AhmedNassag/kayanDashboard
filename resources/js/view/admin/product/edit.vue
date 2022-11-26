@@ -84,14 +84,14 @@
                                                     v-model.trim="v$.barcode.$model" id="validationCustom056"
                                                     placeholder="الباركود"
                                                     :class="{ 'is-invalid': v$.barcode.$error, 'is-valid': !v$.barcode.$invalid }">
-                                                
+
                                                 <button
                                                 type="button"
                                                 class="btn btn-secondary btn-sm"
                                                 @click="myFunction()"
                                                 >
                                                 {{ $t("global.Generate Random") }}
-                                                </button>    
+                                                </button>
                                                 <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.barcode.integer.$invalid"> يجب ان يكون رقم
@@ -623,7 +623,7 @@ export default {
                     maxLength:maxLength(70),
                     required
                 },
-                
+
                 effectiveMaterial: {
                     minLength: minLength(3),
                     maxLength:maxLength(70),

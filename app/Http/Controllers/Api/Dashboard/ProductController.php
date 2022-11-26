@@ -112,13 +112,15 @@ class ProductController extends Controller
             $measures = Unit::select('id', 'name')->get();
             $sellingMethods = SellingMethod::select('id', 'name')->get();
             $stores = Store::where('status', 1)->get();
+            $clients  = Client::with('user')->get();
 
             return $this->sendResponse([
                 'pharmacistForms' => $pharmacistForms,
                 'categories' => $categories,
                 'measures' => $measures,
                 'sellingMethods' => $sellingMethods,
-                'stores' => $stores
+                'stores' => $stores,
+                'clients'         => $clients
             ], 'Data exited successfully');
         } catch (\Exception $e) {
 
