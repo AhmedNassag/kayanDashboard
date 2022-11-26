@@ -16,6 +16,7 @@ use App\Models\StoreProduct;
 use App\Models\SubCategory;
 use App\Models\Tax;
 use App\Models\Unit;
+use App\Models\User;
 use App\Traits\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -112,7 +113,7 @@ class ProductController extends Controller
             $measures = Unit::select('id', 'name')->get();
             $sellingMethods = SellingMethod::select('id', 'name')->get();
             $stores = Store::where('status', 1)->get();
-            $clients  = Client::with('user')->get();
+            $clients  = User::where('status', 1)->whereJsonContains('role_name', 'client')->get();
 
             return $this->sendResponse([
                 'pharmacistForms' => $pharmacistForms,
