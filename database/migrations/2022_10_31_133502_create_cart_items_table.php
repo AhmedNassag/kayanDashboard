@@ -17,6 +17,10 @@ class CreateCartItemsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->integer("quantity")->default(1);
+            $table->float('unit_price_for_client',11,2)->nullable();
+            $table->float('unit_price_for_pharmacist',11,2)->nullable();
+            $table->float('discount_percentage',11,2)->nullable();
+            $table->float('total_amount',11,2)->nullable();
             $table->foreignId('order_id')->nullable()->constrained('orders');
             $table->foreignId('product_id')->nullable()->constrained('products');
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers');

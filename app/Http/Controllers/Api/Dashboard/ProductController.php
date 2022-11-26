@@ -459,9 +459,10 @@ class ProductController extends Controller
 
     public function associateAlternativeProducts($request,$product)
     {
-        if ($request->alternativeDetail && $request-> alternativeDetail != Null) {
+        $array=collect($request->alternativeDetail)->where('alternative_id','!=',$product->id)->unique('alternative_id')->pluck('alternative_id')->filter()->toArray();
+        if ($array && $request->alternativeDetail && $request-> alternativeDetail != Null) {
             $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
-            $product->related()->sync(collect($request->alternativeDetail)->where('alternative_id','!=',$product->id)->unique('alternative_id')->pluck('alternative_id')->toArray());
+            $product->related()->sync($array);
         }
     }
 }

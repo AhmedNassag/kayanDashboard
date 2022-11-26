@@ -16,8 +16,21 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+
+            $table->float('total_amount',11,2)->nullable();
+            $table->float('subtotal',11,2)->nullable();
+            $table->float('shipping_cost',11,2)->nullable();
+            $table->float('taxes',11,2)->nullable();
+            $table->string('receiver_address');
+            $table->string('receiver_phone');
+            $table->string('receiver_name');
+            $table->float('discount_percentage',11,2)->nullable();
+            $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete();
+            $table->foreignId('area_id')->nullable()->constrained('areas')->cascadeOnDelete();
+
             $table->string("invoice_id")->default(0);
             $table->string("transaction_id")->default(0);
+            $table->tinyInteger("hold")->default(0);
             $table->string("order_status")->nullable();
             $table->string("payment_status")->nullable();
             $table->string("payment_method")->nullable();
