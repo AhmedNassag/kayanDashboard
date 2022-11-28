@@ -11,7 +11,7 @@ class OrderRetuen extends Model
     protected $guarded = ['id'];
 
 
-    public function  sellingMethod()
+    public function sellingMethod()
     {
         return $this->belongsTo(SellingMethod::class,'selling_method_id');
     }

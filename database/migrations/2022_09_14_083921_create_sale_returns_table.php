@@ -17,7 +17,7 @@ class CreateSaleReturnsTable extends Migration
             $table->id();$table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('sale_id')->nullable()->constrained('sales')->cascadeOnDelete();
             $table->foreignId('client_id')->constrained('clients')->cascadeOnDelete();
-            $table->foreignId('stock_id')->constrained('stocks')->cascadeOnDelete();
+            $table->foreignId('store_id')->constrained('stores')->cascadeOnDelete();
             $table->text('note')->nullable();
             $table->timestamps();
         });

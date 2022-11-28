@@ -912,8 +912,8 @@ button.bg-danger:hover {
 	box-shadow: none;
 }
 .btn-outline-warning {
-	color: #0E67D00E67D0;
-	border-color: #0E67D00E67D0;
+	color: #0E67D0;
+	border-color: #0E67D0;
 }
 .btn-outline-warning:hover {
 	color: #212529;

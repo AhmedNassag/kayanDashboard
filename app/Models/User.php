@@ -185,12 +185,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function clientOrders(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Order::class, 'user_id');
+        return $this->hasMany(DirectOrders::class, 'user_id');
     }
 
     public function representativeOrders(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Order::class, 'representative_id');
+        return $this->hasMany(DirectOrders::class, 'representative_id');
     }
 
 

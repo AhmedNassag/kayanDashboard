@@ -32,7 +32,7 @@
                                 </router-link>
                                 <a
                                     href="javascript:void(0)"
-                                    class="btn mx-2 btn-custom btn-danger"
+                                    class="btn mx-2 btn-custom btn-success"
                                     @click.prevent="resetForm"
                                 >
                                     فاتوره جديده
@@ -194,7 +194,7 @@
                                                             >
 
                                                             <label>
-                                                                {{ $t('global.Quantity') }}
+                                                                {{ $t('global.MainUnitQuantity') }}
                                                             </label>
                                                             <input
                                                                    type="number"
@@ -232,7 +232,7 @@
                                                             >
 
                                                             <label>
-                                                                {{ $t('global.Quantity') }}
+                                                                {{ $t('global.SubUnitQuantity') }}
                                                             </label>
                                                             <input
                                                                 type="number"
@@ -333,18 +333,18 @@
                                                     <table class="table table-center table-hover mb-0 datatable">
                                                         <thead class="account">
                                                             <tr class="text-center">
-                                                                <th>{{ $t('global.TotalPriceBeforeDiscount') }}</th>
-                                                                <th>{{ $t('global.TotalPriceAfterDiscount') }}</th>
-                                                                <th>{{ $t('global.TotalTax') }}</th>
-                                                                <th>{{ $t('global.TotalPriceAfterTaxx') }}</th>
+                                                                <th class="text-center">{{ $t('global.TotalPriceBeforeDiscount') }}</th>
+                                                                <th class="text-center">{{ $t('global.TotalPriceAfterDiscount') }}</th>
+                                                                <th class="text-center">{{ $t('global.TotalTax') }}</th>
+                                                                <th class="text-center">{{ $t('global.TotalPriceAfterTaxx') }}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr class="text-center">
-                                                                <td>{{totalProductbefourDiscount ?totalProductbefourDiscount.toFixed(2):0}}</td>
-                                                                <td>{{ totalProductAfterDiscount? totalProductAfterDiscount.toFixed(2):0 }}</td>
-                                                                <td>{{ totalTax? totalTax.toFixed(2): 0 }} %</td>
-                                                                <td>{{ TotalPriceAfterTaxx? (TotalPriceAfterTaxx).toFixed(2):0 }}</td>
+                                                                <td class="text-center">{{totalProductbefourDiscount ?totalProductbefourDiscount.toFixed(2):0}}</td>
+                                                                <td class="text-center">{{ totalProductAfterDiscount? totalProductAfterDiscount.toFixed(2):0 }}</td>
+                                                                <td class="text-center">{{ totalTax? totalTax.toFixed(2): 0 }} %</td>
+                                                                <td class="text-center">{{ TotalPriceAfterTaxx? (TotalPriceAfterTaxx).toFixed(2):0 }}</td>
                                                             </tr>
                                                         </tbody>
 
@@ -403,7 +403,7 @@
                                                     </div>
 
                                                     <div class="col-md-6 image-div">
-                                                        <img src="/web/img/logo.png" alt="Logo">
+                                                        <img src="/admin/img/Logo Dashboard.png" alt="Logo">
                                                     </div>
 
 
@@ -430,11 +430,7 @@
                                                     <div class="col-md-6">
                                                         <p>
                                                             {{$t('global.TotalPriceAfterDiscount')}} :
-                                                            {{
-                                                                data.priceOffer ?
-                                                                    parseFloat( totalProductbefourDiscount - data.priceOffer - offerDiscount) :
-                                                                    parseFloat( totalProductbefourDiscount - offerDiscount)
-                                                            }}
+                                                            {{ data.priceOffer ? parseFloat( totalProductbefourDiscount - data.priceOffer - offerDiscount) : parseFloat( totalProductbefourDiscount - offerDiscount) }}
                                                             {{ 'EGP' }}
                                                         </p>
                                                         <p v-if="taxValue">{{$t('global.taxValue')}} : {{ taxValue }} {{ 'EGP' }}</p>
@@ -447,13 +443,13 @@
                                                 <table class="table table-center table-hover mb-0 datatable">
                                                     <thead>
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>{{ $t('global.Products') }}</th>
-                                                        <th>{{ $t('global.full') }}</th>
-                                                        <th>{{ $t('global.partial') }}</th>
-                                                        <th>{{ $t('global.fullPrice') }}</th>
-                                                        <th>{{ $t('global.partialPrice') }}</th>
-                                                        <th>{{ $t('global.TotalPrice') }}</th>
+                                                        <th class="text-center">#</th>
+                                                        <th class="text-center">{{ $t('global.Products') }}</th>
+                                                        <th class="text-center">{{ $t('global.full') }}</th>
+                                                        <th class="text-center">{{ $t('global.partial') }}</th>
+                                                        <th class="text-center">{{ $t('global.fullPrice') }}</th>
+                                                        <th class="text-center">{{ $t('global.partialPrice') }}</th>
+                                                        <th class="text-center">{{ $t('global.TotalPrice') }}</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody v-if="data.product.length">
@@ -1116,7 +1112,7 @@ export default {
     position: relative;
 }
 .account{
-    background-color: #fcb00c;
+    background-color: #0E67D0;
     color: #000000 !important;
     border-radius: 5px;
 }

@@ -102,7 +102,7 @@
                                     </tr>
                                     </thead>
                                     <tbody v-if="orders.length">
-                                    <tr v-for="(item,index) in orders"  :key="item.id">
+                                    <tr v-for="(item) in orders"  :key="item.id">
                                         <td>{{ item.id }}</td>
                                         <td>{{ item.user.name }}</td>
                                         <td>{{ item.store.name }}</td>
@@ -167,7 +167,7 @@
                                                                                 </div>
 
                                                                                 <div class="col-md-6 image-div">
-                                                                                    <img src="/web/img/logo.png" alt="Logo">
+                                                                                    <img src="/admin/img/Logo Dashboard.png" alt="Logo">
                                                                                 </div>
 
 
@@ -209,27 +209,26 @@
                                                                             <table class="table table-center table-hover mb-0 datatable"  v-if="parseInt(item.order_status_id) == 7 ">
                                                                                 <thead>
                                                                                 <tr>
-                                                                                    <th>#</th>
-                                                                                    <th>{{ $t('global.Products') }}</th>
-                                                                                    <th>{{ $t('global.full') }}</th>
-                                                                                    <th>{{ $t('global.partial') }}</th>
-                                                                                    <th>{{ $t('global.fullPrice') }}</th>
-                                                                                    <th>{{ $t('global.partialPrice') }}</th>
-                                                                                    <th>{{ $t('global.TotalPrice') }}</th>
+                                                                                    <th class="text-center">#</th>
+                                                                                    <th class="text-center">{{ $t('global.Products') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.full') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.partial') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.fullPrice') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.partialPrice') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.TotalPrice') }}</th>
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody v-if="item.order_details.length">
                                                                                 <tr v-for="(it,index) in item.order_details" :key="it.id">
-                                                                                    <td>{{ index +1}}</td>
-                                                                                    <td>{{ it.product.name }}</td>
-                                                                                    <td>{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
-                                                                                    <td>{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
-                                                                                    <td>{{ it.sub_quantity ? it.price : '-'}}</td>
-                                                                                    <td>{{  it.sub_quantity ? it.sub_price : '-'}}</td>
-                                                                                    <td>
+                                                                                    <td class="text-center">{{ index +1}}</td>
+                                                                                    <td class="text-center">{{ it.product.name }}</td>
+                                                                                    <td class="text-center">{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
+                                                                                    <td class="text-center">{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
+                                                                                    <td class="text-center">{{ it.sub_quantity ? it.price : '-'}}</td>
+                                                                                    <td class="text-center">{{  it.sub_quantity ? it.sub_price : '-'}}</td>
+                                                                                    <td class="text-center">
                                                                                         {{
-                                                                                            parseFloat((it.quantity * it.price) + (it.sub_quantity * it.sub_price))
-                                                                                                .toFixed(2)
+                                                                                            parseFloat((it.quantity * it.price) + (it.sub_quantity * it.sub_price)).toFixed(2)
                                                                                         }}
                                                                                     </td>
                                                                                 </tr>
@@ -246,24 +245,24 @@
                                                                             <table class="table table-center table-hover mb-0 datatable">
                                                                                 <thead>
                                                                                 <tr>
-                                                                                    <th>#</th>
-                                                                                    <th>{{ $t('global.Products') }}</th>
-                                                                                    <th>{{ $t('global.full') }}</th>
-                                                                                    <th>{{ $t('global.partial') }}</th>
-                                                                                    <th>{{ $t('global.fullPrice') }}</th>
-                                                                                    <th>{{ $t('global.partialPrice') }}</th>
-                                                                                    <th>{{ $t('global.TotalPrice') }}</th>
+                                                                                    <th class="text-center">#</th>
+                                                                                    <th class="text-center">{{ $t('global.Products') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.full') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.partial') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.fullPrice') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.partialPrice') }}</th>
+                                                                                    <th class="text-center">{{ $t('global.TotalPrice') }}</th>
                                                                                 </tr>
                                                                                 </thead>
                                                                                 <tbody v-if="item.order_return.length">
                                                                                 <tr v-for="(it,index) in item.order_return" :key="it.id">
-                                                                                    <td>{{ index +1}}</td>
-                                                                                    <td>{{ it.product.name }}</td>
-                                                                                    <td>{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
-                                                                                    <td>{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
-                                                                                    <td>{{ it.sub_quantity ? it.price : '-'}}</td>
-                                                                                    <td>{{  it.sub_quantity ? it.sub_price : '-'}}</td>
-                                                                                    <td>
+                                                                                    <td class="text-center">{{ index +1}}</td>
+                                                                                    <td class="text-center">{{ it.product.name }}</td>
+                                                                                    <td class="text-center">{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
+                                                                                    <td class="text-center">{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
+                                                                                    <td class="text-center">{{ it.sub_quantity ? it.price : '-'}}</td>
+                                                                                    <td class="text-center">{{  it.sub_quantity ? it.sub_price : '-'}}</td>
+                                                                                    <td class="text-center">
                                                                                         {{
                                                                                             parseFloat((it.quantity * it.price) + (it.sub_quantity * it.sub_price))
                                                                                                 .toFixed(2)

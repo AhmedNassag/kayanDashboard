@@ -21,7 +21,6 @@ class CreateRepresentativesTable extends Migration
             $table->date('birth_date');
             $table->date('hiring_date');
             $table->double('salary',20,2)->default(0);
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

@@ -22,7 +22,7 @@ class OrderIncomeController extends Controller
                 $q->with(['sellingMethod:id,name',
                     'mainMeasurementUnit:id,name',
                     'subMeasurementUnit:id,name',
-                    'product:id,name'
+                    'product:id,nameAr'
                 ]);
             },
                 'store:id,name',

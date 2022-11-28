@@ -9,6 +9,7 @@ import subCategory from './adminRoute/subCategory';
 import usersCategory from './adminRoute/usersCategory';
 import tax from './adminRoute/tax';
 import discount from './adminRoute/discount';
+import offerDiscount from './adminRoute/discount&offer';
 import company from './adminRoute/company';
 import pharmacistForm from './adminRoute/pharmacistForm';
 import price from './adminRoute/price';
@@ -187,6 +188,7 @@ const routes = [
             ...subCategory,
             ...usersCategory,
             ...tax,
+            ...offerDiscount,
             ...company,
             ...alternative,
             ...product,

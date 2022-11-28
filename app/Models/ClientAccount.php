@@ -16,7 +16,7 @@ class ClientAccount extends Model
     }
 
     public function order(){
-        return $this->belongsTo(Order::class,'order_id');
+        return $this->belongsTo(DirectOrders::class,'order_id');
     }
 
     public function purchase(){

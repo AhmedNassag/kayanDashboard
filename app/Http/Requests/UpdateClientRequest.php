@@ -32,6 +32,7 @@ class UpdateClientRequest extends FormRequest
             "store_name" => "required",
             "city_id" => "required",
             "area_id" => "required",
+            "selling_method_id" => "required",
             "address" => "required",
             "location" => "required",
             "whatsup_phone" => "required|unique:clients,whatsup_phone," . $this->id . "|regex:/^01[0125][0-9]{8}$/",

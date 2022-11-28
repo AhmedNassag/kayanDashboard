@@ -77,38 +77,41 @@
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th>{{$t('global.InvoiceNumber')}}</th>
-                                            <th>{{ $t('sidebar.client') }}</th>
-                                            <th>{{ $t('global.Store') }}</th>
-                                            <th>{{ $t('global.TotalPrice') }}</th>
-                                            <th>{{ $t('global.Date') }}</th>
-                                            <th>{{ $t('global.Action') }}</th>
+                                            <th class="text-center">{{$t('global.InvoiceNumber')}}</th>
+                                            <th class="text-center">{{ $t('sidebar.client') }}</th>
+                                            <th class="text-center">{{ $t('global.Store') }}</th>
+                                            <th class="text-center">{{ $t('global.TotalPrice') }}</th>
+                                            <th class="text-center">{{ $t('global.Date') }}</th>
+                                            <th class="text-center">{{ $t('global.Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="orders.length">
                                         <tr v-for="(item,index) in orders"  :key="item.id">
-                                            <td>{{ item.id }}</td>
-                                            <td>{{ item.user.name }}</td>
-                                            <td>{{ item.store.name }}</td>
-                                            <td>{{ item.total }}</td>
-                                            <td>{{  dateFormat(item.updated_at) }}</td>
+                                            <td class="text-center">{{ item.id }}</td>
+                                            <td class="text-center">{{ item.user.name }}</td>
+                                            <td class="text-center">{{ item.store.name }}</td>
+                                            <td class="text-center">{{ item.total }}</td>
+                                            <td class="text-center">{{  dateFormat(item.updated_at) }}</td>
 
                                             <td>
 
                                                 <a href="javascript:void(0);"
                                                    class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
-                                                   :data-bs-target="'#edit-category'+item.id">
-                                                    <i class="fas fa-book-open"></i> {{$t('global.Show')}}
+                                                   :data-bs-target="'#edit-category'+item.id"
+                                                >
+                                                    <i class="fas fa-book-open"></i>
+                                                    {{$t('global.Show')}}
                                                 </a>
 
                                                 <a href="javascript:void(0);"
                                                    data-bs-toggle="modal"
                                                    :data-bs-target="'#edit-status-'+item.id"
                                                    @click="dataChangeOrder(item.id)"
-                                                   class="btn btn-sm btn-warning me-2"
+                                                   class="btn btn-sm btn-success me-2"
                                                    :title="$t('global.changeOrderStatus')"
                                                 >
                                                     <i class="fas fa-clipboard-list"></i>
+                                                    {{$t('global.orderStatus')}}
                                                 </a>
 
                                                 <a href="#" @click="deleteOrder(item.id,index)"
@@ -116,6 +119,7 @@
                                                    data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2"
                                                 >
                                                     <i class="far fa-trash-alt"></i>
+                                                    {{$t('global.Delete')}}
                                                 </a>
 
                                             </td>
@@ -164,7 +168,7 @@
                                                                                     </div>
 
                                                                                     <div class="col-md-6 image-div">
-                                                                                        <img src="/web/img/logo.png" alt="Logo">
+                                                                                        <img src="/admin/img/Logo Dashboard.png" alt="Logo">
                                                                                     </div>
 
 
@@ -284,7 +288,7 @@
                                                                                         <div class="col-md-4 mb-3">
                                                                                             <label>{{$t('global.orderStatus')}}</label>
                                                                                             <select @change="dataOrderReturn" v-model="data.order_status_id" class="form-select" :class="{'is-invalid':v$.order_status_id.$error,'is-valid':!v$.order_status_id.$invalid}">
-                                                                                                <option v-for="orderSt in orderStatus" :kay="orderSt.id" :value="orderSt.id">{{orderSt.name}}</option>
+                                                                                                <option v-for="orderSt in orderStatus" :key="orderSt.id" :value="orderSt.id">{{orderSt.name}}</option>
                                                                                             </select>
 
                                                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
@@ -296,79 +300,81 @@
                                                                                         <div class="col-md-4 mb-3" v-if="parseInt(data.order_status_id) == 4">
                                                                                             <label>{{$t('global.choseRepresentative')}}</label>
                                                                                             <select v-model="data.representative_id" class="form-select" :class="{'is-valid':!v$.representative_id.$invalid}">
-                                                                                                <option v-for="representative in representatives" :kay="representative.id" :value="representative.id">{{representative.name}}</option>
+                                                                                                <option v-for="representative in representatives" :key="representative.id" :value="representative.id">{{representative.name}}</option>
                                                                                             </select>
                                                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
                                                                                         </div>
 
-                                                                                        <div class="form-row row" v-for="(it,index) in data.products" v-if="parseInt(data.order_status_id) == 7">
+                                                                                        <div v-if="parseInt(data.order_status_id) == 7">
+                                                                                            <div class="form-row row" v-for="(it,index) in data.products" :key="it.id">
 
-                                                                                            <div class="col-md-12 mb-1">
-                                                                                                <label>{{$t('global.productName')}} :
-                                                                                                    {{ data.products[index].product_name }} </label>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-3 mb-3" v-if="data.products[index].quantity">
-                                                                                                <label>{{$t('global.RequiredQuantity')}} {{$t('global.full')}}</label>
-                                                                                                <input type="number" class="form-control" @input="changeQuantity(index)"
-                                                                                                       v-model.number="v$.products[index].quantity.$model"
-                                                                                                       :placeholder="$t('global.RequiredQuantity')"
-                                                                                                       :class="{'is-invalid':v$.products[index].quantity.$error,'is-valid':!v$.products[index].quantity.$invalid}"
-                                                                                                >
-                                                                                                <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
-                                                                                                <div class="invalid-feedback">
-                                                                                                    <span v-if="v$.products[index].quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
-                                                                                                    <span v-if="v$.products[index].quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                                                                <div class="col-md-12 mb-1">
+                                                                                                    <label>{{$t('global.productName')}} :
+                                                                                                        {{ data.products[index].product_name }} </label>
                                                                                                 </div>
-                                                                                            </div>
 
-                                                                                            <div class="col-md-3 mb-3" v-if="data.products[index].quantity">
-                                                                                                <label>{{$t('global.quantityReturn')}} {{$t('global.full')}}</label>
-                                                                                                <input type="number" class="form-control" @input="changeReturnQuantity(index)"
-                                                                                                       v-model.number="v$.products[index].return_quantity.$model"
-                                                                                                       :placeholder="$t('global.quantityReturn') + $t('global.full')"
-                                                                                                       :class="{'is-invalid':v$.products[index].return_quantity.$error,'is-valid':!v$.products[index].return_quantity.$invalid}"
-                                                                                                >
-                                                                                                <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
-                                                                                                <div class="invalid-feedback">
-                                                                                                    <span v-if="v$.products[index].return_quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
-                                                                                                    <span v-if="v$.products[index].return_quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                                                                <div class="col-md-3 mb-3" v-if="data.products[index].quantity">
+                                                                                                    <label>{{$t('global.RequiredQuantity')}} {{$t('global.full')}}</label>
+                                                                                                    <input type="number" class="form-control" @input="changeQuantity(index)"
+                                                                                                        v-model.number="v$.products[index].quantity.$model"
+                                                                                                        :placeholder="$t('global.RequiredQuantity')"
+                                                                                                        :class="{'is-invalid':v$.products[index].quantity.$error,'is-valid':!v$.products[index].quantity.$invalid}"
+                                                                                                    >
+                                                                                                    <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                                                                    <div class="invalid-feedback">
+                                                                                                        <span v-if="v$.products[index].quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                                                        <span v-if="v$.products[index].quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                            </div>
 
-
-                                                                                            <div class="col-md-3 mb-3" v-if="data.products[index].sub_quantity">
-                                                                                                <label>{{$t('global.RequiredQuantity')}} {{$t('global.partial')}}</label>
-                                                                                                <input type="number" class="form-control" @input="changeSubQuantity(index)"
-                                                                                                       v-model.number="v$.products[index].sub_quantity.$model"
-                                                                                                       :placeholder="$t('global.RequiredQuantity')"
-                                                                                                       :class="{'is-invalid':v$.products[index].sub_quantity.$error,'is-valid':!v$.products[index].sub_quantity.$invalid}"
-                                                                                                >
-                                                                                                <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
-                                                                                                <div class="invalid-feedback">
-                                                                                                    <span v-if="v$.products[index].sub_quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
-                                                                                                    <span v-if="v$.products[index].sub_quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                                                                <div class="col-md-3 mb-3" v-if="data.products[index].quantity">
+                                                                                                    <label>{{$t('global.quantityReturn')}} {{$t('global.full')}}</label>
+                                                                                                    <input type="number" class="form-control" @input="changeReturnQuantity(index)"
+                                                                                                        v-model.number="v$.products[index].return_quantity.$model"
+                                                                                                        :placeholder="$t('global.quantityReturn') + $t('global.full')"
+                                                                                                        :class="{'is-invalid':v$.products[index].return_quantity.$error,'is-valid':!v$.products[index].return_quantity.$invalid}"
+                                                                                                    >
+                                                                                                    <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                                                                    <div class="invalid-feedback">
+                                                                                                        <span v-if="v$.products[index].return_quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                                                        <span v-if="v$.products[index].return_quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                            </div>
 
-                                                                                            <div class="col-md-3 mb-3" v-if="data.products[index].sub_quantity">
-                                                                                                <label>{{$t('global.quantityReturn')}} {{$t('global.partial')}}</label>
-                                                                                                <input type="number" class="form-control" @input="changeReturnSubQuantity(index)"
-                                                                                                       v-model.number="v$.products[index].return_sub_quantity.$model"
-                                                                                                       :placeholder="$t('global.quantityReturn') + $t('global.partial')"
-                                                                                                       :class="{'is-invalid':v$.products[index].return_sub_quantity.$error,'is-valid':!v$.products[index].return_sub_quantity.$invalid}"
-                                                                                                >
-                                                                                                <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
-                                                                                                <div class="invalid-feedback">
-                                                                                                    <span v-if="v$.products[index].return_sub_quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
-                                                                                                    <span v-if="v$.products[index].return_sub_quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+
+                                                                                                <div class="col-md-3 mb-3" v-if="data.products[index].sub_quantity">
+                                                                                                    <label>{{$t('global.RequiredQuantity')}} {{$t('global.partial')}}</label>
+                                                                                                    <input type="number" class="form-control" @input="changeSubQuantity(index)"
+                                                                                                        v-model.number="v$.products[index].sub_quantity.$model"
+                                                                                                        :placeholder="$t('global.RequiredQuantity')"
+                                                                                                        :class="{'is-invalid':v$.products[index].sub_quantity.$error,'is-valid':!v$.products[index].sub_quantity.$invalid}"
+                                                                                                    >
+                                                                                                    <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                                                                    <div class="invalid-feedback">
+                                                                                                        <span v-if="v$.products[index].sub_quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                                                        <span v-if="v$.products[index].sub_quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                            </div>
 
-                                                                                            <div class="col-md-12">
-                                                                                                <hr>
-                                                                                            </div>
+                                                                                                <div class="col-md-3 mb-3" v-if="data.products[index].sub_quantity">
+                                                                                                    <label>{{$t('global.quantityReturn')}} {{$t('global.partial')}}</label>
+                                                                                                    <input type="number" class="form-control" @input="changeReturnSubQuantity(index)"
+                                                                                                        v-model.number="v$.products[index].return_sub_quantity.$model"
+                                                                                                        :placeholder="$t('global.quantityReturn') + $t('global.partial')"
+                                                                                                        :class="{'is-invalid':v$.products[index].return_sub_quantity.$error,'is-valid':!v$.products[index].return_sub_quantity.$invalid}"
+                                                                                                    >
+                                                                                                    <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
+                                                                                                    <div class="invalid-feedback">
+                                                                                                        <span v-if="v$.products[index].return_sub_quantity.required.$invalid">{{$t('global.ThisFieldIsRequired')}}<br /> </span>
+                                                                                                        <span v-if="v$.products[index].return_sub_quantity.numeric.$invalid">{{$t('global.ThisFieldIsNumeric')}} <br /></span>
+                                                                                                    </div>
+                                                                                                </div>
 
+                                                                                                <div class="col-md-12">
+                                                                                                    <hr>
+                                                                                                </div>
+
+                                                                                            </div>
                                                                                         </div>
 
                                                                                         <div class="form-row row" v-if="parseInt(data.order_status_id) == 5 || parseInt(data.order_status_id) == 7">
@@ -394,7 +400,7 @@
                                                                                             <div class="col-md-4 mb-3" v-if="data.type_invoice == 1 || data.type_invoice == 2">
                                                                                                 <label>{{$t('treasury.ChooseTreasury')}} <span v-if="data.treasury_id" class="amount">{{$t('global.Balance')}} : {{parseFloat(Math.round(treasury_amount))}}</span> </label>
                                                                                                 <select v-model="data.treasury_id" class="form-select" :class="{'is-invalid':v$.treasury_id.$error,'is-valid':!v$.treasury_id.$invalid}">
-                                                                                                    <option v-for="treasury in treasuries" :kay="treasury.id" :value="treasury.id">{{treasury.name}}</option>
+                                                                                                    <option v-for="treasury in treasuries" :key="treasury.id" :value="treasury.id">{{treasury.name}}</option>
                                                                                                 </select>
 
                                                                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
@@ -848,7 +854,7 @@ export default {
                     .then((res) => {
 
                         notify({
-                            title: `${this.t('global.changeStatusSuccessfully')} <i class="fas fa-check-circle"></i>`,
+                            title: `${this.t('global.AddedSuccessfully')} <i class="fas fa-check-circle"></i>`,
                             type: "success",
                             duration: 5000,
                             speed: 2000
@@ -905,7 +911,7 @@ export default {
 
 
 .amount{
-    background-color: #fcb00c;
+    background-color: #0E67D0;
     color: #000;
     padding: 10px;
 }
@@ -926,7 +932,7 @@ export default {
     background: #000;
 }
 .head-table h3{
-    color: #ffc107;
+    color: #0E67D0;
     text-align: center;
 }
 .total-head{
@@ -935,7 +941,7 @@ export default {
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    background-color: #fcb00c !important;
+    background-color: #0E67D0 !important;
     border-radius: 10px;
 }
 .custom-modal .close span {

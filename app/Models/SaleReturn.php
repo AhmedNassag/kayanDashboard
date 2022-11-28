@@ -34,7 +34,7 @@ class SaleReturn extends Model
 
     public function store()
     {
-        return $this->belongsTo(Stock::class,'stock_id');
+        return $this->belongsTo(Store::class,'store_id');
     }
 
 
