@@ -6,6 +6,7 @@ use App\Commons\Consts\ClientType;
 use App\Models\City;
 use App\Models\Client;
 use App\Models\KnowUsWay;
+use App\Models\SellingMethod;
 use App\Models\User;
 
 class ClientRepository
@@ -22,7 +23,7 @@ class ClientRepository
         $client = Client::create([
             "store_name" => $client["store_name"],
             "city_id" => $client["city_id"],
-            "area_id" => $client["area_id"],
+            "area_id" => $client["area_id"], 
             "address" => $client["address"],
             "location" => $client["location"],
             "whatsup_phone" => $client["whatsup_phone"],
@@ -35,6 +36,7 @@ class ClientRepository
             "shipping_area_id" => $client["shipping_area_id"],
             "user_id" => $user->id,
             "know_us_way_id" => $client["know_us_way_id"],
+            "selling_method_id" => $client["selling_method_id"],
             "platform_type" => ClientType::DIRECT_SALE
         ]);
         $client->user = $user;
@@ -58,6 +60,7 @@ class ClientRepository
         $client->shipping_area_id = $clientInput["shipping_area_id"] ?? null;
         $client->shipping_city_id = $clientInput["shipping_city_id"] ?? null;
         $client->know_us_way_id = $clientInput["know_us_way_id"] ?? null;
+        $client->selling_method_id = $clientInput["selling_method_id"] ?? null;
         $client->save();
         $user = User::find($client->user_id);
         $user->name = $clientInput["name"];
@@ -97,5 +100,9 @@ class ClientRepository
     public function getKnowusWays()
     {
         return KnowUsWay::get();
+    }
+    public function getSellingMethods()
+    {
+        return SellingMethod::get();
     }
 }

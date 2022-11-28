@@ -15,7 +15,7 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('stock_id')->nullable()->constrained('stocks')->cascadeOnDelete();
+            $table->foreignId('store_id')->nullable()->constrained('stores')->cascadeOnDelete();
             $table->foreignId('client_id')->nullable()->constrained('clients')->cascadeOnDelete();
             $table->string('type')->nullable();
             $table->string('payment_method')->nullable();

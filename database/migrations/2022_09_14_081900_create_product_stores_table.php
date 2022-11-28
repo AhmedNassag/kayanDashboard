@@ -19,7 +19,7 @@ class CreateProductStoresTable extends Migration
             $table->foreignId('product_status_id')->constrained('status_products')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->foreignId('sale_product_id')->constrained('sale_products')->cascadeOnDelete();
-            $table->foreignId('stock_id')->constrained('stocks')->cascadeOnDelete();
+            $table->foreignId('store_id')->constrained('stores')->cascadeOnDelete();
             $table->integer('quantity')->default(0);
             $table->timestamps();
         });

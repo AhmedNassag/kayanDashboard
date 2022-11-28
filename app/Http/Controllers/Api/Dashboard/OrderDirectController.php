@@ -57,7 +57,7 @@ class OrderDirectController extends Controller
                 $q->with(['sellingMethod:id,name',
                     'mainMeasurementUnit:id,name',
                     'subMeasurementUnit:id,name',
-                    'product:id,name'
+                    'product:id,nameAr'
                 ]);
             },
             'store:id,name',
@@ -102,7 +102,7 @@ class OrderDirectController extends Controller
                     $q->with(['sellingMethod:id,name',
                         'mainMeasurementUnit:id,name',
                         'subMeasurementUnit:id,name',
-                        'product:id,name'
+                        'product:id,nameAr'
                     ]);
                 },
                 'store:id,name',
@@ -144,9 +144,10 @@ class OrderDirectController extends Controller
 
         $stores = Store::get();
 
-        $clients = User::whereAuthId(2)->with(['client' => function ($q){
+        $clients = User::with(['client' => function ($q){
             $q->select('user_id','selling_method_id')->with('sellingMethod:id,name');
         }])->whereJsonContains('role_name','client')->get();
+        
 
         return $this->sendResponse([
             'taxs' => $tax,
@@ -158,7 +159,7 @@ class OrderDirectController extends Controller
 
     public function storeChoose(Request $request)
     {
-        $productStore =  Product::select('id','name','barcode','count_unit')
+        $productStore =  Product::select('id','nameAr','barcode','count_unit')
             ->whereRelation('storeProducts.store','store_id',$request->store_id)
             ->whereRelation('productPrice','selling_method_id',$request->selling_method_id)
             ->with(['productPrice' => function ($q) use($request){
@@ -364,7 +365,7 @@ class OrderDirectController extends Controller
             }
         ])->find($id);
 
-        $productStore =  Product::select('id','name','barcode','count_unit')
+        $productStore =  Product::select('id','nameAr','barcode','count_unit')
             ->whereRelation('storeProducts.store','store_id',$order->store_id)
             ->whereRelation('productPrice','selling_method_id',$order->user->client->selling_method_id)
             ->with(['productPrice' => function ($q) use($order){

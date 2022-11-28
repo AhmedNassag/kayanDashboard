@@ -16,7 +16,7 @@ class CreateDirectOrdersTable extends Migration
         Schema::create('direct_orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('store_id')->constrained('stocks')->cascadeOnDelete();
+            $table->foreignId('store_id')->constrained('stores')->cascadeOnDelete();
             $table->double('discount')->default(0.00);
             $table->double('discount_offer')->default(0.00);
             $table->double('shippingPrice')->default(0.00);

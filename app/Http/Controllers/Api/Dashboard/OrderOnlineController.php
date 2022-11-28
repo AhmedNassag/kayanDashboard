@@ -46,7 +46,7 @@ class OrderOnlineController extends Controller
                 $q->with(['sellingMethod:id,name',
                     'mainMeasurementUnit:id,name',
                     'subMeasurementUnit:id,name',
-                    'product:id,name'
+                    'product:id,nameAr'
                 ]);
             },
             'store:id,name',
@@ -85,7 +85,7 @@ class OrderOnlineController extends Controller
             $q->with(['sellingMethod:id,name',
                 'mainMeasurementUnit:id,name',
                 'subMeasurementUnit:id,name',
-                'product:id,name'
+                'product:id,nameAr'
             ]);
         },'store:id,name',
         ])->find($id);
@@ -105,7 +105,7 @@ class OrderOnlineController extends Controller
 
     public function storeChoose(Request $request)
     {
-        $productStore =  Product::select('id','name','barcode','count_unit')
+        $productStore =  Product::select('id','nameAr','barcode','count_unit')
             ->whereRelation('storeProducts.store','store_id',$request->store_id)
             ->whereRelation('productPrice','selling_method_id',$request->selling_method_id)
             ->with(['productPrice' => function ($q) use($request){
@@ -156,7 +156,7 @@ class OrderOnlineController extends Controller
             }
         ])->find($id);
 
-        $productStore =  Product::select('id','name','barcode','count_unit')
+        $productStore =  Product::select('id','nameAr','barcode','count_unit')
             ->whereRelation('storeProducts.store','store_id',$order->store_id)
             ->whereRelation('productPrice','selling_method_id',$order->user->client->selling_method_id)
             ->with(['productPrice' => function ($q) use($order){

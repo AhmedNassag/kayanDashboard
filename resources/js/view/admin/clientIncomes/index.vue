@@ -128,7 +128,7 @@
 
                                                             <div class="col-md-6 ">
                                                                 <div class="form-group col-lg-12">
-                                                                    <img src="/web/img/logo.png">
+                                                                    <img src="/admin/img/Logo Dashboard.png">
                                                                     <hr class="hr-show">
                                                                 </div>
                                                             </div>
