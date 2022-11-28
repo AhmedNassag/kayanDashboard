@@ -27,13 +27,13 @@ class OrderReturnedController extends Controller
             $q->with(['sellingMethod:id,name',
                 'mainMeasurementUnit:id,name',
                 'subMeasurementUnit:id,name',
-                'product:id,name'
+                'product:id,nameAr'
             ]);
         },'store:id,name','orderReturn' => function ($q) {
             $q->with(['sellingMethod:id,name',
                 'mainMeasurementUnit:id,name',
                 'subMeasurementUnit:id,name',
-                'product:id,name'
+                'product:id,nameAr'
             ]);
         }])->where(function ($q) use ($request) {
             $q->when($request->search, function ($q) use ($request) {
@@ -71,13 +71,13 @@ class OrderReturnedController extends Controller
             $q->with(['sellingMethod:id,name',
                 'mainMeasurementUnit:id,name',
                 'subMeasurementUnit:id,name',
-                'product:id,name'
+                'product:id,nameAr'
             ]);
         },'store:id,name','orderReturn' => function ($q) {
             $q->with(['sellingMethod:id,name',
                 'mainMeasurementUnit:id,name',
                 'subMeasurementUnit:id,name',
-                'product:id,name'
+                'product:id,nameAr'
             ]);
         }])->find($id);
 

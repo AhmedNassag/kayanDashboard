@@ -63,8 +63,8 @@
                                                     :class="{'is-invalid':v$.type.$error,'is-valid':!v$.type.$invalid}"
                                                 >
                                                     <option value="">---</option>
-                                                    <option value="fixed" >Fixed</option>
-                                                    <option value="percentage">Percentage</option>
+                                                    <option value="fixed" >{{ $t('global.Fixed') }}</option>
+                                                    <option value="percentage">{{ $t('global.Percentage') }}</option>
                                                 </select>
                                                 <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">

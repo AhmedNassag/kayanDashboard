@@ -19,12 +19,11 @@ class CreateClientIncomesTable extends Migration
             $table->bigInteger('income_id')->unsigned()->nullable();
             $table->bigInteger('treasury_id')->unsigned()->nullable();
             $table->foreignId('purchase_return_id')->nullable()->constrained('purchase_returns')->cascadeOnDelete();
-            $table->foreignId('order_id')->nullable()->constrained('orders')->cascadeOnDelete();
+            $table->foreignId('order_id')->nullable()->constrained('direct_orders')->cascadeOnDelete();
             $table->double('amount',25,2);
             $table->text('notes')->nullable();
             $table->date('payment_date');
             $table->bigInteger('user_id')->unsigned()->nullable();
-
             $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('treasury_id')->references('id')->on('treasuries')->onDelete('cascade');

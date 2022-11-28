@@ -100,7 +100,7 @@
                                                     <div class="col-md-12 mb-12 head-account">
                                                         <h3>{{ $t('global.Products') }}</h3>
                                                     </div>
-                                                    <div v-for="(it,index) in data.product" class="col-md-12 mb-12 body-account row">
+                                                    <div v-for="(it,index) in data.product" :key="it.id" class="col-md-12 mb-12 body-account row">
 
                                                         <div class="col-md-2 mb-3 position-relative">
                                                             <label>{{ $t('global.Products') }}</label>
@@ -255,11 +255,11 @@
                                             </div>
 
                                             <div class="col-md-6 mb-3" v-if="offerDiscounts.length > 0">
-                                                <label>{{ $t('global.offerDisco') }}</label>
+                                                <label>{{ $t('global.offers') }}</label>
                                                 <select multiple v-model="data.discounts" :class="['form-select']">
                                                     <option
                                                         v-for="discount in offerDiscounts"
-                                                        :kay="discount.id" :value="discount.id"
+                                                        :key="discount.id" :value="discount.id"
                                                     >
                                                         {{discount.name}} -- {{ discount.type == 'fixed' ? `${discount.value} EGP`: `${discount.value} %`}}
                                                     </option>
@@ -271,7 +271,7 @@
                                                 <select multiple v-model="data.taxs" :class="['form-select']">
                                                     <option
                                                         v-for="tax in taxs"
-                                                        :kay="tax.id" :value="tax.id"
+                                                        :key="tax.id" :value="tax.id"
                                                     >
                                                         {{tax.name}} -- {{tax.percentage}} %
                                                     </option>
@@ -306,18 +306,18 @@
                                                     <table class="table table-center table-hover mb-0 datatable">
                                                         <thead class="account">
                                                         <tr class="text-center">
-                                                            <th>{{ $t('global.TotalPriceBeforeDiscount') }}</th>
-                                                            <th>{{ $t('global.TotalPriceAfterDiscount') }}</th>
-                                                            <th>{{ $t('global.TotalTax') }}</th>
-                                                            <th>{{ $t('global.TotalPriceAfterTaxx') }}</th>
+                                                            <th class="text-center">{{ $t('global.TotalPriceBeforeDiscount') }}</th>
+                                                            <th class="text-center">{{ $t('global.TotalPriceAfterDiscount') }}</th>
+                                                            <th class="text-center">{{ $t('global.TotalTax') }}</th>
+                                                            <th class="text-center">{{ $t('global.TotalPriceAfterTaxx') }}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         <tr class="text-center">
-                                                            <td>{{totalProductbefourDiscount ?totalProductbefourDiscount.toFixed(2):0}}</td>
-                                                            <td>{{ totalProductAfterDiscount? totalProductAfterDiscount.toFixed(2):0 }}</td>
-                                                            <td>{{ totalTax? totalTax.toFixed(2): 0 }} %</td>
-                                                            <td>{{ TotalPriceAfterTaxx? (TotalPriceAfterTaxx).toFixed(2):0 }}</td>
+                                                            <td class="text-center">{{totalProductbefourDiscount ?totalProductbefourDiscount.toFixed(2):0}}</td>
+                                                            <td class="text-center">{{ totalProductAfterDiscount? totalProductAfterDiscount.toFixed(2):0 }}</td>
+                                                            <td class="text-center">{{ totalTax? totalTax.toFixed(2): 0 }} %</td>
+                                                            <td class="text-center">{{ TotalPriceAfterTaxx? (TotalPriceAfterTaxx).toFixed(2):0 }}</td>
                                                         </tr>
                                                         </tbody>
 
@@ -376,7 +376,7 @@
                                                     </div>
 
                                                     <div class="col-md-6 image-div">
-                                                        <img src="/web/img/logo.png" alt="Logo">
+                                                        <img src="/admin/img/Logo Dashboard.png">
                                                     </div>
 
 
@@ -420,24 +420,24 @@
                                                 <table class="table table-center table-hover mb-0 datatable">
                                                     <thead>
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>{{ $t('global.Products') }}</th>
-                                                        <th>{{ $t('global.full') }}</th>
-                                                        <th>{{ $t('global.partial') }}</th>
-                                                        <th>{{ $t('global.fullPrice') }}</th>
-                                                        <th>{{ $t('global.partialPrice') }}</th>
-                                                        <th>{{ $t('global.TotalPrice') }}</th>
+                                                        <th class="text-center">#</th>
+                                                        <th class="text-center">{{ $t('global.Products') }}</th>
+                                                        <th class="text-center">{{ $t('global.full') }}</th>
+                                                        <th class="text-center">{{ $t('global.partial') }}</th>
+                                                        <th class="text-center">{{ $t('global.fullPrice') }}</th>
+                                                        <th class="text-center">{{ $t('global.partialPrice') }}</th>
+                                                        <th class="text-center">{{ $t('global.TotalPrice') }}</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody v-if="data.product.length">
                                                     <tr v-for="(it,index) in data.product" :key="index">
-                                                        <td>{{ index +1}}</td>
-                                                        <td>{{ products[index].product.name }}</td>
-                                                        <td>{{ data.product[index].mainQuantity }} ( {{products[index].productPrice[0].measurement_unit.name}} )</td>
-                                                        <td>{{ data.product[index].branchQuantity }} ( {{products[index].productPrice[1].measurement_unit.name}} )</td>
-                                                        <td>{{data.product[index].mainQuantity? data.product[index].mainPrice : '-'}}</td>
-                                                        <td>{{data.product[index].branchQuantity? data.product[index].branchPrice : '-'}}</td>
-                                                        <td>
+                                                        <td class="text-center">{{ index +1}}</td>
+                                                        <td class="text-center">{{ products[index].product.name }}</td>
+                                                        <td class="text-center">{{ data.product[index].mainQuantity }} ( {{products[index].productPrice[0].measurement_unit.name}} )</td>
+                                                        <td class="text-center">{{ data.product[index].branchQuantity }} ( {{products[index].productPrice[1].measurement_unit.name}} )</td>
+                                                        <td class="text-center">{{data.product[index].mainQuantity? data.product[index].mainPrice : '-'}}</td>
+                                                        <td class="text-center">{{data.product[index].branchQuantity? data.product[index].branchPrice : '-'}}</td>
+                                                        <td class="text-center">
                                                             {{
                                                                 parseFloat(
                                                                     (data.product[index].mainQuantity * data.product[index].mainPrice) +
@@ -984,7 +984,7 @@ export default {
     position: relative;
 }
 .account{
-    background-color: #fcb00c;
+    background-color: #0E67D0;
     color: #000000 !important;
     border-radius: 5px;
 }

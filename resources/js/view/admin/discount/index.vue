@@ -37,7 +37,7 @@
                                             v-if="permission.includes('discount create')"
                                            :to="{name: 'createDiscount'}"
                                             class="btn btn-custom btn-warning">
-                                            اضافه
+                                            أضف
                                         </router-link>
                                     </div>
                                 </div>
@@ -48,13 +48,13 @@
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th class="text-center">كود</th>
-                                        <th class="text-center">القيمه</th>
-                                        <th class="text-center"> تاريخ البدايه و النهايه</th>
+                                        <th class="text-center">القيمة</th>
+                                        <th class="text-center"> تاريخ البداية والنهاية</th>
                                         <th class="text-center">عدد المستخدمين</th>
                                         <th class="text-center">المبلغ اللازم للحصول على الكوبون</th>
                                         <th class="text-center">تاريخ الانشاء</th>
-                                        <th class="text-center">الحاله</th>
-                                        <th class="text-center">الاجراءات</th>
+                                        <th class="text-center">الحالة</th>
+                                        <th class="text-center">الإجراءات</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="discounts.length">

@@ -19,8 +19,8 @@ class Shift extends Model
     }
 
     //start relations
-    public function stocks()
+    public function stores()
     {
-        return $this->hasMany(Stock::class);
+        return $this->hasMany(Store::class);
     }
 }

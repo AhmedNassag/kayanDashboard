@@ -27,8 +27,8 @@ class Refused extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function stock()
+    public function store()
     {
-        return $this->belongsTo(Stock::class);
+        return $this->belongsTo(Store::class);
     }
 }

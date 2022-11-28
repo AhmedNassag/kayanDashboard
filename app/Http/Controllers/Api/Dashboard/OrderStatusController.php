@@ -47,9 +47,9 @@ class OrderStatusController extends Controller
             DB::beginTransaction();
             // Validator request
             $v = Validator::make($request->all(), [
-                'order_id' => 'required|integer|exists:orders,id',
+                'order_id' => 'required|integer|exists:direct_orders,id',
                 'order_status_id' => 'required|integer|exists:order_statuses,id',
-                'representative_id' => 'nullable|integer|exists:users,id',
+                // 'representative_id' => 'nullable|integer|exists:users,id',
             ]);
 
             if ($v->fails()) {
@@ -58,7 +58,7 @@ class OrderStatusController extends Controller
             $order = DirectOrders::find($request->order_id);
             $order->update([
                'order_status_id' => $request->order_status_id,
-               'representative_id' => $request->representative_id ? $request->representative_id : $order->representative_id,
+            //    'representative_id' => $request->representative_id ? $request->representative_id : $order->representative_id,
             ]);
 
             switch ($request->order_status_id){
@@ -69,7 +69,7 @@ class OrderStatusController extends Controller
                     $type = "order status";
                     $productData = $order;
 
-                    $this->notification($tokens,$body,$type,$productData);
+                    // $this->notification($tokens,$body,$type,$productData);
                     break;
                 case 3:
 
@@ -79,7 +79,7 @@ class OrderStatusController extends Controller
                     $type = "order status";
                     $productData = $order;
 
-                    $this->notification($tokens,$body,$type,$productData);
+                    // $this->notification($tokens,$body,$type,$productData);
                     break;
 
                 case 4:
@@ -89,7 +89,7 @@ class OrderStatusController extends Controller
                     $type = "order status";
                     $productData = $order;
 
-                    $this->notification($tokens,$body,$type,$productData);
+                    // $this->notification($tokens,$body,$type,$productData);
                     break;
 
                 case 5:
@@ -101,7 +101,7 @@ class OrderStatusController extends Controller
                     $type = "order status";
                     $productData = $order;
 
-                    $this->notification($tokens,$body,$type,$productData);
+                    // $this->notification($tokens,$body,$type,$productData);
                     break;
 
                 case 6:
@@ -113,7 +113,7 @@ class OrderStatusController extends Controller
                     $type = "order status";
                     $productData = $order;
 
-                    $this->notification($tokens,$body,$type,$productData);
+                    // $this->notification($tokens,$body,$type,$productData);
                     break;
 
                 case 7:
@@ -126,7 +126,7 @@ class OrderStatusController extends Controller
                     $type = "order status";
                     $productData = $order;
 
-                    $this->notification($tokens,$body,$type,$productData);
+                    // $this->notification($tokens,$body,$type,$productData);
                     break;
 
                 case 8:
@@ -136,7 +136,7 @@ class OrderStatusController extends Controller
                     $type = "order status";
                     $productData = $order;
 
-                    $this->notification($tokens,$body,$type,$productData);
+                    // $this->notification($tokens,$body,$type,$productData);
                     break;
 
                 default:
@@ -146,7 +146,7 @@ class OrderStatusController extends Controller
                     $type = "order status";
                     $productData = $order;
 
-                    $this->notification($tokens,$body,$type,$productData);
+                    // $this->notification($tokens,$body,$type,$productData);
             }
 
             DB::commit();
@@ -158,9 +158,12 @@ class OrderStatusController extends Controller
             return $this->sendError('An error occurred in the system');
         }
     }
-    //return all product
 
-    public function orderReturnAllProduct($order){
+
+
+    //return all product
+    public function orderReturnAllProduct($order)
+    {
         foreach ($order->orderDetails as $detail){
             foreach ($detail->orderStoreProducts as $orderStoreProduct){
                 $store_product_id = $orderStoreProduct->store_product_id;
@@ -186,8 +189,8 @@ class OrderStatusController extends Controller
     }
 
     //return some product
-
-    public function orderReturnSomeProduct($order,$products){
+    public function orderReturnSomeProduct($order,$products)
+    {
         foreach ($order->orderDetails as $detail){
             foreach ($detail->orderStoreProducts as $orderStoreProduct){
                 $store_product_id = $orderStoreProduct->store_product_id;
@@ -238,8 +241,8 @@ class OrderStatusController extends Controller
     }
 
     //update product in store
-    public function storeProductData($store_id,$product_id,$measurement_unit_id,$measurement_sub_unit_id,$quantity,$sub_quantity,$order_details_id){
-
+    public function storeProductData($store_id,$product_id,$measurement_unit_id,$measurement_sub_unit_id,$quantity,$sub_quantity,$order_details_id)
+    {
         $store_main_measurement = StoreProduct::where([
             ['store_id',$store_id],
             ['product_id',$product_id],
