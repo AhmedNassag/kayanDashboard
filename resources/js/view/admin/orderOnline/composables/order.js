@@ -13,6 +13,7 @@ export function ordersComposable() {
     const refund_date = ref(0);
     const router = useRouter();
     const loading = ref(false); //loading for button
+    const loading2= ref(false); //loading for button
     const message = ref(""); // message for notify
     const area = ref(""); // message for notify
     const state = ref(""); // message for notify
@@ -21,6 +22,8 @@ export function ordersComposable() {
     let orders = ref({}); //data for index page
     let debounce = ref({}); // for search
     const search = ref(""); //search in index page
+    const rep_search = ref(""); //search in index page
+    const representatives = ref({}); //search in index page
     const filter_order_status = ref(""); //search in index page
     const filter_payment_status = ref(""); //search in index page
     const filter_payment_method = ref(""); //search in index page
@@ -31,6 +34,12 @@ export function ordersComposable() {
         clearTimeout(debounce.value);
         debounce.value = setTimeout(() => {
             getOrders();
+        }, 500);
+    });
+    watch(rep_search, (search, prevSearch) => {
+        clearTimeout(debounce.value);
+        debounce.value = setTimeout(() => {
+            getRepresentatives();
         }, 500);
     });
 
@@ -47,6 +56,20 @@ export function ordersComposable() {
                 console.log(err.response.data);
             })
             loading.value = false;
+    };
+    //get all orders
+    const getRepresentatives = async () => {
+        loading2.value = true;
+
+        await adminApi
+            .get(`/v1/dashboard/get_representatives?search=${rep_search.value}`)
+            .then((res) => {
+                representatives.value = res.data.representatives;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            })
+            loading2.value = false;
     };
 
 
@@ -148,8 +171,7 @@ export function ordersComposable() {
                             duration: 5000,
                             speed: 2000,
                         });
-                        if(res.data.canceled)
-                        router.push({name:'Orders',params: {lang:locale.value}})
+
                         getOrder(id)
 
                     })
@@ -160,6 +182,14 @@ export function ordersComposable() {
             }
         });
 
+    }
+
+    const assignRepresentativeToOrder = async (order_id,rep_id,type) => {
+        await adminApi
+        .post(`/v1/dashboard/assignRepresentativeToOrder`,{order_id,rep_id,type})
+        .then((res) => {
+            getOrders();
+        })
     }
 
 
@@ -186,6 +216,11 @@ export function ordersComposable() {
         getOrder,
         updateOrderStatus,
         holdOrder,
+        getRepresentatives,
+        representatives,
+        rep_search,
+        assignRepresentativeToOrder,
+        loading2,
         cancelOrder
     };
 }

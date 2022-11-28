@@ -61,6 +61,7 @@ import auth from "../middleware/admin/auth";
 import login from "../view/admin/login";
 import forgetPassword from "../view/admin/forgetPassword";
 import resetPassword from "../view/admin/resetPassword";
+import representative from "./adminRoute/representative";
 import unit from './adminRoute/unit';
 import bestSeller from './adminRoute/best-seller';
 import alsoBought from './adminRoute/also-bought';
@@ -289,6 +290,7 @@ const routes = [
             ...ClientAccountStatement,
             ...purchaseReturnIncomes,
             ...setting,
+            ...representative,
         ]
     },
     {

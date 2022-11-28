@@ -36,7 +36,7 @@ class Product extends Model
         return $this->nameAr;
     }
 
-    //start raletions   
+    //start raletions
 
     public function selling_methods()
     {
@@ -134,6 +134,10 @@ class Product extends Model
     public function productPrice()
     {
         return $this->hasMany(ProductPricing::class, 'product_id');
+    }
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
     }
 
     public function pricingHistories()

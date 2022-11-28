@@ -23,7 +23,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
-    protected $guarded = ['id'];
+    protected $guarded = ['id','image'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -87,6 +87,10 @@ class User extends Authenticatable implements JWTSubject
 
 
     //
+    public function getImageAttribute()
+    {
+        return $this->media ? $this->media->file_name:null;
+    }
 
     public function representative()
     {
@@ -188,5 +192,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Order::class, 'representative_id');
     }
+
+
 
 }

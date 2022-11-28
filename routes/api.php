@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\Dashboard\AuthRepresentativeController;
+use App\Http\Controllers\Api\Dashboard\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 /*
@@ -90,7 +92,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // discount
             Route::resource('discount', 'DiscountController')->except(['show']);
             Route::get('activationDiscount/{id}', 'DiscountController@activationDiscount');
-            
+
             // tax
             Route::resource('tax', 'TaxController')->except(['show']);
             Route::get('activationTax/{id}', 'TaxController@activationTax');
@@ -274,13 +276,19 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             /*----- End routes -----*/
 
 
-
+            // Representative
+            Route::resource('representative','RepresentativeController')->except(['show']);
+            Route::get('activeShift','RepresentativeController@activeShift');
+            Route::get('activeRepresentative','RepresentativeController@activeRepresentative');
+            Route::post('representative/changePassword/{id}','RepresentativeController@changePassword');
 
             // orders
             Route::resource('orders','OrderController');
 
             // update orders
             Route::post('updateOrderStatus/{id}','OrderController@updateOrderStatus');
+            Route::post('assignRepresentativeToOrder','OrderController@assignRepresentativeToOrder');
+            Route::get('get_representatives','OrderController@get_representatives');
             //hold orders
             Route::post('holdOrder/{id}','OrderController@holdOrder');
             // cancel order
@@ -372,10 +380,28 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
 
             //start logout
             Route::post('logout', 'AuthDashboardController@logout');
+
+
+
         });
     });
 
+    Route::group([ 'prefix' => 'representative'],function () {
 
+        Route::post('signIn', [AuthRepresentativeController::class,'signIn']);
+
+        Route::middleware(['auth:api'])->group(function () {
+
+            Route::get('me',  [AuthRepresentativeController::class,'me']);
+            Route::post('changePassword',  [AuthRepresentativeController::class,'changePassword']);
+
+            Route::post('complete_order',[OrderController::class,'representative_complete_order']);
+            Route::post('refund_order',[OrderController::class,'representative_refund_order']);
+            Route::get('orders',[OrderController::class,'representative_orders']);
+
+        });
+
+    });
     Route::middleware(['auth:api'])->group(function () {
 
         // start Dashboard

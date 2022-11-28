@@ -129,6 +129,7 @@
                       <tr>
                         <th>{{ $t("global.Order Number") }}</th>
                         <th>{{ $t("global.Receiver Name") }}</th>
+                        <th>{{ $t("global.representative") }}</th>
                         <th>{{ $t("global.Order status") }}</th>
                         <th>{{ $t("global.Payment Way") }}</th>
                         <th>{{ $t("global.Payment Status") }}</th>
@@ -147,6 +148,128 @@
                           {{
                             item.receiver_name
                           }}
+                        </td>
+
+                        <td>
+
+                        <div
+                        class="col-md-12 alternativeDetail-option"
+                      >
+                        <div class="row account">
+
+                          <div
+                            class="col-md-12 mb-12 body-account row"
+                          >
+                            <!--Start representative-->
+                            <div class="col-md-3">
+                              <div class="dropdown" v-if="item.order_status=='Pending' ||item.order_status=='Shipping' || item.order_status=='Processing'">
+                                <button
+                                  class="btn btn-secondary dropdown-toggle"
+                                  type="button"
+                                  id="dropdownMenuButton"
+                                  data-toggle="dropdown"
+                                  aria-haspopup="true"
+                                  aria-expanded="false"
+                                >
+                                  <span v-if="item.representative_id">
+                                    <img
+                                      :src="'/upload/representative_profile/' + item.representative.image"
+                                      alt="product-image"
+                                      style="
+                                        width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                      "
+                                    />
+                                    {{ item.representative.name }}</span
+                                  >
+                                  <span v-else>{{
+                                    $t("global.representative")
+                                  }}</span>
+                                </button>
+                                <div
+                                  :class="[
+                                    'dropdown-menu',
+                                    this.$i18n.locale == 'en' ? 'drop_ltr' : '',
+                                  ]"
+                                  style="
+                                    height: 400px;
+                                    overflow-y: scroll;
+                                    width: 400px;
+                                    z-index: 999999;
+                                  "
+                                  aria-labelledby="dropdownMenuButton"
+                                >
+                                  <input
+                                    type="text"
+                                    :placeholder="$t('global.Search')"
+                                    v-model="rep_search"
+                                    :class="['form-control ' , item.representative_id ? 'w-75 d-inline' : 'w-100']"
+                                    onchange="event.stopPropagation()"
+                                  />
+                                  <button class="btn btn-danger mx-4"  v-if="item.representative_id" @click="assignRepresentativeToOrder(item.id,0,'cancel')">{{$t('global.Cancel')}}</button>
+                                  <loader v-if="loading2" />
+
+                                  <div
+                                    v-for="rep in representatives"
+                                    :key="rep.id"
+                                    :class="[
+                                      'dropdown-item px-2 d-flex justify-content-between',
+                                      rep.id == item.representative_id
+                                        ? 'bg-secondary'
+                                        : '',
+                                    ]"
+                                    @click="assignRepresentativeToOrder(item.id,rep.id,'assign')"
+                                  >
+                                    <img
+                                      :src="'/upload/representative_profile/' + rep.image"
+                                      alt="product-image"
+                                      style="width: 50px; height: 50px"
+                                    />
+                                    <span
+                                      style="
+                                        overflow: hidden;
+                                        height: 34px;
+                                        font-size: 24px;
+                                        word-break: break-word;
+                                      "
+                                      >{{ rep.name }}</span
+                                    >
+                                  </div>
+
+                                  <h5
+                                    v-if="
+                                      Object.keys(representatives ?? []).length ==
+                                      0
+                                    "
+                                    class="text-center"
+                                  >
+                                    {{ $t("global.No Data Found") }}
+                                  </h5>
+                                </div>
+                              </div>
+                              <div v-else>
+                                <span v-if="item.representative_id">
+                                    <img
+                                      :src="'/upload/representative_profile/' + item.representative.image"
+                                      alt="product-image"
+                                      style="
+                                        width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                      "
+                                    />
+                                    {{ item.representative.name }}</span
+                                  >
+                                  <span v-else>-------</span>
+                              </div>
+                            </div>
+                            <!--End representative-->
+
+
+                          </div>
+                        </div>
+                      </div>
                         </td>
                         <td>
                           <span v-if="item.hold == 0">
@@ -225,7 +348,10 @@
   export default {
     name: "index",
     setup() {
-      const { orders, search, loading, getOrders,filter_order_status,filter_payment_method,filter_payment_status } = ordersComposable();
+      const { orders, search, loading, getOrders,assignRepresentativeToOrder,filter_order_status,filter_payment_method,filter_payment_status,getRepresentatives,
+        representatives,
+        rep_search,
+        loading2, } = ordersComposable();
 
       let store = useStore();
 
@@ -233,9 +359,10 @@
 
       onMounted(() => {
         getOrders();
+        getRepresentatives();
       });
 
-      return {permission, loading, getOrders, search, orders,filter_order_status,filter_payment_method,filter_payment_status };
+      return {permission, loading, getOrders, search, orders,assignRepresentativeToOrder,filter_order_status,filter_payment_method,filter_payment_status,representatives,loading2,rep_search };
     },
   };
   </script>
