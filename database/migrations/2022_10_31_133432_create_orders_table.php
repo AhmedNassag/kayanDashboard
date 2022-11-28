@@ -24,13 +24,15 @@ class CreateOrdersTable extends Migration
             $table->string('receiver_address');
             $table->string('receiver_phone');
             $table->string('receiver_name');
+            $table->string('refund_amount')->default(0);
             $table->float('discount_percentage',11,2)->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete();
             $table->foreignId('area_id')->nullable()->constrained('areas')->cascadeOnDelete();
-
+            $table->foreignId('representative_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string("invoice_id")->default(0);
             $table->string("transaction_id")->default(0);
             $table->tinyInteger("hold")->default(0);
+            $table->string("order_from")->nullable();
             $table->string("order_status")->nullable();
             $table->string("payment_status")->nullable();
             $table->string("payment_method")->nullable();

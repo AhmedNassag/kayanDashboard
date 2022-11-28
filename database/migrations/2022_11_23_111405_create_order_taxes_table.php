@@ -15,10 +15,11 @@ class CreateOrderTaxesTable extends Migration
     {
         Schema::create('order_taxes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('direct_orders')->cascadeOnDelete();
+            $table->foreignId('order_id');
             $table->foreignId('tax_id')->constrained('taxes')->cascadeOnDelete();
             $table->unsignedDecimal('percentage')->nullable();
             $table->string('name')->nullable();
+            $table->string('order_type')->nullable();
             $table->timestamps();
         });
     }

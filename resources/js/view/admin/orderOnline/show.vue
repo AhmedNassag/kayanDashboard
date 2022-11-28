@@ -38,18 +38,16 @@
         <div class="row">
           <div class="col-lg-8 col-sm-12">
             <div
-              id="carouselExampleControls"
-              class="carousel slide"
-              data-ride="carousel"
+              id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel"
             >
               <div class="carousel-inner" style="height: 442px; width: 100%">
                 <div
-                  class="carousel-item active"
+                  :class="['carousel-item' , key == 0 ?'active' : ''] "
                   :style="[
                     this.$i18n.locale == 'ar' ? 'float:left!important' : '',
                     'margin-left: unset!important;',
                   ]"
-                  v-for="product in products"
+                  v-for="(product,key) in products"
                   :key="product.id"
                 >
                   <img
@@ -144,6 +142,35 @@
                   </div>
                 </div>
               </div>
+              <div class="card" v-if="order.representative_id">
+                <div class="card-header">
+                  <h5 class="card-title px-2">
+                    {{ $t("global.Representative Information") }}
+                  </h5>
+                </div>
+                <div class="card-body">
+                  <div class="row justify-content-between">
+                    <h5 class="w-auto">{{ $t("global.Representative Name") }}</h5>
+                    <span class="w-auto" style="color: #fcb00c">{{
+                      order.representative.name
+                    }}</span>
+                  </div>
+                  <div class="row justify-content-between">
+                    <h5 class="w-auto">{{ $t("global.Representative Phone") }}</h5>
+                    <span class="w-auto" style="color: #fcb00c">{{
+                      order.representative.phone
+                    }}</span>
+                  </div>
+
+                  <div class="row justify-content-between">
+                    <h5 class="w-auto">{{ $t("global.Representative Email") }}</h5>
+                    <span class="w-auto" style="color: #fcb00c">{{
+                      order.representative.email
+                    }}</span>
+                  </div>
+
+                </div>
+              </div>
               <div class="card">
                 <div class="card-header">
                   <h5 class="card-title px-2">
@@ -157,7 +184,7 @@
                       order.id
                     }}</span>
                   </div>
-                  <div class="row justify-content-between" v-if="order.invoice_id">
+                  <div class="row justify-content-between" v-if="order.invoice_id != 0">
                     <h5 class="w-auto">{{ $t("global.Invoice id") }}</h5>
                     <span class="w-auto" style="color: #fcb00c">{{
                       order.invoice_id
@@ -358,28 +385,13 @@
               <div class="member-card">
                 <div
                   v-if="
-                    (order.payment_status != 'Failed' &&
-                      order.payment_method == 'Cash') ||
-                    (order.payment_method == 'Online' &&
-                      order.payment_status == 'Paid' && order.order_status != 'Completed')
-                      ||
-                    (order.payment_method == 'Online' &&
-                      order.payment_status == 'Unpaid')
+                    (order.payment_status != 'Failed'  && order.order_status != 'Canceled' &&order.order_status != 'Refund') ||
+                    (order.order_status == 'Completed'&& refund_allowed)
                   "
                   class="col-sm-12 py-4 d-flex flex-row justify-content-center"
                 >
-                <button
-                    v-if="
-                      order.payment_method == 'Online' &&order.payment_status == 'Unpaid'
-                    "
-                    class="btn btn-danger btn-sm mx-1"
-                    @click="cancelOrder(order.id)"
-                    style="height: 60px"
-                  >
-                    {{ $t("global.Cancel Order") }}
-                    <i class="fas fa-power-off"></i>
-                  </button>
-                <div class="col-sm-12 py-4 d-flex flex-row justify-content-center" v-else>
+
+                <div class="col-sm-12 py-4 d-flex flex-row justify-content-center" >
                       <button
                       v-if="
                           order.hold == 0 &&
@@ -436,11 +448,22 @@
                       </button>
 
 
+
+
+
+                      <button
+                        v-if="
+                        (order.payment_method == 'Online' &&order.payment_status == 'Unpaid') ||((order.order_status == 'Pending' ||order.order_status == 'Processing') && order.payment_method == 'Cash')
+                        "
+                        class="btn btn-danger btn-sm mx-1"
+                        @click="cancelOrder(order.id)"
+                        style="height: 60px"
+                    >
+                        {{ $t("global.Cancel the order") }}
+                        <i class="fas fa-power-off"></i>
+                    </button>
                       <div
-                      v-if="
-                          (order.order_status == 'Pending' ||order.order_status == 'Processing' ||order.order_status == 'Shipping' ||
-                          (order.order_status == 'Completed' && refund_allowed))&&order.payment_status=='Paid'
-                      "
+                      v-else
                       >
                       <p
                           class="text-danger"
@@ -463,13 +486,16 @@
                           <i class="fas fa-reply"></i> {{ $t("global.Refund order") }}
                       </button>
                       </div>
-                  </div>
 
+
+                </div>
 
                 </div>
                 <div v-else>
                   {{ $t("global.The actions finished") }}
                 </div>
+
+
               </div>
               <!-- end membar card -->
             </div>
@@ -536,7 +562,7 @@
 
   <style scoped>
   .card-box {
-    background-color: #feeeca;
+    background-color: #a1ccff;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;

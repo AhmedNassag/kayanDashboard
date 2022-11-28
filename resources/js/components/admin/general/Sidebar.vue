@@ -1298,7 +1298,11 @@
                         </ul>
                     </li>
                     <!--end order-->
-
+                    <li :class="[$route.name == 'indexRepresentative'? 'active': '']" v-if="permission.includes('representative read')">
+                        <router-link :to="{name:'indexRepresentative'}">
+                            <i class="fas fa-user-tie "></i> <span class="mx-2">{{$t('global.representatives')}}</span>
+                        </router-link>
+                    </li>
 
                     <!--start platform accounts-->
                     <li class="submenu" v-if="permission.includes('platform Accounts')">

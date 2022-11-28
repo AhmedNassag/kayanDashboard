@@ -18,6 +18,7 @@ class CreateSettingsTable extends Migration
             $table->boolean('close')->default(false);
             $table->string('phone');
             $table->string('wats_app');
+            $table->integer('refund_allowed_days')->default(7);
             $table->text('facebook');
             $table->boolean('show_price')->default(true);
             $table->timestamps();

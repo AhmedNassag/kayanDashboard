@@ -41,7 +41,7 @@ class ProductController extends Controller
                     ->orwhere('nameEn', 'like', "%" . $request->search . "%")
                     ->orWhereRelation('pharmacistForm', 'name', 'like', "%" . $request->search . "%")
                     ->orWhereRelation('category', 'name', 'like', '%' . $request->search . '%');
-            })->paginate(15);
+            })->latest()->paginate(15);
 
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
@@ -107,26 +107,21 @@ class ProductController extends Controller
 
     public function create()
     {
-        try {
-            $pharmacistForms = PharmacistForm::select('id', 'name')->get();
-            $categories = Category::where('status', 1)->select('id', 'name')->get();
-            $measures = Unit::select('id', 'name')->get();
-            $sellingMethods = SellingMethod::select('id', 'name')->get();
-            $stores = Store::where('status', 1)->get();
-            $clients  = User::where('status', 1)->whereJsonContains('role_name', 'client')->get();
+        $pharmacistForms = PharmacistForm::select('id', 'name')->get();
+        $categories = Category::where('status', 1)->select('id', 'name')->get();
+        $measures = Unit::select('id', 'name')->get();
+        $sellingMethods = SellingMethod::select('id', 'name')->get();
+        $stores = Store::where('status', 1)->get();
+        $clients  = User::where('status', 1)->whereJsonContains('role_name', 'client')->get();
 
-            return $this->sendResponse([
-                'pharmacistForms' => $pharmacistForms,
-                'categories' => $categories,
-                'measures' => $measures,
-                'sellingMethods' => $sellingMethods,
-                'stores' => $stores,
-                'clients'         => $clients
-            ], 'Data exited successfully');
-        } catch (\Exception $e) {
-
-            return $this->sendError('An error occurred in the system');
-        }
+        return $this->sendResponse([
+            'pharmacistForms' => $pharmacistForms,
+            'categories' => $categories,
+            'measures' => $measures,
+            'sellingMethods' => $sellingMethods,
+            'stores' => $stores,
+            'clients'         => $clients
+        ], 'Data exited successfully');
     }
 
 
@@ -256,6 +251,8 @@ class ProductController extends Controller
                 'count_unit' => $request['count_unit'],
             ]);
 
+            $this->associateAlternativeProducts($request,$product);
+
             DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
@@ -276,7 +273,7 @@ class ProductController extends Controller
     {
         try {
 
-            $product = Product::with('media:mediable_id,file_name,id')->find($id);
+            $product = Product::with('media:mediable_id,file_name,id','related:id,image,nameAr')->find($id);
             $pharmacistForms = PharmacistForm::select('id', 'name')->get();
             $categories = Category::select('id', 'name')->get();
             $measures = Unit::select('id', 'name')->get();
@@ -453,6 +450,7 @@ class ProductController extends Controller
                 'price' => $request['price'],
                 'count_unit' => $request['count_unit'],
             ]);
+            $this->associateAlternativeProducts($request,$product);
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
@@ -583,9 +581,9 @@ class ProductController extends Controller
 
     public function associateAlternativeProducts($request, $product)
     {
+        $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
         $array=collect($request->alternativeDetail)->where('alternative_id','!=',$product->id)->unique('alternative_id')->pluck('alternative_id')->filter()->toArray();
         if ($array && $request->alternativeDetail && $request-> alternativeDetail != Null) {
-            $request->merge(['alternativeDetail' => json_decode($request->alternativeDetail)]);
             $product->related()->sync($array);
         }
     }

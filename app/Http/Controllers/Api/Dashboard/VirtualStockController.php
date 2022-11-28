@@ -279,7 +279,8 @@ class VirtualStockController extends Controller
 
     public function purchaseInvoiceProduct(Request $request)
     {
-        $products = Product::whereDoesntHave('prices',function($q) use($request){
+        $products = Product::
+        whereDoesntHave('prices',function($q) use($request){
             $q->where('supplier_id',$request->supplier_id);
         })->
         where([

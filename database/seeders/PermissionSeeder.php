@@ -449,8 +449,15 @@ class PermissionSeeder extends Seeder
             ['name' => 'CapitalOwnerAccount edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
             ['name' => 'CapitalOwnerAccount delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
+
+
             // end platform Accounts
 
+
+            ['name' => 'representative read','role' => 'role-employee','category' => 'Representative'],
+            ['name' => 'representative create','role' => 'role-employee','category' => 'Representative'],
+            ['name' => 'representative edit','role' => 'role-employee','category' => 'Representative'],
+            ['name' => 'representativeChangePassword edit','role' => 'role-employee','category' => 'Representative'],
         ];
 
         $notifies = [

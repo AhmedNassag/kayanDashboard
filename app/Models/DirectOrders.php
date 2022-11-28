@@ -79,6 +79,6 @@ class DirectOrders extends Model
 
     public function taxes()
     {
-        return $this->morphToMany(Tax::class, 'order', 'order_taxes', 'order_id', 'tax_id');
+        return $this->morphToMany(Tax::class, 'order', 'order_taxes', 'tax_id', 'order_id');
     }
 }
