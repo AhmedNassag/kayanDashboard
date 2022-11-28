@@ -24,7 +24,7 @@ class OrderDeliveredController extends Controller
             $q->with(['sellingMethod:id,name',
                 'mainMeasurementUnit:id,name',
                 'subMeasurementUnit:id,name',
-                'product:id,name'
+                'product:id,nameAr'
             ]);
         },'store:id,name'])->where(function ($q) use ($request) {
             $q->when($request->search, function ($q) use ($request) {
@@ -58,7 +58,7 @@ class OrderDeliveredController extends Controller
             $q->with(['sellingMethod:id,name',
                 'mainMeasurementUnit:id,name',
                 'subMeasurementUnit:id,name',
-                'product:id,name'
+                'product:id,nameAr'
             ]);
         },'store:id,name'])->find($id);
 

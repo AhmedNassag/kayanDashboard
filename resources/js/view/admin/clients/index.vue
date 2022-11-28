@@ -7,6 +7,7 @@
       :selectedClient="selectedClient"
       :cities="cities"
       :knowusWays="knowusWays"
+      :sellingMethods="sellingMethods"
       @created="onCreated"
       @updated="onUpdated"
       @loading="loading = $event"
@@ -167,6 +168,7 @@ export default {
       loading: false,
       cities: [],
       knowusWays: [],
+      sellingMethods: [],
     });
     const { t, locale } = useI18n({});
     provide("client_store", clientStore);
@@ -291,6 +293,18 @@ export default {
           console.log(error.response);
         });
     }
+    function sellingMethods() {
+      data.loading = true;
+      clientClient  
+        .getsellingMethods()
+        .then((response) => {
+          data.loading = false;
+          data.sellingMethods = response.data;
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    }
     function httpDeleteRequest(client, index) {
       data.loading = true;
       clientClient
@@ -347,6 +361,7 @@ export default {
       getClients();
       getCitiesWithAreas();
       knowusWays();
+      sellingMethods();
     }
     return {
       ...toRefs(data),

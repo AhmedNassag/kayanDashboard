@@ -90,7 +90,10 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // discount
             Route::resource('discount', 'DiscountController')->except(['show']);
             Route::get('activationDiscount/{id}', 'DiscountController@activationDiscount');
-            
+
+            // Offer & Discount
+            Route::resource('offerDiscount', 'OfferDiscountController');
+
             // tax
             Route::resource('tax', 'TaxController')->except(['show']);
             Route::get('activationTax/{id}', 'TaxController@activationTax');
@@ -267,7 +270,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // Representative
                 // Route::resource('representative','RepresentativeController')->except(['show']);
                 // Route::get('activeShift','RepresentativeController@activeShift');
-            Route::get('activeRepresentative','RepresentativeController@activeRepresentative');
+                // Route::get('activeRepresentative','RepresentativeController@activeRepresentative');
                 // Route::post('representative/changePassword/{id}','RepresentativeController@changePassword');
             // order Returned
             Route::resource('orderReturned','OrderReturnedController');
@@ -495,6 +498,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::get("", "ClientController@index");
                 Route::get("cities-with-areas", "ClientController@getCitiesWithAreas");
                 Route::get("know-us-ways", "ClientController@getKnowusWays");
+                Route::get("selling-methods", "ClientController@getSellingMethods");
                 Route::post("", "ClientController@store");
                 Route::put("", "ClientController@update");
                 Route::get("toggle-activation/{id}", "ClientController@toggleActivation");

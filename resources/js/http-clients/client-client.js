@@ -22,5 +22,8 @@ export default {
     },
     getKnowusWays(){
         return adminApi.get(`${BASE_URL}/know-us-ways`);
+    },
+    getsellingMethods(){
+        return adminApi.get(`${BASE_URL}/selling-methods`);
     }
 }

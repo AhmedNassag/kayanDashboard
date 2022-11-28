@@ -49,4 +49,8 @@ class ClientController extends Controller
     {
         return $this->clientRepository->getKnowusWays();
     }
+    public function getSellingMethods()
+    {
+        return $this->clientRepository->getSellingMethods();
+    }
 }

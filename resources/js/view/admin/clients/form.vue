@@ -148,6 +148,25 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
+                    <label>{{ $t("global.SellingMethod") }}</label>
+                    <div class="select-wrapper">
+                      <select
+                        class="form-control ps-form__input"
+                        v-model="selling_method_id"
+                      >
+                        <option
+                          v-for="sellingMethod in sellingMethods"
+                          :key="sellingMethod.id"
+                          :value="sellingMethod.id"
+                        >
+                          {{ sellingMethod.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
                     <label>{{ $t("global.City") }}</label>
                     <div class="select-wrapper">
                       <select
@@ -413,6 +432,7 @@ export default {
       shipping_area_id: null,
       shipping_city_id: null,
       know_us_way_id: null,
+      selling_method_id: null,
     });
     const rules = {
       name: { required },
@@ -426,6 +446,7 @@ export default {
       store_name: { required },
       city_id: { required },
       area_id: { required },
+      selling_method_id: {required},
       address: { required },
       location: { required },
       whatsup_phone: {
@@ -578,6 +599,7 @@ export default {
         shipping_area_id: form.shipping_area_id,
         shipping_city_id: form.shipping_city_id,
         know_us_way_id: form.know_us_way_id,
+        selling_method_id: form.selling_method_id,
       };
     }
     function setForm() {
@@ -617,6 +639,9 @@ export default {
       form.know_us_way_id = props.selectedClient
         ? props.selectedClient.know_us_way_id
         : null;
+        form.selling_method_id = props.selectedClient
+        ? props.selectedClient.selling_method_id
+        : null;
       data.phoneExist = false;
       data.whatsupPhoneExist = false;
       data.emailExist = false;
@@ -642,9 +667,10 @@ export default {
       onShippingCitySelected,
       cities: props.cities,
       knowusWays: props.knowusWays,
+      sellingMethods: props.sellingMethods,
     };
   },
-  props: ["selectedClient", "cities", "knowusWays"],
+  props: ["selectedClient", "cities", "knowusWays","sellingMethods"],
 };
 </script>
 
