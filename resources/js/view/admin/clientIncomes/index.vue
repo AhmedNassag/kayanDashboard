@@ -69,44 +69,37 @@
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>{{ $t('global.client') }}</th>
-                                            <th>{{$t('global.IncomeItem')}}</th>
-                                            <th>{{ $t('global.Amount') }}</th>
-                                            <th>{{ $t('global.ProcessWriter') }}</th>
-                                            <th>{{ $t('global.Date_Pay') }}</th>
-                                            <th>{{ $t('global.Treasury') }}</th>
-                                            <th>{{ $t('global.Notes') }}</th>
-                                            <th>{{ $t('global.Action') }}</th>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">{{ $t('global.client') }}</th>
+                                            <th class="text-center">{{ $t('global.IncomeItem')}}</th>
+                                            <th class="text-center">{{ $t('global.Amount') }}</th>
+                                            <th class="text-center">{{ $t('global.ProcessWriter') }}</th>
+                                            <th class="text-center">{{ $t('global.Date_Pay') }}</th>
+                                            <th class="text-center">{{ $t('global.Treasury') }}</th>
+                                            <th class="text-center">{{ $t('global.Notes') }}</th>
+                                            <th class="text-center">{{ $t('global.Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="purchases.length">
                                         <tr v-for="(item,index) in purchases"  :key="item.id">
-                                            <td>{{ item.id }}</td>
-                                            <td>{{ item.client.name }}</td>
-                                            <td>{{ item.income.name }}</td>
-                                            <td>{{ item.amount }}</td>
-                                            <td>{{ item.user.name }}</td>
-                                            <td>{{  dateFormat(item.payment_date) }}</td>
-                                            <td>{{ item.treasury.name }}</td>
-                                            <td>{{ item.notes ?? "---" }}</td>
+                                            <td class="text-center">{{ item.id }}</td>
+                                            <td class="text-center">{{ item.client.name }}</td>
+                                            <td class="text-center">{{ item.income.name }}</td>
+                                            <td class="text-center">{{ item.amount }}</td>
+                                            <td class="text-center">{{ item.user.name }}</td>
+                                            <td class="text-center">{{  dateFormat(item.payment_date) }}</td>
+                                            <td class="text-center">{{ item.treasury.name }}</td>
+                                            <td class="text-center">{{ item.notes ?? "---" }}</td>
 
-                                            <td>
-                                                <router-link
-                                                    :to="{name: 'editClientIncomes', params: {id:item.id}}"
-                                                    v-if="permission.includes('clientIncomes edit') && item.client_account"
-                                                    class="btn btn-sm btn-success me-2">
+                                            <td class="text-center">
+                                                <router-link :to="{name: 'editClientIncomes', params: {id:item.id}}" v-if="permission.includes('clientIncomes edit') && item.client_account" class="btn btn-sm btn-success me-2">
                                                     <i class="far fa-edit"></i>
                                                 </router-link>
 
-                                                <a href="#" @click="deleteJob(item.id,index)"
-                                                   v-if="permission.includes('clientIncomes delete') && item.client_account"
-                                                   data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2">
+                                                <a href="#" @click="deleteJob(item.id,index)" v-if="permission.includes('clientIncomes delete') && item.client_account" data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2">
                                                     <i class="far fa-trash-alt"></i>
                                                 </a>
-                                                <a href="javascript:void(0);"
-                                                   class="btn btn-sm btn-secondary me-2" data-bs-toggle="modal"
-                                                   :data-bs-target="'#edit-category'+item.id">
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-secondary me-2" data-bs-toggle="modal" :data-bs-target="'#edit-category'+item.id">
                                                     <i class="fa fa-print"></i>
                                                 </a>
                                             </td>
@@ -118,9 +111,11 @@
                                                         <!-- Modal Header -->
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">
-                                                                {{ $t('global.PrintReceiptVoucher') }}</h4>
-                                                            <button  type="button" class="close print-button" data-bs-dismiss="modal">
-                                                                <span>&times;</span></button>
+                                                                {{ $t('global.PrintReceiptVoucher') }}
+                                                            </h4>
+                                                            <button type="button" class="close print-button" data-bs-dismiss="modal">
+                                                                <span>&times;</span>
+                                                            </button>
                                                         </div>
 
                                                         <!-- Modal body -->
@@ -135,22 +130,24 @@
 
                                                             <div class="col-md-6">
                                                                 <div class="form-group col-lg-12 text-center">
-                                                                    <h5>{{ $t('global.ReceiptVoucherNumber') }} :
-                                                                        {{ item.id }}</h5>
+                                                                    <h5>
+                                                                        {{ $t('global.ReceiptVoucherNumber') }} : {{ item.id }}
+                                                                    </h5>
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-md-12 mt-3">
                                                                 <div class="row">
                                                                     <div class="form-group col-lg-12 col-md-12">
-                                                                        <h5>{{ $t('global.WeReceivedFromMr') }} :
-                                                                            {{ item.client.name }}</h5>
+                                                                        <h5>
+                                                                            {{ $t('global.WeReceivedFromMr') }} : {{ item.client.name }}
+                                                                        </h5>
                                                                     </div>
 
                                                                     <div class="form-group col-lg-12 col-md-12">
-                                                                        <h5>{{ $t('global.Amount') }} : {{
-                                                                                item.amount
-                                                                            }}</h5>
+                                                                        <h5>
+                                                                            {{ $t('global.Amount') }} : {{ item.amount }}
+                                                                        </h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -158,26 +155,29 @@
                                                             <div class="col-md-12">
                                                                 <div class="row">
                                                                     <div class="form-group col-lg-12 col-md-12">
-                                                                        <h5>{{ $t('global.Date') }} :
-                                                                            {{ item.payment_date }}</h5>
+                                                                        <h5>
+                                                                            {{ $t('global.Date') }} : {{ item.payment_date }}
+                                                                        </h5>
                                                                     </div>
 
                                                                     <div class="form-group col-lg-12 col-md-12">
-                                                                        <h5>{{ $t('global.For') }} : {{ item.notes }}</h5>
+                                                                        <h5>
+                                                                            {{ $t('global.For') }} : {{ item.notes }}
+                                                                        </h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <div class="row">
                                                                     <div class="form-group col-md-6 make-border ">
-                                                                        <h5 class="mt-2 mb-2">{{
-                                                                                $t('global.RecipientsSignature')
-                                                                            }} : </h5>
+                                                                        <h5 class="mt-2 mb-2">
+                                                                            {{ $t('global.RecipientsSignature') }} :
+                                                                        </h5>
                                                                     </div>
                                                                     <div class="form-group col-md-6 make-border ">
-                                                                        <h5 class="mt-2 mb-2">{{
-                                                                                $t('global.TreasurersSignature')
-                                                                            }} : </h5>
+                                                                        <h5 class="mt-2 mb-2">
+                                                                            {{ $t('global.TreasurersSignature') }} :
+                                                                        </h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -186,7 +186,7 @@
                                                                 <div class="row">
                                                                     <div class="form-group col-md-6">
                                                                         <button @click="printData(item.id)" class="btn btn-success print-button">
-                                                                            {{$t('global.Print')}}
+                                                                            {{ $t('global.Print') }}
                                                                             <i class="fa fa-print"></i>
                                                                         </button>
                                                                     </div>
@@ -384,7 +384,7 @@ export default {
 }
 
 .head-table h3{
-    color: #ffc107;
+    color: #0e67d0;
     text-align: center;
 }
 
@@ -426,7 +426,7 @@ export default {
 }
 
 .hr-show {
-    color: #fcb00c;
+    color: #0e67d0;
     height: 5px;
 }
 

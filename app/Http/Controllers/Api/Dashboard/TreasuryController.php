@@ -50,7 +50,7 @@ class TreasuryController extends Controller
                 $q->when($request->search, function ($q) use ($request) {
                     return $q->where('notes', 'like', '%' . $request->search . '%')
                         ->orWhere('amount', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('client','name','like','%'.$request->search.'%')
+                        ->orWhereRelation('client.user','name','like','%'.$request->search.'%')
                         ->orWhereRelation('expense','name','like','%'.$request->search.'%')
                         ->orWhereRelation('treasury','name','like','%'.$request->search.'%')
                         ->orWhereRelation('user','name','like','%'.$request->search.'%');
@@ -108,15 +108,13 @@ class TreasuryController extends Controller
             ->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
                     return $q->where('notes', 'like', '%' . $request->search . '%')
-                        ->orWhere('amount', 'like', '%' . $request->search . '%')
-                        ->orWhere('payment_date', 'like', '%' . $request->search . '%')
-                        ->orWhere('payer', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('user', 'name', 'like', '%' . $request->search . '%')
-                        ->orWhere('income', 'name', 'like', '%' . $request->search . '%');
+                    ->orWhere('amount', 'like', '%' . $request->search . '%')
+                    ->orWhere('payment_date', 'like', '%' . $request->search . '%')
+                    ->orWhere('payer', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('user', 'name', 'like', '%' . $request->search . '%')
+                    ->orWhere('income', 'name', 'like', '%' . $request->search . '%');
                 });
-
             })->latest()->paginate(15);
-
 
         return $this->sendResponse(['incomes' => $incomeAndExpense], 'Data exited successfully');
     }
@@ -130,13 +128,12 @@ class TreasuryController extends Controller
             ->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
                     return $q->where('notes', 'like', '%' . $request->search . '%')
-                        ->orWhere('amount', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('client','name','like','%'.$request->search.'%')
-                        ->orWhereRelation('treasury','name','like','%'.$request->search.'%')
-                        ->orWhereRelation('user','name','like','%'.$request->search.'%');
+                    ->orWhere('amount', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('client.user','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('treasury','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('user','name','like','%'.$request->search.'%');
                 });
             })->latest()->paginate(15);
-
 
         return $this->sendResponse(['clientIncomes' => $clientIncomes], 'Data exited successfully');
     }
@@ -150,10 +147,10 @@ class TreasuryController extends Controller
             ->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
                     return $q->where('notes', 'like', '%' . $request->search . '%')
-                        ->orWhere('amount', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('supplier','name_supplier','like','%'.$request->search.'%')
-                        ->orWhereRelation('treasury','name','like','%'.$request->search.'%')
-                        ->orWhereRelation('user','name','like','%'.$request->search.'%');
+                    ->orWhere('amount', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('supplier','name_supplier','like','%'.$request->search.'%')
+                    ->orWhereRelation('treasury','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('user','name','like','%'.$request->search.'%');
                 });
             })->latest()->paginate(15);
 
@@ -169,10 +166,10 @@ class TreasuryController extends Controller
             ->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
                     return $q->where('notes', 'like', '%' . $request->search . '%')
-                        ->orWhere('amount', 'like', '%' . $request->search . '%')
-                        ->orWhere('name', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('treasury','name','like','%'.$request->search.'%')
-                        ->orWhereRelation('user','name','like','%'.$request->search.'%');
+                    ->orWhere('amount', 'like', '%' . $request->search . '%')
+                    ->orWhere('name', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('treasury','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('user','name','like','%'.$request->search.'%');
                 });
             })->latest()->paginate(15);
 
@@ -197,13 +194,11 @@ class TreasuryController extends Controller
 
         if ($income->active == 1)
         {
-            $income->update([
-                "active" => 0
-            ]);
-        }else{
-            $income->update([
-                "active" => 1
-            ]);
+            $income->update(["active" => 0]);
+        }
+        else
+        {
+            $income->update(["active" => 1]);
         }
         return $this->sendResponse([], 'Data exited successfully');
     }
@@ -259,10 +254,11 @@ class TreasuryController extends Controller
             Treasury::create($data);
 
             DB::commit();
-
             return $this->sendResponse([], 'Data exited successfully');
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }

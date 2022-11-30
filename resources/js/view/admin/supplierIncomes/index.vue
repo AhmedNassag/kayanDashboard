@@ -69,29 +69,29 @@
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>{{ $t('global.Supplier') }}</th>
-                                            <th>{{$t('global.IncomeItem')}}</th>
-                                            <th>{{ $t('global.Amount') }}</th>
-                                            <th>{{ $t('global.ProcessWriter') }}</th>
-                                            <th>{{ $t('global.Date_Pay') }}</th>
-                                            <th>{{ $t('global.Treasury') }}</th>
-                                            <th>{{ $t('global.Notes') }}</th>
-                                            <th>{{ $t('global.Action') }}</th>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">{{ $t('global.Supplier') }}</th>
+                                            <th class="text-center">{{$t('global.IncomeItem')}}</th>
+                                            <th class="text-center">{{ $t('global.Amount') }}</th>
+                                            <th class="text-center">{{ $t('global.ProcessWriter') }}</th>
+                                            <th class="text-center">{{ $t('global.Date_Pay') }}</th>
+                                            <th class="text-center">{{ $t('global.Treasury') }}</th>
+                                            <th class="text-center">{{ $t('global.Notes') }}</th>
+                                            <th class="text-center">{{ $t('global.Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="purchases.length">
                                         <tr v-for="(item,index) in purchases"  :key="item.id">
-                                            <td>{{ item.id }}</td>
-                                            <td>{{ item.supplier.name_supplier }}</td>
-                                            <td>{{ item.income.name }}</td>
-                                            <td>{{ item.amount }}</td>
-                                            <td>{{ item.user.name }}</td>
-                                            <td>{{  dateFormat(item.payment_date) }}</td>
-                                            <td>{{ item.treasury.name }}</td>
-                                            <td>{{ item.notes ?? "---" }}</td>
+                                            <td class="text-center">{{ item.id }}</td>
+                                            <td class="text-center">{{ item.supplier.name_supplier }}</td>
+                                            <td class="text-center">{{ item.income.name }}</td>
+                                            <td class="text-center">{{ item.amount }}</td>
+                                            <td class="text-center">{{ item.user.name }}</td>
+                                            <td class="text-center">{{  dateFormat(item.payment_date) }}</td>
+                                            <td class="text-center">{{ item.treasury.name }}</td>
+                                            <td class="text-center">{{ item.notes ?? "---" }}</td>
 
-                                            <td>
+                                            <td class="text-center">
                                                 <router-link
                                                     :to="{name: 'editSupplierIncomes', params: {id:item.id}}"
                                                     v-if="permission.includes('SupplierIncomes edit') && item.supplier_account"
@@ -118,7 +118,7 @@
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">
                                                                 {{ $t('global.PrintReceiptVoucher') }}</h4>
-                                                            <button  type="button" class="close print-button" data-bs-dismiss="modal">
+                                                            <button type="button" class="close print-button" data-bs-dismiss="modal">
                                                                 <span>&times;</span></button>
                                                         </div>
 
@@ -127,15 +127,17 @@
 
                                                             <div class="col-md-6 ">
                                                                 <div class="form-group col-lg-12">
-                                                                    <img src="/web/img/logo.png">
+                                                                    <img src="/admin/img/Logo Dashboard.png">
                                                                     <hr class="hr-show">
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-md-6">
                                                                 <div class="form-group col-lg-12 text-center">
-                                                                    <h5>{{ $t('global.ReceiptVoucherNumber') }} :
-                                                                        {{ item.id }}</h5>
+                                                                    <h5>
+                                                                        {{ $t('global.ReceiptVoucherNumber') }} :
+                                                                        {{ item.id }}
+                                                                    </h5>
                                                                 </div>
                                                             </div>
 

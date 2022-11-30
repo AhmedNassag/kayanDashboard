@@ -6,14 +6,14 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">المنتاجات</h3>
+                        <h3 class="page-title">المنتجات</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <router-link :to="{name: 'dashboard'}">
                                     الرئيسية
                                 </router-link>
                             </li>
-                            <li class="breadcrumb-item active">المنتاجات</li>
+                            <li class="breadcrumb-item active">المنتجات</li>
                         </ul>
                     </div>
 
@@ -37,7 +37,7 @@
                                             v-if="permission.includes('product create')"
                                            :to="{name: 'createProduct'}"
                                             class="btn btn-custom btn-warning">
-                                            اضافه
+                                            أضف
                                         </router-link>
                                     </div>
                                 </div>

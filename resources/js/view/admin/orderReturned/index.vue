@@ -34,14 +34,12 @@
 
                                                 <div class="col-md-2 p-0">
                                                     <label >{{$t('global.FromDate')}}</label>
-                                                    <input type="date" class="form-control date-input"
-                                                           v-model="fromDate">
+                                                    <input type="date" class="form-control date-input" v-model="fromDate">
                                                 </div>
 
                                                 <div class="col-md-2 p-0">
                                                     <label >{{$t('global.ToDate')}}</label>
-                                                    <input type="date" class="form-control date-input"
-                                                           v-model="toDate">
+                                                    <input type="date" class="form-control date-input" v-model="toDate">
                                                 </div>
 
                                                 <div class="col-md-2 p-0">
@@ -64,9 +62,7 @@
 
                                                 <div class="col-md-2 p-0">
                                                     <label >{{$t('global.sellInvoiceNumber')}}</label>
-                                                    <input type="number" class="form-control date-input"
-                                                           v-model="order_id">
-
+                                                    <input type="number" class="form-control date-input" v-model="order_id">
                                                 </div>
 
                                                 <div class="col-md-2 mt-4 p-0 d-flex justify-content-center">
@@ -90,207 +86,191 @@
                                 <table class="table mb-0">
                                     <thead>
                                     <tr>
-                                        <th>{{$t('global.InvoiceNumber')}}</th>
-                                        <th>{{ $t('sidebar.client') }}</th>
-                                        <th>{{ $t('global.Store') }}</th>
-                                        <th>{{ $t('global.TotalPrice') }}</th>
-                                        <th>{{ $t('global.Date') }}</th>
-                                        <th>{{ $t('global.orderStatus') }}</th>
-                                        <th>{{ $t('global.representative') }}</th>
-                                        <th>{{ $t('global.orderType') }}</th>
-                                        <th>{{ $t('global.Action') }}</th>
+                                        <th class="text-center">{{$t('global.InvoiceNumber')}}</th>
+                                        <th class="text-center">{{ $t('sidebar.client') }}</th>
+                                        <th class="text-center">{{ $t('global.Store') }}</th>
+                                        <th class="text-center">{{ $t('global.TotalPrice') }}</th>
+                                        <th class="text-center">{{ $t('global.Date') }}</th>
+                                        <th class="text-center">{{ $t('global.orderStatus') }}</th>
+                                        <th class="text-center">{{ $t('global.representative') }}</th>
+                                        <th class="text-center">{{ $t('global.orderType') }}</th>
+                                        <th class="text-center">{{ $t('global.Action') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="orders.length">
-                                    <tr v-for="(item) in orders"  :key="item.id">
-                                        <td>{{ item.id }}</td>
-                                        <td>{{ item.user.name }}</td>
-                                        <td>{{ item.store.name }}</td>
-                                        <td>{{ item.total }}</td>
-                                        <td>{{  dateFormat(item.created_at) }}</td>
-                                        <td>{{ item.order_status.name }}</td>
-                                        <td>{{ item.representative ?item.representative.name: '---' }}</td>
-                                        <td>{{ parseInt(item.is_online) == 1 ? $t('global.orderOnline') : $t('sidebar.OrderDirect') }}</td>
+                                        <tr v-for="(item) in orders"  :key="item.id">
+                                            <td class="text-center">{{ item.id }}</td>
+                                            <td class="text-center">{{ item.user.name }}</td>
+                                            <td class="text-center">{{ item.store.name }}</td>
+                                            <td class="text-center">{{ item.total }}</td>
+                                            <td class="text-center">{{  dateFormat(item.created_at) }}</td>
+                                            <td class="text-center">{{ item.order_status.name }}</td>
+                                            <td class="text-center">{{ item.representative ?item.representative.name: '---' }}</td>
+                                            <td class="text-center">{{ parseInt(item.is_online) == 1 ? $t('global.orderOnline') : $t('sidebar.OrderDirect') }}</td>
+                                            <td class="text-center">
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-secondary me-2" data-bs-toggle="modal" :data-bs-target="'#edit-category'+item.id" :title="$t('global.Print')">
+                                                    <i class="fas fa-print"></i>
+                                                </a>
 
-                                        <td>
-                                            <a href="javascript:void(0);"
-                                               class="btn btn-sm btn-secondary me-2" data-bs-toggle="modal"
-                                               :data-bs-target="'#edit-category'+item.id" :title="$t('global.Print')">
-                                                <i class="fas fa-print"></i>
-                                            </a>
+                                                <router-link
+                                                    :to="{name: 'showOrderReturned',params:{id:item.id}}"
+                                                    v-if="permission.includes('orderReturned read')"
+                                                    class="btn btn-sm btn-info me-2" :title="$t('global.Show')">
+                                                    <i class="fas fa-book-open"></i>
+                                                </router-link>
+                                            </td>
 
-                                            <router-link
-                                                :to="{name: 'showOrderReturned',params:{id:item.id}}"
-                                                v-if="permission.includes('orderReturned read')"
-                                                class="btn btn-sm btn-info me-2" :title="$t('global.Show')">
-                                                <i class="fas fa-book-open"></i>
-                                            </router-link>
+                                            <!-- invoice big Modal -->
+                                            <div class="modal fade custom-modal" :id="'edit-category'+item.id">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content" id="print">
 
-                                        </td>
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">{{ $t('global.InvoiceDetails') }}</h4>
+                                                            <button :id="'close-'+item.id"  type="button" class="close print-button" data-bs-dismiss="modal"><span>&times;</span></button>
+                                                        </div>
 
-                                        <!-- invoice big Modal -->
-                                        <div class="modal fade custom-modal" :id="'edit-category'+item.id">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content" id="print">
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body row" >
 
-                                                    <!-- Modal Header -->
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">
-                                                            {{ $t('global.InvoiceDetails') }}</h4>
-                                                        <button :id="'close-'+item.id"  type="button" class="close print-button" data-bs-dismiss="modal">
-                                                            <span>&times;</span></button>
-                                                    </div>
-
-                                                    <!-- Modal body -->
-                                                    <div class="modal-body row" >
-
-                                                        <div class="card bg-white projects-card">
-                                                            <div class="card-body pt-0">
-                                                                <div class="tab-content pt-0">
-                                                                    <div role="tabpanel" :id="'tab-4-'+item.id" class="tab-pane fade active show">
-                                                                        <loader v-if="loading"/>
-                                                                        <div class="row justify-content-between">
-                                                                            <div class="col-5">
-                                                                                <button @click="printData(item.id)" class="btn btn-secondary print-button head-button">
-                                                                                    {{$t('global.Print')}}
-                                                                                    <i class="fa fa-print"></i>
-                                                                                </button>
+                                                            <div class="card bg-white projects-card">
+                                                                <div class="card-body pt-0">
+                                                                    <div class="tab-content pt-0">
+                                                                        <div role="tabpanel" :id="'tab-4-'+item.id" class="tab-pane fade active show">
+                                                                            <loader v-if="loading"/>
+                                                                            <div class="row justify-content-between">
+                                                                                <div class="col-5">
+                                                                                    <button @click="printData(item.id)" class="btn btn-secondary print-button head-button">
+                                                                                        {{$t('global.Print')}}
+                                                                                        <i class="fa fa-print"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="col-4 d-flex w-25 justify-content-end">
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="col-4 d-flex w-25 justify-content-end">
+                                                                            <div class="table-responsive" :id="'printData-'+item.id">
+                                                                                <div class="head-data row" v-if="parseInt(item.order_status_id) == 7 ">
+
+                                                                                    <div class="col-md-6 invoice-head">
+                                                                                        <h5>{{$t('global.InvoiceNumber')}} : {{item.id}}</h5>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 image-div">
+                                                                                        <img src="/admin/img/Logo Dashboard.png" alt="Logo">
+                                                                                    </div>
+
+
+                                                                                    <div class="col-md-6">
+                                                                                        <p>{{$t('global.DateOrder')}} : {{dateFormat(item.created_at)}}</p>
+                                                                                        <p>{{$t('global.store')}} : {{ item.store.name }}</p>
+                                                                                        <p>
+                                                                                            {{$t('global.TotalPriceBeforeDiscount')}} :
+                                                                                            {{item.sub_total }}
+                                                                                            {{ item.currency }}
+                                                                                        </p>
+                                                                                        <p>{{$t('global.discountValue')}} : {{ parseInt(item.is_online) == 1 ? item.discount : item.discount_offer }} {{ item.currency }}</p>
+                                                                                        <p v-if="item.order_other_offer">
+                                                                                            {{$t('global.otherDiscount')}} :
+                                                                                            {{ item.order_other_offer.offer }}
+                                                                                            {{ item.currency }}
+                                                                                        </p>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6">
+                                                                                        <p>
+                                                                                            {{$t('global.TotalPriceAfterDiscount')}} :
+                                                                                            {{
+                                                                                                item.order_other_offer?
+                                                                                                    parseFloat( item.sub_total - item.order_other_offer.offer - (parseInt(item.is_online) == 1 ? item.discount : item.discount_offer) ).toFixed(2) :
+                                                                                                    parseFloat( item.sub_total - (parseInt(item.is_online) == 1 ? item.discount : item.discount_offer)).toFixed(2)
+                                                                                            }}
+                                                                                            {{ item.currency }}
+                                                                                        </p>
+                                                                                        <p v-if="item.tax">{{$t('global.taxValue')}} : {{ item.tax }} {{ item.currency }}</p>
+                                                                                        <p v-if="item.tax">{{$t('global.TotalPriceAfterTax')}} : {{ parseFloat(item.total- item.shippingPrice) }} {{ item.currency }}</p>
+                                                                                        <p v-if="item.shippingPrice">{{$t('global.shipping')}} : {{ item.shippingPrice }} {{ item.currency }}</p>
+                                                                                        <p>{{$t('global.TotalPriceAfterDiscountAndShipping')}} : {{ item.total }} {{ item.currency }}</p>
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                                <table class="table table-center table-hover mb-0 datatable"  v-if="parseInt(item.order_status_id) == 7 ">
+                                                                                    <thead>
+                                                                                    <tr>
+                                                                                        <th class="text-center">#</th>
+                                                                                        <th class="text-center">{{ $t('global.Products') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.full') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.partial') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.fullPrice') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.partialPrice') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.TotalPrice') }}</th>
+                                                                                    </tr>
+                                                                                    </thead>
+                                                                                    <tbody v-if="item.order_details.length">
+                                                                                        <tr v-for="(it,index) in item.order_details" :key="it.id">
+                                                                                            <td class="text-center">{{ index +1}}</td>
+                                                                                            <td class="text-center">{{ it.product.name }}</td>
+                                                                                            <td class="text-center">{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
+                                                                                            <td class="text-center">{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
+                                                                                            <td class="text-center">{{ it.sub_quantity ? it.price : '-'}}</td>
+                                                                                            <td class="text-center">{{  it.sub_quantity ? it.sub_price : '-'}}</td>
+                                                                                            <td class="text-center">
+                                                                                                {{ parseFloat((it.quantity * it.price) + (it.sub_quantity * it.sub_price)).toFixed(2) }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                    <tbody  v-else>
+                                                                                        <tr>
+                                                                                            <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                                <div class="text-center mt-3 mb-3">
+                                                                                    <h3>{{$t('global.returnDetails')}}</h3>
+                                                                                </div>
+                                                                                <table class="table table-center table-hover mb-0 datatable">
+                                                                                    <thead>
+                                                                                    <tr>
+                                                                                        <th class="text-center">#</th>
+                                                                                        <th class="text-center">{{ $t('global.Products') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.full') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.partial') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.fullPrice') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.partialPrice') }}</th>
+                                                                                        <th class="text-center">{{ $t('global.TotalPrice') }}</th>
+                                                                                    </tr>
+                                                                                    </thead>
+                                                                                    <tbody v-if="item.order_return.length">
+                                                                                        <tr v-for="(it,index) in item.order_return" :key="it.id">
+                                                                                            <td class="text-center">{{ index +1}}</td>
+                                                                                            <td class="text-center">{{ it.product.name }}</td>
+                                                                                            <td class="text-center">{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
+                                                                                            <td class="text-center">{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
+                                                                                            <td class="text-center">{{ it.sub_quantity ? it.price : '-'}}</td>
+                                                                                            <td class="text-center">{{  it.sub_quantity ? it.sub_price : '-'}}</td>
+                                                                                            <td class="text-center">
+                                                                                                {{ parseFloat((it.quantity * it.price) + (it.sub_quantity * it.sub_price)).toFixed(2) }}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                    <tbody  v-else>
+                                                                                        <tr>
+                                                                                            <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="table-responsive" :id="'printData-'+item.id">
-                                                                            <div class="head-data row" v-if="parseInt(item.order_status_id) == 7 ">
-
-                                                                                <div class="col-md-6 invoice-head">
-                                                                                    <h5>{{$t('global.InvoiceNumber')}} : {{item.id}}</h5>
-                                                                                </div>
-
-                                                                                <div class="col-md-6 image-div">
-                                                                                    <img src="/admin/img/Logo Dashboard.png" alt="Logo">
-                                                                                </div>
-
-
-                                                                                <div class="col-md-6">
-                                                                                    <p>{{$t('global.DateOrder')}} : {{dateFormat(item.created_at)}}</p>
-                                                                                    <p>{{$t('global.store')}} : {{ item.store.name }}</p>
-                                                                                    <p>
-                                                                                        {{$t('global.TotalPriceBeforeDiscount')}} :
-                                                                                        {{item.sub_total }}
-                                                                                        {{ item.currency }}
-                                                                                    </p>
-                                                                                    <p>{{$t('global.discountValue')}} : {{ parseInt(item.is_online) == 1 ? item.discount : item.discount_offer }} {{ item.currency }}</p>
-
-                                                                                    <p v-if="item.order_other_offer">
-                                                                                        {{$t('global.otherDiscount')}} :
-                                                                                        {{ item.order_other_offer.offer }}
-                                                                                        {{ item.currency }}
-                                                                                    </p>
-                                                                                </div>
-
-                                                                                <div class="col-md-6">
-                                                                                    <p>
-                                                                                        {{$t('global.TotalPriceAfterDiscount')}} :
-                                                                                        {{
-                                                                                            item.order_other_offer?
-                                                                                                parseFloat( item.sub_total - item.order_other_offer.offer - (parseInt(item.is_online) == 1 ? item.discount : item.discount_offer) ).toFixed(2) :
-                                                                                                parseFloat( item.sub_total - (parseInt(item.is_online) == 1 ? item.discount : item.discount_offer)).toFixed(2)
-                                                                                        }}
-                                                                                        {{ item.currency }}
-                                                                                    </p>
-                                                                                    <p v-if="item.tax">{{$t('global.taxValue')}} : {{ item.tax }} {{ item.currency }}</p>
-                                                                                    <p v-if="item.tax">{{$t('global.TotalPriceAfterTax')}} : {{ parseFloat(item.total- item.shippingPrice) }} {{ item.currency }}</p>
-                                                                                    <p v-if="item.shippingPrice">{{$t('global.shipping')}} : {{ item.shippingPrice }} {{ item.currency }}</p>
-                                                                                    <p>{{$t('global.TotalPriceAfterDiscountAndShipping')}} : {{ item.total }} {{ item.currency }}</p>
-                                                                                </div>
-
-                                                                            </div>
-
-                                                                            <table class="table table-center table-hover mb-0 datatable"  v-if="parseInt(item.order_status_id) == 7 ">
-                                                                                <thead>
-                                                                                <tr>
-                                                                                    <th class="text-center">#</th>
-                                                                                    <th class="text-center">{{ $t('global.Products') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.full') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.partial') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.fullPrice') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.partialPrice') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.TotalPrice') }}</th>
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody v-if="item.order_details.length">
-                                                                                <tr v-for="(it,index) in item.order_details" :key="it.id">
-                                                                                    <td class="text-center">{{ index +1}}</td>
-                                                                                    <td class="text-center">{{ it.product.name }}</td>
-                                                                                    <td class="text-center">{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
-                                                                                    <td class="text-center">{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
-                                                                                    <td class="text-center">{{ it.sub_quantity ? it.price : '-'}}</td>
-                                                                                    <td class="text-center">{{  it.sub_quantity ? it.sub_price : '-'}}</td>
-                                                                                    <td class="text-center">
-                                                                                        {{
-                                                                                            parseFloat((it.quantity * it.price) + (it.sub_quantity * it.sub_price)).toFixed(2)
-                                                                                        }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                                <tbody  v-else>
-                                                                                <tr>
-                                                                                    <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                            <div class="text-center mt-3 mb-3">
-                                                                                <h3>{{$t('global.returnDetails')}}</h3>
-                                                                            </div>
-                                                                            <table class="table table-center table-hover mb-0 datatable">
-                                                                                <thead>
-                                                                                <tr>
-                                                                                    <th class="text-center">#</th>
-                                                                                    <th class="text-center">{{ $t('global.Products') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.full') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.partial') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.fullPrice') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.partialPrice') }}</th>
-                                                                                    <th class="text-center">{{ $t('global.TotalPrice') }}</th>
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody v-if="item.order_return.length">
-                                                                                <tr v-for="(it,index) in item.order_return" :key="it.id">
-                                                                                    <td class="text-center">{{ index +1}}</td>
-                                                                                    <td class="text-center">{{ it.product.name }}</td>
-                                                                                    <td class="text-center">{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
-                                                                                    <td class="text-center">{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
-                                                                                    <td class="text-center">{{ it.sub_quantity ? it.price : '-'}}</td>
-                                                                                    <td class="text-center">{{  it.sub_quantity ? it.sub_price : '-'}}</td>
-                                                                                    <td class="text-center">
-                                                                                        {{
-                                                                                            parseFloat((it.quantity * it.price) + (it.sub_quantity * it.sub_price))
-                                                                                                .toFixed(2)
-                                                                                        }}
-                                                                                    </td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                                <tbody  v-else>
-                                                                                <tr>
-                                                                                    <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- /invoice big Modal-->
-
-                                    </tr>
-
+                                            <!-- /invoice big Modal-->
+                                        </tr>
                                     </tbody>
                                     <tbody v-else>
                                     <tr>
@@ -299,7 +279,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>

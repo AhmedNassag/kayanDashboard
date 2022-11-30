@@ -97,31 +97,29 @@
                             <div class="table-responsive" id="printRestriction">
                                 <table class="table mb-0">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{ $t('global.Amount') }}</th>
-                                        <th>{{ $t('global.For') }}</th>
-                                        <th>{{ $t('global.RegistrationDate') }}</th>
-                                    </tr>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">{{ $t('global.Amount') }}</th>
+                                            <th class="text-center">{{ $t('global.For') }}</th>
+                                            <th class="text-center">{{ $t('global.RegistrationDate') }}</th>
+                                        </tr>
                                     </thead>
                                     <tbody v-if="restrictions.length">
                                         <tr v-for="(item,index) in restrictions"  :key="item.id">
-
-                                            <td>{{ index + 1 }}</td>
-                                            <td>{{ item.amount }}</td>
-                                            <td v-if="item.purchase_id"> شراء منتجات رقم الفاتورة {{item.purchase_id}}</td>
-                                            <td v-else-if="item.purchase_return_id"> مرتجع منتجات رقم الفاتورة {{item.purchase_return_id}}</td>
-                                            <td v-else-if="item.order_id"> طلب منتجات رقم الفاتورة {{item.order_id}}</td>
-                                            <td v-else-if="index == 0 && !fromDate && !toDate"> رصيد اول المده </td>
-                                            <td v-else-if="item.client_expense_id"> {{item.client_expense.notes ?? '---'}} </td>
-                                            <td v-else-if="item.client_income_id"> {{item.client_income.notes ?? '---'}} </td>
-                                            <td v-else>---</td>
-                                            <td>{{  dateFormat(item.created_at) }}</td>
+                                            <td class="text-center">{{ index + 1 }}</td>
+                                            <td class="text-center">{{ item.amount }}</td>
+                                            <td class="text-center" v-if="item.purchase_id"> شراء منتجات رقم الفاتورة {{item.purchase_id}}</td>
+                                            <td class="text-center" v-else-if="item.purchase_return_id"> مرتجع منتجات رقم الفاتورة {{item.purchase_return_id}}</td>
+                                            <td class="text-center" v-else-if="item.order_id"> طلب منتجات رقم الفاتورة {{item.order_id}}</td>
+                                            <td class="text-center" v-else-if="index == 0 && !fromDate && !toDate"> رصيد اول المده </td>
+                                            <td class="text-center" v-else-if="item.client_expense_id"> {{item.client_expense.notes ?? '---'}} </td>
+                                            <td class="text-center" v-else-if="item.client_income_id"> {{item.client_income.notes ?? '---'}} </td>
+                                            <td class="text-center" v-else>---</td>
+                                            <td class="text-center">{{  dateFormat(item.created_at) }}</td>
                                         </tr>
-
                                     </tbody>
                                     <tbody v-else>
-                                        <tr >
+                                        <tr>
                                             <th class="text-center" colspan="4">{{ $t('global.NoDataFound') }}</th>
                                         </tr>
                                     </tbody>

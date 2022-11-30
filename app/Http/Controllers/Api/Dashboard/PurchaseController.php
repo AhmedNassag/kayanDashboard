@@ -39,15 +39,15 @@ class PurchaseController extends Controller
             ->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
                     return $q->where('note', 'like', '%' . $request->search . '%')
-                        ->orWhere('price', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('store','name','like','%'.$request->search.'%')
-                        ->orWhereRelation('supplier','name_supplier','like','%'.$request->search.'%')
-                        ->orWhereRelation('user','name','like','%'.$request->search.'%');
+                    ->orWhere('price', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('store','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('supplier','name','like','%'.$request->search.'%')
+                    ->orWhereRelation('user','name','like','%'.$request->search.'%');
                 });
             })->where(function ($q) use ($request) {
                 $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
                     $q->whereDate('created_at', ">=", $request->from_date)
-                        ->whereDate('created_at', "<=", $request->to_date);
+                    ->whereDate('created_at', "<=", $request->to_date);
                 });
             })->where(function ($q) use ($request) {
                 $q->when($request->purchase_id, function ($q) use ($request) {
@@ -58,10 +58,10 @@ class PurchaseController extends Controller
     }
 
     public function create(){
-        $products =  Product::where('status', 1)->with('mainMeasurementUnit', 'subMeasurementUnit')->get();
-        $stores = Store::where('status', 1)->get();
-        $suppliers = Supplier::where('active', 1)->where('is_our_supplier',1)->get();
-        $clients = User::where('status',1)->whereJsonContains('role_name','client')->get();
+        $products   =  Product::where('status', 1)->with('mainMeasurementUnit', 'subMeasurementUnit')->get();
+        $stores     = Store::where('status', 1)->get();
+        $suppliers  = Supplier::where('active', 1)->where('is_our_supplier',1)->get();
+        $clients    = User::where('status',1)->whereJsonContains('role_name','client')->get();
         $treasuries = Treasury::where('active',1)->get();
         return $this->sendResponse(['products' => $products,'stores'=>$stores,'suppliers'=>$suppliers,'clients'=>$clients,'treasuries'=>$treasuries], 'Data exited successfully');
     }
@@ -252,14 +252,18 @@ class PurchaseController extends Controller
             }])->find($id);
 
             $stores = Store::where('status', 1)->get();
-            $suppliers = Supplier::where('status', 1)->with('supplierExpense',function($q) use ($id){
+
+            $suppliers = Supplier::where('active', 1)->with('supplierExpense',function($q) use ($id){
                 $q->where('purchase_id',$id);
             })->get();
-            $products =  Product::where('status', 1)->with('mainMeasurementUnit', 'subMeasurementUnit', 'company')->get();
+
+            $products =  Product::where('status', 1)->with('mainMeasurementUnit', 'subMeasurementUnit')->get();
+
             $clients = User::where('status',1)->whereJsonContains('role_name','client')
                 ->with('clientExpense',function($q) use ($id){
                 $q->where('purchase_id',$id);
             })->get();
+
             $treasuries = Treasury::where('active',1)->get();
             return $this->sendResponse(['purchase' => $purchase,'treasuries' => $treasuries,'clients' => $clients,'products' => $products,'stores'=>$stores,'suppliers'=>$suppliers], 'Data exited successfully');
 

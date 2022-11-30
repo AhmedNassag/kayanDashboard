@@ -10,26 +10,36 @@ class SupplierAccount extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $table = 'supplier_accounts';
 
+    
     //relations
-
-    public function supplier(){
+    public function supplier()
+    {
         return $this->belongsTo(Supplier::class,'supplier_id');
     }
 
-    public function purchase(){
+
+    public function purchase()
+    {
         return $this->belongsTo(Purchase::class,'purchase_id');
     }
 
-    public function purchaseReturn (){
+
+    public function purchaseReturn ()
+    {
         return $this->belongsTo(PurchaseReturn::class,'purchase_return_id');
     }
 
-    public function supplierExpense (){
+
+    public function supplierExpense ()
+    {
         return $this->belongsTo(SupplierExpense::class,'supplier_expense_id');
     }
 
-    public function supplierIncome (){
+
+    public function supplierIncome ()
+    {
         return $this->belongsTo(SupplierIncome::class,'supplier_income_id');
     }
 }
