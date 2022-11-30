@@ -288,7 +288,7 @@
                                                         v-for="discount in offerDiscounts"
                                                         :key="discount.id" :value="discount.id"
                                                     >
-                                                        {{discount.name}} -- {{ discount.ratio == 0 ? `${discount.discount} EGP`: `% ${discount.discount} `}}
+                                                        {{discount.name}} -- {{ discount.ratio == 0 ? `${discount.value} EGP`: `% ${discount.value} `}}
                                                     </option>
                                                 </select>
                                             </div>
@@ -300,7 +300,7 @@
                                                         v-for="tax in taxs"
                                                         :key="tax.id" :value="tax.id"
                                                     >
-                                                        {{tax.name}} -- % {{tax.rate}}
+                                                        {{tax.name}} -- % {{tax.percentage}}
                                                     </option>
                                                 </select>
                                             </div>
@@ -347,7 +347,6 @@
                                                                 <td class="text-center">{{ TotalPriceAfterTaxx? (TotalPriceAfterTaxx).toFixed(2):0 }}</td>
                                                             </tr>
                                                         </tbody>
-
                                                     </table>
                                                 </div>
                                             </div>
@@ -754,7 +753,7 @@ export default {
 
             taxs.value.forEach((el) => {
                 if(addJob.data.taxs.includes(el.id)){
-                    totalTax.value += parseFloat(el.rate);
+                    totalTax.value += parseFloat(el.percentage);
                 }
             });
             taxValue.value = ((totalProductAfterDiscount.value * totalTax.value) / 100);

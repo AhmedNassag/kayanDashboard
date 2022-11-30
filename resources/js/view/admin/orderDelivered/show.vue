@@ -31,11 +31,13 @@
                     <div class="card mt-5">
                         <div class="card-body">
                             <div class="text-center mb-5">
-                                <label class="avatar avatar-xxl profile-cover-avatar" >
+                                <!-- <label class="avatar avatar-xxl profile-cover-avatar" >
                                     <img class="avatar-img" :src="user.image_path" alt="Profile Image">
-                                </label>
-                                <h2>{{user.name}} <i class="fas fa-certificate text-primary small" data-bs-toggle="tooltip"
-                                                  data-placement="top" title="" data-original-title="Verified"></i></h2>
+                                </label> -->
+                                <h2>
+                                    {{user.name}}
+                                    <i class="fas fa-certificate text-primary small" data-bs-toggle="tooltip" data-placement="top" title="" data-original-title="Verified"></i>
+                                </h2>
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
                                         <i class="fas fa-phone"></i> <span>{{user.phone}}</span>

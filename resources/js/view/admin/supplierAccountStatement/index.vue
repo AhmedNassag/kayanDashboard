@@ -34,14 +34,12 @@
 
                                                 <div class="col-md-3">
                                                     <label >{{$t('global.FromDate')}}</label>
-                                                    <input type="date" class="form-control date-input"
-                                                           v-model="fromDate">
+                                                    <input type="date" class="form-control date-input" v-model="fromDate">
                                                 </div>
 
                                                 <div class="col-md-3">
                                                     <label >{{$t('global.ToDate')}}</label>
-                                                    <input type="date" class="form-control date-input"
-                                                           v-model="toDate">
+                                                    <input type="date" class="form-control date-input" v-model="toDate">
                                                 </div>
 
                                                 <div class="col-md-5 mb-3 position-relative">
@@ -65,15 +63,11 @@
                                                             @click="showSenderName(index)"
                                                             @mouseenter="senderHover"
                                                         >
-                                                            {{ dropDownSender.name_supplier }}
+                                                            {{ dropDownSender.name }}
                                                         </li>
                                                     </ul>
 
-                                                    <input type="text"
-                                                           :class="['form-control']"
-                                                           disabled
-                                                           v-model="nameSender"
-                                                    >
+                                                    <input type="text" :class="['form-control']" disabled v-model="nameSender">
                                                 </div>
 
                                                 <div class="col-md-1">
@@ -97,25 +91,24 @@
                             <div class="table-responsive" id="printRestriction">
                                 <table class="table mb-0">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{ $t('global.Amount') }}</th>
-                                        <th>{{ $t('global.For') }}</th>
-                                        <th>{{ $t('global.RegistrationDate') }}</th>
-                                    </tr>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">{{ $t('global.Amount') }}</th>
+                                            <th class="text-center">{{ $t('global.For') }}</th>
+                                            <th class="text-center">{{ $t('global.RegistrationDate') }}</th>
+                                        </tr>
                                     </thead>
                                     <tbody v-if="restrictions.length">
                                         <tr v-for="(item,index) in restrictions"  :key="item.id">
-
-                                            <td>{{ index + 1 }}</td>
-                                            <td>{{ item.amount }}</td>
-                                            <td v-if="item.purchase_id"> شراء منتجات رقم الفاتورة {{item.purchase_id}}</td>
-                                            <td v-else-if="item.purchase_return_id"> مرتجع منتجات رقم الفاتورة {{item.purchase_return_id}}</td>
-                                            <td v-else-if="index == 0 && !fromDate && !toDate"> رصيد اول المده </td>
-                                            <td v-else-if="item.supplier_expense_id"> {{item.supplier_expense.notes ?? '---'}} </td>
-                                            <td v-else-if="item.supplier_income_id"> {{item.supplier_income.notes ?? '---'}} </td>
-                                            <td v-else>---</td>
-                                            <td>{{  dateFormat(item.created_at) }}</td>
+                                            <td class="text-center">{{ index + 1 }}</td>
+                                            <td class="text-center">{{ item.amount }}</td>
+                                            <td class="text-center" v-if="item.purchase_id"> شراء منتجات رقم الفاتورة {{item.purchase_id}}</td>
+                                            <td class="text-center" v-else-if="item.purchase_return_id"> مرتجع منتجات رقم الفاتورة {{item.purchase_return_id}}</td>
+                                            <td class="text-center" v-else-if="index == 0 && !fromDate && !toDate"> رصيد اول المده </td>
+                                            <td class="text-center" v-else-if="item.supplier_expense_id"> {{item.supplier_expense.notes ?? '---'}} </td>
+                                            <td class="text-center" v-else-if="item.supplier_income_id"> {{item.supplier_income.notes ?? '---'}} </td>
+                                            <td class="text-center" v-else>---</td>
+                                            <td class="text-center">{{  dateFormat(item.created_at) }}</td>
                                         </tr>
 
                                     </tbody>
@@ -179,7 +172,7 @@ export default {
             dropDownSenders.value = [];
             if(searchSupplier.value){
                 let thisString = new RegExp(searchSupplier.value,'i');
-                let items = suppliers.value.filter(e => e.name_supplier.match(thisString) || e.id == searchSupplier.value);
+                let items = suppliers.value.filter(e => e.name.match(thisString) || e.id == searchSupplier.value);
                 dropDownSenders.value = items.splice(0,10);
             }else{
                 dropDownSenders.value = [];
@@ -190,7 +183,7 @@ export default {
 
         let showSenderName = (index) => {
             let item = dropDownSenders.value[index];
-            nameSender.value = item.name_supplier ;
+            nameSender.value = item.name ;
             supplier_id.value = item.id;
             balance.value = item.sum_account;
             searchSupplier.value = '';

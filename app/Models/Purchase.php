@@ -8,16 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
-    protected $appends = [
-        'quantity',
-        'sender_name',
-        'product_price',
-    ];
 
-    protected $casts = [
-        'is_received' => 'integer',
-    ];
+    protected $guarded = ['id'];
+
+    protected $appends = ['quantity','sender_name','product_price'];
+
+    protected $casts = ['is_received' => 'integer'];
+
+
 
     public function getPriceAttribute($value)
     {
@@ -29,10 +27,13 @@ class Purchase extends Model
         return  $value ;
     }
 
+
     public function getQuantityAttribute()
     {
         return  $this->purchaseProducts()->sum('quantity') + $this->purchaseProducts()->sum('sub_quantity') ;
     }
+
+
     public function getSenderNameAttribute()
     {
         if ($this->supplier_id != null){
@@ -42,52 +43,66 @@ class Purchase extends Model
         }
     }
 
-    public function getProductPriceAttribute(){
-        $product_price = 0;
 
+    public function getProductPriceAttribute()
+    {
+        $product_price = 0;
         foreach ($this->purchaseProducts as $product){
             $product_price +=  $product['quantity'] * $product['price'];
             $product_price +=  $product['sub_quantity'] * ($product['price'] / $product['count_unit']) ;
         }
-
         return $product_price;
     }
 
-    public function purchaseProducts(){
 
+    public function purchaseProducts()
+    {
         return $this->hasMany(PurchaseProduct::class);
     }
 
-    public function store(){
+
+    public function store()
+    {
         return $this->belongsTo(Store::class,'store_id');
     }
 
-    public function supplier(){
+
+    public function supplier()
+    {
         return $this->belongsTo(Supplier::class,'supplier_id');
     }
 
-    public function user(){
+
+    public function user()
+    {
         return $this->belongsTo(User::class,'user_id');
     }
 
-    public function examinationRecord(){
 
+    public function examinationRecord()
+    {
         return $this->hasOne(ExaminationRecord::class,'purchase_id');
-
     }
 
-    public function purchaseReturns (){
+
+    public function purchaseReturns ()
+    {
         return $this->hasOne(PurchaseReturn::class,'purchase_id');
     }
 
-    public function supplierAccounts(){
+
+    public function supplierAccounts()
+    {
         return $this->hasMany(SupplierAccount::class);
     }
 
-    public function clientAccount(){
+
+    public function clientAccount()
+    {
         return $this->hasMany(ClientAccount::class);
     }
 
+    
     public function supplierExpense(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(SupplierExpense::class);
@@ -97,5 +112,6 @@ class Purchase extends Model
     {
         return $this->hasMany(ClientExpense::class);
     }
+
 
 }

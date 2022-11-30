@@ -27,7 +27,7 @@ class Tax extends Model
 
     public function directOrders()
     {
-        return $this->morphedByMany(DirectOrders::class,'order','order_taxes','tax_id','order_id');
+        return $this->morphedByMany(DirectOrders::class, 'direct_orders','order_taxes','tax_id','order_id');
     }
 
     public function onlineOrders()

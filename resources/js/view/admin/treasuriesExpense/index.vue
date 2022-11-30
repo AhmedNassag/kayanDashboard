@@ -27,7 +27,7 @@
                             <div class="col-4 row ">
                                 <select v-model="treasury_id"  class="form-select">
                                     <option value="0">{{$t('treasury.ChooseTreasury')}}</option>
-                                    <option v-for="treasury in treasuries" :kay="treasury.id" :value="treasury.id">{{treasury.name}}</option>
+                                    <option v-for="treasury in treasuries" :key="treasury.id" :value="treasury.id">{{treasury.name}}</option>
                                 </select>
 
                             </div>
@@ -83,9 +83,9 @@
                             <li class="nav-item">
                                 <a href="#tab-6" data-bs-toggle="tab" class="nav-link">{{ $t('global.SuppliersExpense') }}</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="#tab-7" data-bs-toggle="tab" class="nav-link">{{ $t('global.capitalOwnerAccount') }}</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                     <div class="tab-content pt-0">
@@ -101,27 +101,26 @@
                                 <table class="table table-center table-hover mb-0 datatable">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>{{ $t('global.Band Name') }}</th>
-                                        <th>{{ $t('global.Amount') }}</th>
-                                        <th>{{ $t('global.RecipientsName') }}</th>
-                                        <th>{{ $t('global.For') }}</th>
-
-                                        <th>{{ $t('global.PaymentDate') }}</th>
-                                        <th>{{ $t('global.TransactionDate') }}</th>
-                                        <th>{{ $t('global.ProcessWriter') }}</th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">{{ $t('global.Band Name') }}</th>
+                                        <th class="text-center">{{ $t('global.Amount') }}</th>
+                                        <th class="text-center">{{ $t('global.RecipientsName') }}</th>
+                                        <th class="text-center">{{ $t('global.For') }}</th>
+                                        <th class="text-center">{{ $t('global.PaymentDate') }}</th>
+                                        <th class="text-center">{{ $t('global.TransactionDate') }}</th>
+                                        <th class="text-center">{{ $t('global.ProcessWriter') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="incomes.length">
-                                    <tr v-for="(item,index) in incomes" :key="item.id">
-                                        <td>{{ item.id }}</td>
-                                        <td>{{ item.expense.name }}</td>
-                                        <td>{{ item.amount }}</td>
-                                        <td>{{ item.payer }}</td>
-                                        <td>{{ item.notes }}</td>
-                                        <td>{{ item.payment_date }}</td>
-                                        <td>{{ dateFormat(item.created_at) }}</td>
-                                        <td>{{ item.user ? item.user.name : "-----" }}</td>
+                                    <tr v-for="(item) in incomes" :key="item.id">
+                                        <td class="text-center">{{ item.id }}</td>
+                                        <td class="text-center">{{ item.expense.name }}</td>
+                                        <td class="text-center">{{ item.amount }}</td>
+                                        <td class="text-center">{{ item.payer }}</td>
+                                        <td class="text-center">{{ item.notes }}</td>
+                                        <td class="text-center">{{ item.payment_date }}</td>
+                                        <td class="text-center">{{ dateFormat(item.created_at) }}</td>
+                                        <td class="text-center">{{ item.user ? item.user.name : "-----" }}</td>
 
                                     </tr>
                                     </tbody>
@@ -157,28 +156,26 @@
                                 <table class="table table-center table-hover mb-0 datatable">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>{{ $t('global.Band Name') }}</th>
-                                        <th>{{ $t('global.Amount') }}</th>
-                                        <th>{{ $t('global.RecipientsName') }}</th>
-                                        <th>{{ $t('global.For') }}</th>
-
-                                        <th>{{ $t('global.PaymentDate') }}</th>
-                                        <th>{{ $t('global.TransactionDate') }}</th>
-                                        <th>{{ $t('global.ProcessWriter') }}</th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">{{ $t('global.Band Name') }}</th>
+                                        <th class="text-center">{{ $t('global.Amount') }}</th>
+                                        <th class="text-center">{{ $t('global.RecipientsName') }}</th>
+                                        <th class="text-center">{{ $t('global.For') }}</th>
+                                        <th class="text-center">{{ $t('global.PaymentDate') }}</th>
+                                        <th class="text-center">{{ $t('global.TransactionDate') }}</th>
+                                        <th class="text-center">{{ $t('global.ProcessWriter') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="clientIncomes.length">
-                                    <tr v-for="(item,index) in clientIncomes" :key="item.id">
-                                        <td>{{ item.id }}</td>
-                                        <td>{{ item.expense.name }}</td>
-                                        <td>{{ item.amount }}</td>
-                                        <td>{{ item.client.name }}</td>
-                                        <td>{{ item.notes ?? '---' }}</td>
-                                        <td>{{ item.payment_date }}</td>
-                                        <td>{{ dateFormat(item.created_at) }}</td>
-                                        <td>{{ item.user ? item.user.name : "-----" }}</td>
-
+                                    <tr v-for="(item) in clientIncomes" :key="item.id">
+                                        <td class="text-center">{{ item.id }}</td>
+                                        <td class="text-center">{{ item.expense.name }}</td>
+                                        <td class="text-center">{{ item.amount }}</td>
+                                        <td class="text-center">{{ item.client.name }}</td>
+                                        <td class="text-center">{{ item.notes ?? '---' }}</td>
+                                        <td class="text-center">{{ item.payment_date }}</td>
+                                        <td class="text-center">{{ dateFormat(item.created_at) }}</td>
+                                        <td class="text-center">{{ item.user ? item.user.name : "-----" }}</td>
                                     </tr>
                                     </tbody>
                                     <tbody v-else>
@@ -213,28 +210,26 @@
                                 <table class="table table-center table-hover mb-0 datatable">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>{{ $t('global.Band Name') }}</th>
-                                        <th>{{ $t('global.Amount') }}</th>
-                                        <th>{{ $t('global.RecipientsName') }}</th>
-                                        <th>{{ $t('global.For') }}</th>
-
-                                        <th>{{ $t('global.PaymentDate') }}</th>
-                                        <th>{{ $t('global.TransactionDate') }}</th>
-                                        <th>{{ $t('global.ProcessWriter') }}</th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">{{ $t('global.Band Name') }}</th>
+                                        <th class="text-center">{{ $t('global.Amount') }}</th>
+                                        <th class="text-center">{{ $t('global.RecipientsName') }}</th>
+                                        <th class="text-center">{{ $t('global.For') }}</th>
+                                        <th class="text-center">{{ $t('global.PaymentDate') }}</th>
+                                        <th class="text-center">{{ $t('global.TransactionDate') }}</th>
+                                        <th class="text-center">{{ $t('global.ProcessWriter') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="supplierIncomes.length">
-                                    <tr v-for="(item,index) in supplierIncomes" :key="item.id">
-                                        <td>{{ item.id }}</td>
-                                        <td>{{ item.expense.name }}</td>
-                                        <td>{{ item.amount }}</td>
-                                        <td>{{ item.supplier.name_supplier }}</td>
-                                        <td>{{ item.notes ?? '---' }}</td>
-                                        <td>{{ item.payment_date }}</td>
-                                        <td>{{ dateFormat(item.created_at) }}</td>
-                                        <td>{{ item.user ? item.user.name : "-----" }}</td>
-
+                                    <tr v-for="(item) in supplierIncomes" :key="item.id">
+                                        <td class="text-center">{{ item.id }}</td>
+                                        <td class="text-center">{{ item.expense.name }}</td>
+                                        <td class="text-center">{{ item.amount }}</td>
+                                        <td class="text-center">{{ item.supplier.name_supplier }}</td>
+                                        <td class="text-center">{{ item.notes ?? '---' }}</td>
+                                        <td class="text-center">{{ item.payment_date }}</td>
+                                        <td class="text-center">{{ dateFormat(item.created_at) }}</td>
+                                        <td class="text-center">{{ item.user ? item.user.name : "-----" }}</td>
                                     </tr>
                                     </tbody>
                                     <tbody v-else>
@@ -269,28 +264,26 @@
                                 <table class="table table-center table-hover mb-0 datatable">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>{{ $t('global.Band Name') }}</th>
-                                        <th>{{ $t('global.Amount') }}</th>
-                                        <th>{{ $t('global.RecipientsName') }}</th>
-                                        <th>{{ $t('global.For') }}</th>
-
-                                        <th>{{ $t('global.PaymentDate') }}</th>
-                                        <th>{{ $t('global.TransactionDate') }}</th>
-                                        <th>{{ $t('global.ProcessWriter') }}</th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">{{ $t('global.Band Name') }}</th>
+                                        <th class="text-center">{{ $t('global.Amount') }}</th>
+                                        <th class="text-center">{{ $t('global.RecipientsName') }}</th>
+                                        <th class="text-center">{{ $t('global.For') }}</th>
+                                        <th class="text-center">{{ $t('global.PaymentDate') }}</th>
+                                        <th class="text-center">{{ $t('global.TransactionDate') }}</th>
+                                        <th class="text-center">{{ $t('global.ProcessWriter') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody v-if="ownerIncomes.length">
-                                    <tr v-for="(item,index) in ownerIncomes" :key="item.id">
-                                        <td>{{ item.id }}</td>
-                                        <td>{{ item.expense.name }}</td>
-                                        <td>{{ item.amount }}</td>
-                                        <td>{{ item.name }}</td>
-                                        <td>{{ item.notes ?? '---' }}</td>
-                                        <td>{{ item.payment_date }}</td>
-                                        <td>{{ dateFormat(item.created_at) }}</td>
-                                        <td>{{ item.user ? item.user.name : "-----" }}</td>
-
+                                    <tr v-for="(item) in ownerIncomes" :key="item.id">
+                                        <td class="text-center">{{ item.id }}</td>
+                                        <td class="text-center">{{ item.expense.name }}</td>
+                                        <td class="text-center">{{ item.amount }}</td>
+                                        <td class="text-center">{{ item.name }}</td>
+                                        <td class="text-center">{{ item.notes ?? '---' }}</td>
+                                        <td class="text-center">{{ item.payment_date }}</td>
+                                        <td class="text-center">{{ dateFormat(item.created_at) }}</td>
+                                        <td class="text-center">{{ item.user ? item.user.name : "-----" }}</td>
                                     </tr>
                                     </tbody>
                                     <tbody v-else>
@@ -538,13 +531,14 @@ export default {
 
 
 .amount{
-    background-color: #fcb00c;
+    background-color:#0e67d0;
     color: #000;
     padding: 10px;
     margin-top: 3px;
 }
 .amount h5{
     text-align: center;
+    color: #fff;
 }
 
 </style>

@@ -23,7 +23,7 @@ class PurchaseExpensesController extends Controller
                     $q->when($request->search, function ($q) use ($request) {
                         return $q->where('notes', 'like', '%' . $request->search . '%')
                             ->orWhere('amount', 'like', '%' . $request->search . '%')
-                            ->orWhereRelation('supplier','name_supplier','like','%'.$request->search.'%')
+                            ->orWhereRelation('supplier','name','like','%'.$request->search.'%')
                             ->orWhereRelation('treasury','name','like','%'.$request->search.'%')
                             ->orWhereRelation('user','name','like','%'.$request->search.'%');
                     });

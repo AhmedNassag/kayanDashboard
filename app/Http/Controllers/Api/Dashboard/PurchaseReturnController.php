@@ -42,7 +42,7 @@ class PurchaseReturnController extends Controller
                     return $q->orWhereRelation('user','name','like','%'.$request->search.'%')
                         ->orWhereRelation('store','name','like','%'.$request->search.'%')
                         ->orWhereRelation('supplier','name','like','%'.$request->search.'%')
-                        ->orWhereRelation('client','name','like','%'.$request->search.'%');
+                        ->orWhereRelation('client.user','name','like','%'.$request->search.'%');
                 });
             })->where(function ($q) use ($request) {
                 $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
@@ -64,7 +64,7 @@ class PurchaseReturnController extends Controller
         $products =  Product::where('status', 1)
             ->with(['mainMeasurementUnit', 'subMeasurementUnit','purchaseProducts','storeProducts'])->whereHas('storeProducts')->get();
         $stores = Store::where('status', 1)->get();
-        $suppliers = Supplier::where('status', 1)->get();
+        $suppliers = Supplier::where('active', 1)->get();
         $clients = User::where('status',1)->whereJsonContains('role_name','client')->get();
         $treasuries = Treasury::where('active',1)->get();
         return $this->sendResponse(['products' => $products,'stores'=>$stores,'suppliers'=>$suppliers,'clients'=>$clients,'treasuries'=>$treasuries], 'Data exited successfully');

@@ -270,13 +270,13 @@
                                             </div>
 
                                             <div class="col-md-4 mb-3">
-                                                <label for="validationCustom10">{{ $t('global.TotalPrice') }}</label>
+                                                <label for="validationCustom10">{{ $t('global.TotalPaid') }}</label>
                                                 <input type="number" step=".01"
                                                        class="form-control"
                                                        v-model.number="v$.price.$model"
                                                        id="validationCustom10"
                                                        :class="{'is-invalid':v$.price.$error,'is-valid':!v$.price.$invalid}"
-                                                       :placeholder="$t('global.TotalPrice')"
+                                                       :placeholder="$t('global.TotalPaid')"
                                                 >
                                                 <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
                                                 <div class="invalid-feedback">
