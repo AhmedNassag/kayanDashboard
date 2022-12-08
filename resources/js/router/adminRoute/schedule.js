@@ -1,6 +1,8 @@
 import schedule from "../../view/admin/schedule/scheduleGet";
 //
 import createSchedule from "../../view/admin/schedule/createSchedule";
+import mobile_banners from "../../view/admin/schedule/update_mobile_banners";
+import desktop_banners from "../../view/admin/schedule/update_desktop_banners";
 import editSchedule from "../../view/admin/schedule/editSchedule";
 import packagesSchedule from "../../view/admin/schedule/packages";
 //
@@ -63,6 +65,32 @@ export default [
                 path: 'packagesSchedule',
                 name: 'packagesSchedule',
                 component: packagesSchedule,
+                beforeEnter: (to, from,next) => {
+                    // let permission = store.state.authAdmin.permission;
+                    // if(permission.includes('packages')){
+                        return next();
+                    // }else{
+                    //     return next({name:'Page404'});
+                    // }
+                }
+            },
+            {
+                path: 'desktop_banners',
+                name: 'desktop_banners',
+                component: desktop_banners,
+                beforeEnter: (to, from,next) => {
+                    // let permission = store.state.authAdmin.permission;
+                    // if(permission.includes('packages')){
+                        return next();
+                    // }else{
+                    //     return next({name:'Page404'});
+                    // }
+                }
+            },
+            {
+                path: 'mobile_banners',
+                name: 'mobile_banners',
+                component: mobile_banners,
                 beforeEnter: (to, from,next) => {
                     // let permission = store.state.authAdmin.permission;
                     // if(permission.includes('packages')){

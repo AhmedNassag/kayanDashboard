@@ -17,10 +17,10 @@ class TermAndConditionController extends Controller
     {
         $termAndCondition = TermAndCondition::first();
         if ($termAndCondition) {
-            $termAndCondition->context = $request->context;
-            $termAndCondition->save();
+            $termAndCondition->update(collect($request->validated())->filter()->toArray());
         } else {
             TermAndCondition::create($request->input());
         }
     }
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Alternative;
 use App\Models\Category;
+use App\Models\Company;
 use App\Models\Media;
 use App\Models\PharmacistForm;
 use App\Models\Product;
@@ -109,6 +110,7 @@ class ProductController extends Controller
     {
         $pharmacistForms = PharmacistForm::select('id', 'name')->get();
         $categories = Category::where('status', 1)->select('id', 'name')->get();
+        $companies = Company::get();
         $measures = Unit::select('id', 'name')->get();
         $sellingMethods = SellingMethod::select('id', 'name')->get();
         $stores = Store::where('status', 1)->get();
@@ -120,6 +122,7 @@ class ProductController extends Controller
             'measures' => $measures,
             'sellingMethods' => $sellingMethods,
             'stores' => $stores,
+            'companies' => $companies,
             'clients'         => $clients
         ], 'Data exited successfully');
     }
@@ -149,6 +152,7 @@ class ProductController extends Controller
                 'files' => 'required|array',
                 'files.*' => 'required|file|mimes:png,jpg,jpeg',
                 'category_id' => 'required|integer|exists:categories,id',
+                'company_id' => 'required|integer|exists:companies,id',
                 'sub_category_id' => 'required|integer|exists:sub_categories,id',
                 'pharmacistForm_id' => 'required|integer|exists:pharmacist_forms,id',
                 'main_measurement_unit_id' => 'required|integer|exists:units,id',
@@ -184,6 +188,7 @@ class ProductController extends Controller
                 'maximum_product' => $request->maximum_product,
                 'image' => $image,
                 'category_id' => $request->category_id,
+                'company_id' => $request->company_id,
                 'sub_category_id' => $request->sub_category_id,
                 'pharmacistForm_id' => $request->pharmacistForm_id,
                 'main_measurement_unit_id' => $request->main_measurement_unit_id,
@@ -271,33 +276,30 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        try {
+        $product = Product::with('media:mediable_id,file_name,id','related:id,image,nameAr','company')->find($id);
+        $pharmacistForms = PharmacistForm::select('id', 'name')->get();
+        $categories = Category::select('id', 'name')->get();
+        $companies = Company::get();
+        $measures = Unit::select('id', 'name')->get();
+        $sellingMethods = SellingMethod::select('id', 'name')->get();
+        $sellingMethodChange = $product->selling_method;
+        $stores = Store::where('status', 1)->get();
+        $storeProduct = $product->storeProducts()->first();
+        $purchaseProducts = $product->purchaseProducts()->first();
 
-            $product = Product::with('media:mediable_id,file_name,id','related:id,image,nameAr')->find($id);
-            $pharmacistForms = PharmacistForm::select('id', 'name')->get();
-            $categories = Category::select('id', 'name')->get();
-            $measures = Unit::select('id', 'name')->get();
-            $sellingMethods = SellingMethod::select('id', 'name')->get();
-            $sellingMethodChange = $product->selling_method;
-            $stores = Store::where('status', 1)->get();
-            $storeProduct = $product->storeProducts()->first();
-            $purchaseProducts = $product->purchaseProducts()->first();
+        return $this->sendResponse([
+            'product' => $product,
+            'pharmacistForms' => $pharmacistForms,
+            'categories' => $categories,
+            'companies' => $companies,
+            'measures' => $measures,
+            'sellingMethods' => $sellingMethods,
+            'sellingMethodChange' => $sellingMethodChange,
+            'stores' => $stores,
+            'storeProduct' => $storeProduct,
+            'purchaseProducts' => $purchaseProducts,
+        ], 'Data exited successfully');
 
-            return $this->sendResponse([
-                'product' => $product,
-                'pharmacistForms' => $pharmacistForms,
-                'categories' => $categories,
-                'measures' => $measures,
-                'sellingMethods' => $sellingMethods,
-                'sellingMethodChange' => $sellingMethodChange,
-                'stores' => $stores,
-                'storeProduct' => $storeProduct,
-                'purchaseProducts' => $purchaseProducts,
-            ], 'Data exited successfully');
-        } catch (\Exception $e) {
-
-            return $this->sendError('An error occurred in the system');
-        }
     }
 
     /**
@@ -327,6 +329,7 @@ class ProductController extends Controller
                 'files' => 'nullable',
                 'files.*' => 'nullable' . ($request->hasFile('files') ? '|file|mimes:jpeg,jpg,png' : ''),
                 'category_id' => 'required|integer|exists:categories,id',
+                'company_id' => 'required|integer|exists:companies,id',
                 'sub_category_id' => 'required|integer|exists:sub_categories,id',
                 'pharmacistForm_id' => 'required|integer|exists:pharmacist_forms,id',
                 'main_measurement_unit_id' => 'required|integer|exists:units,id',
@@ -363,6 +366,7 @@ class ProductController extends Controller
                 $data['image'] = $image;
             }
             $data['category_id'] = $request->category_id;
+            $data['company_id'] = $request->company_id;
             $data['sub_category_id'] = $request->sub_category_id;
             $data['pharmacistForm_id'] = $request->pharmacistForm_id;
             $data['main_measurement_unit_id'] = $request->main_measurement_unit_id;
@@ -537,7 +541,8 @@ class ProductController extends Controller
     public function getCategories()
     {
         $categories = Category::where('status', 1)->get();
-        return $this->sendResponse(['categories' => $categories], 'Data exited successfully');
+        $companies = Company::get();
+        return $this->sendResponse(['categories' => $categories,'companies' => $companies], 'Data exited successfully');
     }
 
     public function getSubCategories()

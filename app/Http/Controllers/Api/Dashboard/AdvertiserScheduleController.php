@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AdvertiseScheduleResource;
 use App\Models\AdvertiseSchedule;
 use App\Models\AdvertisingPackage;
+use App\Models\AdvertisingPageAdvertisingView;
+use App\Models\AdvertisingPageMobileAdvertisingView;
 use App\Models\AdvertisingSize;
 use App\Models\AdvertisingSizeMobile;
 use App\Models\PackageSale;
@@ -32,12 +34,9 @@ class AdvertiserScheduleController extends Controller
     {
         $schedule = AdvertiseSchedule::find($id);
 
-        if ($schedule->status == 1)
-        {
+        if ($schedule->status == 1) {
             $schedule->update(["status" => 0]);
-        }
-        else
-        {
+        } else {
             $schedule->update(["status" => 1]);
         }
         return $this->sendResponse([], 'Data exited successfully');
@@ -47,12 +46,11 @@ class AdvertiserScheduleController extends Controller
 
     public function index(Request $request)
     {
-        $schedule = AdvertiseSchedule::with(['packages','users:name,id'])
-        ->when($request->search,function ($q) use($request)
-        {
-            return $q->WhereRelation('packages', 'name', 'like', '%' . $request->search . '%')
-            ->orWhereRelation('users', 'name', 'like', '%' . $request->search . '%');
-        })->paginate(10);
+        $schedule = AdvertiseSchedule::with(['packages', 'users:name,id'])
+            ->when($request->search, function ($q) use ($request) {
+                return $q->WhereRelation('packages', 'name', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('users', 'name', 'like', '%' . $request->search . '%');
+            })->paginate(10);
         return $this->sendResponse(['schedule' => $schedule], 'Data exited successfully');
     }
 
@@ -60,78 +58,64 @@ class AdvertiserScheduleController extends Controller
 
     public function create()
     {
-        try
-        {
-            $users               = User::where('status', 1)->whereJsonContains('role_name', 'Advertise')->get();
-            $advertisingPackages = AdvertisingPackage::where('status', 1)->get();
-            //
-            $Advertise = AdvertisingPackage::whereStatus(true)
-            ->with
-            ([
-                'page_view' => function ($q)
-                {
+
+        $users               = User::where('status', 1)->whereJsonContains('role_name', 'Advertise')->get();
+        $advertisingPackages = AdvertisingPackage::where('status', 1)->get();
+        //
+        $Advertise = AdvertisingPackage::whereStatus(true)
+            ->with([
+                'page_view' => function ($q) {
                     $q->with(['Page', 'view', 'size']);
                 },
-                'page_view_mobile' => function ($q)
-                {
+                'page_view_mobile' => function ($q) {
                     $q->with(['pageMobile', 'view', 'size']);
                 },
             ])
             ->get();
-            //
-            return $this->sendResponse
-            ([
+        //
+        return $this->sendResponse([
                 'users'               => $users,
                 'advertisingPackages' => $advertisingPackages,
                 //
                 'packages'            => $Advertise
                 //
             ], 'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
-            return $this->sendError('An error occurred in the system');
-        }
     }
 
 
 
     public function store(Request $request)
     {
-        DB::beginTransaction();
-        try
-        {
-            // Validator request
-            $v = Validator::make($request->all(),
+
+        // Validator request
+        $v = Validator::make(
+            $request->all(),
             [
                 'start' => 'required|date|after_or_equal:' . now()->toDateString(),
                 'end' => 'required|date|after_or_equal:start',
                 'advertising_package_id' => 'required|integer|exists:advertising_packages,id',
                 'user_id' => 'required|integer|exists:users,id',
                 // 'package_sale' => 'required|integer|exists:package_sales,id',
-            ]);
+            ]
+        );
 
-            if ($v->fails())
-            {
-                return $this->sendError('There is an error in the data', ['error' => 'date'], 401);
-            }
+        if ($v->fails()) {
+            return $this->sendError('There is an error in the data', ['error' => 'date'], 401);
+        }
 
-            $AdvertiseSchedules = AdvertiseSchedule::where('advertising_package_id', $request->advertising_package_id)
+        $AdvertiseSchedules = AdvertiseSchedule::where('advertising_package_id', $request->advertising_package_id)
             ->whereBetween('end', [now(), now()->addMonths(5)])
             ->get();
 
-            $end_date   = Carbon::parse($request->end)->format('Y-m-d H:i');
-            $start_date = Carbon::parse($request->start)->format('Y-m-d H:i');
+        $end_date   = Carbon::parse($request->end)->format('Y-m-d H:i');
+        $start_date = Carbon::parse($request->start)->format('Y-m-d H:i');
 
-            foreach ($AdvertiseSchedules as $AdvertiseSchedule)
-            {
-                if ((($AdvertiseSchedule->start <= $start_date) && ($AdvertiseSchedule->end >= $start_date)) || (($AdvertiseSchedule->start <= $end_date) && ($AdvertiseSchedule->end >= $end_date)))
-                {
-                    return $this->sendError('للأسف هذه الفترة محجوزة', 401);
-                }
+        foreach ($AdvertiseSchedules as $AdvertiseSchedule) {
+            if ((($AdvertiseSchedule->start <= $start_date) && ($AdvertiseSchedule->end >= $start_date)) || (($AdvertiseSchedule->start <= $end_date) && ($AdvertiseSchedule->end >= $end_date))) {
+                return $this->sendError('للأسف هذه الفترة محجوزة', 401);
             }
-            AdvertiseSchedule::create
-            ([
+        }
+        AdvertiseSchedule::create([
                 'title'                  => $request->title,
                 'start'                  => $request->start,
                 'end'                    => $request->end,
@@ -141,32 +125,23 @@ class AdvertiserScheduleController extends Controller
                 // 'package_sale_id' => $request->package_sale,
             ]);
 
-            DB::commit();
-            return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+        return $this->sendResponse([], 'Data exited successfully');
     }
 
 
 
     public function edit($id)
     {
-        try
-        {
+        try {
             $schedule            = AdvertiseSchedule::with(['packages', 'users:name,id'])->find($id);
             $users               = User::where('status', 1)->whereJsonContains('role_name', 'Advertise')->get();
             $advertisingPackages = AdvertisingPackage::where('status', 1)->get();
-            return $this->sendResponse
-            ([
-                'schedule'            => $schedule,
-                'users'               => $users,
-                'advertisingPackages' => $advertisingPackages,
-            ], 'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
+            return $this->sendResponse([
+                    'schedule'            => $schedule,
+                    'users'               => $users,
+                    'advertisingPackages' => $advertisingPackages,
+                ], 'Data exited successfully');
+        } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
     }
@@ -175,45 +150,41 @@ class AdvertiserScheduleController extends Controller
 
     public function update(Request $request, $id)
     {
-        DB::beginTransaction();
-        try
-        {
-            $schedule = AdvertiseSchedule::find($id);
 
-            // Validator request
-            $v = Validator::make($request->all(),
+        $schedule = AdvertiseSchedule::find($id);
+
+        // Validator request
+        $v = Validator::make(
+            $request->all(),
             [
                 'start' => 'required|date|after_or_equal:' . now()->toDateString(),
                 'end' => 'required|date|after_or_equal:start',
                 'advertising_package_id' => 'required|integer|exists:advertising_packages,id',
                 'user_id' => 'required|integer|exists:users,id',
                 // 'package_sale' => 'required|integer|exists:package_sales,id',
-            ]);
+            ]
+        );
 
-            if ($v->fails())
-            {
-                return $this->sendError('There is an error in the data', $v->errors());
-            }
+        if ($v->fails()) {
+            return $this->sendError('There is an error in the data', $v->errors());
+        }
 
-            $AdvertiseSchedules = AdvertiseSchedule::where('id','!=',$schedule)->where('advertising_package_id', 1 /*$request->advertising_package_id*/)
+        $AdvertiseSchedules = AdvertiseSchedule::where('id', '!=', $schedule)->where('advertising_package_id', 1 /*$request->advertising_package_id*/)
             ->whereBetween('end', [now(), now()->addMonths(5)])
             ->get();
 
-            $end_date   = Carbon::parse($request->end)->format('Y-m-d H:i');
-            $start_date = Carbon::parse($request->start)->format('Y-m-d H:i');
+        $end_date   = Carbon::parse($request->end)->format('Y-m-d H:i');
+        $start_date = Carbon::parse($request->start)->format('Y-m-d H:i');
 
-            foreach ($AdvertiseSchedules as $AdvertiseSchedule)
-            {
-                if ((($AdvertiseSchedule->start <= $start_date) && ($AdvertiseSchedule->end >= $start_date)) || (($AdvertiseSchedule->start <= $end_date) && ($AdvertiseSchedule->end >= $end_date)))
-                {
-                    return $this->sendError('للأسف هذه الفترة محجوزة', 401);
-                }
+        foreach ($AdvertiseSchedules as $AdvertiseSchedule) {
+            if ((($AdvertiseSchedule->start <= $start_date) && ($AdvertiseSchedule->end >= $start_date)) || (($AdvertiseSchedule->start <= $end_date) && ($AdvertiseSchedule->end >= $end_date))) {
+                return $this->sendError('للأسف هذه الفترة محجوزة', 401);
             }
+        }
 
-            // $data = $request->only(['title','start','end','link','advertising_package_id','user_id']);
-            // $schedule->update($data);
-            $schedule->update
-            ([
+        // $data = $request->only(['title','start','end','link','advertising_package_id','user_id']);
+        // $schedule->update($data);
+        $schedule->update([
                 'title'                  => $request->title,
                 'start'                  => $request->start,
                 'end'                    => $request->end,
@@ -223,40 +194,27 @@ class AdvertiserScheduleController extends Controller
                 // 'package_sale_id' => $request->package_sale,
             ]);
 
-            DB::commit();
-            return $this->sendResponse([], 'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+        return $this->sendResponse([], 'Data exited successfully');
     }
 
 
 
     public function destroy($id)
     {
-        try
-        {
+        try {
             $calender = AdvertiseSchedule::find($id);
-            if ($calender)
-            {
+            if ($calender) {
                 // delete images
                 // $packageSale = PackageSale::find($calender->package_sale_id);
                 // File::deleteDirectory(public_path('web/img/advertise/'. $packageSale->id));
                 // $userSalePackage = PackageSaleUser::where('package_sale_id',$packageSale->id)->first()->delete();
                 // $packageSale->delete();
                 $calender->delete();
-                return $this->sendResponse([],'Deleted successfully');
-            }
-            else
-            {
+                return $this->sendResponse([], 'Deleted successfully');
+            } else {
                 return $this->sendError('ID is not exist');
             }
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
     }
@@ -273,7 +231,7 @@ class AdvertiserScheduleController extends Controller
         // $advertiser = new AdvertiserResource(Advertiser::whereUserId($user->id)->first());
 
         // return $this->sendResponse(['user' => $userResource, 'advertiser' => $advertiser], 'Data exited successfully');
-    }//**********end advertise************/
+    } //**********end advertise************/
 
 
 
@@ -291,30 +249,26 @@ class AdvertiserScheduleController extends Controller
             'fileMobile.*.size_id' => 'required|exists:advertising_size_mobiles,id'
         ]);
 
-        if ($v->fails())
-        {
+        if ($v->fails()) {
             return $this->sendError('There is an error in the data', $v->errors());
         }
 
-        if ($this->validDim($request->file) == 'error'  || $this->validDimMobile($request->fileMobile) == 'error')
-        {
+        if ($this->validDim($request->file) == 'error'  || $this->validDimMobile($request->fileMobile) == 'error') {
             return $this->sendError('There is an error in the data', ['file' => 'image']);
         }
 
         $AdvertiseSchedules = AdvertiseSchedule::where('advertising_package_id', $request->package_id)
-        ->whereBetween('end', [now(), now()->addMonths(5)])
-        ->get();
+            ->whereBetween('end', [now(), now()->addMonths(5)])
+            ->get();
 
         $end_date = Carbon::parse($request->date)->addDays($request->day)->format('Y-m-d H:i');
         $start_date = Carbon::parse($request->date)->format('Y-m-d H:i');
 
-        foreach ($AdvertiseSchedules as $AdvertiseSchedule)
-        {
+        foreach ($AdvertiseSchedules as $AdvertiseSchedule) {
             if (
                 (($AdvertiseSchedule->start <= $start_date) && ($AdvertiseSchedule->end >= $start_date)) ||
                 (($AdvertiseSchedule->start <= $end_date) && ($AdvertiseSchedule->end >= $end_date))
-            )
-            {
+            ) {
                 return $this->sendError('The appointment has already been booked', 401);
             }
         }
@@ -333,8 +287,7 @@ class AdvertiserScheduleController extends Controller
 
         $i = 0;
 
-        foreach ($request->file as $index => $file)
-        {
+        foreach ($request->file as $index => $file) {
             $schedule_page = SchedulePage::create([
                 'page_id' => $file['page_id'],
                 'schedule_id' => $schedule->id
@@ -356,8 +309,7 @@ class AdvertiserScheduleController extends Controller
             $i++;
         }
 
-        foreach ($request->fileMobile as $index => $fileMobile)
-        {
+        foreach ($request->fileMobile as $index => $fileMobile) {
             $schedule_page_mo = SchedulePageMobile::create([
                 'page_mobile_id' => $fileMobile['page_id'],
                 'schedule_id' => $schedule->id
@@ -389,7 +341,7 @@ class AdvertiserScheduleController extends Controller
         // if (isset($response->IsSuccess) && $response->IsSuccess == 'true') {
         //     return response()->json(['url' => $response->Data->InvoiceURL], 200);
         // }
-    }//**********end buy_package************/
+    } //**********end buy_package************/
 
 
 
@@ -400,14 +352,16 @@ class AdvertiserScheduleController extends Controller
         // $packagePrice = $user->schedule()->sum('price');
         $numberUnfinishedAds = AdvertiseSchedule::where('end', '>=', now())->count();
         $numberFinishedAds   = AdvertiseSchedule::where('end', '<=', now())->count();
-        return $this->sendResponse([
+        return $this->sendResponse(
+            [
                 // 'numVisitor' => $numVisitor,
                 // 'packagePrice' => $packagePrice,
                 'numberFinishedAds' => $numberFinishedAds,
                 "numberUnfinishedAds" => $numberUnfinishedAds
-            ],'Data exited successfully'
+            ],
+            'Data exited successfully'
         );
-    }//**********end numPackage************/
+    } //**********end numPackage************/
 
 
 
@@ -416,11 +370,13 @@ class AdvertiserScheduleController extends Controller
         // $user = auth()->guard('api')->user()->id;
         $user = auth()->user()->id;
         $unFinishedAds = AdvertiseSchedule::select('id', 'advertising_package_id', 'start', 'end', 'visitor')->where('end', '<=', now())->with('packages:id,period,price')->paginate(10);
-        return $this->sendResponse([
+        return $this->sendResponse(
+            [
                 'advertises' => $unFinishedAds
-            ],'Data exited successfully'
+            ],
+            'Data exited successfully'
         );
-    }//**********end Package************/
+    } //**********end Package************/
 
 
 
@@ -428,11 +384,13 @@ class AdvertiserScheduleController extends Controller
     {
         $user = auth()->guard('api')->user()->id;
         $unFinishedAds = AdvertiseSchedule::select('id', 'advertising_package_id', 'start', 'end', 'visitor')->whereUserId($user)->whereActive(true)->where('end', '>=', now())->with('packages:id,period,price')->paginate(10);
-        return $this->sendResponse([
+        return $this->sendResponse(
+            [
                 'advertises' => $unFinishedAds
-            ],'Data exited successfully'
+            ],
+            'Data exited successfully'
         );
-    }//**********end Package1************/
+    } //**********end Package1************/
 
 
 
@@ -441,66 +399,59 @@ class AdvertiserScheduleController extends Controller
         // $user = auth()->guard('api')->user()->id;
         $user = auth()->user()->id;
         $visitor = AdvertiseSchedule::select('id', 'advertising_package_id', 'start', 'end', 'visitor')->whereUserId($user)->whereActive(true)->with('packages:id,period,price')->paginate(10);
-        return $this->sendResponse([
+        return $this->sendResponse(
+            [
                 'advertises' => $visitor
-            ],'Data exited successfully'
+            ],
+            'Data exited successfully'
         );
-    }//**********end Package2************/
+    } //**********end Package2************/
 
 
 
     public function getALL($id)
     {
-        try
-        {
-            $schedule = AdvertiseSchedule::where([
-                    ['advertising_package_id', $id],
-                ])
-            ->whereBetween('created_at',
+
+        $schedule = AdvertiseSchedule::where([
+            ['advertising_package_id', $id],
+        ])
+            ->whereBetween(
+                'created_at',
                 [now()->subMonth(), now()->addMonths(5)]
             )
             ->get();
-            return $this->sendResponse(['schedule' => AdvertiseScheduleResource::collection($schedule)], 'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
-            return $this->sendError('An error occurred in the system');
-        }
-    }//**********end getALL************/
+        return $this->sendResponse(['schedule' => AdvertiseScheduleResource::collection($schedule)], 'Data exited successfully');
+    } //**********end getALL************/
 
 
 
     protected function validDim($files)
     {
-        foreach ($files as $key => $file)
-        {
+        foreach ($files as $key => $file) {
             $size = AdvertisingSize::find($file['size_id']);
             $data = getimagesize($file['file_name']);
             $width = $data[0];
             $height = $data[1];
-            if ($width != $size->width || $height != $size->height)
-            {
+            if ($width != $size->width || $height != $size->height) {
                 return 'error';
             }
         }
-    }//**********end validDim************/
+    } //**********end validDim************/
 
 
 
     protected function validDimMobile($files)
     {
-        foreach ($files as $key => $file)
-        {
+        foreach ($files as $key => $file) {
             $size = AdvertisingSizeMobile::find($file['size_id']);
             $data = getimagesize($file['file_name']);
             $width = $data[0];
             $height = $data[1];
-            if ($width != $size->width || $height != $size->height)
-            {
+            if ($width != $size->width || $height != $size->height) {
                 return 'error';
             }
         }
-    }//**********end validDimMobile************/
+    } //**********end validDimMobile************/
 
 
 
@@ -523,7 +474,7 @@ class AdvertiserScheduleController extends Controller
         //         return redirect("/" . app()->getLocale() . "/p/advertise/package")->with(['success' => app()->getLocale() == 'ar' ? ' تم الدفع بنجاح' : 'Payment completed successfully']);
         //     }
         // }
-    }//**********end advertiser_callback_success************/
+    } //**********end advertiser_callback_success************/
 
 
 
@@ -544,7 +495,7 @@ class AdvertiserScheduleController extends Controller
         //         return redirect("/" . app()->getLocale() . "/p/advertise/package")->with(['error' => app()->getLocale() == 'ar' ? 'فشل في عملية الدفع' : 'Payment Failed']);
         //     }
         // }
-    }//**********end advertiser_callback_error************/
+    } //**********end advertiser_callback_error************/
 
 
 
@@ -555,7 +506,7 @@ class AdvertiserScheduleController extends Controller
         // ->each(function ($admin) use ($project) {
         //     $admin->notify(new AddProposalNotification($project, '', 'showSchedule', "لقد قام عميل بطلب خدمة الاعلانات", "An advertising service customer has requested ."));
         // });
-    }//**********end notifiy************/
+    } //**********end notifiy************/
 
 
 
@@ -569,7 +520,34 @@ class AdvertiserScheduleController extends Controller
         //     'treasury_id' => 5,
         //     'income_id' => 5,
         // ]);
-    }//**********end putCommissionInIncomes************/
+    } //**********end putCommissionInIncomes************/
     /**/
 
+
+
+
+    public function get_desktop_banners(Request $request)
+    {
+        $banners = AdvertisingPageAdvertisingView::with('Page','view')->get();
+        return response()->json(['banners'=>$banners]);
+    }
+    public function get_mobile_banners(Request $request)
+    {
+        $banners = AdvertisingPageMobileAdvertisingView::with('pageMobile','view')->get();
+        return response()->json(['banners'=>$banners]);
+    }
+    public function change_desktop_banner_status(Request $request)
+    {
+        $banner = AdvertisingPageAdvertisingView::findOrFail($request->banner_id);
+        $banner->update(['status' => $banner->status == 1 ? 0 : 1]);
+        $banner->save();
+        return response()->json([],200);
+    }
+    public function change_mobile_banner_status(Request $request)
+    {
+        $banner = AdvertisingPageMobileAdvertisingView::findOrFail($request->banner_id);
+        $banner->update(['status' =>$banner->status == 1 ? 0 : 1 ]);
+        $banner->save();
+        return response()->json([],200);
+    }
 }

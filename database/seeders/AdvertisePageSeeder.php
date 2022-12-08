@@ -23,62 +23,43 @@ class AdvertisePageSeeder extends Seeder
             "name" => 'الصفحة الرئيسية'
         ]);
 
-        $homePage->views()->attach([1,2,3,4,5,6,7,8,9,10,11]);
+        $homePage->views()->attach([1,2,3,4,5,6,7]);
+
 
         AdvertisingPageAdvertisingView::find(1)->size()->create
         ([
-            "width" => 1450,
-            "height" => 307,
+            "width" => 300,
+            "height" => 300,
         ]);
         AdvertisingPageAdvertisingView::find(2)->size()->create
         ([
-            "width" => 1450,
-            "height" => 307,
+            "width" => 300,
+            "height" => 300,
         ]);
         AdvertisingPageAdvertisingView::find(3)->size()->create
         ([
-            "width" => 1450,
-            "height" => 307,
+            "width" => 300,
+            "height" => 300,
         ]);
         AdvertisingPageAdvertisingView::find(4)->size()->create
         ([
-            "width" => 1450,
-            "height" => 307,
+            "width" => 1550,
+            "height" => 250,
         ]);
         AdvertisingPageAdvertisingView::find(5)->size()->create
         ([
-            "width" => 250,
+            "width" => 1550,
             "height" => 250,
         ]);
         AdvertisingPageAdvertisingView::find(6)->size()->create
         ([
-            "width" => 250,
+            "width" => 1550,
             "height" => 250,
         ]);
         AdvertisingPageAdvertisingView::find(7)->size()->create
         ([
-            "width" => 250,
-            "height" => 250,
-        ]);
-        AdvertisingPageAdvertisingView::find(8)->size()->create
-        ([
-            "width" => 1450,
-            "height" => 200,
-        ]);
-        AdvertisingPageAdvertisingView::find(9)->size()->create
-        ([
-            "width" => 1450,
-            "height" => 200,
-        ]);
-        AdvertisingPageAdvertisingView::find(10)->size()->create
-        ([
-            "width" => 1450,
-            "height" => 200,
-        ]);
-        AdvertisingPageAdvertisingView::find(11)->size()->create
-        ([
-            "width" => 1400,
-            "height" => 2500,
+            "width" => 1000,
+            "height" => 600,
         ]);
 
 
@@ -90,22 +71,22 @@ class AdvertisePageSeeder extends Seeder
             "name" => 'صفحة المنتجات',
         ]);
 
-        $productsPage->views()->attach([12,13,14]);
+        $productsPage->views()->attach([8,9,10]);
 
-        AdvertisingPageAdvertisingView::find(12)->size()->create
+        AdvertisingPageAdvertisingView::find(8)->size()->create
         ([
             "width" => 250,
             "height" => 400,
         ]);
-        AdvertisingPageAdvertisingView::find(13)->size()->create
+        AdvertisingPageAdvertisingView::find(9)->size()->create
         ([
             "width" => 250,
             "height" => 400,
         ]);
-        AdvertisingPageAdvertisingView::find(14)->size()->create
+        AdvertisingPageAdvertisingView::find(10)->size()->create
         ([
             "width" => 1000,
-            "height" => 200,
+            "height" => 250,
         ]);
 
 
@@ -117,53 +98,23 @@ class AdvertisePageSeeder extends Seeder
             "name" => 'صفحة تفاصيل المنتجات',
         ]);
 
-        $detailsPage->views()->attach([12, 13, 14]);
+        $detailsPage->views()->attach([11, 12, 13]);
 
-        AdvertisingPageAdvertisingView::find(15)->size()->create
+        AdvertisingPageAdvertisingView::find(11)->size()->create
         ([
-            "width" => 250,
-            "height" => 400,
+            "width" => 600,
+            "height" => 250,
         ]);
-        AdvertisingPageAdvertisingView::find(16)->size()->create
+        AdvertisingPageAdvertisingView::find(12)->size()->create
         ([
-            "width" => 250,
-            "height" => 400,
+            "width" => 600,
+            "height" => 250,
         ]);
-        AdvertisingPageAdvertisingView::find(17)->size()->create
+        AdvertisingPageAdvertisingView::find(13)->size()->create
         ([
-            "width" => 1000,
-            "height" => 200,
+            "width" => 1240,
+            "height" => 250,
         ]);
-
-
-
-
-
-        $alternativesPage =  AdvertisingPage::create
-        ([
-            "name" => 'صفحة بدائل المنتجات',
-        ]);
-
-        $alternativesPage->views()->attach([12, 13, 14]);
-
-        AdvertisingPageAdvertisingView::find(18)->size()->create
-        ([
-            "width" => 250,
-            "height" => 400,
-        ]);
-        AdvertisingPageAdvertisingView::find(19)->size()->create
-        ([
-            "width" => 250,
-            "height" => 400,
-        ]);
-        AdvertisingPageAdvertisingView::find(20)->size()->create
-        ([
-            "width" => 1000,
-            "height" => 200,
-        ]);
-
-
-
 
 
         $shoppingPage =  AdvertisingPage::create
@@ -173,13 +124,11 @@ class AdvertisePageSeeder extends Seeder
 
         $shoppingPage->views()->attach([14]);
 
-        AdvertisingPageAdvertisingView::find(21)->size()->create
+        AdvertisingPageAdvertisingView::find(14)->size()->create
         ([
-            "width" => 1000,
-            "height" => 200,
+            "width" => 1240,
+            "height" => 250,
         ]);
-
-
 
 
 
@@ -188,14 +137,14 @@ class AdvertisePageSeeder extends Seeder
             "name" => 'صفحة بروفايل العميل',
         ]);
 
-        $profilePage->views()->attach([14, 15]);
+        $profilePage->views()->attach([15, 16]);
 
-        AdvertisingPageAdvertisingView::find(22)->size()->create
+        AdvertisingPageAdvertisingView::find(15)->size()->create
         ([
             "width" => 1000,
             "height" => 200,
         ]);
-        AdvertisingPageAdvertisingView::find(23)->size()->create([
+        AdvertisingPageAdvertisingView::find(16)->size()->create([
             "width" => 1000,
             "height" => 200,
         ]);

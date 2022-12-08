@@ -290,6 +290,40 @@
                         </div>
                       </div>
                       <!--End Main Measurement Unit-->
+                      <!--Start Main Measurement Unit-->
+                      <div class="col-md-6 mb-3">
+                        <label>الشركات</label>
+                        <select
+                          name="type"
+                          class="form-select"
+                          v-model="v$.company_id.$model"
+                          :class="{
+                            'is-invalid': v$.company_id.$error,
+                            'is-valid': !v$.company_id.$invalid,
+                          }"
+                        >
+                          <option value="">---</option>
+                          <option
+                            v-for="company in companies"
+                            :key="company.id"
+                            :value="company.id"
+                          >
+                            {{ company.name_ar }} / {{ company.name_en}}
+                          </option>
+                        </select>
+                        <div class="valid-feedback">تبدو جيده</div>
+                        <div class="invalid-feedback">
+                          <span
+                            v-if="v$.company_id.required.$invalid"
+                          >
+                            هذا الحقل مطلوب<br />
+                          </span>
+                          <span v-if="v$.company_id.integer.$invalid">
+                            يجب ان يكون رقم <br
+                          /></span>
+                        </div>
+                      </div>
+                      <!--End Main Measurement Unit-->
 
                       <!--Start Count Unit-->
                       <div class="col-md-6 mb-3">
@@ -944,6 +978,7 @@ export default {
     let loading2 = ref(false);
     let pharmacistForms = ref([]);
     let categories = ref([]);
+    let companies = ref([]);
     let subCategories = ref([]);
     let measures = ref([]);
     let sellingMethods = ref([]);
@@ -963,6 +998,7 @@ export default {
         effectiveMaterial: "",
         barcode: "",
         count_unit: null,
+        company_id: null,
         maximum_product: null,
         Re_order_limit: null,
         description: "",
@@ -1000,6 +1036,7 @@ export default {
           pharmacistForms.value = l.pharmacistForms;
           categories.value = l.categories;
           measures.value = l.measures;
+          companies.value = l.companies;
           sellingMethods.value = l.sellingMethods;
           stores.value = l.stores;
         })
@@ -1050,6 +1087,10 @@ export default {
           integer,
         },
         count_unit: {
+          required,
+          integer,
+        },
+        company_id: {
           required,
           integer,
         },
@@ -1236,6 +1277,7 @@ export default {
       numberOfImage,
       numberOfImage1,
       pharmacistForms,
+      companies,
       categories,
       measures,
       alternatives,
@@ -1268,6 +1310,7 @@ export default {
         formData.append("effectiveMaterial", this.data.effectiveMaterial);
         formData.append("barcode", this.data.barcode);
         formData.append("count_unit", this.data.count_unit);
+        formData.append("company_id", this.data.company_id);
         formData.append("maximum_product", this.data.maximum_product);
         formData.append("Re_order_limit", this.data.Re_order_limit);
         formData.append("description", this.data.description);
@@ -1347,6 +1390,7 @@ export default {
       this.data.nameEn = "";
       this.data.barcode = "";
       this.data.count_unit = null;
+      this.data.company_id = null;
       this.data.Re_order_limit = null;
       this.data.maximum_product = null;
       this.data.description = "";

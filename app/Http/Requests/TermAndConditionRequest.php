@@ -24,7 +24,10 @@ class TermAndConditionRequest extends FormRequest
     public function rules()
     {
         return [
-            "context" => "required"
+            "terms" => "nullable",
+            "policy" => "nullable",
+            "delivery" => "nullable",
+            "privacy" => "nullable",
         ];
     }
 }

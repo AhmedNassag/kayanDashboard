@@ -46,6 +46,15 @@
                     </li>
                     <!-- End Tax Link -->
 
+                    <!-- Start Tax Link -->
+                    <li v-if="permission.includes('company read')" :class="[{active: ['indexCompany'].includes($route.name)}]">
+                        <router-link :to="{ name: 'indexCompany' }">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <span>{{ $t("global.Companies") }}</span>
+                        </router-link>
+                    </li>
+                    <!-- End Tax Link -->
+
                     <!-- Start Shift Link -->
                     <li v-if="permission.includes('shift read')" :class="[{active: ['indexShift', 'createShift', 'editShift'].includes($route.name)}]">
                         <router-link :to="{ name: 'indexShift' }">
@@ -480,6 +489,16 @@
                                     ]"
                                 >
                                     {{ $t("sidebar.Schedule") }}
+                                </router-link>
+                            </li>
+                              <li :class="[$route.name == 'desktop_banners'? 'active': '']" v-if="permission.includes('schedule read')">
+                                <router-link :to="{name:'desktop_banners',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.Update Desktop Banners')}}
+                                </router-link>
+                            </li>
+                            <li :class="[$route.name == 'mobile_banners'? 'active': '']" v-if="permission.includes('schedule read')">
+                                <router-link :to="{name:'mobile_banners',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
+                                    {{$t('global.Update Mobile Banners')}}
                                 </router-link>
                             </li>
                         </ul>

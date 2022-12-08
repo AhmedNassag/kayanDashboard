@@ -14,15 +14,6 @@ class AdvertiseViewSeeder extends Seeder
      */
     public function run()
     {
-        
-        $firstSlider = AdvertisingView::create([ "type" => 'أول سلايدر' ]);
-
-        $secondSlider = AdvertisingView::create([ "type" => 'ثانى سلايدر' ]);
-
-        $thirdSlider = AdvertisingView::create([ "type" => 'ثالث سلايدر' ]);
-
-        $fourthSlider = AdvertisingView::create([ "type" => 'رابع سلايدر' ]);
-
         $rightSquare = AdvertisingView::create([ "type" => 'مربع يمين' ]);
 
         $middleSquare = AdvertisingView::create([ "type" => 'مربع وسط' ]);

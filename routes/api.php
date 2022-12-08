@@ -77,6 +77,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('activationSupplier/{id}', 'SupplierController@activationSupplier');
             Route::get('activeSupplier', 'SupplierController@activeSupplier');
 
+            //company
+            Route::resource('companies', 'CompanyController')->except(['show']);
+            Route::put('companies', 'CompanyController@update');
+
+
             // category
             Route::resource('category', 'CategoryController')->except(['show']);
             Route::get('activationCategory/{id}', 'CategoryController@activationCategory');
@@ -182,10 +187,6 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // sale return
             Route::resource('saleReturn', 'SaleReturnController');
 
-            // company
-            Route::resource('company', 'CompanyController')->except(['show']);
-            Route::get('activationCompany/{id}', 'CompanyController@activationCompany');
-
             // ad owner
             Route::resource('adOwner', 'AdOwnerController')->except(['show']);
             Route::get('activationAdOwner/{id}', 'AdOwnerController@activationAdOwner');
@@ -199,6 +200,12 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::resource('advertiserPackage', 'PackageController');
             Route::get('activationPackage/{id}', 'PackageController@activationPackage');
             Route::post('advertiserPackage/statusPackage', 'PackageController@statusPackage');
+
+            Route::get('get_desktop_banners','AdvertiserScheduleController@get_desktop_banners');
+            Route::get('get_mobile_banners','AdvertiserScheduleController@get_mobile_banners');
+            Route::post('change_desktop_banner_status','AdvertiserScheduleController@change_desktop_banner_status');
+            Route::post('change_mobile_banner_status','AdvertiserScheduleController@change_mobile_banner_status');
+
 
             // start Advertise Schedule
             Route::resource('scheduleAdvertise', 'AdvertiserScheduleController')->except('show');
@@ -617,6 +624,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::prefix("terms-and-conditions")->group(function () {
                 Route::get("", "TermAndConditionController@getTermsAndConditions");
                 Route::post("", "TermAndConditionController@storeTermsAndConditions");
+            });
+            //return policy
+            Route::prefix("return-policy")->group(function () {
+                Route::get("", "TermAndConditionController@getReturnPolicy");
+                Route::post("", "TermAndConditionController@storeReturnPolicy");
             });
 
             Route::prefix("unavailable-cities-clients")->group(function () {

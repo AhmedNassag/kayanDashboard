@@ -12,16 +12,70 @@
           <textarea
             type="text"
             class="form-control"
-            v-model="v$.context.$model"
+            v-model="v$.terms.$model"
             rows="5"
             :class="{
-              'is-invalid': v$.context.$error,
+              'is-invalid': v$.terms.$error,
             }"
           >
           </textarea>
           <div class="invalid-feedback">
-            <div v-for="error in v$.context.$errors" :key="error">
-              {{ $t("global.Context") + " " + $t(error.$validator) }}
+            <div v-for="error in v$.terms.$errors" :key="error">
+              {{ $t("global.TermsAndConditions ") + " " + $t(error.$validator) }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail2">{{ $t("global.Return Policy") }}</label>
+          <textarea
+            type="text"
+            class="form-control"
+            v-model="v$.policy.$model"
+            rows="5"
+            :class="{
+              'is-invalid': v$.policy.$error,
+            }"
+          >
+          </textarea>
+          <div class="invalid-feedback">
+            <div v-for="error in v$.policy.$errors" :key="error">
+              {{ $t("global.Return Policy") + " " + $t(error.$validator) }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail3">{{ $t("global.Delivery information") }}</label>
+          <textarea
+            type="text"
+            class="form-control"
+            v-model="v$.delivery.$model"
+            rows="5"
+            :class="{
+              'is-invalid': v$.delivery.$error,
+            }"
+          >
+          </textarea>
+          <div class="invalid-feedback">
+            <div v-for="error in v$.delivery.$errors" :key="error">
+              {{ $t("global.Delivery information") + " " + $t(error.$validator) }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail3">{{ $t("global.Privacy Policy") }}</label>
+          <textarea
+            type="text"
+            class="form-control"
+            v-model="v$.privacy.$model"
+            rows="5"
+            :class="{
+              'is-invalid': v$.privacy.$error,
+            }"
+          >
+          </textarea>
+          <div class="invalid-feedback">
+            <div v-for="error in v$.privacy.$errors" :key="error">
+              {{ $t("global.Privacy Policy") + " " + $t(error.$validator) }}
             </div>
           </div>
         </div>
@@ -45,17 +99,26 @@ export default {
   setup() {
     const { t } = useI18n({});
     const form = reactive({
-      context: "",
+      terms: "",
+      policy: "",
+      delivery: "",
+      privacy: "",
     });
     const data = reactive({
       loading: false,
     });
     const rules = {
-      context: { required },
+      terms: { required },
+      policy: { required },
+      privacy: { required },
+      delivery: { required },
     };
     onMounted(() => {
       termAndConditionClient.getTermsAndConditions().then((response) => {
-        form.context = response.data ? response.data.context : "";
+        form.terms = response.data ? response.data.terms : "";
+        form.policy = response.data ? response.data.policy : "";
+        form.delivery = response.data ? response.data.delivery : "";
+        form.privacy = response.data ? response.data.privacy : "";
       });
     });
     //Methods
@@ -67,7 +130,10 @@ export default {
       data.loading = true;
       termAndConditionClient
         .insertTermsAndConditions({
-          context: form.context,
+          terms: form.terms,
+          policy: form.policy,
+          delivery: form.delivery,
+          privacy: form.privacy,
         })
         .then((response) => {
           data.loading = false;
