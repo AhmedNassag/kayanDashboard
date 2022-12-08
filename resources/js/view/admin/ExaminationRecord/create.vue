@@ -51,44 +51,34 @@
 
                                             <div class="col-md-3 mb-3">
                                                 <label>{{$t('global.Store')}}</label>
-                                                <input type="text" disabled class="form-control"
-                                                       v-model="storeName"
-                                                >
+                                                <input type="text" disabled class="form-control" v-model="storeName">
                                             </div>
 
                                             <div class="col-md-3 mb-3">
                                                 <label>{{$t('global.Supplier')}}</label>
-                                                <input type="text" disabled class="form-control"
-                                                       v-model="supplierName"
-                                                >
+                                                <input type="text" disabled class="form-control" v-model="supplierName">
                                             </div>
 
                                             <div class="col-md-3 mb-3">
                                                 <label>{{$t('global.NotesInvoice')}}</label>
-                                                <input type="text" disabled class="form-control"
-                                                       v-model="notesInvoice"
-                                                >
+                                                <input type="text" disabled class="form-control" v-model="notesInvoice">
                                             </div>
 
                                             <div class="col-md-3 mb-3">
                                                 <label>{{$t('global.TotalQuantityPrice')}}</label>
-                                                <input type="text" disabled class="form-control"
-                                                       v-model="quantityInvoice"
-                                                >
+                                                <input type="text" disabled class="form-control" v-model="quantityInvoice">
                                             </div>
 
                                             <div class="col-md-6 mb-3">
                                                 <label>{{$t('global.NotesReceived')}}</label>
                                                 <textarea rows="4" cols="5" v-model.trim="data.notes_received" :class="['form-control text-height is-valid']" :placeholder="$t('global.NotesReceived')"></textarea>
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
-
                                             </div>
 
                                             <div class="col-md-6 mb-3" v-if="data.return">
                                                 <label>{{$t('global.NotesReturn')}}</label>
                                                 <textarea rows="4" cols="5" v-model.trim="data.notes_return" :class="['form-control text-height is-valid']" :placeholder="$t('global.NotesReturn')"></textarea>
                                                 <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
-
                                             </div>
 
                                             <div class="col-md-12 mb-12">
@@ -100,50 +90,37 @@
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.ProductName')}}</label>
-                                                            <input type="text" disabled class="form-control"
-                                                                   v-model="data.product[index].productName"
-                                                            >
+                                                            <input type="text" disabled class="form-control" v-model="data.product[index].productName">
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.RequiredQuantity')}} ( {{data.product[index].mainUnitMeasurement}} ) ( {{$t('global.TotalAccount')}} )</label>
-                                                            <input type="text" disabled class="form-control"
-                                                                   v-model="data.product[index].RequiredQuantity"
-                                                            >
+                                                            <input type="text" disabled class="form-control" v-model="data.product[index].RequiredQuantity">
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.RequiredQuantity')}} ( {{data.product[index].subUnitMeasurement}} ) ( {{$t('global.Partial')}} )</label>
-                                                            <input type="text" disabled class="form-control"
-                                                                   v-model="data.product[index].RequiredSubQuantity"
-                                                            >
+                                                            <input type="text" disabled class="form-control" v-model="data.product[index].RequiredSubQuantity">
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.countUnits')}}</label>
-                                                            <input type="text" disabled class="form-control"
-                                                                   v-model="data.product[index].count_unit"
-                                                            >
+                                                            <input type="text" disabled class="form-control" v-model="data.product[index].count_unit">
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.productionDate')}}</label>
-                                                            <input type="date" class="form-control" disabled
-                                                                   v-model="data.product[index].production_date"
-                                                            >
+                                                            <input type="date" class="form-control" disabled v-model="data.product[index].production_date">
                                                         </div>
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{$t('global.expiryDate')}}</label>
-                                                            <input type="date" class="form-control" disabled
-                                                                   v-model="data.product[index].expiry_date"
-                                                            >
+                                                            <input type="date" class="form-control" disabled v-model="data.product[index].expiry_date">
                                                         </div>
 
 
                                                         <div class="col-md-3 mb-3">
                                                             <label>{{ $t('global.productStatus') }} ( {{$t('global.TotalAccount')}} )</label>
-
                                                             <select  v-model="data.product[index].product_status_id " :class="['form-select',{'is-invalid':v$.product[index].product_status_id.$error,'is-valid':!v$.product[index].product_status_id.$invalid}]">
                                                                 <option v-for="status in productStatuses" :key="status.id" :value="status.id">{{status.name}}</option>
                                                             </select>

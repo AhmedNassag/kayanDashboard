@@ -76,27 +76,24 @@
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th>{{$t('global.InvoiceNumber')}}</th>
-                                            <th>{{ $t('global.Supplier') }}</th>
-                                            <th>{{ $t('global.Store') }}</th>
-                                            <th>{{ $t('global.paid up') }}</th>
-                                            <th>{{ $t('global.Date') }}</th>
-                                            <th>{{ $t('global.Notes') }}</th>
-                                            <th>{{ $t('global.Action') }}</th>
+                                            <th class="text-center">{{$t('global.InvoiceNumber')}}</th>
+                                            <th class="text-center">{{ $t('global.Supplier') }}</th>
+                                            <th class="text-center">{{ $t('global.Store') }}</th>
+                                            <th class="text-center">{{ $t('global.paid up') }}</th>
+                                            <th class="text-center">{{ $t('global.Date') }}</th>
+                                            <th class="text-center">{{ $t('global.Notes') }}</th>
+                                            <th class="text-center">{{ $t('global.Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="purchases.length">
                                         <tr v-for="(item,index) in purchases"  :key="item.id">
-                                            <td>{{ item.id }}</td>
-                                            <td>{{ item.sender_name }}</td>
-                                            <td>{{ item.store.name }}</td>
-
-                                            <td>{{ item.price }}</td>
-
-                                            <td>{{  dateFormat(item.created_at) }}</td>
-                                            <td>{{ item.note ? item.note : "---" }}</td>
-                                            <td>
-
+                                            <td class="text-center">{{ item.id }}</td>
+                                            <td class="text-center">{{ item.sender_name }}</td>
+                                            <td class="text-center">{{ item.store.name }}</td>
+                                            <td class="text-center">{{ item.price }}</td>
+                                            <td class="text-center">{{  dateFormat(item.created_at) }}</td>
+                                            <td class="text-center">{{ item.note ? item.note : "---" }}</td>
+                                            <td class="text-center">
                                                 <a href="javascript:void(0);"
                                                    class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
                                                    :data-bs-target="'#edit-category'+item.id">
@@ -104,16 +101,15 @@
                                                 </a>
 
                                                 <a href="#" @click="deleteJob(item.id,index)"
-                                                   v-if="permission.includes('PurchaseInvoice delete') && item.is_received == 0"
-                                                   data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2">
+                                                    v-if="permission.includes('PurchaseInvoice delete') && item.is_received == 0"
+                                                    data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger me-2">
                                                     <i class="far fa-trash-alt"></i>
                                                 </a>
 
                                                 <a v-if="item.is_received == 1" href="javascript:void(0);"
-                                                   class="btn btn-sm btn-success me-2">
+                                                    class="btn btn-sm btn-success me-2">
                                                     <i class="fas fa-check-circle"></i> {{$t('global.ItWasReceived')}}
                                                 </a>
-
                                             </td>
 
                                             <!-- Edit Modal -->
@@ -155,12 +151,12 @@
                                                                             <div class="table-responsive" :id="'printData-'+item.id">
                                                                                 <div class="head-data row">
 
-                                                                                        <div class="col-md-6 invoice-head">
-                                                                                            <h5>{{$t('global.InvoiceNumber')}} : {{item.id}}</h5>
-                                                                                        </div>
-                                                                                        <div class="col-md-6 image-div">
-                                                                                            <img src="/web/img/logo.png" alt="Logo">
-                                                                                        </div>
+                                                                                    <div class="col-md-6 invoice-head">
+                                                                                        <h5>{{$t('global.InvoiceNumber')}} : {{item.id}}</h5>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 image-div">
+                                                                                        <img src="/admin/img/Logo Dashboard.png" alt="Logo">
+                                                                                    </div>
 
 
                                                                                     <div class="col-md-6">

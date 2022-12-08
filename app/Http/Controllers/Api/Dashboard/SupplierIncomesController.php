@@ -28,7 +28,7 @@ class SupplierIncomesController extends Controller
                 $q->when($request->search, function ($q) use ($request) {
                     return $q->where('notes', 'like', '%' . $request->search . '%')
                         ->orWhere('amount', 'like', '%' . $request->search . '%')
-                        ->orWhereRelation('supplier','name_supplier','like','%'.$request->search.'%')
+                        ->orWhereRelation('supplier','name','like','%'.$request->search.'%')
                         ->orWhereRelation('income','name','like','%'.$request->search.'%')
                         ->orWhereRelation('treasury','name','like','%'.$request->search.'%')
                         ->orWhereRelation('user','name','like','%'.$request->search.'%');
@@ -45,9 +45,9 @@ class SupplierIncomesController extends Controller
 
     public function create(){
 
-        $suppliers = Supplier::where('status', 1)->get();
+        $suppliers  = Supplier::where('active', 1)->get();
         $treasuries = Treasury::where('active',1)->get();
-        $incomes = Income::where('active',1)->get();
+        $incomes    = Income::where('active',1)->get();
         return $this->sendResponse(['suppliers'=>$suppliers,'treasuries'=>$treasuries,'incomes'=>$incomes], 'Data exited successfully');
     }
 
@@ -99,10 +99,10 @@ class SupplierIncomesController extends Controller
     public function edit($id)
     {
         try {
-            $supplier = SupplierIncome::find($id);
-            $suppliers = Supplier::where('status', 1)->get();
+            $supplier   = SupplierIncome::find($id);
+            $suppliers  = Supplier::where('active', 1)->get();
             $treasuries = Treasury::where('active',1)->get();
-            $incomes = Income::where('active',1)->get();
+            $incomes    = Income::where('active',1)->get();
             return $this->sendResponse(['suppliers'=>$suppliers,'supplier'=>$supplier,'treasuries'=>$treasuries,'incomes'=>$incomes], 'Data exited successfully');
 
         } catch (\Exception $e) {

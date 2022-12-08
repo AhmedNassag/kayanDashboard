@@ -40,17 +40,15 @@
 
                                                 <div class="col-md-2 p-0">
                                                     <label >{{$t('global.ToDate')}}</label>
-                                                    <input type="date" class="form-control date-input"
-                                                           v-model="toDate">
+                                                    <input type="date" class="form-control date-input" v-model="toDate">
                                                 </div>
 
                                                 <div class="col-md-2 p-0">
                                                     <label >{{$t('global.PurchaseReturnInvoiceNumber')}}</label>
-                                                    <input type="number" class="form-control date-input"
-                                                           v-model="purchase_return_id">
+                                                    <input type="number" class="form-control date-input" v-model="purchase_return_id">
                                                 </div>
 
-                                                <div class="col-md-2 p-0">
+                                                <div class="col-md-2 p-0" hidden>
                                                     <label>{{ $t('global.InvoiceResourceType') }}</label>
                                                     <select v-model="is_suppler" class="form-control date-input">
                                                         <option value="0">{{$t('global.client')}}</option>
@@ -78,29 +76,29 @@
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>{{ $t('global.Supplier') }}</th>
-                                            <th>{{$t('global.PurchaseReturnInvoiceNumber')}}</th>
-                                            <th>{{ $t('global.Amount') }}</th>
-                                            <th>{{ $t('global.ProcessWriter') }}</th>
-                                            <th>{{ $t('global.Date_Pay') }}</th>
-                                            <th>{{ $t('global.Treasury') }}</th>
-                                            <th>{{ $t('global.Notes') }}</th>
-                                            <th>{{ $t('global.Action') }}</th>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">{{ $t('global.Supplier') }}</th>
+                                            <th class="text-center">{{$t('global.PurchaseReturnInvoiceNumber')}}</th>
+                                            <th class="text-center">{{ $t('global.Amount') }}</th>
+                                            <th class="text-center">{{ $t('global.ProcessWriter') }}</th>
+                                            <th class="text-center">{{ $t('global.Date_Pay') }}</th>
+                                            <th class="text-center">{{ $t('global.Treasury') }}</th>
+                                            <th class="text-center">{{ $t('global.Notes') }}</th>
+                                            <th class="text-center">{{ $t('global.Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="purchases.length">
-                                        <tr v-for="(item,index) in purchases"  :key="item.id">
-                                            <td>{{ item.id }}</td>
-                                            <td>{{ is_suppler ==1 ? item.supplier.name_supplier : item.client.name}}</td>
-                                            <td>{{ item.purchase_return_id }}</td>
-                                            <td>{{ item.amount }}</td>
-                                            <td>{{ item.user.name }}</td>
-                                            <td>{{  dateFormat(item.payment_date) }}</td>
-                                            <td>{{ item.treasury.name }}</td>
-                                            <td>{{ item.notes ?? "---" }}</td>
+                                        <tr v-for="(item) in purchases"  :key="item.id">
+                                            <td class="text-center">{{ item.id }}</td>
+                                            <td class="text-center">{{ is_suppler ==1 ? item.supplier.name_supplier : item.client.user.name}}</td>
+                                            <td class="text-center">{{ item.purchase_return_id }}</td>
+                                            <td class="text-center">{{ item.amount }}</td>
+                                            <td class="text-center">{{ item.user.name }}</td>
+                                            <td class="text-center">{{  dateFormat(item.payment_date) }}</td>
+                                            <td class="text-center">{{ item.treasury.name }}</td>
+                                            <td class="text-center">{{ item.notes ?? "---" }}</td>
 
-                                            <td>
+                                            <td class="text-center">
                                                 <a href="javascript:void(0);"
                                                    class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
                                                    :data-bs-target="'#edit-category'+item.id">
@@ -152,7 +150,7 @@
                                                                                         <h5>{{$t('global.InvoiceReturnNumber')}} : {{item.id}}</h5>
                                                                                     </div>
                                                                                     <div class="col-md-6 image-div">
-                                                                                        <img src="/web/img/logo.png" alt="Logo">
+                                                                                        <img src="/admin/img/Logo Dashboard.png" alt="Logo">
                                                                                     </div>
 
                                                                                     <div class="col-md-6">
@@ -179,21 +177,22 @@
                                                                                         <th>{{ $t('global.ReturnReason') }}</th>
                                                                                     </tr>
                                                                                     </thead>
-                                                                                    <tbody>
-                                                                                    <tr v-for="(it,index) in item.purchase_return.return_products" v-if="item.purchase_return.return_products" :key="it.id">
-                                                                                        <td>{{ index +1}}</td>
-                                                                                        <td>{{ it.product.name }}</td>
-                                                                                        <td>{{ it.quantity }}</td>
-                                                                                        <td>{{ it.price }} ج.م</td>
-                                                                                        <td>{{ it.sub_quantity }}</td>
-                                                                                        <td>{{ parseFloat(it.sub_price).toFixed(2) }} ج.م</td>
-                                                                                        <td>{{ parseFloat(it.quantity * it.price) + parseFloat(it.sub_quantity * it.sub_price) }} ج.م</td>
-                                                                                        <td>{{ it.note ?? '---' }}</td>
-                                                                                    </tr>
-                                                                                    <tr v-else>
-                                                                                        <th class="text-center" colspan="8">{{ $t('global.NoDataFound') }}</th>
-                                                                                    </tr>
-
+                                                                                    <tbody v-if="item.purchase_return.return_products">
+                                                                                        <tr v-for="(it,index) in item.purchase_return.return_products" :key="it.id">
+                                                                                            <td>{{ index +1}}</td>
+                                                                                            <td>{{ it.product.name }}</td>
+                                                                                            <td>{{ it.quantity }}</td>
+                                                                                            <td>{{ it.price }} ج.م</td>
+                                                                                            <td>{{ it.sub_quantity }}</td>
+                                                                                            <td>{{ parseFloat(it.sub_price).toFixed(2) }} ج.م</td>
+                                                                                            <td>{{ parseFloat(it.quantity * it.price) + parseFloat(it.sub_quantity * it.sub_price) }} ج.م</td>
+                                                                                            <td>{{ it.note ?? '---' }}</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                    <tbody v-else>
+                                                                                        <tr>
+                                                                                            <th class="text-center" colspan="8">{{ $t('global.NoDataFound') }}</th>
+                                                                                        </tr>
                                                                                     </tbody>
                                                                                 </table>
                                                                             </div>

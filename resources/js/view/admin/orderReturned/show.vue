@@ -31,11 +31,13 @@
                     <div class="card mt-5">
                         <div class="card-body">
                             <div class="text-center mb-5">
-                                <label class="avatar avatar-xxl profile-cover-avatar" >
+                                <!-- <label class="avatar avatar-xxl profile-cover-avatar" >
                                     <img class="avatar-img" :src="user.image_path" alt="Profile Image">
-                                </label>
-                                <h2>{{user.name}} <i class="fas fa-certificate text-primary small" data-bs-toggle="tooltip"
-                                                  data-placement="top" title="" data-original-title="Verified"></i></h2>
+                                </label> -->
+                                <h2>
+                                    {{user.name}}
+                                    <i class="fas fa-certificate text-primary small" data-bs-toggle="tooltip" data-placement="top" title="" data-original-title="Verified"></i>
+                                </h2>
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
                                         <i class="fas fa-phone"></i> <span>{{user.phone}}</span>
@@ -142,9 +144,9 @@
                                             </tr>
                                             </tbody>
                                             <tbody  v-else>
-                                            <tr>
-                                                <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
-                                            </tr>
+                                                <tr>
+                                                    <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
+                                                </tr>
                                             </tbody>
                                         </table>
                                         <div class="text-center mt-3 mb-3">
@@ -163,37 +165,34 @@
                                             </tr>
                                             </thead>
                                             <tbody v-if="order_return.length">
-                                            <tr v-for="(it,index) in order_return" :key="it.id">
-                                                <td class="text-center">{{ index +1}}</td>
-                                                <td class="text-center">{{ it.product.name }}</td>
-                                                <td class="text-center">{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
-                                                <td class="text-center">{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
-                                                <td class="text-center">{{ it.sub_quantity ? it.price : '-'}}</td>
-                                                <td class="text-center">{{  it.sub_quantity ? it.sub_price : '-'}}</td>
-                                                <td class="text-center">
-                                                    {{
-                                                        parseFloat((it.quantity * it.price) + (it.sub_quantity * it.sub_price))
-                                                            .toFixed(2)
-                                                    }}
-                                                </td>
-                                            </tr>
+                                                <tr v-for="(it,index) in order_return" :key="it.id">
+                                                    <td class="text-center">{{ index +1}}</td>
+                                                    <td class="text-center">{{ it.product.name }}</td>
+                                                    <td class="text-center">{{ it.quantity }} ( {{it.main_measurement_unit.name}} )</td>
+                                                    <td class="text-center">{{ it.sub_quantity }} ( {{it.sub_measurement_unit.name}} )</td>
+                                                    <td class="text-center">{{ it.sub_quantity ? it.price : '-'}}</td>
+                                                    <td class="text-center">{{  it.sub_quantity ? it.sub_price : '-'}}</td>
+                                                    <td class="text-center">
+                                                        {{
+                                                            parseFloat((it.quantity * it.price) + (it.sub_quantity * it.sub_price))
+                                                                .toFixed(2)
+                                                        }}
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                             <tbody  v-else>
-                                            <tr>
-                                                <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
-                                            </tr>
+                                                <tr>
+                                                    <th class="text-center" colspan="7">{{ $t('global.NoDataFound') }}</th>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
         <!-- /Page Wrapper -->
     </div>
