@@ -15,7 +15,10 @@ class CreateTermAndConditionsTable extends Migration
     {
         Schema::create('term_and_conditions', function (Blueprint $table) {
             $table->id();
-            $table->string("context")->nullable();
+            $table->text("terms")->nullable();
+            $table->text("policy")->nullable();
+            $table->text("privacy")->nullable();
+            $table->text("delivery")->nullable();
             $table->timestamps();
         });
     }

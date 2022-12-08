@@ -164,4 +164,9 @@ class Product extends Model
     {
         return $this->hasMany(OrderRetuen::class);
     }
+
+    public function company()
+    {
+        return  $this->belongsTo(Company::class);
+    }
 }

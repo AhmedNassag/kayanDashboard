@@ -222,9 +222,7 @@
                           /></span>
                           <span v-if="v$.effectiveMaterial.minLength.$invalid"
                             >يجب ان يكون علي اكثر
-                            {{
-                              v$.effectiveMaterial.maxLength.$params.max
-                            }}
+                            {{ v$.effectiveMaterial.maxLength.$params.max }}
                             حرف</span
                           >
                         </div>
@@ -289,6 +287,41 @@
                           >
                             هذا الحقل مطلوب<br />
                           </span>
+                        </div>
+                      </div>
+                      <!--End Main Measurement Unit-->
+
+                        <!--Start Main Measurement Unit-->
+                        <div class="col-md-6 mb-3">
+                        <label>الشركات</label>
+                        <select
+                          name="type"
+                          class="form-select"
+                          v-model="v$.company_id.$model"
+                          :class="{
+                            'is-invalid': v$.company_id.$error,
+                            'is-valid': !v$.company_id.$invalid,
+                          }"
+                        >
+                          <option value="">---</option>
+                          <option
+                            v-for="company in companies"
+                            :key="company.id"
+                            :value="company.id"
+                          >
+                            {{ company.name_ar }} / {{ company.name_en}}
+                          </option>
+                        </select>
+                        <div class="valid-feedback">تبدو جيده</div>
+                        <div class="invalid-feedback">
+                          <span
+                            v-if="v$.company_id.required.$invalid"
+                          >
+                            هذا الحقل مطلوب<br />
+                          </span>
+                          <span v-if="v$.company_id.integer.$invalid">
+                            يجب ان يكون رقم <br
+                          /></span>
                         </div>
                       </div>
                       <!--End Main Measurement Unit-->
@@ -964,6 +997,7 @@ export default {
     let loading = ref(false);
     let pharmacistForms = ref([]);
     let categories = ref([]);
+    let companies = ref([]);
     let subCategories = ref([]);
     let measures = ref([]);
     let sellingMethods = ref([]);
@@ -987,6 +1021,7 @@ export default {
         description: "",
         image: {},
         files: [],
+        company_id: null,
         category_id: null,
         sub_category_id: null,
         pharmacistForm_id: null,
@@ -1029,14 +1064,18 @@ export default {
       adminApi
         .get(`/v1/dashboard/product/${id.value}/edit`)
         .then((res) => {
-            let related = res.data.data.product.related
-            if(Object.keys(related??[]).length){
-                res.data.data.product.related.forEach((e) => {
-              addProduct.data.alternativeDetail.push({alternative_id:e.id,name:e.nameAr,image:e.image});
+          let related = res.data.data.product.related;
+          if (Object.keys(related ?? []).length) {
+            res.data.data.product.related.forEach((e) => {
+              addProduct.data.alternativeDetail.push({
+                alternative_id: e.id,
+                name: e.nameAr,
+                image: e.image,
+              });
             });
-            }else{
-                addProduct.data.alternativeDetail.push({alternative_id:null});
-            }
+          } else {
+            addProduct.data.alternativeDetail.push({ alternative_id: null });
+          }
           let l = res.data.data;
           addProduct.data.nameAr = l.product.nameAr;
           addProduct.data.nameEn = l.product.nameEn;
@@ -1045,6 +1084,7 @@ export default {
           addProduct.data.maximum_product = l.product.maximum_product;
           addProduct.data.Re_order_limit = l.product.Re_order_limit;
           addProduct.data.description = l.product.description;
+          addProduct.data.company_id = l.product.company_id;
           addProduct.data.category_id = l.product.category_id;
           addProduct.data.sub_category_id = l.product.sub_category_id;
           addProduct.data.pharmacistForm_id = l.product.pharmacistForm_id;
@@ -1067,6 +1107,7 @@ export default {
           images.value = l.product.media;
           pharmacistForms.value = l.pharmacistForms;
           categories.value = l.categories;
+          companies.value = l.companies;
           measures.value = l.measures;
           stores.value = l.stores;
           sellingMethods.value = l.sellingMethods;
@@ -1136,6 +1177,10 @@ export default {
         },
         description: { required },
         category_id: {
+          required,
+          integer,
+        },
+        company_id: {
           required,
           integer,
         },
@@ -1307,8 +1352,9 @@ export default {
       subPrice,
       numberOfImage,
       numberOfImage1,
-      pharmacistForms,
+      companies,
       categories,
+      pharmacistForms,
       stores,
       measures,
       sellingMethods,
@@ -1360,6 +1406,7 @@ export default {
         formData.append("Re_order_limit", this.data.Re_order_limit);
         formData.append("description", this.data.description);
         formData.append("category_id", this.data.category_id);
+        formData.append("company_id", this.data.company_id);
         formData.append("pharmacistForm_id", this.data.pharmacistForm_id);
         formData.append("sell_app", this.data.sell_app);
         formData.append("sub_category_id", this.data.sub_category_id);
