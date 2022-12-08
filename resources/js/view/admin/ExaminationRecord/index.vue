@@ -34,21 +34,17 @@
 
                                                 <div class="col-md-3">
                                                     <label >{{$t('global.FromDate')}}</label>
-                                                    <input type="date" class="form-control date-input"
-                                                           v-model="fromDate">
+                                                    <input type="date" class="form-control date-input" v-model="fromDate">
                                                 </div>
 
                                                 <div class="col-md-3">
                                                     <label >{{$t('global.ToDate')}}</label>
-                                                    <input type="date" class="form-control date-input"
-                                                           v-model="toDate">
+                                                    <input type="date" class="form-control date-input" v-model="toDate">
                                                 </div>
 
                                                 <div class="col-md-4">
                                                     <label >{{$t('global.PurchaseInvoiceNumber')}}</label>
-                                                    <input type="number" class="form-control date-input"
-                                                           v-model="purchase_id">
-
+                                                    <input type="number" class="form-control date-input" v-model="purchase_id">
                                                 </div>
 
                                                 <div class="col-md-2">
@@ -70,24 +66,22 @@
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th>{{$t('global.PurchaseInvoiceNumber')}}</th>
-                                            <th>{{ $t('global.Supplier') }}</th>
-                                            <th>{{ $t('global.Store') }}</th>
-                                            <th>{{ $t('global.Notes') }}</th>
-                                            <th>{{ $t('global.Date') }}</th>
-                                            <th>{{ $t('global.Action') }}</th>
+                                            <th class="text-center">{{$t('global.PurchaseInvoiceNumber')}}</th>
+                                            <th class="text-center">{{ $t('global.Supplier') }}</th>
+                                            <th class="text-center">{{ $t('global.Store') }}</th>
+                                            <th class="text-center">{{ $t('global.Notes') }}</th>
+                                            <th class="text-center">{{ $t('global.Date') }}</th>
+                                            <th class="text-center">{{ $t('global.Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="purchases.length">
                                         <tr v-for="(item,index) in purchases"  :key="item.id">
-                                            <td>{{ index + 1 }}</td>
-                                            <td>{{ item.sender_name }}</td>
-                                            <td>{{ item.store.name }}</td>
-                                            <td>{{ item.note ?? '---' }}</td>
-
-                                            <td>{{  dateFormat(item.created_at) }}</td>
-
-                                            <td>
+                                            <td class="text-center">{{ index + 1 }}</td>
+                                            <td class="text-center">{{ item.sender_name }}</td>
+                                            <td class="text-center">{{ item.store.name }}</td>
+                                            <td class="text-center">{{ item.note ?? '---' }}</td>
+                                            <td class="text-center">{{  dateFormat(item.created_at) }}</td>
+                                            <td class="text-center">
                                                 <a href="javascript:void(0);"
                                                    class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
                                                    :data-bs-target="'#edit-category'+item.id">
@@ -151,7 +145,7 @@
                                                                                         <h5>{{$t('global.PurchaseInvoiceNumber')}} : {{item.id}}</h5>
                                                                                     </div>
                                                                                     <div class="col-md-6 image-div">
-                                                                                        <img src="/web/img/logo.png" alt="Logo">
+                                                                                        <img src="/admin/img/Logo Dashboard.png" alt="Logo">
                                                                                     </div>
 
                                                                                     <div class="col-md-6">
@@ -166,30 +160,30 @@
                                                                                 <table class="table table-center table-hover mb-0 datatable">
                                                                                     <thead>
                                                                                     <tr>
-                                                                                        <th>#</th>
-                                                                                        <th>{{ $t('global.Products') }}</th>
-                                                                                        <th v-if="item.is_received == 0">{{ $t('global.TotalAccount') }}</th>
-                                                                                        <th v-if="item.is_received == 0">{{ $t('global.Partial') }}</th>
-                                                                                        <th v-if="item.is_received == 0">{{ $t('global.productionDate') }}</th>
-                                                                                        <th v-if="item.is_received == 0">{{ $t('global.expiryDate') }}</th>
-                                                                                        <th v-if="item.is_received == 1">{{ $t('global.quantityReceived') }} {{ $t('global.TotalAccount') }}</th>
-                                                                                        <th v-if="item.is_received == 1">{{ $t('global.quantityReceived') }} {{ $t('global.Partial') }}</th>
-                                                                                        <th v-if="item.is_received == 1">{{ $t('global.returnQuantity') }} {{ $t('global.TotalAccount') }}</th>
-                                                                                        <th v-if="item.is_received == 1">{{ $t('global.returnQuantity') }} {{ $t('global.Partial') }}</th>
+                                                                                        <th class="text-center">#</th>
+                                                                                        <th class="text-center">{{ $t('global.Products') }}</th>
+                                                                                        <th class="text-center" v-if="item.is_received == 0">{{ $t('global.TotalAccount') }}</th>
+                                                                                        <th class="text-center" v-if="item.is_received == 0">{{ $t('global.Partial') }}</th>
+                                                                                        <th class="text-center" v-if="item.is_received == 0">{{ $t('global.productionDate') }}</th>
+                                                                                        <th class="text-center" v-if="item.is_received == 0">{{ $t('global.expiryDate') }}</th>
+                                                                                        <th class="text-center" v-if="item.is_received == 1">{{ $t('global.quantityReceived') }} {{ $t('global.TotalAccount') }}</th>
+                                                                                        <th class="text-center" v-if="item.is_received == 1">{{ $t('global.quantityReceived') }} {{ $t('global.Partial') }}</th>
+                                                                                        <th class="text-center" v-if="item.is_received == 1">{{ $t('global.returnQuantity') }} {{ $t('global.TotalAccount') }}</th>
+                                                                                        <th class="text-center" v-if="item.is_received == 1">{{ $t('global.returnQuantity') }} {{ $t('global.Partial') }}</th>
                                                                                     </tr>
                                                                                     </thead>
                                                                                     <tbody v-if="item.purchase_products">
                                                                                         <tr v-for="(it,index) in item.purchase_products" :key="it.id">
-                                                                                            <td>{{ index +1}}</td>
-                                                                                            <td>{{ it.product.name }}</td>
-                                                                                            <td v-if="item.is_received == 0">{{ it.quantity }}</td>
-                                                                                            <td v-if="item.is_received == 0">{{ it.sub_quantity }}</td>
-                                                                                            <td v-if="item.is_received == 0">{{ it.production_date ?? '---' }}</td>
-                                                                                            <td v-if="item.is_received == 0">{{ it.expiry_date ?? '---'}}</td>
-                                                                                            <td v-if="item.is_received == 1">{{ it.quantity_received }}</td>
-                                                                                            <td v-if="item.is_received == 1">{{ it.sub_quantity_received }}</td>
-                                                                                            <td v-if="item.is_received == 1">{{ it.return_quantity }}</td>
-                                                                                            <td v-if="item.is_received == 1">{{ it.return_sub_quantity }}</td>
+                                                                                            <td class="text-center">{{ index +1}}</td>
+                                                                                            <td class="text-center">{{ it.product.name }}</td>
+                                                                                            <td class="text-center" v-if="item.is_received == 0">{{ it.quantity }}</td>
+                                                                                            <td class="text-center" v-if="item.is_received == 0">{{ it.sub_quantity }}</td>
+                                                                                            <td class="text-center" v-if="item.is_received == 0">{{ it.production_date ?? '---' }}</td>
+                                                                                            <td class="text-center" v-if="item.is_received == 0">{{ it.expiry_date ?? '---'}}</td>
+                                                                                            <td class="text-center" v-if="item.is_received == 1">{{ it.quantity_received }}</td>
+                                                                                            <td class="text-center" v-if="item.is_received == 1">{{ it.sub_quantity_received }}</td>
+                                                                                            <td class="text-center" v-if="item.is_received == 1">{{ it.return_quantity }}</td>
+                                                                                            <td class="text-center" v-if="item.is_received == 1">{{ it.return_sub_quantity }}</td>
                                                                                         </tr>
                                                                                     </tbody>
                                                                                     <tbody v-else>

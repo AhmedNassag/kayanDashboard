@@ -78,29 +78,29 @@
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>{{ $t('global.Supplier') }}</th>
-                                            <th>{{$t('global.PurchaseInvoiceNumber')}}</th>
-                                            <th>{{ $t('global.Amount') }}</th>
-                                            <th>{{ $t('global.ProcessWriter') }}</th>
-                                            <th>{{ $t('global.Date_Pay') }}</th>
-                                            <th>{{ $t('global.Treasury') }}</th>
-                                            <th>{{ $t('global.Notes') }}</th>
-                                            <th>{{ $t('global.Action') }}</th>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">{{ $t('global.Supplier') }}</th>
+                                            <th class="text-center">{{ $t('global.PurchaseInvoiceNumber')}}</th>
+                                            <th class="text-center">{{ $t('global.Amount') }}</th>
+                                            <th class="text-center">{{ $t('global.ProcessWriter') }}</th>
+                                            <th class="text-center">{{ $t('global.Date_Pay') }}</th>
+                                            <th class="text-center">{{ $t('global.Treasury') }}</th>
+                                            <th class="text-center">{{ $t('global.Notes') }}</th>
+                                            <th class="text-center">{{ $t('global.Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody v-if="purchases.length">
                                         <tr v-for="(item,index) in purchases"  :key="item.id">
-                                            <td>{{ index + 1 }}</td>
-                                            <td>{{ is_suppler ==1 ? item.supplier.name_supplier : item.client.name}}</td>
-                                            <td>{{ item.purchase_id }}</td>
-                                            <td>{{ item.amount }}</td>
-                                            <td>{{ item.user.name }}</td>
-                                            <td>{{  dateFormat(item.payment_date) }}</td>
-                                            <td>{{ item.treasury.name }}</td>
-                                            <td>{{ item.notes ?? "---" }}</td>
+                                            <td class="text-center">{{ index + 1 }}</td>
+                                            <td class="text-center">{{ is_suppler ==1 ? item.supplier.name_supplier : item.client.name}}</td>
+                                            <td class="text-center">{{ item.purchase_id }}</td>
+                                            <td class="text-center">{{ item.amount }}</td>
+                                            <td class="text-center">{{ item.user.name }}</td>
+                                            <td class="text-center">{{ dateFormat(item.payment_date) }}</td>
+                                            <td class="text-center">{{ item.treasury.name }}</td>
+                                            <td class="text-center">{{ item.notes ?? "---" }}</td>
 
-                                            <td>
+                                            <td class="text-center">
                                                 <a href="javascript:void(0);"
                                                    class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
                                                    :data-bs-target="'#edit-category'+item.id">
@@ -144,7 +144,7 @@
                                                                                         <h5>{{$t('global.InvoiceNumber')}} : {{item.purchase.id}}</h5>
                                                                                     </div>
                                                                                     <div class="col-md-6 image-div">
-                                                                                        <img src="/web/img/logo.png" alt="Logo">
+                                                                                        <img src="/admin/img/Logo Dashboard.png" alt="Logo">
                                                                                     </div>
 
 

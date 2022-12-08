@@ -24,12 +24,11 @@ class SupplierAccountStatementController extends Controller
             ->where(function ($q) use ($request) {
             $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
                 $q->whereDate('created_at', ">=", $request->from_date)
-                    ->whereDate('created_at', "<=", $request->to_date);
+                ->whereDate('created_at', "<=", $request->to_date);
             });
         })->latest()->paginate(15);
 
-        $suppliers = Supplier::where('status', 1)->get();
-
+        $suppliers = Supplier::where('active', 1)->get();
         return $this->sendResponse(['suppliers'=>$suppliers,'supplierAccounts'=>$supplierAccounts], 'Data exited successfully');
     }
 

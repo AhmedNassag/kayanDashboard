@@ -384,6 +384,57 @@
                       </div>
                       <!--End Sub Measurement Unit-->
 
+                      <!--Start Maximum Product-->
+                      <div class="col-md-6 mb-3">
+                        <label>اقصي كمية فى المخزن</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          v-model.trim="v$.maximum_product.$model"
+                          placeholder="اقصي كمية فى المخزن"
+                          :class="{
+                            'is-invalid': v$.maximum_product.$error,
+                            'is-valid': !v$.maximum_product.$invalid,
+                          }"
+                        />
+                        <div class="valid-feedback">تبدو جيده</div>
+                        <div class="invalid-feedback">
+                          <span v-if="v$.maximum_product.required.$invalid">
+                            هذا الحقل مطلوب<br />
+                          </span>
+                          <span v-if="v$.maximum_product.integer.$invalid">
+                            يجب ان يكون رقم <br
+                          /></span>
+                        </div>
+                      </div>
+                      <!--End Maximum Product-->
+
+                      <!--Start Re Order Limit-->
+                      <div class="col-md-6 mb-3">
+                        <label for="validationCustom055">حد اعادة الطلب</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          v-model.trim="v$.Re_order_limit.$model"
+                          id="validationCustom055"
+                          placeholder="حد اعادة الطلب"
+                          :class="{
+                            'is-invalid': v$.Re_order_limit.$error,
+                            'is-valid': !v$.Re_order_limit.$invalid,
+                          }"
+                        />
+                        <div class="valid-feedback">تبدو جيده</div>
+                        <div class="invalid-feedback">
+                          <span v-if="v$.Re_order_limit.required.$invalid">
+                            هذا الحقل مطلوب<br />
+                          </span>
+                          <span v-if="v$.Re_order_limit.integer.$invalid">
+                            يجب ان يكون رقم <br
+                          /></span>
+                        </div>
+                      </div>
+                      <!--End Re Order Limit-->
+
                       <!--Start Selling Method-->
                       <div class="col-md-6 mb-3">
                         <label>البيع</label>
@@ -414,59 +465,31 @@
                       </div>
                       <!--End Selling Method-->
 
-                      <!--Start Re Order Limit-->
+                      <!--Start Description-->
                       <div class="col-md-6 mb-3">
-                        <label for="validationCustom055">حد اعادة الطلب</label>
-                        <input
-                          type="number"
-                          class="form-control"
-                          v-model.trim="v$.Re_order_limit.$model"
-                          id="validationCustom055"
-                          placeholder="حد اعادة الطلب"
+                        <label for="validationCustom034">الوصف</label>
+                        <textarea
+                          type="text"
+                          class="form-control custom-textarea"
+                          v-model.trim="v$.description.$model"
+                          id="validationCustom034"
+                          placeholder="الوصف"
                           :class="{
-                            'is-invalid': v$.Re_order_limit.$error,
-                            'is-valid': !v$.Re_order_limit.$invalid,
+                            'is-invalid': v$.description.$error,
+                            'is-valid': !v$.description.$invalid,
                           }"
-                        />
+                        ></textarea>
                         <div class="valid-feedback">تبدو جيده</div>
                         <div class="invalid-feedback">
-                          <span v-if="v$.Re_order_limit.required.$invalid">
+                          <span v-if="v$.description.required.$invalid">
                             هذا الحقل مطلوب<br />
                           </span>
-                          <span v-if="v$.Re_order_limit.integer.$invalid">
-                            يجب ان يكون رقم <br
-                          /></span>
                         </div>
                       </div>
-                      <!--End Re Order Limit-->
-
-                      <!--Start Maximum Product-->
-                      <div class="col-md-6 mb-3">
-                        <label>اقصي كمية فى المخزن</label>
-                        <input
-                          type="number"
-                          class="form-control"
-                          v-model.trim="v$.maximum_product.$model"
-                          placeholder="اقصي كمية فى المخزن"
-                          :class="{
-                            'is-invalid': v$.maximum_product.$error,
-                            'is-valid': !v$.maximum_product.$invalid,
-                          }"
-                        />
-                        <div class="valid-feedback">تبدو جيده</div>
-                        <div class="invalid-feedback">
-                          <span v-if="v$.maximum_product.required.$invalid">
-                            هذا الحقل مطلوب<br />
-                          </span>
-                          <span v-if="v$.maximum_product.integer.$invalid">
-                            يجب ان يكون رقم <br
-                          /></span>
-                        </div>
-                      </div>
-                      <!--End Maximum Product-->
+                      <!--End Description-->
 
                       <!--Start Sell App-->
-                      <div class="col-md-6 mb-3">
+                      <div class="col-md-6 mb-3" hidden>
                         <label>اماكن ظهور المنتج</label>
                         <select
                           name="type"
@@ -494,29 +517,6 @@
                         </div>
                       </div>
                       <!--End Sell App-->
-
-                      <!--Start Description-->
-                      <div class="col-md-12 mb-3">
-                        <label for="validationCustom034">الوصف</label>
-                        <textarea
-                          type="text"
-                          class="form-control custom-textarea"
-                          v-model.trim="v$.description.$model"
-                          id="validationCustom034"
-                          placeholder="الوصف"
-                          :class="{
-                            'is-invalid': v$.description.$error,
-                            'is-valid': !v$.description.$invalid,
-                          }"
-                        ></textarea>
-                        <div class="valid-feedback">تبدو جيده</div>
-                        <div class="invalid-feedback">
-                          <span v-if="v$.description.required.$invalid">
-                            هذا الحقل مطلوب<br />
-                          </span>
-                        </div>
-                      </div>
-                      <!--End Description-->
 
                       <!--Start Image-->
                       <div class="col-md-3 row flex-fill">
@@ -956,7 +956,7 @@
                       <!--End Alternative Details-->
                     </div>
 
-                    <button class="btn btn-primary" type="submit">تعديل</button>
+                    <button class="btn btn-primary" type="submit">تأكيد</button>
                   </form>
                 </div>
               </div>
@@ -1487,6 +1487,9 @@ input[type="file"] {
   cursor: pointer;
   filter: alpha(opacity=0);
   opacity: 0;
+}
+.custom-textarea {
+    height: 120px;
 }
 
 .num-of-files {

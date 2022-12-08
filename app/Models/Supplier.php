@@ -8,7 +8,9 @@ class Supplier extends Model
 {
     protected $guarded = [];
 
-    protected $appends = ['text', 'name_supplier'];
+    protected $appends = ['text', 'name_supplier', 'sum_account'];
+
+    protected $casts = ['status' => 'integer'];
 
     public function getNameSupplierAttribute()
     {
@@ -50,4 +52,26 @@ class Supplier extends Model
     {
         return $this->hasMany(PurchaseReturn::class);
     }
+
+    //
+    public function getSumAccountAttribute(): float
+    {
+        return $this->supplierAccounts->sum('amount');
+    }
+
+    public function supplierAccounts()
+    {
+        return $this->hasMany(SupplierAccount::class);
+    }
+
+    public function supplierExpense(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SupplierExpense::class);
+    }
+
+    public function supplierIncome(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SupplierIncome::class);
+    }
+    //
 }

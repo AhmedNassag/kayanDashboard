@@ -25,11 +25,12 @@ class AccountStatementController extends Controller
                     return $q->where('description', 'like', '%' . $request->search . '%');
                 });
             })->latest()->paginate(15);
-
         return $this->sendResponse(['restrictions' => $restrictions], 'Data exited successfully');
     }
 
-    public function subAccount($data){
+
+    public function subAccount($data)
+    {
         $subAccount= [];
         foreach ($data as $account){
             if (count($account->children) > 0){
@@ -40,13 +41,11 @@ class AccountStatementController extends Controller
                                 foreach ($two->children as $three) {
                                     if (count($three->children) > 0) {
                                         foreach ($three->children as $four) {
-
                                             $subAccount[]=$four;
                                         }
                                     }else{
                                         $subAccount[]=$three;
                                     }
-
                                 }
                             }else{
                                 $subAccount[]=$two;
@@ -59,17 +58,15 @@ class AccountStatementController extends Controller
             }else{
                 $subAccount[]=$account;
             }
-
         }
-
         return $subAccount;
     }
 
-    public function accountDaily(){
 
+    public function accountDaily()
+    {
         $accounts = SubAccount::where('sub_account_id', null)->get();
         $subAccount = $this->subAccount($accounts);
-
         return $this->sendResponse(['subAccount' => $subAccount], 'Data exited successfully');
     }
 }

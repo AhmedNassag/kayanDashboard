@@ -283,7 +283,7 @@
                                                                                         <h5>{{$t('global.InvoiceReturnNumber')}} : {{item.id}}</h5>
                                                                                     </div>
                                                                                     <div class="col-md-6 image-div">
-                                                                                        <img src="/web/img/logo.png" alt="Logo">
+                                                                                        <img src="/admin/img/Logo Dashboard.png" alt="Logo">
                                                                                     </div>
 
                                                                                     <div class="col-md-6">
@@ -341,7 +341,7 @@
                                                                                         <h5>{{$t('global.PurchaseInvoiceNumber')}} : {{item.purchase_id}}</h5>
                                                                                     </div>
                                                                                     <div class="col-md-6 image-div">
-                                                                                        <img src="/web/img/logo.png" alt="Logo">
+                                                                                        <img src="/admin/img/Logo Dashboard.png" alt="Logo">
                                                                                     </div>
 
                                                                                     <div class="col-md-6">
