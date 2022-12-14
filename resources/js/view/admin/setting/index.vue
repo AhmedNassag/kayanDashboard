@@ -41,20 +41,20 @@
                                         <th>{{$t('global.showPrice')}}</th>
                                         <th>{{ $t('global.closeApp') }}</th>
                                         <th>{{ $t('global.Phone') }}</th>
-                                        <th>{{ $t('global.watsApp') }}</th>
+                                        <th>{{ $t('global.whatsApp') }}</th>
                                         <th>{{ $t('global.Action') }}</th>
                                     </tr>
                                     </thead>
-                                    <tbody v-if="jobs.length">
-                                    <tr v-for="(item,index) in jobs" :key="item.id">
-                                        <td>{{ parseInt(item.show_price) ? $t('global.Yeas') : $t('global.No')}}</td>
-                                        <td>{{ parseInt(item.close) ? $t('global.Yeas') : $t('global.No')}}</td>
-                                        <td>{{item.phone}}</td>
-                                        <td>{{item.wats_app}}</td>
+                                    <tbody v-if="Object.keys(setting ?? []).length">
+                                    <tr >
+                                        <td>{{ parseInt(setting.show_price) ? $t('global.Yeas') : $t('global.No')}}</td>
+                                        <td>{{ parseInt(setting.close) ? $t('global.Yeas') : $t('global.No')}}</td>
+                                        <td>{{setting.phone}}</td>
+                                        <td>{{setting.wats_app}}</td>
                                         <td>
 
                                             <router-link
-                                                :to="{name: 'editSetting', params: {id:item.id}}"
+                                                :to="{name: 'editSetting', params: {id:setting.id}}"
                                                 v-if="permission.includes('setting edit')"
                                                 class="btn btn-sm btn-success me-2">
                                                 <i class="far fa-edit"></i>
@@ -75,17 +75,7 @@
                     </div>
                 </div>
             </div>
-            <!-- /Table -->
-            <!-- start Pagination -->
-            <Pagination :limit="2"  :data="jobsPaginate" @pagination-change-page="getJob">
-                <template #prev-nav>
-                    <span>&lt; {{$t('global.Previous')}}</span>
-                </template>
-                <template #next-nav>
-                    <span>{{$t('global.Next')}} &gt;</span>
-                </template>
-            </Pagination>
-            <!-- end Pagination -->
+
         </div>
         <!-- /Page Wrapper -->
     </div>
@@ -102,22 +92,19 @@ export default {
     setup() {
         const {t} = useI18n({});
 
-        let jobs = ref([]);
-        let jobsPaginate = ref({});
+        let setting = ref([]);
         let loading = ref(false);
         const search = ref('');
         let store = useStore();
 
         let permission = computed(() => store.getters['authAdmin/permission']);
 
-        let getJob = (page = 1) => {
+        let getSetting = (page = 1) => {
             loading.value = true;
 
-            adminApi.get(`/v1/dashboard/setting?page=${page}&search=${search.value}`)
+            adminApi.get(`/v1/dashboard/setting`)
                 .then((res) => {
-                    let l = res.data.data;
-                    jobsPaginate.value = l.setting;
-                    jobs.value = l.setting.data;
+                    setting.value = res.data.data.setting;
                 })
                 .catch((err) => {
                     console.log(err.response.data);
@@ -128,16 +115,10 @@ export default {
         }
 
         onMounted(() => {
-            getJob();
+            getSetting();
         });
 
-        watch(search, (search, prevSearch) => {
-            if (search.length >= 0) {
-                getJob();
-            }
-        });
-
-        return {jobs, loading, getJob, search,permission, jobsPaginate};
+        return {setting, loading, search,permission};
 
     },
     data() {

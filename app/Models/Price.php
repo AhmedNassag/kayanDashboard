@@ -41,9 +41,13 @@ class Price extends Model
     // {
     //     return $this->belongsTo(Company::class,'company_id');
     // }
-
+    public function logs()
+    {
+        return $this->hasMany(ProductLog::class,'price_id');
+    }
     public function supplier()
     {
         return $this->belongsTo(Supplier::class,'supplier_id');
     }
+
 }

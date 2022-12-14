@@ -53,11 +53,11 @@ class Order extends Model
     }
     public function getCityNameAttribute($value)
     {
-        return $this->city->name;
+        return $this->city?$this->city->name : '';
     }
     public function getAreaNameAttribute($value)
     {
-        return $this->area->name;
+        return $this->area?$this->area->name : '';
     }
 
 }

@@ -111,6 +111,7 @@ import orderIncomes from "./adminRoute/orderIncomes";
 import capitalOwnerAccount from "./adminRoute/capitalOwnerAccount";
 import expense from "./adminRoute/expense";
 import income from "./adminRoute/income";
+import statistics from "./adminRoute/statistics";
 import incomeAndExpense from "./adminRoute/incomeAndExpense";
 import transferringTreasury from "./adminRoute/transferringTreasury";
 import treasuriesExpense from "./adminRoute/treasuriesExpense";
@@ -292,6 +293,7 @@ const routes = [
             ...ClientAccountStatement,
             ...purchaseReturnIncomes,
             ...setting,
+            ...statistics,
             ...representative,
         ]
     },

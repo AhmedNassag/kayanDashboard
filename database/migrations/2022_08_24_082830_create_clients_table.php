@@ -17,6 +17,7 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string("store_name")->nullable();
             $table->string("type")->nullable();
+            $table->string("firebase_token")->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities');
             $table->foreignId("area_id")->nullable()->constrained("areas");
             $table->foreignId('selling_method_id')->default(0)->nullable()->constrained('selling_methods')->cascadeOnDelete();

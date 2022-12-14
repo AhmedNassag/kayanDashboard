@@ -19,7 +19,14 @@ class CreateSettingsTable extends Migration
             $table->string('phone');
             $table->string('wats_app');
             $table->integer('refund_allowed_days')->default(7);
-            $table->text('facebook');
+            $table->string('facebook')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->string('address')->nullable();
+            $table->string('email')->nullable();
+            $table->string('work_time')->nullable();
+            $table->string('pinterest')->nullable();
+            $table->string('youtube')->nullable();
+            $table->string('instagram')->nullable();
             $table->boolean('show_price')->default(true);
             $table->timestamps();
         });
