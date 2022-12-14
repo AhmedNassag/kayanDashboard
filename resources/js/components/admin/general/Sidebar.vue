@@ -1282,6 +1282,7 @@
                         </router-link>
                     </li>
 
+
                     <li v-if="permission.includes('sale-point read')" :class="[$route.name == 'SalePointIndex' ? 'active' : '']">
                         <router-link :to="{ name: 'SalePointIndex' }">
                             <i class="fa fa-users" aria-hidden="true"></i>
@@ -1420,6 +1421,29 @@
                                     {{ $t("sidebar.Employees") }}
                                 </router-link>
                             </li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-suitcase"></i><span>{{ $t("global.statistics") }}</span><span :class="['menu-arrow', 'menu-arrow-ar']"></span></a>
+                        <ul>
+
+                            <li :class="[$route.name == 'web_clients' ? 'active' : '']" >
+                                <router-link :to="{ name: 'web_clients' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.WebClients") }}
+                                </router-link>
+                            </li>
+                            <li :class="[$route.name == 'client_has_cart' ? 'active' : '']" >
+                                <router-link :to="{ name: 'client_has_cart' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.clientHasCart") }}
+                                </router-link>
+                            </li>
+
+                            <li :class="[$route.name == 'client_doesnt_have_orders' ? 'active' : '']" >
+                                <router-link :to="{ name: 'client_doesnt_have_orders' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.clientDoesntHaveOrders") }}
+                                </router-link>
+                            </li>
+
                         </ul>
                     </li>
 

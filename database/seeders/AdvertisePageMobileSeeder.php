@@ -23,32 +23,32 @@ class AdvertisePageMobileSeeder extends Seeder
         $homePage->views()->attach([1,2,3,4,5,6,7]);
 
         AdvertisingPageMobileAdvertisingView::find(1)->size()->create([
-            "width" => 250,
-            "height" => 250,
+            "width" => 300,
+            "height" => 300,
         ]);
         AdvertisingPageMobileAdvertisingView::find(2)->size()->create([
-            "width" => 250,
-            "height" => 250,
+            "width" => 300,
+            "height" => 300,
         ]);
         AdvertisingPageMobileAdvertisingView::find(3)->size()->create([
-            "width" => 250,
-            "height" => 250,
+            "width" => 300,
+            "height" => 300,
         ]);
         AdvertisingPageMobileAdvertisingView::find(4)->size()->create([
-            "width" => 1450,
+            "width" => 1000,
             "height" => 200,
         ]);
         AdvertisingPageMobileAdvertisingView::find(5)->size()->create([
-            "width" => 1450,
+            "width" => 1000,
             "height" => 200,
         ]);
         AdvertisingPageMobileAdvertisingView::find(6)->size()->create([
-            "width" => 1450,
-            "height" => 250,
+            "width" => 1000,
+            "height" => 200,
         ]);
         AdvertisingPageMobileAdvertisingView::find(7)->size()->create([
-            "width" => 1450,
-            "height" => 250,
+            "width" => 400,
+            "height" => 600,
         ]);
 
     }

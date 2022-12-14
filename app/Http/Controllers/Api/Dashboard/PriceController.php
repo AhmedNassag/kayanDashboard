@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Deal;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\ProductLog;
 use App\Models\Supplier;
 use App\Traits\Message;
 use Illuminate\Http\Request;
@@ -26,17 +27,17 @@ class PriceController extends Controller
     public function index(Request $request)
     {
         $prices = Price::with('product:id,nameAr', 'supplier:id,name')
-        ->where(function($q) use($request){
-            $q->when($request->search, function ($q) use ($request) {
-                return $q->where('publicPrice', 'like', '%' . $request->search . '%')
-                ->orWhereRelation('product', 'nameAr', 'like', '%' . $request->search . '%')
-                ->orWhereRelation('supplier', 'name', 'like', '%' . $request->search . '%');
-            });
-        })->orWhere(function($q) use($request){
-            $q->when($request->filter_best_offers == 'best_offers', function ($q) use ($request) {
-                return $q->where('best_offer',1);
-            });
-        })->latest()->paginate(10);
+            ->where(function ($q) use ($request) {
+                $q->when($request->search, function ($q) use ($request) {
+                    return $q->where('publicPrice', 'like', '%' . $request->search . '%')
+                        ->orWhereRelation('product', 'nameAr', 'like', '%' . $request->search . '%')
+                        ->orWhereRelation('supplier', 'name', 'like', '%' . $request->search . '%');
+                });
+            })->orWhere(function ($q) use ($request) {
+                $q->when($request->filter_best_offers == 'best_offers', function ($q) use ($request) {
+                    return $q->where('best_offer', 1);
+                });
+            })->latest()->paginate(10);
         return $this->sendResponse(['prices' => $prices], 'Data exited successfully');
     }
 
@@ -47,21 +48,17 @@ class PriceController extends Controller
      */
     public function create()
     {
-        try
-        {
-            $products     = Product::where('status',1)->get();
-            $suppliers    = Supplier::where('active',1)->select('id', 'name')->get();
-            $categories   = Category::where('status',1)->select('id', 'name')->get();
+        try {
+            $products     = Product::where('status', 1)->get();
+            $suppliers    = Supplier::where('active', 1)->select('id', 'name')->get();
+            $categories   = Category::where('status', 1)->select('id', 'name')->get();
 
             return $this->sendResponse([
                 'products'   => $products,
                 'suppliers'  => $suppliers,
                 'categories' => $categories,
             ], 'Data exited successfully');
-
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
     }
@@ -74,8 +71,7 @@ class PriceController extends Controller
      */
     public function store(Request $request)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
 
             // Validator request
@@ -91,12 +87,11 @@ class PriceController extends Controller
                 // 'kayanProfit'    => 'required',
             ]);
 
-            if ($v->fails())
-            {
+            if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount','kayanDiscount', 'supplier_id', /*'company_id', 'kayanProfit'*/]);
+            $data = $request->only(['product_id', 'category_id', 'sub_category_id', 'pharmacyPrice', 'category_id', 'sub_category_id', 'company_id', 'supplier_id', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount', 'supplier_id', /*'company_id', 'kayanProfit'*/]);
 
             $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->clientDiscount / 100));
 
@@ -104,12 +99,11 @@ class PriceController extends Controller
 
             $price = Price::create($data);
 
+
             DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
@@ -136,9 +130,9 @@ class PriceController extends Controller
     {
         try {
             $price          = Price::find($id);
-            $products       = Product::where('status',1)->get();
-            $suppliers      = Supplier::where('active',1)->select('id','name')->get();
-            $categories     = Category::where('status',1)->select('id','name')->get();
+            $products       = Product::where('status', 1)->get();
+            $suppliers      = Supplier::where('active', 1)->select('id', 'name')->get();
+            $categories     = Category::where('status', 1)->select('id', 'name')->get();
 
             return $this->sendResponse([
                 'price'               => $price,
@@ -146,7 +140,6 @@ class PriceController extends Controller
                 'suppliers'           => $suppliers,
                 'categories'          => $categories,
             ], 'Data exited successfully');
-
         } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
@@ -167,38 +160,48 @@ class PriceController extends Controller
             $price = Price::find($id);
 
             // Validator request
-            $v = Validator::make($request->all(),
-            [
-                'product_id'     => 'required|integer|exists:products,id',
-                // 'category_id'    => 'required|integer|exists:categories,id',
-                // 'sub_category_id' => 'required|integer|exists:sub_categories,id',
-                'supplier_id'    => 'required|integer|exists:suppliers,id',
-                // 'pharmacyPrice'  => 'required',
-                'quantity' => 'required',
-                'publicPrice'    => 'required',
-                'clientDiscount' => 'required',
-                'kayanDiscount'  => 'required',
-                // 'kayanProfit'    => 'required',
-            ]);
+            $v = Validator::make(
+                $request->all(),
+                [
+                    'product_id'     => 'required|integer|exists:products,id',
+                    // 'category_id'    => 'required|integer|exists:categories,id',
+                    // 'sub_category_id' => 'required|integer|exists:sub_categories,id',
+                    'supplier_id'    => 'required|integer|exists:suppliers,id',
+                    // 'pharmacyPrice'  => 'required',
+                    'quantity' => 'required',
+                    'publicPrice'    => 'required',
+                    'clientDiscount' => 'required',
+                    'kayanDiscount'  => 'required',
+                    // 'kayanProfit'    => 'required',
+                ]
+            );
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only(['product_id', 'supplier_id', 'quantity', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount','kayanProfit']);
+            $data = $request->only(['product_id', 'supplier_id', 'quantity', 'pharmacyPrice', 'publicPrice', 'clientDiscount', 'kayanDiscount', 'kayanProfit']);
 
             $data['pharmacyPrice'] = $request->publicPrice - ($request->publicPrice * ($request->clientDiscount / 100));
 
             $data['kayanProfit'] = $data['kayanDiscount'] - $data['clientDiscount'];
 
+            $old_qty = $price->quantity; //befor update quantity
             $price->update($data);
 
-            DB::commit();
-            return $this->sendResponse([],'Data exited successfully');
+            $this->store_in_product_logs($price->quantity - $old_qty, $price->quantity,
+                $price->pharmacyPrice,
+                $price->publicPrice,
+                $price->clientDiscount,
+                $price->kayanDiscount,
+                $price->kayanProfit,
+                $price->id,
+                $old_qty,
+            );
 
-        }
-        catch (\Exception $e)
-        {
+            DB::commit();
+            return $this->sendResponse([], 'Data exited successfully');
+        } catch (\Exception $e) {
             DB::rollBack();
             return $this->sendError('An error occurred in the system');
         }
@@ -212,21 +215,15 @@ class PriceController extends Controller
      */
     public function destroy($id)
     {
-        try
-        {
+        try {
             $price = Price::find($id);
-            if ($price)
-            {
+            if ($price) {
                 $price->delete();
-                return $this->sendResponse([],'Deleted successfully');
-            }
-            else
-            {
+                return $this->sendResponse([], 'Deleted successfully');
+            } else {
                 return $this->sendError('ID is not exist');
             }
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
     }
@@ -236,12 +233,12 @@ class PriceController extends Controller
     public function insertDealSettings(DealRequest $request)
     {
         $deal = Deal::first();
-        $dealInput=$request->validated();
-        if($deal){
+        $dealInput = $request->validated();
+        if ($deal) {
             $deal->end_at = $dealInput["end_at"];
             $deal->limit = $dealInput["limit"];
             $deal->save();
-        }else{
+        } else {
             Deal::create($dealInput);
         }
     }
@@ -253,13 +250,30 @@ class PriceController extends Controller
 
     public function markProductAsBestOffer(Request $request)
     {
-        $product_price=Price::findOrFail($request->product_id);
-        $best_offers_count=Price::where('best_offer',1)->count();
+        $product_price = Price::findOrFail($request->product_id);
+        $best_offers_count = Price::where('best_offer', 1)->count();
         $deat_limit = Deal::first()->limit;
-        if( $product_price->best_offer == 1 || $deat_limit > $best_offers_count){
-            $product_price->update(['best_offer' => $product_price->best_offer == 0 ? 1 :0]);
-        }else{
-            return response()->json(['limit' => $deat_limit],404);
+        if ($product_price->best_offer == 1 || $deat_limit > $best_offers_count) {
+            $product_price->update(['best_offer' => $product_price->best_offer == 0 ? 1 : 0]);
+        } else {
+            return response()->json(['limit' => $deat_limit], 404);
         }
+    }
+
+
+    public function store_in_product_logs($diff_qty, $total_qty, $pharmacyPrice, $publicPrice, $clientDiscount, $kayanDiscount, $kayanProfit,$price_id,$old_qty)
+    {
+        $latest_log = ProductLog::where('price_id',$price_id)->latest()->first();
+        $latest_log->update(['sold_quantity' => $latest_log->total_qty- $old_qty]);
+        ProductLog::create([
+            'diff_qty' => $diff_qty,
+            'total_qty' => $total_qty,
+            'pharmacyPrice' => $pharmacyPrice,
+            'publicPrice' => $publicPrice,
+            'clientDiscount' => $clientDiscount,
+            'kayanDiscount' => $kayanDiscount,
+            'kayanProfit' => $kayanProfit,
+            'price_id' => $price_id,
+        ]);
     }
 }

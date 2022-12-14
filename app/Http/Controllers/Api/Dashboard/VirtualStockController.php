@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Imports\VirtualStocksImport;
 use App\Imports\VirtualStocksAlternativeImport;
 use App\Models\AlternativePrice;
+use App\Models\ProductLog;
 use Maatwebsite\Excel\Facades\Excel;
 
 class VirtualStockController extends Controller
@@ -75,7 +76,7 @@ class VirtualStockController extends Controller
             foreach ($request->product as $product)
             {
                 if(!Price::where('supplier_id', $product['supplier_id'])->where('product_id', $product['product_id'])->first()){
-                    Price::create([
+                   $price= Price::create([
                             'supplier_id'     => $product['supplier_id'],
                             'product_id'      => $product['product_id'],
                             'quantity'        => $product['quantity'],
@@ -85,9 +86,13 @@ class VirtualStockController extends Controller
                             'pharmacyPrice'   => $product['publicPrice'] - ($product['publicPrice'] * ($product['clientDiscount'] / 100)),
                             'kayanProfit'     => $product['kayanDiscount'] - $product['clientDiscount'],
                         ]);
+                    $this->store_in_product_logs(0,$product['quantity'],$price->pharmacyPrice,$product['publicPrice'],$product['clientDiscount'],$product['kayanDiscount'],$product['kayanDiscount'] - $product['clientDiscount'],$price->id);
+
                 }
 
+
             }
+
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
@@ -292,5 +297,19 @@ class VirtualStockController extends Controller
         ->get();
 
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
+    }
+
+    public function store_in_product_logs($diff_qty,$total_qty,$pharmacyPrice,$publicPrice,$clientDiscount,$kayanDiscount,$kayanProfit,$price_id)
+    {
+        ProductLog::create([
+            'diff_qty' => $diff_qty,
+            'total_qty' => $total_qty,
+            'pharmacyPrice' => $pharmacyPrice,
+            'publicPrice' => $publicPrice,
+            'clientDiscount' => $clientDiscount,
+            'kayanDiscount' => $kayanDiscount,
+            'kayanProfit' => $kayanProfit,
+            'price_id' => $price_id,
+        ]);
     }
 }

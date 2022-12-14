@@ -66,12 +66,12 @@
                                             </div>
 
                                             <div class="col-md-4 mb-3">
-                                                <label>{{ $t('global.watsApp') }}</label>
+                                                <label>{{ $t('global.whatsApp') }}</label>
                                                 <input type="text"
                                                        class="form-control"
                                                        v-model.trim="v$.wats_app.$model"
                                                        :class="{'is-invalid':v$.wats_app.$error,'is-valid':!v$.wats_app.$invalid}"
-                                                       :placeholder="$t('global.watsApp')"
+                                                       :placeholder="$t('global.whatsApp')"
                                                 >
                                                 <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
                                                 <div class="invalid-feedback">
@@ -87,6 +87,17 @@
                                                         }} {{ $t('global.Letters') }} </span>
                                                 </div>
                                             </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label>{{ $t('global.email') }}</label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       v-model.trim="v$.email.$model"
+                                                       :class="{'is-invalid':v$.email.$error,'is-valid':!v$.email.$invalid}"
+                                                       :placeholder="$t('global.email')"
+                                                >
+                                                <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+
+                                            </div>
 
                                             <div class="col-md-4 mb-3">
                                                 <label>{{ $t('global.facebook') }}</label>
@@ -97,14 +108,75 @@
                                                        :placeholder="$t('global.facebook')"
                                                 >
                                                 <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
-                                                <div class="invalid-feedback">
-                                                    <span
-                                                        v-if="v$.facebook.required.$invalid">{{ $t('global.IsRequired') }} <br/></span>
-                                                    <span
-                                                        v-if="v$.facebook.minLength.$invalid">{{ $t('global.IsMustHaveAtLeast') }} {{
-                                                            v$.facebook.minLength.$params.min
-                                                        }} {{ $t('global.Letters') }} <br/></span>
-                                                </div>
+
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label>{{ $t('global.linkedin') }}</label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       v-model.trim="v$.linkedin.$model"
+                                                       :class="{'is-invalid':v$.linkedin.$error,'is-valid':!v$.linkedin.$invalid}"
+                                                       :placeholder="$t('global.linkedin')"
+                                                >
+                                                <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label>{{ $t('global.pinterest') }}</label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       v-model.trim="v$.pinterest.$model"
+                                                       :class="{'is-invalid':v$.pinterest.$error,'is-valid':!v$.pinterest.$invalid}"
+                                                       :placeholder="$t('global.pinterest')"
+                                                >
+                                                <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+                                                <label>{{ $t('global.instagram') }}</label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       v-model.trim="v$.instagram.$model"
+                                                       :class="{'is-invalid':v$.instagram.$error,'is-valid':!v$.instagram.$invalid}"
+                                                       :placeholder="$t('global.instagram')"
+                                                >
+                                                <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label>{{ $t('global.youtube') }}</label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       v-model.trim="v$.youtube.$model"
+                                                       :class="{'is-invalid':v$.youtube.$error,'is-valid':!v$.youtube.$invalid}"
+                                                       :placeholder="$t('global.youtube')"
+                                                >
+                                                <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label>{{ $t('global.address') }}</label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       v-model.trim="v$.address.$model"
+                                                       :class="{'is-invalid':v$.address.$error,'is-valid':!v$.address.$invalid}"
+                                                       :placeholder="$t('global.address')"
+                                                >
+                                                <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+                                                <label>{{ $t('global.work_time') }}</label>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       v-model.trim="v$.work_time.$model"
+                                                       :class="{'is-invalid':v$.work_time.$error,'is-valid':!v$.work_time.$invalid}"
+                                                       :placeholder="$t('global.work_time')"
+                                                >
+                                                <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
+
                                             </div>
 
                                             <div class="col-md-4 mb-3">
@@ -135,7 +207,7 @@
 <script>
 import {computed, onMounted, reactive,toRefs,inject,ref} from "vue";
 import useVuelidate from '@vuelidate/core';
-import {required, minLength, maxLength, numeric} from '@vuelidate/validators';
+import {required, minLength, maxLength, numeric,email} from '@vuelidate/validators';
 import adminApi from "../../../api/adminAxios";
 import { notify } from "@kyvg/vue3-notification";
 import {useI18n} from "vue-i18n";
@@ -166,6 +238,13 @@ export default {
                     addJob.data.phone = l.setting.phone;
                     addJob.data.wats_app = l.setting.wats_app;
                     addJob.data.facebook = l.setting.facebook;
+                    addJob.data.linkedin = l.setting.linkedin;
+                    addJob.data.address = l.setting.address;
+                    addJob.data.email = l.setting.email;
+                    addJob.data.youtube = l.setting.youtube;
+                    addJob.data.pinterest = l.setting.pinterest;
+                    addJob.data.instagram = l.setting.instagram;
+                    addJob.data.work_time = l.setting.work_time;
                 })
                 .catch((err) => {
                     console.log(err.response);
@@ -186,6 +265,13 @@ export default {
                 phone: '',
                 wats_app: '',
                 facebook: '',
+                instagram: '',
+                youtube: '',
+                pinterest: '',
+                email: '',
+                address: '',
+                work_time: '',
+                linkedin: '',
             }
         });
 
@@ -203,7 +289,27 @@ export default {
                 },
                 facebook: {
                     required,
-                    minLength: minLength(1),
+                },
+                instagram: {
+
+                },
+                linkedin: {
+
+                },
+                work_time: {
+
+                },
+                pinterest: {
+
+                },
+                youtube: {
+
+                },
+                email: {
+                   email
+                },
+                address: {
+
                 },
             }
         });

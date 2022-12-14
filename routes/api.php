@@ -362,7 +362,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             //Purchase Expenses
             Route::get('purchaseExpenses', 'PurchaseExpensesController@index');
             // setting
-            Route::get('setting', 'SettingController@setting');
+            // Route::get('setting', 'SettingController@index');
             Route::resource('setting', 'SettingController');
             /* */
 
@@ -387,12 +387,19 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('getStocks', 'RefusedController@getStocks');
             Route::get('getClientBalance/{id}', 'SaleController@getClientBalance');
 
+            Route::get('get_client_has_cart', 'StatisitcsController@get_client_has_cart');
+            Route::get('get_client_doesnt_have_orders', 'StatisitcsController@get_client_doesnt_have_orders');
+            Route::get('web_clients', 'StatisitcsController@web_clients');
+            Route::get('client_profile/{user}', 'StatisitcsController@client_details');
+            Route::get('supplier_profile/{user}', 'StatisitcsController@supplier_details');
+            Route::get('client_orders', 'StatisitcsController@client_orders');
+            Route::get('supplier_orders', 'StatisitcsController@supplier_orders');
+            Route::get('supplier_products', 'StatisitcsController@supplier_products');
+            Route::post('sendNotificationToAllClients', 'StatisitcsController@sendNotificationToAllClients');
+            Route::post('sendNotificationToClient', 'StatisitcsController@sendNotificationToClient');
 
             //start logout
             Route::post('logout', 'AuthDashboardController@logout');
-
-
-
         });
     });
 
@@ -665,6 +672,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
                 Route::get("", "AboutBannerController@getAboutBanners");
                 Route::post("", "AboutBannerController@update");
             });
+
+
+
 
             //About sections
             Route::prefix("about-sections")->group(function () {

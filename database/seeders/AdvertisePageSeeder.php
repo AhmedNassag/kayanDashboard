@@ -71,7 +71,7 @@ class AdvertisePageSeeder extends Seeder
             "name" => 'صفحة المنتجات',
         ]);
 
-        $productsPage->views()->attach([8,9,10]);
+        $productsPage->views()->attach([8,9,6]);
 
         AdvertisingPageAdvertisingView::find(8)->size()->create
         ([
@@ -98,7 +98,7 @@ class AdvertisePageSeeder extends Seeder
             "name" => 'صفحة تفاصيل المنتجات',
         ]);
 
-        $detailsPage->views()->attach([11, 12, 13]);
+        $detailsPage->views()->attach([8, 9, 6]);
 
         AdvertisingPageAdvertisingView::find(11)->size()->create
         ([
@@ -122,7 +122,7 @@ class AdvertisePageSeeder extends Seeder
             "name" => 'صفحة السلة',
         ]);
 
-        $shoppingPage->views()->attach([14]);
+        $shoppingPage->views()->attach([6]);
 
         AdvertisingPageAdvertisingView::find(14)->size()->create
         ([
@@ -137,7 +137,7 @@ class AdvertisePageSeeder extends Seeder
             "name" => 'صفحة بروفايل العميل',
         ]);
 
-        $profilePage->views()->attach([15, 16]);
+        $profilePage->views()->attach([4, 6]);
 
         AdvertisingPageAdvertisingView::find(15)->size()->create
         ([

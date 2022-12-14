@@ -23,7 +23,7 @@ class ClientRepository
         $client = Client::create([
             "store_name" => $client["store_name"],
             "city_id" => $client["city_id"],
-            "area_id" => $client["area_id"], 
+            "area_id" => $client["area_id"],
             "address" => $client["address"],
             "location" => $client["location"],
             "whatsup_phone" => $client["whatsup_phone"],
@@ -73,7 +73,9 @@ class ClientRepository
 
     public function getPage($pageSize, $text)
     {
-        return Client::where("platform_type",ClientType::DIRECT_SALE)->whereHas("user", function ($q) use ($text) {
+        return Client::
+        where("platform_type",ClientType::DIRECT_SALE)
+        ->whereHas("user", function ($q) use ($text) {
             $q->where("name", "like", "%$text%")
                 ->orWhere("phone", $text)
                 ->orWhere("email", $text);

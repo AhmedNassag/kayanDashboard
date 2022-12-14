@@ -76,13 +76,13 @@
                                                     {{ $t("global.Create Product") }}
                                                 </router-link>
 
-                                                <router-link :to="{
+                                                <!-- <router-link :to="{
                                                     name: 'editVirtualStock',
                                                     params: { id: item.id },
                                                 }" v-if="permission.includes('virtualStock edit')" class="btn btn-sm btn-secondary me-2">
                                                     <i class="fas fa-truck"></i>
                                                     {{ $t("global.Create Alternative") }}
-                                                </router-link>
+                                                </router-link> -->
                                             </td>
                                         </tr>
                                     </tbody>

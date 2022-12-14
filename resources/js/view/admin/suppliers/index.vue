@@ -110,6 +110,13 @@
                         </button>
                       </td>
                       <td class="text-center">
+                        <router-link :to="{name:'supplier_profile',params:{id:supplier.id,lang:this.$i18n.locale}}"
+                          data-toggle="modal"
+
+                          class="btn btn-sm btn-info me-2"
+                        >
+                          <i class="far fa-eye"></i>
+                        </router-link>
                         <a
                           href="#"
                           @click="onEditClicked(supplier, index)"
@@ -181,6 +188,8 @@ import supplierClient from "../../../http-clients/supplier-client";
 import SupplierForm from "./form";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
+import { useRouter } from 'vue-router'
+
 export default {
   components: {
     SupplierForm,
@@ -200,6 +209,7 @@ export default {
     const { t, locale } = useI18n({});
     provide("supplier_store", supplierStore);
     let store = useStore();
+    let router = useRouter();
     let permission = computed(() => store.getters["authAdmin/permission"]);
     created();
     //Methods
@@ -350,6 +360,8 @@ export default {
     function created() {
       getSuppliers();
     }
+
+
     return {
       ...toRefs(data),
       onAddClicked,
