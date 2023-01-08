@@ -19,6 +19,7 @@ class AuthDashboardController extends Controller
     {
 
         // Validator request
+        $message = $request->header('lang') == 'ar' ? 'البريدالالكتروني او الرقم السري غير صحيح' :'Your Email/Password is wrong';
         $v = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -26,7 +27,7 @@ class AuthDashboardController extends Controller
         ]);
 
         if ($v->fails()) {
-            return $this->sendError('Your Email/Password is wrong', $v->errors(), 401);
+            return $this->sendError($message, $v->errors(), 401);
         }
 
         //start access token
@@ -39,10 +40,10 @@ class AuthDashboardController extends Controller
             if ($user->status == 1) {
                 return  $this->sendResponse($this->respondWithToken($token), 'Data exited successfully');
             } else {
-                return $this->sendError('Your Email/Password is wrong');
+                return $this->sendError($message);
             }
         } else {
-            return $this->sendError('Your Email/Password is wrong');
+            return $this->sendError($message);
         }
     } //**********end login************/
 

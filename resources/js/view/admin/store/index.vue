@@ -126,10 +126,12 @@
 import {onMounted, watch, ref,computed} from "vue";
 import {useStore} from "vuex";
 import adminApi from "../../../api/adminAxios";
+import { useI18n } from "vue-i18n";
 
 export default {
     name: "index",
     setup() {
+        const { t, locale } = useI18n({});
 
         // get packages
         let stores = ref([]);
@@ -187,7 +189,8 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
+                confirmButtonText: t("global.Yeas"),
+                cancelButtonText: t("global.No"),
             }).then((result) => {
                 if (result.isConfirmed) {
 
@@ -220,7 +223,8 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
+                confirmButtonText: t("global.Yeas"),
+                cancelButtonText: t("global.No"),
             }).then((result) => {
                 if (result.isConfirmed) {
 

@@ -185,24 +185,6 @@
             console.log(error.response);
           });
       }
-      function toggleActivation(id, name, active, index) {
-        Swal.fire({
-          title: `${
-            active ? t("global.AreYouSureInactive") : t("global.AreYouSureActive")
-          }  (${name})`,
-          text: `${t("global.YouWontBeAbleToRevertThis")}`,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: t("global.Yeas"),
-          cancelButtonText: t("global.No"),
-        }).then((result) => {
-          if (result.isConfirmed) {
-            httpToggleActivation(id, active, index);
-          }
-        });
-      }
 
       function onCreated(event) {
         getCompanies()
@@ -212,7 +194,7 @@
       }
       function deleteCompany(company, index) {
         Swal.fire({
-          title: `${t("global.AreYouSureDelete")} (${company.name})`,
+          title: `${t("global.AreYouSureDelete")} (${company.name_ar})`,
           text: `${t("global.YouWontBeAbleToRevertThis")}`,
           icon: "warning",
           showCancelButton: true,
@@ -283,7 +265,6 @@
         onUpdated,
         deleteCompany,
         search,
-        toggleActivation,
         permission,
       };
     },

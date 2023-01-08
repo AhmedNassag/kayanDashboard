@@ -213,7 +213,7 @@ class SubCategoryController extends Controller
         try
         {
             $subCategory = SubCategory::find($id);
-            if ($subCategory)
+            if ($subCategory && $subCategory->products->count() == 0)
             {
                 if (File::exists('upload/subCategory/' . $subCategory->media->file_name))
                 {

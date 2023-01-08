@@ -39,12 +39,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm">
-                                    <div
-                                        class="alert alert-danger text-center"
-                                        v-if="errors['name']"
-                                    >
-                                        {{ t("global.Exist", {field:t("global.Name")}) }} <br />
-                                    </div>
+
                                     <form @submit.prevent="editSellingMethod" class="needs-validation">
                                         <div class="form-row row">
 
@@ -55,13 +50,20 @@
                                                        v-model.trim="v$.name.$model"
                                                        id="validationCustom01"
                                                        :placeholder="$t('global.Name')"
-                                                       :class="{'is-invalid':v$.name.$error,'is-valid':!v$.name.$invalid}"
+                                                       :class="{
+                                                            'is-invalid': v$.name.$error || errors.name,
+                                                            'is-valid': !v$.name.$invalid && !errors.name,
+                                                        }"
                                                 >
                                                 <div class="valid-feedback">{{ $t("global.LooksGood") }}</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.name.required.$invalid">{{ $t("global.NameIsRequired") }} <br/> </span>
                                                     <span v-if="v$.name.maxLength.$invalid">{{ $t("global.NameIsMustHaveAtLeast") }} {{ v$.name.minLength.$params.min }} {{ $t("global.Letters") }} <br/></span>
                                                     <span v-if="v$.name.minLength.$invalid">{{ $t("global.NameIsMustHaveAtMost") }} {{ v$.name.maxLength.$params.max }} {{ $t("global.Letters") }}</span>
+                                                    <span v-if="errors['name']">
+                                                        {{ errors['name'][0] }}<br/>
+                                                        <br/>
+                                                    </span>
                                                 </div>
                                             </div>
                                             <!--End Name-->
@@ -118,11 +120,6 @@ export default {
                 .catch((err) => {
                     console.log(err.response);
                     this.errors = err.response.data.errors;
-                    // Swal.fire({
-                    //     icon: 'error',
-                    //     title: 'يوجد خطأ...',
-                    //     text: 'يوجد خطأ ما..!!',
-                    // });
                 })
                 .finally(() => {
                     loading.value = false;

@@ -102,7 +102,12 @@
                             <label for="validationCustom0">
                                 {{ $t("global.Type") }}
                             </label>
-                            <select class="form-select" v-model.trim="v$.type.$model">
+                            <select class="form-select" v-model.trim="v$.type.$model"
+                            :class="{
+                                'is-invalid': v$.type.$error || data.typeExist || errors.type,
+                                'is-valid': !v$.type.$invalid && !errors.type,
+                            }"
+                            >
                                 <option value="صباحى">
                                     {{ $t("global.Morning") }}
                                 </option>
@@ -110,6 +115,23 @@
                                     {{ $t("global.Evening") }}
                                 </option>
                             </select>
+
+                            <div class="valid-feedback">
+                                {{ $t("global.LooksGood") }}
+                            </div>
+                            <div class="invalid-feedback">
+                                <span v-if="v$.type.required.$invalid">
+                                    {{ $t("global.NameIsRequired") }}
+                                    <br/>
+                                </span>
+
+                                <span v-if="errors['type']">
+                                    {{ errors['type'][0] }}<br/>
+                                    <br/>
+                                </span>
+                            </div>
+
+
                         </div>
                         <!--End Type Select-->
 
@@ -291,13 +313,7 @@ export default {
           })
           .catch((err) => {
             this.nameExist = err.response.data.errors;
-            console.log(err.response);
             this.errors = err.response.data.errors;
-            Swal.fire({
-                icon: 'error',
-                title: 'خطأ...',
-                text: `يوجد خطأ..!!`,
-            });
           })
           .finally(() => {
             this.loading = false;

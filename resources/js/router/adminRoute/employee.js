@@ -3,6 +3,8 @@ import createEmployee from "../../view/admin/employee/create";
 import editEmployee from "../../view/admin/employee/edit";
 import changePasswordEmployee from "../../view/admin/employee/changePassword";
 import store from "../../store/admin";
+import profile from "../../view/admin/profile/index.vue";
+
 
 export default [
     {
@@ -71,4 +73,18 @@ export default [
             },
         ]
     },
+    {
+        path: 'profile',
+        component:  {
+            template:'<router-view />',
+        },
+        children:[
+            {
+                path: '',
+                name: 'indexProfile',
+                component: profile,
+
+            },
+        ],
+    }
 ];

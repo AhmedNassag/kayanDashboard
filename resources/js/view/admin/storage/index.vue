@@ -185,7 +185,7 @@ export default {
           adminApi
             .delete(`/v1/dashboard/storage/${id}`)
             .then((res) => {
-              storages.value.splice(index, index + 1);
+              storages.value.splice(index,1);
 
               Swal.fire({
                 icon: "success",

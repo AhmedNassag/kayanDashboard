@@ -18,10 +18,14 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
-
         try {
-            $roles = Role::select('name', 'id')->with('permissions:name')->latest()->paginate(10);
-
+            $roles = Role::select('name', 'id')->with('permissions:name')
+            ->where(function ($q) use ($request) {
+                $q->when(true, function ($q) use ($request) {
+                    $q->where('name', 'like', "%$request->search%")
+                        ->orWhereRelation('permissions', 'name', "%$request->search%");
+                });
+            })->latest()->paginate(10);
             return $this->sendResponse(['roles' => $roles], 'Data exited successfully');
         } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
@@ -50,8 +54,6 @@ class RoleController extends Controller
                 'name' => 'required|string|unique:roles,name',
                 'permission' => "required|array",
                 'permission.*' => 'required',
-                'notify' => "required|array",
-                'notify.*' => 'required'
             ]);
 
             if ($v->fails()) {
@@ -60,7 +62,6 @@ class RoleController extends Controller
 
             $role = Role::create(['name' => $request->input('name')]);
             $role->syncPermissions($request->input('permission'));
-            $role->notify()->attach($request->notify);
 
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
@@ -81,14 +82,13 @@ class RoleController extends Controller
 
             if ($role) {
                 $permission = Permission::get();
-                $notifies = Notify::select('id', 'name')->get();
                 $rolePermissions = DB::table("role_has_permissions")
                     ->where("role_has_permissions.role_id", $id)->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')->all();
 
                 $notifyRole = Notify::whereRelation('role', 'role_id', $role->id)
                     ->pluck('id', 'name')->all();
 
-                return $this->sendResponse(['notifyRole' => $notifyRole, 'role' => $role, 'notifies' => $notifies, 'permission' => $permission, 'rolePermissions' => $rolePermissions], 'Data exited successfully');
+                return $this->sendResponse(['notifyRole' => $notifyRole, 'role' => $role, 'permission' => $permission, 'rolePermissions' => $rolePermissions], 'Data exited successfully');
             } else {
                 return $this->sendError('ID is not exist');
             }

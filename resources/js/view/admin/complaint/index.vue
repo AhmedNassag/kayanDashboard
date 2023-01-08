@@ -56,6 +56,7 @@
                       <th class="text-center">{{ $t("global.Phone") }}</th>
                       <th class="text-center">{{ $t("global.Kind") }}</th>
                       <th class="text-center">{{ $t("global.Type") }}</th>
+                      <th class="text-center">{{ $t("global.Platform") }}</th>
                       <th class="text-center">{{ $t("global.Content") }}</th>
                       <th class="text-center">{{ $t("global.Reply") }}</th>
                       <th class="text-center">{{ $t("global.Who Reply") }}</th>
@@ -65,13 +66,14 @@
                   <tbody v-if="complaints.length">
                     <tr v-for="(item, index) in complaints" :key="item.id">
                         <td class="text-center">{{ index + 1 }}</td>
-                        <td class="text-center">{{ item.user.name }}</td>
-                        <td class="text-center" v-if="item.user.phone">{{ item.user.phone }}</td>
+                        <td class="text-center">{{ item.name }}</td>
+                        <td class="text-center" v-if="item.phone">{{ item.phone }}</td>
                         <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                        <td class="text-center" v-if="item.kind">{{ item.kind }}</td>
+                        <td class="text-center" v-if="item.kind">{{ $t('dashboard.'+item.kind) }}</td>
                         <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
-                        <td class="text-center" v-if="item.type">{{ item.type }}</td>
+                        <td class="text-center" v-if="item.type">{{item.type_name}}</td>
                         <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
+                        <td class="text-center" >{{$t('global.'+item.platform)}}</td>
                         <td class="text-center">{{ item.content }}</td>
                         <td class="text-center" v-if="item.reply">{{ item.reply }}</td>
                         <td class="text-center" v-else>{{ $t("global.Not Found") }}</td>
@@ -129,7 +131,7 @@
                   </tbody>
                   <tbody v-else>
                     <tr>
-                      <th class="text-center" colspan="5">
+                      <th class="text-center" colspan="9">
                         {{ $t("global.NoDataFound") }}
                       </th>
                     </tr>

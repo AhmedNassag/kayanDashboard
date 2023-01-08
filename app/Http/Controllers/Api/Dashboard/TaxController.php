@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Validator;
 class TaxController extends Controller
 {
     use Message;
-
+    public function __construct()
+    {
+        app()->setLocale(request()->header('lang'));
+    }
     /**
      * Display a listing of the resource.
      *
@@ -73,29 +76,20 @@ class TaxController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            DB::beginTransaction();
 
             // Validator request
-            $v = Validator::make($request->all(), [
-                'name' => ['required', 'string'],
+            $this->validate($request,[
+                'name' => ['required', 'unique:taxes,name','string'],
                 'percentage' => ['required', 'numeric'],
             ]);
 
-            if ($v->fails()) {
-                return $this->sendError('There is an error in the data', $v->errors());
-            }
             $data = $request->only(['name', 'percentage']);
 
             $tax = Tax::create($data);
 
-            DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+
     }
 
 
@@ -128,32 +122,19 @@ class TaxController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::beginTransaction();
-        try {
 
-            $tax = Tax::find($id);
+        $tax = Tax::find($id);
+        // Validator request
+        $this->validate($request,[
+            'name' => ['required', 'unique:taxes,name,'.$id,'string'],
+            'percentage' => ['required', 'numeric']
+        ]);
 
-            // Validator request
-            $v = Validator::make($request->all(), [
-                'name' => ['required', 'string'],
-                'percentage' => ['required', 'numeric']
-            ]);
+        $data = $request->only(['name', 'percentage']);
+        $tax->update($data);
 
-            if ($v->fails()) {
-                return $this->sendError('There is an error in the data', $v->errors());
-            }
+        return $this->sendResponse([], 'Data exited successfully');
 
-            $data = $request->only(['name', 'percentage']);
-
-            $tax->update($data);
-
-            DB::commit();
-            return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
     }
 
     /**

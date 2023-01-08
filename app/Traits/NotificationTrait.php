@@ -9,10 +9,10 @@ use Log;
  */
 trait NotificationTrait
 {
-    public $API_KEY = 'CjwKCAjwkYGVBhArEiwA4sZLuPo7Bm9DE01vi87Hc4aj_I-NUUi5o3ezXtkVCigvGn3REWEb5TaDVxoC1lkQAvD_BwE';
+    public $API_KEY = 'AAAAKPVhqRA:APA91bGNPBH2tNstGxsKWmO7iErKXpS-d-vL4qnrV_28kk2JKhVRl1TcDFyK43_xML3cwUOWZZgHsOOOLJ0HVzV-zJPpC0wH_vuC8EUkKKzuKKLEh61yU_0npzQIBMGpWlEERA18mWYy';
     public $title = 'كيان';
 
-    public function notificationAllClient($tokens,$body,$title,$type){
+    public function notificationAllClient($tokens,$body,$title,$type,$image){
 
         $SERVER_API_KEY = $this->API_KEY;
 
@@ -29,7 +29,7 @@ trait NotificationTrait
                 "title" => $title,
 
                 "body" => $body,
-
+                "image" =>$image,
                 "sound" => "default", // required for sound on ios
                 "click_action"=> "FLUTTER_NOTIFICATION_CLICK"
 

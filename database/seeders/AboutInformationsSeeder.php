@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\AboutSection;
-use App\Models\FooterLink;
+use App\Models\AboutInformation;
 use Illuminate\Database\Seeder;
 
 
@@ -16,11 +15,11 @@ class AboutInformationsSeeder extends Seeder
      */
     public function run()
     {
-        // AboutSection::insert([
-        //     ["id" => 1],
-        //     ["id" => 2],
-        //     ["id" => 3],
-        //     ["id" => 4]
-        // ]);
+        AboutInformation::insert([
+            ["id" => 1],
+            ["id" => 2],
+            ["id" => 3],
+            ["id" => 4]
+        ]);
     }
 }

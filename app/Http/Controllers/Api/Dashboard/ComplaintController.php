@@ -21,9 +21,15 @@ class ComplaintController extends Controller
      */
     public function index(Request $request)
     {
-        $complaints = Complaint::with(['user','responser'])->when($request->search, function ($q) use ($request) {
-            return $q->where('content', 'like', '%' . $request->search . '%');
-        })->latest()->paginate(10);
+        $complaints = Complaint::with(['responser'])
+            ->when($request->search, function ($q) use ($request) {
+                return $q->where('content', 'like', '%' . $request->search . '%')
+                    ->orWhere('kind', 'like', '%' . $request->search . '%')
+                    ->orWhere('phone', 'like', '%' . $request->search . '%')
+                    ->orWhere('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('type', 'like', '%' . $request->search . '%')
+                    ->orWhere('reply', 'like', '%' . $request->search . '%');
+            })->latest()->paginate(10);
 
         return $this->sendResponse(['complaints' => $complaints], 'Data exited successfully');
     }
@@ -51,22 +57,27 @@ class ComplaintController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
+                'phone'    => 'nullable|numeric',
+                'name'    => 'nullable',
                 'kind'    => 'nullable',
-                'type'    => 'nullable',
+                'type'    => 'nullable|exists:type_of_complaints,id',
+                'platform'    => 'nullable',
                 'content' => 'required',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
-            $data = $request->only('kind','type','content','user_id');
+            $data = $request->only('kind', 'type', 'content','phone','name','platform');
 
             if (!$request->type || $request->type = '') {
                 $data['kind'] = 'Suggestion';
             } else {
                 $data['kind'] = 'Complaint';
             }
-            $data['user_id'] = Auth::user()->id;
+            if(!$request->platform)
+                $data['platform'] = 'mobile app';
+
             $complaint = Complaint::create($data);
 
             DB::commit();
@@ -88,9 +99,8 @@ class ComplaintController extends Controller
     {
         try {
             $complaint = Complaint::find($id);
-            $sender    = User::find($complaint->user_id);
             $responser = User::find($complaint->responser_id);
-            return $this->sendResponse(['complaint' => $complaint, 'sender' => $sender, 'responser' => $responser], 'Data exited successfully');
+            return $this->sendResponse(['complaint' => $complaint, 'responser' => $responser], 'Data exited successfully');
         } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
         }
@@ -127,23 +137,28 @@ class ComplaintController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
+                'name'    => 'nullable',
+                'phone'    => 'nullable|numeric',
                 'kind'    => 'nullable',
-                'type'    => 'nullable',
+                'type'    => 'nullable|exists:type_of_complaints,id',
                 'content' => 'required',
+                'platform'    => 'nullable',
+
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $data = $request->only('kind', 'type', 'content', 'user_id');
+            $data = $request->only('kind', 'type', 'content','phone','name','platform');
 
             if ($request->type) {
                 $data['kind'] = 'Complaint';
             } else {
                 $data['kind'] = 'Suggestion';
             }
-            $data['user_id'] = Auth::user()->id;
+            if(!$request->platform)
+                $data['platform'] = 'mobile app';
 
             $complaint->update($data);
 
@@ -178,7 +193,7 @@ class ComplaintController extends Controller
     }
 
 
-    public function reply(Request $request,$id)
+    public function reply(Request $request, $id)
     {
         DB::beginTransaction();
         try {

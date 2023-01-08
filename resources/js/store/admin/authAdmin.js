@@ -7,6 +7,7 @@ const state = {
     token: Cookies.get("tokenAdmin") || null,
     permission: JSON.parse(localStorage.getItem("permission")) || [],
     loading: false,
+    error: '',
     user: JSON.parse(localStorage.getItem("user")) || {}
 }
 
@@ -15,11 +16,15 @@ const getters = {
     token: state => state.token,
     permission: state => state.permission,
     loading: state => state.loading,
+    error: state => state.error,
     user: state => state.user
 }
 
 // mutations
 const mutations = {
+    editError(state, error) {
+        state.error = error;
+    },
     editToken(state, token) {
         state.token = token;
         Cookies.set('tokenAdmin', token, { expires: 7 });
@@ -56,7 +61,7 @@ const mutations = {
 // actions
 const actions = {
     login({ commit }, preload) {
-
+        commit('editError', '');
         commit('editLoading', true);
 
         adminApi.post(`/v1/auth/login`, preload)
@@ -73,6 +78,9 @@ const actions = {
 
             })
             .catch((err) => {
+                if(err.response && err.response.data.message){
+                    commit('editError', err.response.data.message);
+                }
                 console.log(err.response);
             }).finally(() => {
                 commit('editLoading', false);

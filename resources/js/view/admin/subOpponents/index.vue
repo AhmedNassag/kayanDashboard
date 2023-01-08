@@ -225,7 +225,7 @@ export default {
 
                     adminApi.delete(`/v1/dashboard/income/${id}`)
                         .then((res) => {
-                            incomes.value.splice(index, index + 1);
+                            incomes.value.splice(index, 1);
 
                             Swal.fire({
                                 icon: 'success',

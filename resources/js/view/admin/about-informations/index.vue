@@ -13,14 +13,14 @@
       <div class="page-header">
         <div class="row align-items-center">
           <div class="col">
-            <h3 class="page-title">{{ $t("global.AboutSections") }}</h3>
+            <h3 class="page-title">{{ $t("sidebar.AboutInformations") }}</h3>
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
                 <router-link :to="{ name: 'dashboard' }">
                   {{ $t("dashboard.Dashboard") }}
                 </router-link>
               </li>
-              <li class="breadcrumb-item active">{{ $t("global.AboutSections") }}</li>
+              <li class="breadcrumb-item active">{{ $t("sidebar.AboutInformations") }}</li>
             </ul>
           </div>
         </div>

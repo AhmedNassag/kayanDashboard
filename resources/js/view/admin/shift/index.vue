@@ -213,7 +213,7 @@ export default {
           adminApi
             .delete(`/v1/dashboard/shift/${id}`)
             .then((res) => {
-              shifts.value.splice(index, index + 1);
+              shifts.value.splice(index, 1);
 
               Swal.fire({
                 icon: "success",

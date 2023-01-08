@@ -44,9 +44,7 @@
               </div>
               <div class="row">
                 <div class="col-sm">
-                  <div class="alert alert-danger text-center" v-if="errors['name']">
-                    {{ t("global.Exist", {field:t("global.Name")}) }}<br />
-                  </div>
+
                   <form
                     @submit.prevent="storeSellingMethod"
                     class="needs-validation"
@@ -65,9 +63,9 @@
                                 id="validationCustom01"
                                 :placeholder="$t('global.Name')"
                                 :class="{
-                                    'is-invalid': v$.name.$error || data.nameExist,
-                                    'is-valid': !v$.name.$invalid,
-                                }"
+                                'is-invalid': v$.name.$error || errors.name,
+                                'is-valid': !v$.name.$invalid && !errors.name,
+                            }"
                             />
                             <div class="valid-feedback">
                                 {{ $t("global.LooksGood") }}
@@ -91,6 +89,10 @@
                                 </span>
                                 <span v-if="!v$.name.$invalid && data.nameExist">
                                     {{ $t("global.NameIsExist") }}
+                                </span>
+                                <span v-if="errors['name']">
+                                    {{ errors['name'][0] }}<br/>
+                                    <br/>
                                 </span>
                             </div>
                         </div>
@@ -188,14 +190,8 @@ export default {
             });
           })
           .catch((err) => {
-            this.nameExist = err.response.data.errors;
             this.errors = err.response.data.errors;
-            console.log(err.response);
-            Swal.fire({
-                icon: 'error',
-                title: 'يوجد خطأ...',
-                text: 'يوجد خطأ ما..!!',
-            });
+            this.loading = false;
           })
           .finally(() => {
             this.loading = false;

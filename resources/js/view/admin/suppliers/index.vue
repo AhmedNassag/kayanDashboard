@@ -36,6 +36,7 @@
             <loader v-if="loading" />
             <div class="card-body">
               <div class="card-header pt-0">
+
                 <div class="row justify-content-between">
                   <div class="col-5">
                     {{ $t("global.Search") }}:

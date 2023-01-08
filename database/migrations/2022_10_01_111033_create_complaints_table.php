@@ -16,9 +16,11 @@ class CreateComplaintsTable extends Migration
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
             $table->string('kind')->nullable();
-            $table->string('type')->nullable();
+            $table->foreignId('type')->nullable()->constrained('type_of_complaints')->nullOnDelete();
+            $table->string('platform')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('name')->nullable();
             $table->text('content')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->text('reply')->nullable();
             $table->foreignId('responser_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->timestamps();

@@ -13,6 +13,11 @@ class SettingController extends Controller
 {
     use Message;
 
+    public function __construct()
+    {
+        app()->setLocale(request()->header('lang'));
+    }
+
     public function index()
     {
         return $this->sendResponse(['setting' => Setting::first()], 'Data exited successfully');
@@ -33,7 +38,7 @@ class SettingController extends Controller
             'email' => 'nullable|email',
             'address' => 'nullable|max:255|string',
             'work_time' => 'nullable|max:255|string',
-            'instagram' => 'required|max:255|string',
+            'instagram' => 'nullable|max:255|string',
             'close' => 'required|boolean',
             'show_price' => 'required|boolean',
             'facebook' => 'required|string|min:1',
@@ -41,7 +46,9 @@ class SettingController extends Controller
             'wats_app' => 'required|regex:/(01)[0-9]{9}/',
         ]);
 
-        Setting::first()->update(collect($data)->filter()->toArray());
+        $setting = Setting::first();
+        $setting ->update(collect($data)->filter()->toArray());
+        $setting->update(['close' => $request->close ?1: 0]);
     }
 
 }

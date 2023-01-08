@@ -89,6 +89,7 @@
                         <input
                           type="checkbox"
                           v-model="data.Allow_adding_to_sales_team"
+                          :checked="data.Allow_adding_to_sales_team?true:false"
                           class="ms-1 mt-5"
                         />
                         <label for="validationCustom02">{{

@@ -160,59 +160,6 @@
                         </div>
                       </div>
 
-                      <div class="col-lg-12">
-                        <div class="card">
-                          <div class="card-body pt-0">
-                            <div class="card-header mb-4">
-                              <h5 class="card-title">
-                                {{ $t("notification.Notifications") }}
-                              </h5>
-                            </div>
-                            <div
-                              class="
-                                row
-                                row-cols-1
-                                row-cols-sm-2
-                                row-cols-md-3
-                                row-cols-lg-4
-                              "
-                            >
-                              <div
-                                class="col mb-3 d-flex"
-                                v-for="notify in notifies"
-                                :key="notify.id"
-                              >
-                                <div class="card flex-fill">
-                                  <div class="card-body p-3 text-center">
-                                    <p class="card-text f-12">
-                                      {{ notify.name }}
-                                    </p>
-                                  </div>
-                                  <div class="card-footer">
-                                    <label
-                                      class="form-group toggle-switch mb-0"
-                                      :for="'notification_switch-' + notify.id"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        class="toggle-switch-input"
-                                        :id="'notification_switch-' + notify.id"
-                                        :value="notify.id"
-                                        v-model="v$.notify.$model"
-                                      />
-                                      <span class="toggle-switch-label mx-auto">
-                                        <span
-                                          class="toggle-switch-indicator"
-                                        ></span>
-                                      </span>
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
 
                     <button class="btn btn-primary btn-block" type="submit">
@@ -257,7 +204,6 @@ export default {
     const { t } = useI18n({});
     let loading = ref(false);
     let permissions = ref([]);
-    let notifies = ref([]);
 
     let getPermissions = () => {
       loading.value = true;
@@ -268,7 +214,6 @@ export default {
         .then((res) => {
           let l = res.data.data;
           permissions.value = l.permission;
-          notifies.value = l.notifies;
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -290,7 +235,6 @@ export default {
       data: {
         name: "",
         permission: [],
-        notify: [],
       },
     });
 
@@ -304,15 +248,13 @@ export default {
         permission: {
           required,
         },
-        notify: {
-          required,
-        },
+
       };
     });
 
     const v$ = useVuelidate(rules, addRole.data);
 
-    return { t, permissions, loading, ...toRefs(addRole), v$, notifies };
+    return { t, permissions, loading, ...toRefs(addRole), v$ };
   },
   methods: {
     storeRole() {
@@ -345,11 +287,19 @@ export default {
             this.loading = false;
           });
       }
+      else{
+        let message = this.v$.name.$error ? 'يوجد خطأ في حقل الاسم' : 'يوجد خطأ في اختيار الصلاحيات'
+        notify({
+              title: message,
+              type: "error",
+              duration: 5000,
+              speed: 2000,
+            });
+      }
     },
     resetForm() {
       this.data.name = "";
       this.data.permission = [];
-      this.data.notify = [];
     },
   },
 };

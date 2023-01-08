@@ -169,6 +169,11 @@
                         <span v-if="errors.title" class="text-danger">{{errors.title}}</span>
                       </div>
                       <div class="form-group col-12">
+                        <label for="title">{{$t('global.Image')}}</label>
+                        <input type="file" :class="['form-control',errors.image?'is-invalid':'']" id="file_upload">
+                        <span v-if="errors.image" class="text-danger">{{errors.image}}</span>
+                      </div>
+                      <div class="form-group col-12">
                         <label for="body">{{$t('global.Message')}}</label>
                         <textarea :class="['form-control' ,errors.notification ? 'is-invalid':'' ]" id="body" cols="30" rows="10" v-model="notification"></textarea>
                         <span v-if="errors.notification" class="text-danger">{{errors.notification}}</span>
@@ -271,8 +276,13 @@ export default {
 
     const sendNotification = async () => {
       errors.value ={}
+      let data = new FormData();
+      data.append('title',title.value)
+      data.append('user_id',client_notification_id.value)
+      data.append('notification',notification.value)
+      data.append('image',$('#file_upload').prop('files')[0]??'')
       let uri = notification_type.value == 'client' ? '/v1/dashboard/sendNotificationToClient' : '/v1/dashboard/sendNotificationToAllClients'
-        adminApi.post(uri,{notification:notification.value,title:title.value,user_id:client_notification_id.value}).then((response) => {
+        adminApi.post(uri,data).then((response) => {
             $('#close-sendNotification').click()
             Swal.fire({
                 icon: "success",
@@ -280,7 +290,9 @@ export default {
                 showConfirmButton: false,
                 timer: 1500,
               });
-
+              title.value=''
+              client_notification_id.value=0
+              notification.value=''
         }).catch((e) => {
           if(e.response &&e.response.data.title&& e.response.data.title[0])
             errors.value['title']= e.response.data.title[0]

@@ -62,7 +62,7 @@
                     <tr v-for="(item, index) in subCategories" :key="item.id">
                       <td>{{ index + 1 }}</td>
                       <td>{{ item.name }}</td>
-                      <td>{{ item.category.name }}</td>
+                      <td>{{ item.category ? item.category.name : ''}}</td>
                       <td>
                         <img
                           :src="'/upload/subCategory/' + item.media.file_name"
@@ -217,7 +217,7 @@ export default {
           adminApi
             .delete(`/v1/dashboard/subCategory/${id}`)
             .then((res) => {
-              subCategories.value.splice(index, index + 1);
+              subCategories.value.splice(index, 1);
 
               Swal.fire({
                 icon: "success",
@@ -326,4 +326,6 @@ export default {
 .custom-img {
   width: 100px;
 }
+
+
 </style>

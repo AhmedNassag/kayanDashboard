@@ -113,7 +113,7 @@
                       <td>{{ index + 1 }}</td>
                       <td>{{ item.name }}</td>
                       <td>
-                        <img
+                        <img v-if="item.media"
                           :src="'/upload/category/' + item.media.file_name"
                           :alt="item.name"
                           class="custom-img"
@@ -329,6 +329,8 @@ export default {
                 timer: 1500,
               });
               categories.value[index]["status"] = active ? 0 : 1;
+              activeCategories.value = res.data.data.activeCategories;
+                notActiveCategories.value = res.data.data.notActiveCategories;
             })
             .catch((err) => {
                 Swal.fire({

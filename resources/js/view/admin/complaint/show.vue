@@ -52,20 +52,8 @@
                                                 <label for="validationCustom0">
                                                     {{ $t("global.Type") }}
                                                 </label>
-                                                <select class="form-control" v-model.trim="v$.type.$model" disabled>
-                                                    <option value="Product Complaint">
-                                                        {{ $t("global.Product Complaint") }}
-                                                    </option>
-                                                    <option value="Website Complaint">
-                                                        {{ $t("global.Website Complaint") }}
-                                                    </option>
-                                                    <option value="Application Complaint">
-                                                        {{ $t("global.Application Complaint") }}
-                                                    </option>
-                                                    <option value="Sales Complaint">
-                                                        {{ $t("global.Sales Complaint") }}
-                                                    </option>
-                                                </select>
+
+                                                <input type="text" class="form-control" v-model.trim="v$.type.$model" disabled>
                                             </div>
                                             <!--End Type Select-->
 
@@ -168,10 +156,10 @@ export default {
             adminApi.get(`/v1/dashboard/showcomplaint/${id.value}`)
             .then((res) => {
                 let l = res.data.data;
-                addComplaint.data.type = l.complaint.type;
+                addComplaint.data.type = l.complaint.type_name;
                 addComplaint.data.content = l.complaint.content;
                 addComplaint.data.reply = l.complaint.reply;
-                addComplaint.data.sender = l.sender.name;
+                addComplaint.data.sender = l.complaint.name;
                 addComplaint.data.responser = l.responser.name;
             })
             .catch((err) => {

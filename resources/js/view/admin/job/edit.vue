@@ -91,7 +91,7 @@
                           type="checkbox"
                           v-model="data.Allow_adding_to_sales_team"
                           class="ms-1 mt-5"
-                          :checked="data.Allow_adding_to_sales_team"
+                          :checked="data.Allow_adding_to_sales_team?true:false"
                         />
                         <label for="validationCustom02">{{
                           $t("global.AllowAddingToSalesTeam")

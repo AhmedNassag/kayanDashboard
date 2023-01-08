@@ -12,7 +12,7 @@ class Client extends Model
 
     public function getTextAttribute()
     {
-        return $this->user->name;
+        return $this->user && $this->user->name? $this->user->name:'';
     }
 
     function user()

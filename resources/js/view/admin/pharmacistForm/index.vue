@@ -145,6 +145,7 @@ export default {
           let l = res.data.data;
           pharmacistFormsPaginate.value = l.pharmacistForms;
           pharmacistForms.value = l.pharmacistForms.data;
+
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -183,7 +184,7 @@ export default {
           adminApi
             .delete(`/v1/dashboard/pharmacistForm/${id}`)
             .then((res) => {
-                pharmacistForms.value.splice(index, index + 1);
+                pharmacistForms.value.splice(index, 1);
 
               Swal.fire({
                 icon: "success",

@@ -10,16 +10,20 @@ class Complaint extends Model
     use HasFactory;
 
     protected $guarded = [];
-
-
-    //start relations
-    function user()
-    {
-        return $this->belongsTo(User::class,'user_id');
-    }
+    protected $appends = ['type_name'];
 
     function responser()
     {
         return $this->belongsTo(User::class,'responser_id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(TypeOfComplaint::class,'type');
+    }
+
+    public function getTypeNameAttribute()
+    {
+        return $this->type?$this->type()->first()->name:'';
     }
 }
