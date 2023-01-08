@@ -44,14 +44,19 @@
                                                    v-model.trim="v$.code.$model"
                                                    id="validationCustom01"
                                                    placeholder="الكود"
-                                                   :class="{'is-invalid':v$.code.$error,'is-valid':!v$.code.$invalid}"
+                                                   :class="{'is-invalid':v$.code.$error || errors.code,'is-valid':!v$.code.$invalid && !errors.code}"
                                                 >
                                                 <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.code.required.$invalid"> هذا الحقل مطلوب<br /> </span>
                                                     <span v-if="v$.code.maxLength.$invalid"> يجب ان يكون علي الاقل {{ v$.code.minLength.$params.min }} حرف  <br /></span>
                                                     <span v-if="v$.code.minLength.$invalid">يجب ان يكون علي اكثر  {{ v$.code.maxLength.$params.max }} حرف</span>
+                                                    <span v-if="errors['code']">
+                                                        {{ errors['code'][0] }}<br/>
+                                                        <br/>
+                                                    </span>
                                                 </div>
+
                                             </div>
 
                                             <div class="col-md-6 mb-3">
@@ -262,7 +267,8 @@ export default {
                         this.$nextTick(() => { this.v$.$reset() });
                     })
                     .catch((err) => {
-                        this.errors = err.response.data.errors;
+                        if(err.response && err.response.data.errors)
+                            this.errors = err.response.data.errors;
                     })
                     .finally(() => {
                         this.loading = false;

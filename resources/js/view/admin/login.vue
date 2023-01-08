@@ -16,8 +16,9 @@
                             <p class="account-subtitle">{{ $t("global.Welcome Message") }}</p>
 
                             <form @submit.prevent='Loginsubmit'>
-                                <div class="form-group form-focus">
+                                <div class="form-group form-focus mb-4">
                                     <input type="text" v-model="data.email"  class="form-control floating">
+                                    <h6 v-if="error" class="text-danger">{{ error }}</h6>
                                     <label class="focus-label">{{ $t("global.Email") }}</label>
                                 </div>
                                 <div class="form-group form-focus">
@@ -49,15 +50,17 @@
 
 <script>
 import {useStore} from "vuex";
-import {computed, reactive, toRefs} from "vue";
+import {computed, reactive, ref, toRefs} from "vue";
 
 export default {
     name: "login",
     setup(){
         const store = useStore();
-
         let loading = computed(() => {
             return store.getters['authAdmin/loading'];
+        });
+        let error = computed(() => {
+            return store.getters['authAdmin/error'];
         });
 
         //start design
@@ -69,11 +72,11 @@ export default {
             }
         });
 
-        function Loginsubmit (){
-            store.dispatch('authAdmin/login',login.data);
+        async function Loginsubmit (){
+           await store.dispatch('authAdmin/login',login.data);
         }
 
-        return {Loginsubmit,...toRefs(login),loading};
+        return {Loginsubmit,...toRefs(login),loading,error};
 
     },
 }

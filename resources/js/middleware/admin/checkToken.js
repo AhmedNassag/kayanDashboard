@@ -4,7 +4,6 @@ export default function checkToken({ next, store }) {
     adminApi.get('/v1/auth/checkToken')
         .then((res) => {
             let permission = res.data.data.permission;
-            console.log(permission)
             store.commit('authAdmin/editPermission', permission);
             return next();
         })

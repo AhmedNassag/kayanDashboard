@@ -52,14 +52,30 @@
                     <!-- End Shift Link -->
 
 
-                    <!-- Start Complaint Link -->
-                    <li v-if="permission.includes('complaint read')" :class="[{active: ['indexComplaint', 'createComplaint', 'editComplaint', 'replyComplaint','showComplaint'].includes($route.name)}]">
-                        <router-link :to="{ name: 'indexComplaint' }">
+                    <!-- Start Offers & Discounts Links -->
+                    <li class="submenu" :class="[{active: ['indexComplaint', 'createComplaint', 'editComplaint', 'replyComplaint','showComplaint'].includes($route.name)}]" v-if="permission.includes('complaint read')">
+                        <a href="#">
                             <i class="fa fa-home" aria-hidden="true"></i>
                             <span>{{ $t("global.Complaints") }}</span>
-                        </router-link>
+                            <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
+                        </a>
+                        <ul>
+                            <li :class="[{active: ['indexTypeComplaint'].includes($route.name)}]">
+                                <router-link :to="{ name: 'indexTypeComplaint' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Types of Complaints") }}
+                                </router-link>
+                            </li>
+
+                            <li :class="[{active: ['indexComplaint' , 'createComplaint', 'editComplaint', 'replyComplaint','showComplaint'].includes($route.name)}]">
+                                <router-link :to="{ name: 'indexComplaint' }" :class="['sidebar-menu-rtl']">
+                                    {{ $t("global.Complaints") }}
+                                </router-link>
+                            </li>
+
+
+                        </ul>
                     </li>
-                    <!-- End Complaint Link -->
+                    <!-- End Offers & Discounts Links -->
 
 
                     <!-- Start Offers & Discounts Links -->
@@ -1154,7 +1170,7 @@
                                 <router-link :to="{name:'indexCapitalOwnerAccount',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
                                     {{  $t('global.capitalOwnerAccount') }}
                                 </router-link>
-                            </li> -->
+                            </li>
 
                             <li :class="[$route.name == 'treasuriesIncome'? 'active': '']" v-if="permission.includes('treasuriesIncome read')">
                                 <router-link :to="{name:'treasuriesIncome',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
@@ -1203,11 +1219,12 @@
                     </li>
                     <!--end setting-->
 
-                    <li :class="[$route.name == 'indexRepresentative'? 'active': '']" v-if="permission.includes('representative read')">
+
+                    <!-- <li :class="[$route.name == 'indexRepresentative'? 'active': '']" v-if="permission.includes('representative read')">
                         <router-link :to="{name:'indexRepresentative'}">
                             <i class="fas fa-user-tie "></i> <span class="mx-2">{{$t('global.representatives')}}</span>
                         </router-link>
-                    </li>
+                    </li> -->
 
                     <li v-if="permission.includes('best-seller read')" :class="[$route.name == 'BestSellerIndex' ? 'active' : '']">
                         <router-link :to="{ name: 'BestSellerIndex' }">
@@ -1336,7 +1353,7 @@
                         </ul>
                     </li>
 
-                    <li class="submenu" v-if="permission.includes('footer')">
+                    <!-- <li class="submenu" v-if="permission.includes('footer')">
                         <a href="#"><i class="fas fa-suitcase"></i><span>{{ $t("sidebar.Footer") }}</span><span :class="['menu-arrow', 'menu-arrow-ar']"></span></a>
                         <ul>
 
@@ -1362,7 +1379,7 @@
                                 </router-link>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li class="submenu" v-if="permission.includes('about')">
                         <a href="#"><i class="fas fa-suitcase"></i><span> {{ $t("sidebar.About") }} </span><span :class="['menu-arrow', 'menu-arrow-ar']"></span></a>
                         <ul>

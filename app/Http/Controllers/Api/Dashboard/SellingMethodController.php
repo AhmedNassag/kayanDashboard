@@ -135,7 +135,7 @@ class SellingMethodController extends Controller
 
             // Validator request
             $v = Validator::make($request->all(), [
-                'name' => 'required|string',
+                'name' => 'required|unique:selling_methods,name,'.$id,
             ]);
 
             if ($v->fails()) {
@@ -180,5 +180,24 @@ class SellingMethodController extends Controller
         {
             return $this->sendError('An error occurred in the system');
         }
+    }
+/**
+     * activation Selling Method
+     */
+    public function activationSaleMethod($id)
+    {
+        $SellingMethods = SellingMethod::find($id);
+
+        if ($SellingMethods->status == 1)
+        {
+            $SellingMethods->update([
+                "status" => 0
+            ]);
+        }else{
+            $SellingMethods->update([
+                "status" => 1
+            ]);
+        }
+        return $this->sendResponse([], 'Data exited successfully');
     }
 }

@@ -60,7 +60,7 @@
                                         <td>{{ item.id }}</td>
                                         <td>{{ item.nameAr }}</td>
                                         <td>{{ item.nameEn }}</td>
-                                        <td>{{ item.category.name }}</td>
+                                        <td>{{ item.category ? item.category.name:'' }}</td>
                                         <td>
                                             <img
                                                 :src="'/upload/product/' + item.image"

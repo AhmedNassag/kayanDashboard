@@ -34,6 +34,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
         // Start Dashboard
         Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard'], function () {
 
+            Route::put('profile/{id}','ProfileController@updateUser');
+            Route::get('profile/{id}','ProfileController@getUser');
+
             // start Notification
             //            Route::get('getAllNot','NotificationController@getAllNot');
             //            Route::get('getNotNotRead','NotificationController@getNotNotRead');
@@ -192,6 +195,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('activationAdOwner/{id}', 'AdOwnerController@activationAdOwner');
 
             // complaint
+            Route::resource('types-of-complaints', 'TypesOfComplaintsController');
+            Route::get('all_types_of_complaints', 'TypesOfComplaintsController@all_types_of_complaints');
             Route::resource('complaint', 'ComplaintController');
             Route::Post('replycomplaint/{id}', 'ComplaintController@reply');
             Route::get('showcomplaint/{id}', 'ComplaintController@show');

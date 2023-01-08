@@ -3,6 +3,9 @@ import createComplaint from "../../view/admin/complaint/create";
 import editComplaint from "../../view/admin/complaint/edit";
 import replyComplaint from "../../view/admin/complaint/reply";
 import showComplaint from "../../view/admin/complaint/show";
+
+
+import indexTypeComplaint from "../../view/admin/complaint/types/index";
 import store from "../../store/admin";
 
 export default [
@@ -75,6 +78,29 @@ export default [
                     return next();
                 }
             },
+        ]
+    },
+    {
+        path: 'types_of_complaints',
+        component:  {
+            template:'<router-view />',
+        },
+        children:[
+            {
+                path: '',
+                name: 'indexTypeComplaint',
+                component: indexTypeComplaint,
+                beforeEnter: (to, from,next) => {
+                    let permission = store.state.authAdmin.permission;
+
+                    if(permission.includes('complaint read')){
+                        return next();
+                    }else{
+                        return next({name:'Page404'});
+                    }
+                }
+            },
+
         ]
     },
 ];

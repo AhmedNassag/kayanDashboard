@@ -22,7 +22,7 @@ class KnowUsWayRepository
     public function delete($id)
     {
         $knowUsWay = KnowUsWay::find($id);
-        if ($knowUsWay) {
+        if ($knowUsWay && $knowUsWay->clients) {
             $knowUsWay->delete();
         }
     }
@@ -30,5 +30,5 @@ class KnowUsWayRepository
     {
         return KnowUsWay::where("name", "like", "%$text%")->paginate($pageSize);
     }
-    
+
 }

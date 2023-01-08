@@ -50,6 +50,14 @@
                           v-model="search_products"
                         />
                       </div>
+                      <div class="form-group col-md-4 col-sm-12">
+                        <router-link
+                            :to="{name: 'SupplierIndex'}"
+                            class="btn btn-custom btn-dark w-50"
+                        >
+                            {{ $t('global.back') }}
+                        </router-link>
+                      </div>
                     </div>
                   </div>
                 </div>

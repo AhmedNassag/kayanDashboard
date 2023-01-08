@@ -60,7 +60,10 @@ class CategoryController extends Controller
                 "status" => 1
             ]);
         }
-        return $this->sendResponse([], 'Data exited successfully');
+
+        $activeCategories = Category::where('status', 1)->get();
+        $notActiveCategories = Category::where('status', 0)->get();
+        return $this->sendResponse(['activeCategories' => $activeCategories,'notActiveCategories' => $notActiveCategories], 'Data exited successfully');
     }
 
 
@@ -210,23 +213,16 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $category = Category::find($id);
-            if ($category){
-
-                if(File::exists('upload/category/'.$category->media->file_name)){
-                    unlink('upload/category/'. $category->media->file_name);
-                }
+        $category = Category::find($id);
+        if ($category && $category->products->count() == 0){
+            if($category->media && File::exists('upload/category/'.$category->media->file_name)){
+                unlink('upload/category/'. $category->media->file_name);
                 $category->media->delete();
-
-                $category->delete();
-                return $this->sendResponse([],'Deleted successfully');
-            }else{
-                return $this->sendError('ID is not exist');
             }
-
-        }catch (\Exception $e){
-            return $this->sendError('An error occurred in the system');
+            $category->delete();
+            return $this->sendResponse([],'Deleted successfully');
+        }else{
+            return $this->sendError('ID is not exist');
         }
     }
 }

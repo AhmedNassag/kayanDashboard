@@ -193,11 +193,7 @@ export default {
             this.nameExist = err.response.data.errors;
             console.log(err.response);
             this.errors = err.response.data.errors;
-            Swal.fire({
-                icon: 'error',
-                title: 'خطأ...',
-                text: `يوجد خطأ..!!`,
-            });
+
           })
           .finally(() => {
             this.loading = false;

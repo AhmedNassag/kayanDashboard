@@ -24,7 +24,7 @@ class MostPopularRequest extends FormRequest
     public function rules()
     {
         return [
-            "limit" => "required|integer|min:1",
+            "limit" => "required|numeric|min:1",
         ];
     }
 }

@@ -15,7 +15,10 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        $companies = Company::latest()->paginate(10);
+        $companies = Company::when($request->text,function($q) use($request){
+            $q->where('name_ar','like',"%$request->text%")
+            ->orWhere('name_en','like',"%$request->text%");
+        })->latest()->paginate(10);
         return response()->json(['companies' => $companies]);
     }
 

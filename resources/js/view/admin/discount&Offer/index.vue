@@ -59,7 +59,7 @@
                                     <tr v-for="(item,index) in discounts"  :key="item.id">
                                         <td class="text-center">{{ index + 1 }}</td>
                                         <td class="text-center">{{ item.name }}</td>
-                                        <td class="text-center">{{ item.type }}</td>
+                                        <td class="text-center">{{ $t('global.'+item.type) }}</td>
                                         <td class="text-center">{{ item.value }}</td>
                                         <td class="text-center">{{ item.start_date != '' ?  dateFormat(item.start_date) + ' - ' + dateFormat(item.expire_date) : '-' }}</td>
                                         <td class="text-center">

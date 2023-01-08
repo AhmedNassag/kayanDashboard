@@ -47,6 +47,15 @@
                     <div class="alert alert-danger text-center" v-if="errors['content']">
                         {{ t("global.Exist", {field:t("global.Content")}) }}<br />
                     </div>
+                    <div class="alert alert-danger text-center" v-if="errors['name']">
+                        {{ t("global.Exist", {field:t("global.name")}) }}<br />
+                    </div>
+                    <div class="alert alert-danger text-center" v-if="errors['phone']">
+                        {{ t("global.Exist", {field:t("global.phone")}) }}<br />
+                    </div>
+                    <div class="alert alert-danger text-center" v-if="errors['type']">
+                        {{ t("global.Exist", {field:t("global.type")}) }}<br />
+                    </div>
                   <form
                     @submit.prevent="storeComplaint"
                     class="needs-validation"
@@ -60,22 +69,25 @@
                             <label for="validationCustom0">
                                 {{ $t("global.Type") }}
                             </label>
-                            <select class="form-select" v-model.trim="v$.type.$model">
-                                <option value="Product Complaint">
-                                    {{ $t("global.Product Complaint") }}
-                                </option>
-                                <option value="Website Complaint">
-                                    {{ $t("global.Website Complaint") }}
-                                </option>
-                                <option value="Application Complaint">
-                                    {{ $t("global.Application Complaint") }}
-                                </option>
-                                <option value="Sales Complaint">
-                                    {{ $t("global.Sales Complaint") }}
+                            <select class="form-select" v-model.trim="v$.type.$model" >
+                                <option :value="item.id" v-for="item in types" :key="item.id">
+                                    {{ item.name }}
                                 </option>
                             </select>
                         </div>
                         <!--End Type Select-->
+                        <div class="col-md-7 mb-3">
+                            <label for="validationCustom022">
+                                {{ $t("global.Name") }}
+                            </label>
+                           <input type="text" class="form-control"  v-model.trim="v$.name.$model" id="validationCustom022">
+                        </div>
+                        <div class="col-md-7 mb-3">
+                            <label for="validationCustom025">
+                                {{ $t("global.Phone") }}
+                            </label>
+                           <input type="text" class="form-control"  v-model.trim="v$.phone.$model" id="validationCustom025">
+                        </div>
 
                         <!--Start Content-->
                         <div class="col-md-7 mb-3">
@@ -155,6 +167,7 @@ export default {
   setup() {
     const emitter = inject("emitter");
     const { t } = useI18n({});
+    const types = ref({});
     let loading = ref(false);
 
     //start design
@@ -162,6 +175,9 @@ export default {
       data: {
         type: "",
         content: "",
+        name: "",
+        phone: "",
+        platform: "dashboard",
         nameExist: false,
       },
     });
@@ -169,6 +185,12 @@ export default {
     const rules = computed(() => {
       return {
         type: {
+        //   required,
+        },
+        name: {
+        //   required,
+        },
+        phone: {
         //   required,
         },
         content: {
@@ -179,9 +201,15 @@ export default {
       };
     });
 
+    onMounted(() => {
+        adminApi.get('/v1/dashboard/all_types_of_complaints').then((response) => {
+            types.value = response.data.types
+        })
+    })
+
     const v$ = useVuelidate(rules, addComplaint.data);
 
-    return { loading, ...toRefs(addComplaint), v$ };
+    return { loading, ...toRefs(addComplaint), v$ ,types};
 
   },
   methods: {
@@ -203,6 +231,9 @@ export default {
         let formData = new FormData();
         formData.append("type", this.data.type);
         formData.append("content", this.data.content);
+        formData.append("name", this.data.name);
+        formData.append("phone", this.data.phone);
+        formData.append("platform", this.data.platform);
 
         adminApi
           .post(`/v1/dashboard/complaint`, formData)
@@ -237,6 +268,8 @@ export default {
     resetForm() {
       this.data.type = "";
       this.data.content = "";
+      this.data.name = "";
+      this.data.phone = "";
     },
   },
 };

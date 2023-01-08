@@ -204,7 +204,7 @@ export default {
           adminApi
             .delete(`/v1/dashboard/sellingMethod/${id}`)
             .then((res) => {
-              sellingMethods.value.splice(index, index + 1);
+              sellingMethods.value.splice(index, 1);
 
               Swal.fire({
                 icon: "success",

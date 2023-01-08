@@ -44,13 +44,17 @@
                                                     v-model.trim="v$.code.$model"
                                                     id="validationCustom01"
                                                     placeholder="الكود"
-                                                    :class="{'is-invalid':v$.code.$error,'is-valid':!v$.code.$invalid}"
+                                                    :class="{'is-invalid':v$.code.$error || errors.code,'is-valid':!v$.code.$invalid && !errors.code}"
                                                 >
                                                 <div class="valid-feedback">تبدو جيده</div>
                                                 <div class="invalid-feedback">
                                                     <span v-if="v$.code.required.$invalid"> هذا الحقل مطلوب<br /> </span>
                                                     <span v-if="v$.code.maxLength.$invalid"> يجب ان يكون علي الاقل {{ v$.code.minLength.$params.min }} حرف  <br /></span>
                                                     <span v-if="v$.code.minLength.$invalid">يجب ان يكون علي اكثر  {{ v$.code.maxLength.$params.max }} حرف</span>
+                                                    <span v-if="errors['code']">
+                                                        {{ errors['code'][0] }}<br/>
+                                                        <br/>
+                                                    </span>
                                                 </div>
                                             </div>
 

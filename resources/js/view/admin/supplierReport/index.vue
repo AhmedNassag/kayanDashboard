@@ -220,7 +220,7 @@ export default {
           adminApi
             .delete(`/v1/dashboard/company/${id}`)
             .then((res) => {
-              companies.value.splice(index, index + 1);
+              companies.value.splice(index, 1);
 
               Swal.fire({
                 icon: "success",

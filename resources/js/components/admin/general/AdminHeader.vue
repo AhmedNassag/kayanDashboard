@@ -27,21 +27,21 @@
         <ul :class="['nav user-menu','user-menu-ar']">
 
             <!-- Notifications -->
-            <Notification />
+            <!-- <Notification /> -->
             <!-- /Notifications -->
 
             <!-- User Menu -->
             <li class="nav-item dropdown has-arrow main-drop">
                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                     <span class="user-img">
-                        <img src="/admin/img/Logo Dashboard.png" alt="">
-                        <span class="status online"></span>
+                        <span class="status online">{{ user && user.name ? user.name:'' }}</span>
+                        <img :src="`/upload/user/${user && user.image ?user.image:''}`" alt="user-image">
                     </span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#"><i data-feather="user" class="me-1"></i> Profile</a>
-                    <a class="dropdown-item" href="#"><i data-feather="settings" class="me-1"></i> Settings</a>
-                    <a class="dropdown-item" href="#" @click="logout"><i data-feather="log-out" class="me-1"></i> Logout</a>
+                    <router-link :to="{name:'indexProfile',params: {lang:this.$i18n.locale}}" class="dropdown-item"><i data-feather="user" class="me-1"></i> {{$t('global.Profile')}}</router-link>
+                    <router-link :to="{name:'indexSetting'}" class="dropdown-item" ><i data-feather="settings" class="me-1"></i> {{ $t('global.Setting') }}</router-link>
+                    <a class="dropdown-item" href="#" @click="logout"><i data-feather="log-out" class="me-1"></i> {{ $t('global.Logout') }}</a>
                 </div>
             </li>
             <!-- /User Menu -->
@@ -66,6 +66,9 @@ export default {
         let loading = computed(() => {
             return store.getters['authAdmin/loading'];
         });
+        const user = computed(() => {
+            return store.getters['authAdmin/user'];
+        });
 
         onMounted(() => {
             if (Cookies.get("tokenAdmin")){
@@ -77,7 +80,7 @@ export default {
             store.dispatch('authAdmin/logout');
         }
 
-        return {logout,loading,userId};
+        return {logout,loading,userId,user};
     },
     components: {
         Notification
