@@ -25,6 +25,8 @@ class CreateOrdersTable extends Migration
             $table->string('receiver_phone');
             $table->string('receiver_name');
             $table->string('refund_amount')->default(0);
+            $table->string('coupon')->nullable();
+            $table->float('coupon_discount',11,2)->nullable();
             $table->float('discount_percentage',11,2)->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities')->cascadeOnDelete();
             $table->foreignId('area_id')->nullable()->constrained('areas')->cascadeOnDelete();
