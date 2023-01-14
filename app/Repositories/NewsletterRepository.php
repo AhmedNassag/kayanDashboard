@@ -8,7 +8,7 @@ class NewsletterRepository
 {
     public function getPage($pageSize, $text)
     {
-        return Newsletter::where("email", "like", "%$text%")->paginate($pageSize);
+        return Newsletter::where("email", "like", "%$text%")->orWhereDate("created_at", "like", "%$text%")->paginate($pageSize);
     }
     public function getNewsletters()
     {

@@ -45,6 +45,8 @@
                                         <form id="mainFormVirualStocks">
                                             <div class="form-group">
                                                 <table class="table">
+                                                    <a href="/Temp.xlsx" download class="btn btn-info"><i class="fa fa-download"></i></a>
+
                                                     <label class="form-group">{{ $t('global.UploadExcelFile') }}
                                                         <input class="form-control" type="file" name="select_virtualStocks_file">
                                                     </label>
@@ -144,10 +146,10 @@
 
                                                         <!--Start Client Discount-->
                                                         <div class="col-md-3 mb-3">
-                                                            <label>{{$t('global.Client Discount')}}</label>
+                                                            <label>{{$t('global.Pharmacy Discount')}}</label>
                                                             <input type="number" step="0.1" class="form-control"
                                                                 v-model.number="v$.product[index].clientDiscount.$model"
-                                                                :placeholder="$t('global.Client Discount')"
+                                                                :placeholder="$t('global.Pharmacy Discount')"
                                                                 :class="{'is-invalid':v$.product[index].clientDiscount.$error,'is-valid':!v$.product[index].clientDiscount.$invalid}"
                                                             >
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>
@@ -367,6 +369,7 @@ export default {
         saveExcelVirtualStock(){
             var $mainFormVirualStocks = $('#mainFormVirualStocks')
             var data2 = new FormData(mainFormVirualStocks)
+            data2.append('supplier_id' , this.id)
             adminApi.post(`/v1/dashboard/virtualStockExcel`,data2)
             .then((res) => {
                 notify({

@@ -50,6 +50,7 @@
                                         <th>اسم المنتج بالعربية</th>
                                         <th>اسم المنتج بالإنجليزية</th>
                                         <th>الفئه</th>
+                                        <th>الكود الدوائي</th>
                                         <th>الصورة</th>
                                         <th>الحاله</th>
                                         <th>الاجراءات</th>
@@ -61,6 +62,7 @@
                                         <td>{{ item.nameAr }}</td>
                                         <td>{{ item.nameEn }}</td>
                                         <td>{{ item.category ? item.category.name:'' }}</td>
+                                        <td>{{ item.product_code  }}</td>
                                         <td>
                                             <img
                                                 :src="'/upload/product/' + item.image"
@@ -154,6 +156,8 @@ export default {
 
         onMounted(() => {
             getProduct();
+            console.log('khaled')
+            search.value=""
         });
 
 

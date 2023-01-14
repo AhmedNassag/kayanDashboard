@@ -47,7 +47,7 @@
                                             v-if="permission.includes('product edit')"
                                             class="btn btn-custom btn-warning"
                                             >
-                                            {{ $t("global.Settings") }}
+                                            {{ $t("global.Best Offers") }}
                                         </button>
                                     </div>
                                 </div>

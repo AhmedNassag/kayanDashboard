@@ -29,14 +29,22 @@
             <div class="card-body">
               <div class="card-header pt-0">
                 <div class="row justify-content-between">
-                  <div class="col-md-5 col-sm-12">
-                    {{ $t("global.Search") }}:
-                    <input type="search" v-model="search" class="custom" />
+                  <div class="col-md-4 col-sm-12">
+                    <label for="">{{ $t("global.Search") }}:</label>
+                    <input type="search" v-model="search" class="form-control" />
                   </div>
-                  <div class="col-md-7 col-sm-12">
+                  <div class="col-4 row justify-content-end">
+                    <label for="">{{ $t("global.Platform") }}:</label>
+                    <select  class="form-control" v-model="platform" @change="getClients">
+                        <option value=""></option>
+                        <option value="WEB">{{ $t('global.Website') }}</option>
+                        <option value="MOBILE">{{ $t('global.mobile app') }}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4 col-sm-12 ">
                     <a
                         href="javascript:void(0);"
-                        class="btn btn-sm btn-info me-2"
+                        class="btn btn-sm btn-info me-2 mt-4"
                         data-bs-toggle="modal"
                         @click.prevent="notification_type='toAll'"
                         data-bs-target='#sendNotification'
@@ -55,6 +63,7 @@
                       <th>{{ $t("global.Name") }}</th>
                       <th>{{ $t("global.Phone") }}</th>
                       <th>{{ $t("global.Email") }}</th>
+                      <th>{{ $t("global.Platform") }}</th>
                       <th>{{ $t("global.Status") }}</th>
                       <th>{{ $t("global.Show") }}</th>
                     </tr>
@@ -65,6 +74,7 @@
                       <td>{{ client.name }}</td>
                       <td>{{ client.phone }}</td>
                       <td>{{ client.email }}</td>
+                      <td>{{ client.client.platform_type == 'WEB' ? $t('global.Website'): $t('global.mobile app') }}</td>
                       <td>
                         <button
                           class="active"
@@ -209,12 +219,13 @@ export default {
     const router = useRouter()
     const debounce = ref('')
     const title = ref('')
+    const platform = ref('')
     const notification = ref('')
     const notification_type = ref('')
     const client_notification_id = ref(0)
     const search = ref('')
     const getClients = async(page = 1 ) => {
-      adminApi.get(`/v1/dashboard/web_clients?page=${page}&search=${search.value}`).then((response) => {
+      adminApi.get(`/v1/dashboard/web_clients?page=${page}&search=${search.value}&platform=${platform.value}`).then((response) => {
         clients.value = response.data.clients;
       })
     }
@@ -311,7 +322,7 @@ export default {
       toggleActivation,
       sendNotification,
       client_notification_id,title,notification,errors,
-      clients,notification_type,search
+      clients,notification_type,search,platform
     };
   },
 };

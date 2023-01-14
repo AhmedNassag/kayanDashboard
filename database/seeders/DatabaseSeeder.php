@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(ExcelSheetProductSeeder::class);
+        $this->call(ProductsSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(CreateAdminSeeder::class);
         $this->call(ProductStatusSeeder::class);

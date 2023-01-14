@@ -190,6 +190,12 @@
                       order.invoice_id
                     }}</span>
                   </div>
+                  <div class="row justify-content-between" v-if="order.coupon">
+                    <h5 class="w-auto">{{ $t("global.Coupon") }}</h5>
+                    <span class="w-auto" style="color: #fcb00c">{{
+                      order.coupon
+                    }}</span>
+                  </div>
                   <div class="row justify-content-between">
                     <h5 class="w-auto">{{ $t("global.Order Status") }}</h5>
                     <span class="w-auto" style="color: #fcb00c">
@@ -298,12 +304,14 @@
                           <tbody class="table-secondary">
                             <tr>
                               <th>{{ $t("global.Taxes") }}</th>
+                              <th v-if="order.coupon_discount">{{ $t("global.Coupon Discount") }}</th>
                               <th>{{ $t("global.Shipping cost") }}</th>
                               <th>{{ $t("global.Sub total") }}</th>
                               <th>{{ $t("global.Total Amount") }}</th>
                             </tr>
                             <tr>
                               <td>{{ order.taxes }} {{ $t("global.LE") }}</td>
+                              <td v-if="order.coupon_discount">{{ order.coupon_discount }} {{ $t("global.LE") }}</td>
                               <td>
                                 {{ order.shipping_cost }} {{ $t("global.LE") }}
                               </td>

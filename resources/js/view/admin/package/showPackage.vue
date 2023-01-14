@@ -157,9 +157,6 @@ export default {
 </script>
 
 <style scoped>
-.card-body {
-    min-height: 600px;
-}
 
 .package-detail {
     background: #fff;

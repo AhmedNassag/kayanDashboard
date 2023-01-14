@@ -199,7 +199,7 @@ export default {
     function deleteUnit(unit, index) {
       Swal.fire({
         title: `${t("global.AreYouSureDelete")} (${unit.name})`,
-        text: `${t("global.YouWontBeAbleToRevertThis")}`,
+        // text: `${t("global.YouWontBeAbleToRevertThis")}`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",

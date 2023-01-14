@@ -36,11 +36,15 @@
             <div class="card-body">
               <div class="card-header pt-0">
                 <div class="row justify-content-between">
-                  <div class="col-5">
+                  <div class="col-4">
                     {{ $t("global.Search") }}:
                     <input type="search" v-model="text" class="custom" />
                   </div>
-                  <div class="col-5 row justify-content-end">
+                  <div class="col-4">
+                    {{ $t("global.City") }}:
+                    <input type="search" v-model="city" class="custom" />
+                  </div>
+                  <div class="col-4 row justify-content-end">
                     <button
                       @click="onAddClicked()"
                       data-toggle="modal"
@@ -130,6 +134,7 @@ export default {
       areas: [],
       cities: [],
       text: "",
+      city: "",
       timeout: null,
       selectedArea: null,
       selectedAreaIndex: 0,
@@ -164,7 +169,7 @@ export default {
       data.page = page;
       data.loading = true;
       areaClient
-        .getPage(data.page, data.pageSize, data.text)
+        .getPage(data.page, data.pageSize, data.text,data.city)
         .then((response) => {
           data.loading = false;
           data.areas = response.data.data;
@@ -216,6 +221,20 @@ export default {
         search();
       }
     );
+    function searchCity() {
+      // clear timeout variable
+      clearTimeout(data.timeout);
+      data.timeout = setTimeout(() => {
+        getAreas();
+      }, 500);
+    }
+    watch(
+      () => data.city,
+      () => {
+        searchCity();
+      }
+    );
+
     //Commons
     function getCities() {
       data.loading = true;

@@ -144,10 +144,10 @@
 
                                                         <!--Start Client Discount-->
                                                         <div class="col-md-3 mb-3">
-                                                            <label>{{$t('global.Client Discount')}}</label>
+                                                            <label>{{$t('global.Pharmacy Discount')}}</label>
                                                             <input type="number" step="0.1" class="form-control"
                                                                 v-model.number="v$.alternative[index].clientDiscount.$model"
-                                                                :placeholder="$t('global.Client Discount')"
+                                                                :placeholder="$t('global.Pharmacy Discount')"
                                                                 :class="{'is-invalid':v$.alternative[index].clientDiscount.$error,'is-valid':!v$.alternative[index].clientDiscount.$invalid}"
                                                             >
                                                             <div class="valid-feedback">{{$t('global.LooksGood')}}</div>

@@ -176,6 +176,9 @@ label {
 .form-group img {
 	width:100%;
 }
+.sidebar-inner{
+    overflow-y: scroll;
+}
 .input-group .form-control {
 	height: 40px;
 }

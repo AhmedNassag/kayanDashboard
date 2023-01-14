@@ -25,9 +25,16 @@ class AreaRepository
         return $area;
     }
 
-    public function getPage($pageSize, $text)
+    public function getPage($pageSize, $text,$city)
     {
-        return Area::with("city")->where("name", "like", "%$text%")->paginate($pageSize);
+        return Area::with("city")
+        ->where(function($q) use($text){
+            $q->when($text , function ($q) use($text){
+                $q->where("name", "like", "%$text%")
+                ->orWhere("shipping_price", "like", "%$text%");
+            });
+        })->whereRelation('city',"name", "like", "%$city%")
+        ->paginate($pageSize);
     }
     public function getCities()
     {

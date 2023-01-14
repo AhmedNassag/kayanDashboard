@@ -87,13 +87,8 @@ class VirtualStockController extends Controller
                             'kayanProfit'     => $product['kayanDiscount'] - $product['clientDiscount'],
                         ]);
                     $this->store_in_product_logs(0,$product['quantity'],$price->pharmacyPrice,$product['publicPrice'],$product['clientDiscount'],$product['kayanDiscount'],$product['kayanDiscount'] - $product['clientDiscount'],$price->id);
-
                 }
-
-
             }
-
-
             DB::commit();
             return $this->sendResponse([], 'Data exited successfully');
         }
@@ -267,14 +262,11 @@ class VirtualStockController extends Controller
         }
     }
 
-
-
     public function saveExcelVirtualStock(Request $request)
     {
         $path = $request->file('select_virtualStocks_file')->getRealPath();
         Excel::import(new VirtualStocksImport, $path);
     }
-
 
     public function saveExcelVirtualStockAlternative(Request $request)
     {

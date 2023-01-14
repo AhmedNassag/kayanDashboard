@@ -46,12 +46,14 @@
                     <tr>
                       <th>#</th>
                       <th>{{ $t("global.Email") }}</th>
+                      <th>{{ $t("global.Date") }}</th>
                     </tr>
                   </thead>
                   <tbody v-if="newsletters.length">
                     <tr v-for="(newsletter, index) in newsletters" :key="newsletter.id">
                       <td>{{ index + 1 }}</td>
                       <td>{{ newsletter.email }}</td>
+                      <td>{{ newsletter.created_at }}</td>
                     </tr>
                   </tbody>
                   <tbody v-else>

@@ -32,11 +32,20 @@
             <div class="card-body">
               <div class="card-header pt-0">
                 <div class="row justify-content-between">
-                  <div class="col-5">
-                    {{ $t("global.Search") }}:
-                    <input type="search" v-model="search" class="custom" />
+                  <div class="col-4">
+                    <label for="">{{ $t("global.Search") }}:</label>
+                    <input type="text" v-model="search" class="form-control" />
                   </div>
-                  <div class="col-5 row justify-content-end">
+                  <div class="col-4 row justify-content-end">
+                    <label for="">{{ $t("global.Platform") }}:</label>
+                    <select  class="form-control" v-model="platform" @change="getComplaint">
+                        <option value=""></option>
+                        <option value="dashboard">{{ $t('global.dashboard') }}</option>
+                        <option value="Website">{{ $t('global.Website') }}</option>
+                        <option value="mobile app">{{ $t('global.mobile app') }}</option>
+                    </select>
+                  </div>
+                  <div class="col-4 row justify-content-end">
                     <router-link
                       v-if="permission.includes('complaint create')"
                       :to="{ name: 'createComplaint' }"
@@ -178,6 +187,7 @@ export default {
     let complaintsPaginate = ref({});
     let loading = ref(false);
     const search = ref("");
+    const platform = ref("");
     let store = useStore();
 
     let permission = computed(() => store.getters["authAdmin/permission"]);
@@ -186,7 +196,7 @@ export default {
       loading.value = true;
 
       adminApi
-        .get(`/v1/dashboard/complaint?page=${page}&search=${search.value}`)
+        .get(`/v1/dashboard/complaint?page=${page}&search=${search.value}&platform=${platform.value}`)
         .then((res) => {
           let l = res.data.data;
           complaintsPaginate.value = l.complaints;
@@ -258,6 +268,7 @@ export default {
       getComplaint,
       loading,
       permission,
+      platform,
       search,
       deleteComplaint,
       complaintsPaginate,

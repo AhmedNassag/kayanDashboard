@@ -22,14 +22,18 @@ class ComplaintController extends Controller
     public function index(Request $request)
     {
         $complaints = Complaint::with(['responser'])
-            ->when($request->search, function ($q) use ($request) {
+        ->where(function ($q) use($request){
+            $q->when($request->search, function ($q) use ($request) {
                 return $q->where('content', 'like', '%' . $request->search . '%')
                     ->orWhere('kind', 'like', '%' . $request->search . '%')
                     ->orWhere('phone', 'like', '%' . $request->search . '%')
                     ->orWhere('name', 'like', '%' . $request->search . '%')
                     ->orWhere('type', 'like', '%' . $request->search . '%')
                     ->orWhere('reply', 'like', '%' . $request->search . '%');
-            })->latest()->paginate(10);
+            });
+        })->where('platform','like',"%$request->platform%")
+            ->latest()
+            ->paginate(10);
 
         return $this->sendResponse(['complaints' => $complaints], 'Data exited successfully');
     }

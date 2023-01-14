@@ -31,7 +31,8 @@ class AreaController extends Controller
     public function index()
     {
         $text = isset(request()->text) ? request()->text : '';
-        return $this->areaRepository->getPage(request()->page_size, $text);
+        $city = isset(request()->city) ? request()->city : '';
+        return $this->areaRepository->getPage(request()->page_size, $text,$city);
     }
 
     public function getCities()
