@@ -7,6 +7,7 @@ use Log;
 /**
  * trait NotificationTrait
  */
+
 trait NotificationTrait
 {
     public $API_KEY = 'AAAAKPVhqRA:APA91bGNPBH2tNstGxsKWmO7iErKXpS-d-vL4qnrV_28kk2JKhVRl1TcDFyK43_xML3cwUOWZZgHsOOOLJ0HVzV-zJPpC0wH_vuC8EUkKKzuKKLEh61yU_0npzQIBMGpWlEERA18mWYy';

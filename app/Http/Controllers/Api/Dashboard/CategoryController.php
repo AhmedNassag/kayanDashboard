@@ -154,8 +154,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::beginTransaction();
-        try {
+
 
             $category = Category::find($id);
 
@@ -175,10 +174,11 @@ class CategoryController extends Controller
 
             if($request->hasFile('file')){
 
-                if(File::exists('upload/category/'.$category->media->file_name)){
+                if($category->media && File::exists('upload/category/'.$category->media->file_name)){
                     unlink('upload/category/'. $category->media->file_name);
+                    $category->media->delete();
+
                 }
-                $category->media->delete();
 
                 $file_size = $request->file->getSize();
                 $file_type = $request->file->getMimeType();
@@ -196,13 +196,8 @@ class CategoryController extends Controller
 
             }
 
-            DB::commit();
             return $this->sendResponse([],'Data exited successfully');
-        }catch (\Exception $e){
 
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
     }
 
     /**

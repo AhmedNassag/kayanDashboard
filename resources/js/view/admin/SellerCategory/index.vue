@@ -150,7 +150,7 @@ export default {
         function deleteTarget(id, incomeName, index) {
             Swal.fire({
                 title: `${t('global.AreYouSureDelete')} (${incomeName})`,
-                text: `${t("global.YouWontBeAbleToRevertThis")}`,
+                // text: `${t("global.YouWontBeAbleToRevertThis")}`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

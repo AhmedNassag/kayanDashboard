@@ -20,7 +20,7 @@ class CreateClientsTable extends Migration
             $table->string("firebase_token")->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities');
             $table->foreignId("area_id")->nullable()->constrained("areas");
-            $table->foreignId('selling_method_id')->default(0)->nullable()->constrained('selling_methods')->cascadeOnDelete();
+            $table->foreignId('selling_method_id')->nullable()->constrained('selling_methods')->cascadeOnDelete();
             $table->string("address")->nullable();
             $table->string("location")->nullable();
             $table->boolean("same_address_shipping")->nullable();

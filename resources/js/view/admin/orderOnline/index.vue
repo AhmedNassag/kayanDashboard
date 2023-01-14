@@ -134,6 +134,7 @@
                         <th>{{ $t("global.Payment Way") }}</th>
                         <th>{{ $t("global.Payment Status") }}</th>
                         <th>{{ $t("global.Total Amount") }}</th>
+                        <th>{{ $t("global.Platform") }}</th>
                         <th>{{ $t("global.Action") }}</th>
                       </tr>
                     </thead>
@@ -295,6 +296,7 @@
                           {{ $t("global." + item.payment_status) }}
                         </td>
                         <td>{{ item.total_amount }}</td>
+                        <td>{{ $t('global.'+item.order_from) }}</td>
                         <td>
                           <router-link
                             :to="{

@@ -211,8 +211,8 @@ export default {
     }
     function deleteSlider(slider, index) {
       Swal.fire({
-        title: `${t("global.AreYouSureDelete")} (${slider.title})`,
-        text: `${t("global.YouWontBeAbleToRevertThis")}`,
+        title: `${t("global.AreYouSureDelete")}`,// (${slider.title})
+        // text: `${t("global.YouWontBeAbleToRevertThis")}`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",

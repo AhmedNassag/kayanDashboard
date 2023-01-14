@@ -260,7 +260,7 @@
                       <!--End Pharmacist Form-->
 
                       <!--Start Main Measurement Unit-->
-                      <div class="col-md-6 mb-3">
+                      <!-- <div class="col-md-6 mb-3">
                         <label>وحدة القياس الرئيسية</label>
                         <select
                           name="type"
@@ -288,11 +288,11 @@
                             هذا الحقل مطلوب<br />
                           </span>
                         </div>
-                      </div>
+                      </div> -->
                       <!--End Main Measurement Unit-->
 
-                        <!--Start Main Measurement Unit-->
-                        <div class="col-md-6 mb-3">
+                      <!--Start Main Measurement Unit-->
+                      <div class="col-md-6 mb-3">
                         <label>الشركات</label>
                         <select
                           name="type"
@@ -309,14 +309,12 @@
                             :key="company.id"
                             :value="company.id"
                           >
-                            {{ company.name_ar }} / {{ company.name_en}}
+                            {{ company.name_ar }} / {{ company.name_en }}
                           </option>
                         </select>
                         <div class="valid-feedback">تبدو جيده</div>
                         <div class="invalid-feedback">
-                          <span
-                            v-if="v$.company_id.required.$invalid"
-                          >
+                          <span v-if="v$.company_id.required.$invalid">
                             هذا الحقل مطلوب<br />
                           </span>
                           <span v-if="v$.company_id.integer.$invalid">
@@ -327,7 +325,7 @@
                       <!--End Main Measurement Unit-->
 
                       <!--Start Count Unit-->
-                      <div class="col-md-6 mb-3">
+                      <!-- <div class="col-md-6 mb-3">
                         <label>عدد الوحدات داخل الفئة الفرعية </label>
                         <input
                           type="number"
@@ -349,11 +347,11 @@
                             يجب ان يكون رقم <br
                           /></span>
                         </div>
-                      </div>
+                      </div> -->
                       <!--End Count Unit-->
 
                       <!--Start Sub Measurement Unit-->
-                      <div class="col-md-6 mb-3">
+                      <!-- <div class="col-md-6 mb-3">
                         <label>وحدة القياس الفرعية</label>
                         <select
                           name="type"
@@ -381,11 +379,11 @@
                             هذا الحقل مطلوب<br />
                           </span>
                         </div>
-                      </div>
+                      </div> -->
                       <!--End Sub Measurement Unit-->
 
                       <!--Start Maximum Product-->
-                      <div class="col-md-6 mb-3">
+                      <!-- <div class="col-md-6 mb-3">
                         <label>اقصي كمية فى المخزن</label>
                         <input
                           type="number"
@@ -406,11 +404,11 @@
                             يجب ان يكون رقم <br
                           /></span>
                         </div>
-                      </div>
+                      </div> -->
                       <!--End Maximum Product-->
 
                       <!--Start Re Order Limit-->
-                      <div class="col-md-6 mb-3">
+                      <!-- <div class="col-md-6 mb-3">
                         <label for="validationCustom055">حد اعادة الطلب</label>
                         <input
                           type="number"
@@ -432,11 +430,11 @@
                             يجب ان يكون رقم <br
                           /></span>
                         </div>
-                      </div>
+                      </div> -->
                       <!--End Re Order Limit-->
 
                       <!--Start Selling Method-->
-                      <div class="col-md-6 mb-3">
+                      <!-- <div class="col-md-6 mb-3">
                         <label>البيع</label>
                         <select
                           name="type"
@@ -462,7 +460,7 @@
                             هذا الحقل مطلوب<br />
                           </span>
                         </div>
-                      </div>
+                      </div> -->
                       <!--End Selling Method-->
 
                       <!--Start Description-->
@@ -489,7 +487,7 @@
                       <!--End Description-->
 
                       <!--Start Sell App-->
-                      <div class="col-md-6 mb-3" hidden>
+                      <!-- <div class="col-md-6 mb-3" hidden>
                         <label>اماكن ظهور المنتج</label>
                         <select
                           name="type"
@@ -515,7 +513,7 @@
                             هذا الحقل مطلوب<br />
                           </span>
                         </div>
-                      </div>
+                      </div> -->
                       <!--End Sell App-->
 
                       <!--Start Image-->
@@ -620,7 +618,7 @@
                       <!--End Multiple Image-->
 
                       <!--Start TheBalanceOfTheFirstDuration-->
-                      <div class="col-md-12 mb-3 mt-5">
+                      <!-- <div class="col-md-12 mb-3 mt-5">
                         <div class="sec-body row">
                           <div class="col-md-12 mb-12 sec-head">
                             <h3>
@@ -799,7 +797,7 @@
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                       <!--End TheBalanceOfTheFirstDuration-->
 
                       <div class="col-md-4 m-3">
@@ -926,7 +924,7 @@
                                 v-if="
                                   data.alternativeDetail.length - 1 == index
                                 "
-                                class="btn btn-sm btn-success me-2 mt-5"
+                                class="btn btn-sm btn-success mx-2 me-2 mt-5"
                               >
                                 <i class="fas fa-clipboard-list"></i>
                                 {{ $t("global.AddANewLine") }}
@@ -1489,7 +1487,7 @@ input[type="file"] {
   opacity: 0;
 }
 .custom-textarea {
-    height: 120px;
+  height: 120px;
 }
 
 .num-of-files {

@@ -37,12 +37,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::with('category:id,name', 'tax:id,name','pharmacistForm:id,name')
-            ->when($request->search, function ($q) use ($request) {
-                return $q->where('nameAr', 'like', "%" . $request->search . "%")
-                    ->orwhere('nameEn', 'like', "%" . $request->search . "%")
-                    ->orWhereRelation('pharmacistForm', 'name', 'like', "%" . $request->search . "%")
-                    ->orWhereRelation('category', 'name', 'like', '%' . $request->search . '%');
-            })->latest()->paginate(15);
+           ->latest()->paginate(15);
 
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
@@ -197,22 +192,22 @@ class ProductController extends Controller
                 'sell_app' => $request->sell_app,
             ]);
 
-            $imageProduct = explode(',', $request->selling_method);
+            // $imageProduct = explode(',', $request->selling_method);
 
-            $product->selling_method()->attach($imageProduct);
-            foreach ($imageProduct as $item) {
+            // $product->selling_method()->attach($imageProduct);
+            // foreach ($imageProduct as $item) {
 
-                ProductPricing::create([
-                    'product_id' => $product->id,
-                    'selling_method_id' => $item,
-                    'measurement_unit_id' => $request->main_measurement_unit_id
-                ]);
-                ProductPricing::create([
-                    'product_id' => $product->id,
-                    'selling_method_id' => $item,
-                    'measurement_unit_id' => $request->sub_measurement_unit_id
-                ]);
-            }
+            //     ProductPricing::create([
+            //         'product_id' => $product->id,
+            //         'selling_method_id' => $item,
+            //         'measurement_unit_id' => $request->main_measurement_unit_id
+            //     ]);
+            //     ProductPricing::create([
+            //         'product_id' => $product->id,
+            //         'selling_method_id' => $item,
+            //         'measurement_unit_id' => $request->sub_measurement_unit_id
+            //     ]);
+            // }
 
             $i = 0;
             if ($request->hasFile('files')) {

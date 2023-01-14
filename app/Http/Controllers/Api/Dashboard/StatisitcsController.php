@@ -51,7 +51,10 @@ class StatisitcsController extends Controller
     }
     public function web_clients(Request $request)
     {
-        $clients = User::whereRelation('client', 'platform_type', 'WEB')
+        $clients = User::with('client')->whereRelation('client', function($q) use($request){
+            $q->where('platform_type', 'like',"%$request->platform%")
+                ->where('platform_type', '!=', 'DIRECT_SALE');
+        })
             ->where(function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
                     $q->where("name", "like", "%$request->search%")

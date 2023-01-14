@@ -202,7 +202,7 @@ export default {
     function deleteUsersCategory(id, index) {
       Swal.fire({
         title: `${t("global.AreYouSureDelete")}`,
-        text: `${t("global.YouWontBeAbleToRevertThis")}`,
+        // text: `${t("global.YouWontBeAbleToRevertThis")}`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -241,7 +241,7 @@ export default {
           ? t("global.AreYouSureInactive")
           : t("global.AreYouSureActive")
         }`,
-        text: `${t("global.YouWontBeAbleToRevertThis")}`,
+        // text: `${t("global.YouWontBeAbleToRevertThis")}`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",

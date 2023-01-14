@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Discount;
 use App\Traits\Message;
+use App\Traits\NotificationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class DiscountController extends Controller
 {
 
-    use Message;
+    use Message,NotificationTrait;
 
     /**
      * Display a listing of the resource.
@@ -77,6 +79,9 @@ class DiscountController extends Controller
             $data = $request->only(['code','type','value','description','use_times','start_date','expire_date','greater_than']);
 
             $discount = Discount::create($data);
+            $tokens = Client::whereNotNull('firebase_token')->get('firebase_token')->pluck('firebase_token');
+            $type = "send notification";
+            $this->notificationAllClient($tokens,$request->description, 'كوبون خصم' ,$type ,'/admin/img/Logo Dashboard.png');
 
             DB::commit();
 

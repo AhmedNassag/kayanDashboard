@@ -18,10 +18,11 @@ class CreateProductsTable extends Migration
             $table->string('nameAr')->nullable();
             $table->string('nameEn')->nullable();
             $table->string('effectiveMaterial')->nullable();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('barcode');
             $table->integer('Re_order_limit')->nullable();
             $table->integer('maximum_product')->nullable();
+            $table->string('product_code')->nullable();
             $table->text('image')->nullable();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->boolean('status')->default(true);
@@ -30,7 +31,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('tax_id')->nullable()->constrained('taxes')->cascadeOnDelete();
             $table->foreignId('pharmacistForm_id')->nullable()->constrained('pharmacist_forms')->cascadeOnDelete();
             $table->foreignId('main_measurement_unit_id')->nullable()->constrained('units')->cascadeOnDelete();
-            $table->foreignId('sub_measurement_unit_id')->default(1)->constrained('units')->cascadeOnDelete();
+            $table->foreignId('sub_measurement_unit_id')->nullable()->constrained('units')->cascadeOnDelete();
             $table->integer('count_unit')->default(0);
             $table->boolean('sell_app')->default(true);
             $table->timestamps();

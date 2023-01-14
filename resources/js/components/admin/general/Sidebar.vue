@@ -43,12 +43,12 @@
                     <!-- End Tax Link -->
 
                     <!-- Start Shift Link -->
-                    <li v-if="permission.includes('shift read')" :class="[{active: ['indexShift', 'createShift', 'editShift'].includes($route.name)}]">
+                    <!-- <li v-if="permission.includes('shift read')" :class="[{active: ['indexShift', 'createShift', 'editShift'].includes($route.name)}]">
                         <router-link :to="{ name: 'indexShift' }">
                             <i class="fa fa-home" aria-hidden="true"></i>
                             <span>{{ $t("global.Shifts") }}</span>
                         </router-link>
-                    </li>
+                    </li> -->
                     <!-- End Shift Link -->
 
 
@@ -93,11 +93,11 @@
                                 </router-link>
                             </li>
 
-                            <li v-if="permission.includes('discount read')" :class="[{active: ['indexDiscountOffer','createDiscountOffer','editDiscountOffer'].includes($route.name)}]">
+                            <!-- <li v-if="permission.includes('discount read')" :class="[{active: ['indexDiscountOffer','createDiscountOffer','editDiscountOffer'].includes($route.name)}]">
                                 <router-link :to="{name:'indexDiscountOffer'}" :class="['sidebar-menu-rtl']">
                                     {{ $t('sidebar.offersDiscount') }}
                                 </router-link>
-                            </li>
+                            </li> -->
 
                         </ul>
                     </li>
@@ -151,7 +151,7 @@
 
 
                     <!-- Start Store Links -->
-                    <li class="submenu" v-if="permission.includes('StoreManagement')">
+                    <!-- <li class="submenu" v-if="permission.includes('StoreManagement')">
                         <a href="#" ><i class="fas fa-cubes"></i> <span> {{ $t('global.KayanStoreManagement') }}</span>  <span :class="['menu-arrow menu-arrow-ar']"></span></a>
                         <ul>
 
@@ -174,7 +174,7 @@
                             </li>
 
                         </ul>
-                    </li>
+                    </li> -->
 
                     <!-- End Store Links -->
 
@@ -202,7 +202,7 @@
 
 
                     <!-- Start Purchase Links -->
-                    <li class="submenu" v-if="permission.includes('buy')">
+                    <!-- <li class="submenu" v-if="permission.includes('buy')">
                         <a href="#"><i class="fas fa-box-open"></i><span> {{ $t('global.purchaseManagement') }}</span><span :class="['menu-arrow menu-arrow-ar']"></span></a>
                         <ul>
 
@@ -218,14 +218,14 @@
                                 </router-link>
                             </li>
 
-                            <!-- <li v-if="permission.includes('EarnedDiscount read')" :class="[{active: ['indexEarnedDiscount','createEarnedDiscount','editEarnedDiscount'].includes($route.name)}]">
+                            <li v-if="permission.includes('EarnedDiscount read')" :class="[{active: ['indexEarnedDiscount','createEarnedDiscount','editEarnedDiscount'].includes($route.name)}]">
                                 <router-link :to="{name:'indexEarnedDiscount'}" :class="['sidebar-menu-rtl']">
                                     {{ $t('global.EarnedDiscount') }}
                                 </router-link>
-                            </li> -->
+                            </li>
 
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- End Purchase Links -->
 
                     <!-- Start Sale Links -->
@@ -288,7 +288,7 @@
                     <!-- End Sale Links -->
 
                     <!-- Start CRM Links -->
-                    <li class="submenu" v-if="permission.includes('CRM')">
+                    <!-- <li class="submenu" v-if="permission.includes('CRM')">
                         <a href="#">
                             <i class="fa fa-home"></i>
                             <span>
@@ -425,7 +425,7 @@
                                 </router-link>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- End CRM Links -->
 
                     <!-- Start Advertisement-->
@@ -770,7 +770,7 @@
 
 
                     <!--start financial Accounts-->
-                    <li
+                    <!-- <li
                         class="submenu"
                         v-if="permission.includes('financial Accounts')"
                     >
@@ -1056,26 +1056,22 @@
                                 </router-link>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!--end financial Accounts-->
 
                     <!--start order-->
                     <li class="submenu" v-if="permission.includes('order')">
                         <a href="#" ><i class="fas fa-home"></i> <span> {{$t('global.orders')}}</span>  <span :class="['menu-arrow menu-arrow-ar']"></span></a>
                         <ul>
-                            <li :class="[$route.name == 'indexOrderDirect'? 'active': '']" v-if="permission.includes('order read')">
+                            <!-- <li :class="[$route.name == 'indexOrderDirect'? 'active': '']" v-if="permission.includes('order read')">
                                 <router-link :to="{name:'indexOrderDirect'}" :class="['sidebar-menu-rtl']">
                                     {{$t('sidebar.OrderDirect')}}
                                 </router-link>
-                            </li>
+                            </li> -->
 
-                            <li :class="[$route.name == 'indexOrderOnline'? 'active': '']" v-if="permission.includes('orderOnline read')">
-                                <router-link :to="{name:'indexOrderOnline'}" :class="['sidebar-menu-rtl']">
-                                    {{$t('global.orderOnline')}}
-                                </router-link>
-                            </li>
 
-                            <li :class="[$route.name == 'indexOrderReturned'? 'active': '']" v-if="permission.includes('orderReturned read')">
+
+                            <!-- <li :class="[$route.name == 'indexOrderReturned'? 'active': '']" v-if="permission.includes('orderReturned read')">
                                 <router-link :to="{name:'indexOrderReturned'}" :class="['sidebar-menu-rtl']">
                                     {{$t('global.orderReturned')}}
                                 </router-link>
@@ -1085,11 +1081,16 @@
                                 <router-link :to="{name:'indexOrderDelivered'}" :class="['sidebar-menu-rtl']">
                                     {{$t('global.orderDelivered')}}
                                 </router-link>
-                            </li>
+                            </li> -->
 
                         </ul>
                     </li>
                     <!--end order-->
+                    <li :class="[$route.name == 'indexOrderOnline'? 'active': '']" v-if="permission.includes('orderOnline read')">
+                        <router-link :to="{name:'indexRepresentative'}">
+                            <i class="fas fa-user-tie "></i> <span class="mx-2">{{$t('global.representatives')}}</span>
+                        </router-link>
+                    </li>
                     <li :class="[$route.name == 'indexRepresentative'? 'active': '']" v-if="permission.includes('representative read')">
                         <router-link :to="{name:'indexRepresentative'}">
                             <i class="fas fa-user-tie "></i> <span class="mx-2">{{$t('global.representatives')}}</span>
@@ -1313,13 +1314,13 @@
                             <span>{{ $t("sidebar.Sliders") }}</span>
                         </router-link>
                     </li>
-
+<!--
                     <li v-if="permission.includes('simple-advertise read')" :class="[$route.name == 'SimpleAdvertiseIndex' ? 'active' : '']">
                         <router-link :to="{ name: 'SimpleAdvertiseIndex' }">
                             <i class="fa fa-users" aria-hidden="true"></i>
                             <span>{{ $t("sidebar.SimpleAdvertises") }}</span>
                         </router-link>
-                    </li>
+                    </li> -->
 
                     <li v-if="permission.includes('newsletter read')" :class="[$route.name == 'NewsletterIndex' ? 'active' : '']">
                         <router-link :to="{ name: 'NewsletterIndex' }">

@@ -24,7 +24,35 @@
               <div class="row">
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{ $t("global.Name") }}</label>
+                    <label for="sel1">{{ $t("global.Cities") }}</label>
+                    <select
+                      :class="{
+                        'is-invalid': v$.city_id.$error,
+                      }"
+                      v-model="v$.city_id.$model"
+                      class="form-control"
+                      id="sel1"
+                    >
+                      <option
+                        :value="city.id"
+                        v-for="city in cities"
+                        :key="city.id"
+                      >
+                        {{ city.name }}
+                      </option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <div v-for="error in v$.city_id.$errors" :key="error">
+                        {{ $t("global.City") + " " + $t(error.$validator) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">{{
+                      $t("global.Name")
+                    }}</label>
                     <input
                       type="text"
                       class="form-control"
@@ -43,32 +71,13 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <label for="sel1">{{ $t("global.Cities") }}</label>
-                    <select
-                      :class="{
-                        'is-invalid': v$.city_id.$error,
-                      }"
-                      v-model="v$.city_id.$model"
-                      class="form-control"
-                      id="sel1"
-                    >
-                      <option :value="city.id" v-for="city in cities" :key="city.id">
-                        {{ city.name }}
-                      </option>
-                    </select>
-                    <div class="invalid-feedback">
-                      <div v-for="error in v$.city_id.$errors" :key="error">
-                        {{ $t("global.City") + " " + $t(error.$validator) }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
                 //
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">{{ $t("global.shipping_price") }}</label>
+                    <label for="exampleInputEmail1">{{
+                      $t("global.shipping_price")
+                    }}</label>
                     <input
                       type="number"
                       class="form-control"
@@ -78,8 +87,15 @@
                       }"
                     />
                     <div class="invalid-feedback">
-                      <div v-for="error in v$.shipping_price.$errors" :key="error">
-                        {{ $t("global.shipping_price") + " " + $t(error.$validator) }}
+                      <div
+                        v-for="error in v$.shipping_price.$errors"
+                        :key="error"
+                      >
+                        {{
+                          $t("global.shipping_price") +
+                          " " +
+                          $t(error.$validator)
+                        }}
                       </div>
                     </div>
                   </div>
@@ -91,7 +107,11 @@
               <button type="submit" class="btn btn-primary">
                 {{ $t("global.Submit") }}
               </button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
                 {{ $t("global.Close") }}
               </button>
             </div>
@@ -124,7 +144,7 @@ export default {
     });
     const rules = {
       name: { required },
-      shipping_price: {required},
+      shipping_price: { required },
       city_id: { required },
     };
     const v$ = useVuelidate(rules, form);
@@ -236,8 +256,8 @@ export default {
 
 <style scoped lang="scss">
 .area-form {
-  .form-control{
-    padding: 10px!important;
+  .form-control {
+    padding: 10px !important;
   }
   .form-group {
     margin-bottom: 10px;
