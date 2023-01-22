@@ -34,8 +34,11 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
         // Start Dashboard
         Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard'], function () {
 
+            Route::get('dashboard-statistics','DashboardStatisticsController@index');
+
             Route::put('profile/{id}','ProfileController@updateUser');
             Route::get('profile/{id}','ProfileController@getUser');
+
 
             // start Notification
             //            Route::get('getAllNot','NotificationController@getAllNot');
@@ -245,6 +248,15 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // Route::get('saleReportByProduct', 'SaleReportController@saleReportByProduct');
             // Route::get('saleReportByCategory', 'SaleReportController@saleReportByCategory');
             // Route::get('saleReportByReturn', 'SaleReportController@saleReportByReturn');
+
+             //start Platform Account Report
+             Route::get('incomePlatformReport','ReportController@incomePlatformReport');
+             Route::get('expensePlatformReport','ReportController@expensePlatformReport');
+             Route::get('transferringTreasuryPlatformReport','ReportController@transferringTreasuryPlatformReport');
+             Route::get('incomeTreasuryPlatformReport','ReportController@incomeTreasuryPlatformReport');
+             Route::get('expenseTreasuryPlatformReport','ReportController@expenseTreasuryPlatformReport');
+             Route::get('dailyBalancePlatformReport','ReportController@dailyBalancePlatformReport');
+             Route::get('supplierDuesPlatformReport','ReportController@supplierDuesPlatformReport');
 
             // Main Account
             Route::resource('mainAccount', 'MainAccountController');

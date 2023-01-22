@@ -121,16 +121,16 @@ class PermissionSeeder extends Seeder
             ['name' => 'virtualStock edit', 'role' => 'management'],
             ['name' => 'virtualStock delete', 'role' => 'management'],
             //purchase
-            ['name' => 'purchase read', 'role' => 'management'],
-            ['name' => 'purchase create', 'role' => 'management'],
-            ['name' => 'purchase edit', 'role' => 'management'],
-            ['name' => 'purchase delete', 'role' => 'management'],
+            // ['name' => 'purchase read', 'role' => 'management'],
+            // ['name' => 'purchase create', 'role' => 'management'],
+            // ['name' => 'purchase edit', 'role' => 'management'],
+            // ['name' => 'purchase delete', 'role' => 'management'],
             //saleInvoice
-            ['name' => 'SaleInvoice read', 'role' => 'buy'],
-            ['name' => 'SaleInvoice create', 'role' => 'buy'],
-            ['name' => 'SaleInvoice edit', 'role' => 'buy'],
-            ['name' => 'SaleInvoice delete', 'role' => 'buy'],
-            ['name' => 'SaleReturn read', 'role' => 'buy'],
+            // ['name' => 'SaleInvoice read', 'role' => 'buy'],
+            // ['name' => 'SaleInvoice create', 'role' => 'buy'],
+            // ['name' => 'SaleInvoice edit', 'role' => 'buy'],
+            // ['name' => 'SaleInvoice delete', 'role' => 'buy'],
+            // ['name' => 'SaleReturn read', 'role' => 'buy'],
             //Sale Records
             ['name' => 'saleRecords read', 'role' => 'buy'],
             ['name' => 'saleRecords create', 'role' => 'buy'],
@@ -213,27 +213,27 @@ class PermissionSeeder extends Seeder
             ['name' => 'schedule edit', 'role' => 'advertise', 'category' => 'advertise'],
             ['name' => 'schedule delete', 'role' => 'advertise', 'category' => 'advertise'],
             //CRM
-            ['name' => 'targetPlan read', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'targetPlan create', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'targetPlan edit', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'targetPlan delete', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'SellerCategory read', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'SellerCategory create', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'SellerCategory edit', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'SellerCategory delete', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'LeadsManagement read', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'LeadsManagement create', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'LeadsManagement edit', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'LeadsManagement delete', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'LeadsManagement changeEmployee', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'Leads read', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'Leads create', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'Leads edit', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'Leads delete', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'TargetAchieved read', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'TargetAchieved create', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'TargetAchieved edit', 'role' => 'CRM', 'category' => 'CRM'],
-            ['name' => 'TargetAchieved delete', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'targetPlan read', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'targetPlan create', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'targetPlan edit', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'targetPlan delete', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'SellerCategory read', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'SellerCategory create', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'SellerCategory edit', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'SellerCategory delete', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'LeadsManagement read', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'LeadsManagement create', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'LeadsManagement edit', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'LeadsManagement delete', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'LeadsManagement changeEmployee', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'Leads read', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'Leads create', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'Leads edit', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'Leads delete', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'TargetAchieved read', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'TargetAchieved create', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'TargetAchieved edit', 'role' => 'CRM', 'category' => 'CRM'],
+            // ['name' => 'TargetAchieved delete', 'role' => 'CRM', 'category' => 'CRM'],
 
 
             //refused
@@ -277,34 +277,34 @@ class PermissionSeeder extends Seeder
             ['name' => 'employee delete', 'role' => 'management'],
             ['name' => 'employeeChangePassword edit', 'role' => 'role-employee'],
             //Client Group
-            ['name' => 'client-group read', 'role' => ''],
-            ['name' => 'client-group create', 'role' => ''],
-            ['name' => 'client-group edit', 'role' => ''],
-            ['name' => 'client-group delete', 'role' => ''],
+            // ['name' => 'client-group read', 'role' => ''],
+            // ['name' => 'client-group create', 'role' => ''],
+            // ['name' => 'client-group edit', 'role' => ''],
+            // ['name' => 'client-group delete', 'role' => ''],
             //Client
             ['name' => 'client read', 'role' => ''],
             ['name' => 'client create', 'role' => ''],
             ['name' => 'client edit', 'role' => ''],
             ['name' => 'client delete', 'role' => ''],
             //Sales Points
-            ['name' => 'sale-point read', 'role' => ''],
-            ['name' => 'sale-point create', 'role' => ''],
-            ['name' => 'sale-point edit', 'role' => ''],
-            ['name' => 'sale-point delete', 'role' => ''],
-            //Purchase Invoice
-            ['name' => 'PurchaseInvoice read', 'role' => 'buy', 'category' => 'Purchase Invoice'],
-            ['name' => 'PurchaseInvoice create', 'role' => 'buy', 'category' => 'Purchase Invoice'],
-            ['name' => 'PurchaseInvoice edit', 'role' => 'buy', 'category' => 'Purchase Invoice'],
-            ['name' => 'PurchaseInvoice delete', 'role' => 'buy', 'category' => 'Purchase Invoice'],
-            //PurchaseReturn
-            ['name' => 'PurchaseReturn read', 'role' => 'buy', 'category' => 'Purchase Return'],
-            ['name' => 'PurchaseReturn create', 'role' => 'buy', 'category' => 'Purchase Return'],
-            ['name' => 'PurchaseReturn delete', 'role' => 'buy', 'category' => 'Purchase Return'],
-            //EarnedDiscount
-            ['name' => 'EarnedDiscount read', 'role' => 'buy', 'category' => 'Earned Discount'],
-            ['name' => 'EarnedDiscount create', 'role' => 'buy', 'category' => 'Earned Discount'],
-            ['name' => 'EarnedDiscount edit', 'role' => 'buy', 'category' => 'Earned Discount'],
-            ['name' => 'EarnedDiscount delete', 'role' => 'buy', 'category' => 'Earned Discount'],
+            // ['name' => 'sale-point read', 'role' => ''],
+            // ['name' => 'sale-point create', 'role' => ''],
+            // ['name' => 'sale-point edit', 'role' => ''],
+            // ['name' => 'sale-point delete', 'role' => ''],
+            // //Purchase Invoice
+            // ['name' => 'PurchaseInvoice read', 'role' => 'buy', 'category' => 'Purchase Invoice'],
+            // ['name' => 'PurchaseInvoice create', 'role' => 'buy', 'category' => 'Purchase Invoice'],
+            // ['name' => 'PurchaseInvoice edit', 'role' => 'buy', 'category' => 'Purchase Invoice'],
+            // ['name' => 'PurchaseInvoice delete', 'role' => 'buy', 'category' => 'Purchase Invoice'],
+            // //PurchaseReturn
+            // ['name' => 'PurchaseReturn read', 'role' => 'buy', 'category' => 'Purchase Return'],
+            // ['name' => 'PurchaseReturn create', 'role' => 'buy', 'category' => 'Purchase Return'],
+            // ['name' => 'PurchaseReturn delete', 'role' => 'buy', 'category' => 'Purchase Return'],
+            // //EarnedDiscount
+            // ['name' => 'EarnedDiscount read', 'role' => 'buy', 'category' => 'Earned Discount'],
+            // ['name' => 'EarnedDiscount create', 'role' => 'buy', 'category' => 'Earned Discount'],
+            // ['name' => 'EarnedDiscount edit', 'role' => 'buy', 'category' => 'Earned Discount'],
+            // ['name' => 'EarnedDiscount delete', 'role' => 'buy', 'category' => 'Earned Discount'],
             //Examination Records
             // ['name' => 'examinationRecords read', 'role' => 'buy'],
             // ['name' => 'examinationRecords create', 'role' => 'buy'],
@@ -365,28 +365,28 @@ class PermissionSeeder extends Seeder
             ['name' => 'about edit', 'role' => 'about'],
 
             // start financial Accounts
-            ['name' => 'AccountsTree read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            ['name' => 'AccountsTree create','role' => 'financial Accounts','category' => 'financial Accounts'],
-            ['name' => 'AccountsTree edit','role' => 'financial Accounts','category' => 'financial Accounts'],
-            ['name' => 'DailyRestriction read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            ['name' => 'DailyRestriction create','role' => 'financial Accounts','category' => 'financial Accounts'],
-            ['name' => 'DailyRestriction edit','role' => 'financial Accounts','category' => 'financial Accounts'],
-            ['name' => 'TrialBalance read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            ['name' => 'FinancialCenter read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            ['name' => 'IncomeList read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            ['name' => 'AccountStatement read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'AccountsTree read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'AccountsTree create','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'AccountsTree edit','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'DailyRestriction read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'DailyRestriction create','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'DailyRestriction edit','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'TrialBalance read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'FinancialCenter read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'IncomeList read','role' => 'financial Accounts','category' => 'financial Accounts'],
+            // ['name' => 'AccountStatement read','role' => 'financial Accounts','category' => 'financial Accounts'],
             // end financial Accounts
 
-            // start order
-            ['name' => 'order read', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'order create', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'order edit', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'order delete', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'avg price product', 'role' => 'order', 'category' => 'order'],
+            // // start order
+            // ['name' => 'order read', 'role' => 'order', 'category' => 'order'],
+            // ['name' => 'order create', 'role' => 'order', 'category' => 'order'],
+            // ['name' => 'order edit', 'role' => 'order', 'category' => 'order'],
+            // ['name' => 'order delete', 'role' => 'order', 'category' => 'order'],
+            // ['name' => 'avg price product', 'role' => 'order', 'category' => 'order'],
             ['name' => 'orderOnline read', 'role' => 'order', 'category' => 'order'],
             ['name' => 'orderOnline edit', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'orderReturned read', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'orderDelivered read', 'role' => 'order', 'category' => 'order'],
+            // ['name' => 'orderReturned read', 'role' => 'order', 'category' => 'order'],
+            // ['name' => 'orderDelivered read', 'role' => 'order', 'category' => 'order'],
             // end order
             // start sitting
             ['name' => 'setting read', 'role' => '', 'category' => 'Setting'],
@@ -454,10 +454,15 @@ class PermissionSeeder extends Seeder
             // end platform Accounts
 
 
-            ['name' => 'representative read','role' => 'role-employee','category' => 'Representative'],
-            ['name' => 'representative create','role' => 'role-employee','category' => 'Representative'],
-            ['name' => 'representative edit','role' => 'role-employee','category' => 'Representative'],
-            ['name' => 'representativeChangePassword edit','role' => 'role-employee','category' => 'Representative'],
+            // ['name' => 'representative read','role' => 'role-employee','category' => 'Representative'],
+            // ['name' => 'representative create','role' => 'role-employee','category' => 'Representative'],
+            // ['name' => 'representative edit','role' => 'role-employee','category' => 'Representative'],
+            // ['name' => 'representativeChangePassword edit','role' => 'role-employee','category' => 'Representative'],
+
+
+            //reports
+            ['name' => 'platform-accounts-Report read','role' => 'Report','category' => 'Report'],
+
         ];
 
         $notifies = [

@@ -1,4 +1,4 @@
-import treasuriesExpense from "../../view/admin/treasuriesExpense/index";
+import treasuriesExpense from "../../view/admin/treasuriesExpense/index.vue";
 
 export default [
     {

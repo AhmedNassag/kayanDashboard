@@ -1,6 +1,6 @@
-import indexTreasury from "../../view/admin/treasury/index";
-import createTreasury from "../../view/admin/treasury/createTreasury";
-import editTreasury from "../../view/admin/treasury/editTreasury";
+import indexTreasury from "../../view/admin/treasury/index.vue";
+import createTreasury from "../../view/admin/treasury/createTreasury.vue";
+import editTreasury from "../../view/admin/treasury/editTreasury.vue";
 import store from "../../store/admin";
 
 export default [

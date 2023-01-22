@@ -51,8 +51,8 @@
                   :key="product.id"
                 >
                   <img
-                    class="d-block w-100"
-                    :src="'/upload/product/'+product.product.image"
+                    class="d-block w-100"  style="height: 442px; width: 100%"
+                    :src="product.product.image ? '/upload/product/'+product.product.image:'/admin/img/Logo Dashboard.png'"
                     alt="First slide"
                   />
                 </div>
@@ -488,6 +488,7 @@
 
                       <button
                           class="btn btn-danger btn-sm mx-1"
+                          v-if="order.order_status == 'Completed' && refund_allowed || order.order_status == 'Shipping'"
                           @click="cancelOrder(order.id)"
                           style="height: 60px"
                       >

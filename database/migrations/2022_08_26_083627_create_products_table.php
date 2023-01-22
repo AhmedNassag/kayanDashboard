@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('nameEn')->nullable();
             $table->string('effectiveMaterial')->nullable();
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('barcode');
+            $table->string('barcode')->nullable();
             $table->integer('Re_order_limit')->nullable();
             $table->integer('maximum_product')->nullable();
             $table->string('product_code')->nullable();

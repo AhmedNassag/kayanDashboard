@@ -15,19 +15,19 @@ class IncomeTableSeeder extends Seeder
     public function run()
     {
         Income::create([
-            'name'=>'رأس المال',
+            'name'=>'طلبات الاونلاين',
         ]);
 
         Income::create([
-            'name'=>'مرتجعات الشراء',
+            'name'=>'الاعلاناعت',
         ]);
 
-        Income::create([
-            'name'=>'المبيعات',
-        ]);
+        // Income::create([
+        //     'name'=>'المبيعات',
+        // ]);
 
-        Income::create([
-            'name'=>'حساب جارى شريك',
-        ]);
+        // Income::create([
+        //     'name'=>'حساب جارى شريك',
+        // ]);
     }
 }

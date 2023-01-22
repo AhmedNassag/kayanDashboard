@@ -10,6 +10,7 @@ use App\Models\AdvertisingPageAdvertisingView;
 use App\Models\AdvertisingPageMobileAdvertisingView;
 use App\Models\AdvertisingSize;
 use App\Models\AdvertisingSizeMobile;
+use App\Models\IncomeAndExpense;
 use App\Models\PackageSale;
 use App\Models\PackageSaleUser;
 use App\Models\SchedulePage;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AdvertiserScheduleController extends Controller
 {
@@ -59,7 +61,7 @@ class AdvertiserScheduleController extends Controller
     public function create()
     {
 
-        $users               = User::where('status', 1)->whereJsonContains('role_name', 'Advertise')->get();
+        $users = User::where('status', 1)->whereJsonContains('role_name', 'Advertise')->get();
         $advertisingPackages = AdvertisingPackage::where('status', 1)->get();
         //
         $Advertise = AdvertisingPackage::whereStatus(true)
@@ -253,9 +255,12 @@ class AdvertiserScheduleController extends Controller
             return $this->sendError('There is an error in the data', $v->errors());
         }
 
-        if ($this->validDim($request->file) == 'error'  || $this->validDimMobile($request->fileMobile) == 'error') {
-            return $this->sendError('There is an error in the data', ['file' => 'image']);
-        }
+        //validation for dimentions
+        $website_images_errors = $this->validDim($request->file);
+        $mobile_images_errors=$this->validDimMobile($request->fileMobile);
+        if($mobile_images_errors || $website_images_errors)
+            throw ValidationException::withMessages(['website_images_errors' => $website_images_errors , 'mobile_images_errors' => $mobile_images_errors]);
+
 
         $AdvertiseSchedules = AdvertiseSchedule::where('advertising_package_id', $request->package_id)
             ->whereBetween('end', [now(), now()->addMonths(5)])
@@ -285,6 +290,7 @@ class AdvertiserScheduleController extends Controller
             'advertising_package_id' => $request->package_id
         ]);
 
+        $this->putCommissionInIncomes($invoice_value,$schedule->id,$user->name);
         $i = 0;
 
         foreach ($request->file as $index => $file) {
@@ -427,30 +433,38 @@ class AdvertiserScheduleController extends Controller
 
     protected function validDim($files)
     {
+        $errors = [];
         foreach ($files as $key => $file) {
             $size = AdvertisingSize::find($file['size_id']);
             $data = getimagesize($file['file_name']);
             $width = $data[0];
             $height = $data[1];
             if ($width != $size->width || $height != $size->height) {
-                return 'error';
+                $errors[]=  ["files.$key" => request()->header('lang') != 'ar' ? "The image dimensions must be $size->width * $size->height" :"يجب ان تكون ابعاد الصورة  $size->width * $size->height"];
             }
         }
+
+        return $errors;
+
     } //**********end validDim************/
 
 
 
     protected function validDimMobile($files)
     {
+        $errors = [];
+
         foreach ($files as $key => $file) {
             $size = AdvertisingSizeMobile::find($file['size_id']);
             $data = getimagesize($file['file_name']);
             $width = $data[0];
             $height = $data[1];
             if ($width != $size->width || $height != $size->height) {
-                return 'error';
+                $errors[]=['files_mobile.'.$key => request()->header('lang') != 'ar' ? "The image dimensions must be $size->width * $size->height" :"يجب ان تكون ابعاد الصورة  $size->width * $size->height"];
             }
         }
+        return $errors;
+
     } //**********end validDimMobile************/
 
 
@@ -512,18 +526,16 @@ class AdvertiserScheduleController extends Controller
 
     protected function putCommissionInIncomes($amount, $project_id, $name)
     {
-        // IncomeAndExpense::create([
-        //     'amount' => $amount,
-        //     'notes' => "مقابل عمل اعلان علي الموقع ($project_id) ",
-        //     'payment_date' => now(),
-        //     'payer' => $name,
-        //     'treasury_id' => 5,
-        //     'income_id' => 5,
-        // ]);
+        IncomeAndExpense::create([
+            'amount' => $amount,
+            'notes' => "مقابل عمل اعلان علي الموقع ($project_id) ",
+            'payment_date' => now(),
+            'payer' => $name,
+            'treasury_id' => 1,
+            'income_id' => 2,
+        ]);
     } //**********end putCommissionInIncomes************/
     /**/
-
-
 
 
     public function get_desktop_banners(Request $request)

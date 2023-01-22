@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\IncomeAndExpense;
 use App\Models\Order;
 use App\Models\Price;
 use App\Models\Setting;
@@ -96,8 +97,8 @@ class OrderController extends Controller
                 // $this->notifiy($order->customer,$order->id,'Order Number ('. $order->id.') Completed' , " $order->id تم تسليم الطلب رقم " );
                 if ($order->payment_method == 'Cash') {
                     $order->update(['payment_status' => 'Paid']);
+                    $this->putCommissionInIncomes($order->total_amount,$order->user->name,['income_id' =>1,'notes' => "مقابل شراء منتجات. رقم الطلب ($order->id) "]);
                 }
-                // $this->putCommissionInIncomes($order->commission,$order->receiver_first_name." ".$order->receiver_last_name,['income_id' =>1,'notes' => "مقابل شراء منتجات. رقم الطلب ($order->id) "]);
 
                 // foreach ($order->vendors()->withTrashed()->get() as $vendor) {
                 //     Mail::to($vendor->email)->send(new AfterOrderComplete(__('text.Your order') . $order->id . __('text.get Completed'),$vendor->store_name));
@@ -143,7 +144,7 @@ class OrderController extends Controller
                 $order->update(['order_status' => 'Canceled', 'payment_status' => 'Failed']);
                 return response()->json(['message' => 'Order Canceled Successfully', 'canceled' => true], 200);
             } elseif (
-                ($order->payment_method == 'Online' && $order->payment_status == 'Paid' && $order->order_status != 'Completed')
+                ($order->payment_method == 'Online' && $order->payment_status == 'Paid')
                 || (($order->order_status == 'Completed' || $order->order_status == 'Shipping') && $order->payment_method == 'Cash' && $refund_allowed_days_check)
                 || ($order->order_status == 'Completed' && $refund_allowed_days_check)
             ) {
@@ -165,17 +166,16 @@ class OrderController extends Controller
 
     protected function refundOrder($order)
     {
-        $amount = $order->order_status == 'Shipping' ? $order->total_amount - $order->Shipping_cost : $order->total_amount;
+        $amount = $order->order_status == 'Shipping' ? $order->total_amount - $order->shipping_cost : $order->total_amount;
         if ($order->order_status == 'Refund' || ($order->payment_method == 'Online' && !$this->makeRefundRequest($amount, $order->invoice_id)))
             return;
         foreach ($order->products()->get() as $cart_item) {
             $price = Price::where('product_id', $cart_item->product_id)->where('supplier_id', $cart_item->supplier_id)->first();
             $price->update(['quantity' => $cart_item->quantity + $price->quantity]);
         }
-
+        $this->putCommissionInIncomes($amount,$order->user->name,['expense_id' =>1,'notes' => "مقابل ارجاع منتجات. رقم الطلب ($order->id) "]);
         // $this->notifiy($order->customer,$order->id,'Order Number ('. $order->id.') returned', " $order->id تم ارجاع الطلب رقم " );
         $order->update(['payment_status' => 'Failed', 'order_status' => 'Refund', 'refund_amount' => $amount]);
-        // $this->putCommissionInIncomes($order->commission,$order->receiver_first_name." ".$order->receiver_last_name,['expense_id' =>1,'notes' => "مقابل ارجاع منتجات. رقم الطلب ($order->id) "]);
         // session()->flash('danger', __('text.Order Refunded Successfully'));
     }
 
@@ -199,8 +199,9 @@ class OrderController extends Controller
     //my fatoraah
     public function callAPI($endpointURL,  $postFields = [], $requestType = 'POST')
     {
-        $curl = curl_init(env("Api_URL") . $endpointURL);
-        $key = env("Api_Key");
+        $api_url="https://apitest.myfatoorah.com";
+        $key="rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL";
+        $curl = curl_init($api_url . $endpointURL);
         curl_setopt_array($curl, array(
             CURLOPT_CUSTOMREQUEST  => $requestType,
             CURLOPT_POSTFIELDS     => json_encode($postFields),
@@ -314,4 +315,18 @@ class OrderController extends Controller
 
         return response()->json(['orders' => $orders]);
     }
+
+
+
+    protected function putCommissionInIncomes($amount ,$name,$arr_type)
+    {
+        IncomeAndExpense::create(array_merge([
+            'amount' => $amount,
+            'payment_date' => now()->format('Y-m-d'),
+            'payer' => $name,
+            'treasury_id' =>1,
+        ]
+        ,$arr_type));
+    }
+
 }

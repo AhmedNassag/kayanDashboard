@@ -35,7 +35,7 @@
                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                     <span class="user-img">
                         <span class="status online">{{ user && user.name ? user.name:'' }}</span>
-                        <img :src="`/upload/user/${user && user.image ?user.image:''}`" alt="user-image">
+                        <img :src="user && user.image != null ? `/upload/user/${user.image}` : '/admin/img/Logo Dashboard.png'" alt="user-image">
                     </span>
                 </a>
                 <div class="dropdown-menu">

@@ -170,6 +170,7 @@
                                                                                     @change="preview($event,index,ind)"
                                                                                 >
                                                                             </div>
+                                                                            <span v-if="website_image_validation_errors[`files.${ind}`]" class="text-danger">{{ website_image_validation_errors[`files.${ind}`] }}</span>
                                                                             <div v-if="v$.pack[index].file[ind].file_name.$error">
                                                                                 <span class="text-danger" v-if="v$.pack[index].file[ind].file_name.required.$invalid">{{$t('global.fieldRequired')}}</span>
                                                                                 <span class="text-danger" v-if="errors.file">{{$t('global.fileMobile')}}</span>
@@ -201,6 +202,7 @@
                                                                                     @change="preview2($event,index,indMob)"
                                                                                 >
                                                                             </div>
+                                                                            <span v-if="mobile_image_validation_errors[`files_mobile.${indMob}`]" class="text-danger">{{ mobile_image_validation_errors[`files_mobile.${indMob}`] }}</span>
                                                                             <div v-if="v$.pack[index].fileMobile[indMob].file_name.$error">
                                                                                 <span class="text-danger" v-if="v$.pack[index].fileMobile[indMob].file_name.required.$invalid">{{$t('global.fieldRequired')}}</span>
                                                                                 <span class="text-danger" v-if="errors.file">{{$t('global.fileMobile')}}</span>
@@ -285,7 +287,9 @@ export default {
     name: "packages",
     data(){
         return {
-            errors:{}
+            errors:{},
+            website_image_validation_errors:{},
+            mobile_image_validation_errors:{},
         }
     },
     components:{
@@ -510,7 +514,8 @@ export default {
             if (!this.v$.pack[index].$error) {
 
                 this.loading = true;
-                this.errors = {};
+                this.website_image_validation_errors = {};
+                this.mobile_image_validation_errors = {};
                 let formData = new FormData();
                 //
                 formData.append('user_id',this.pack[index].user_id);
@@ -546,15 +551,25 @@ export default {
                         window.location.href = res.data.url;
                     }
                 })
-                // .catch((err) => {
-                //     console.log(err.response);
-                //     this.errors = err.response.data.errors;
-                //     Swal.fire({
-                //         icon: 'error',
-                //         title: 'يوجد خطا في الصور...',
-                //         text: 'اقصي ارتفاع للصوره يكون 500px و اقصي عرض 500px و ان حجمها لا يتعدي 2mb !',
-                //     });
-                // })
+                .catch((err) => {
+                    console.log(err.response);
+                    if(err.response && err.response.data.errors && err.response.data.errors){
+                        err.response.data.errors.website_images_errors.forEach(element => {
+                            let key = Object.keys(element??[])[0];
+                            this.website_image_validation_errors[key] = element[key];
+                        });
+                        err.response.data.errors.mobile_images_errors.forEach(element => {
+                            let key = Object.keys(element??[])[0];
+                            this.mobile_image_validation_errors[key] = element[key];
+                        });
+                    }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطا في الصور...',
+                        text: 'اقصي ارتفاع للصوره يكون 500px و اقصي عرض 500px و ان حجمها لا يتعدي 2mb !',
+                    });
+                })
                 .finally(() => {
                     this.loading = false;
                 });

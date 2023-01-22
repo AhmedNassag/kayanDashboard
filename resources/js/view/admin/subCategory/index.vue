@@ -64,8 +64,8 @@
                       <td>{{ item.name }}</td>
                       <td>{{ item.category ? item.category.name : ''}}</td>
                       <td>
-                        <img
-                          :src="'/upload/subCategory/' + item.media.file_name"
+                        <img v-if="item.media"
+                          :src="item.media ? '/upload/subCategory/' + item.media.file_name : ''"
                           :alt="item.name"
                           class="custom-img"
                         />

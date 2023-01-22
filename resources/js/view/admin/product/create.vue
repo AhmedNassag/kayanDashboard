@@ -112,7 +112,7 @@
                       <div class="col-md-6 mb-3">
                         <label for="validationCustom01">الباركود </label>
                         <input
-                          type="number"
+                          type="text"
                           class="form-control"
                           v-model.trim="v$.barcode.$model"
                           id="validationCustom056"
@@ -123,21 +123,30 @@
                           }"
                         />
 
-                        <button
-                          type="button"
-                          class="btn btn-secondary btn-sm"
-                          @click="myFunction()"
-                        >
-                          {{ $t("global.Generate Random") }}
-                        </button>
+
                         <div class="valid-feedback">تبدو جيده</div>
-                        <div class="invalid-feedback">
-                          <span v-if="v$.barcode.integer.$invalid">
-                            يجب ان يكون رقم <br
-                          /></span>
-                        </div>
+
                       </div>
                       <!--End BarCode-->
+
+                        <!--Start product_code-->
+                        <div class="col-md-6 mb-3">
+                        <label for="validationCustom0122">الكود الدوائي </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model.trim="v$.product_code.$model"
+                          id="validationCustom0122"
+                          :class="{
+                            'is-invalid': v$.product_code.$error,
+                            'is-valid': !v$.product_code.$invalid,
+                          }"
+                        />
+                        <div class="valid-feedback">تبدو جيده</div>
+
+                      </div>
+                      <!--End product_code-->
+
 
                       <!--Start Category-->
                       <div class="col-md-6 mb-3">
@@ -216,9 +225,7 @@
                         />
                         <div class="valid-feedback">تبدو جيده</div>
                         <div class="invalid-feedback">
-                          <span v-if="v$.effectiveMaterial.required.$invalid">
-                            هذا الحقل مطلوب<br />
-                          </span>
+
                           <span v-if="v$.effectiveMaterial.maxLength.$invalid">
                             يجب ان يكون علي الاقل
                             {{ v$.effectiveMaterial.minLength.$params.min }}
@@ -255,11 +262,7 @@
                           </option>
                         </select>
                         <div class="valid-feedback">تبدو جيده</div>
-                        <div class="invalid-feedback">
-                          <span v-if="v$.pharmacistForm_id.required.$invalid">
-                            هذا الحقل مطلوب<br />
-                          </span>
-                        </div>
+
                       </div>
                       <!--End Pharmacist Form-->
 
@@ -937,7 +940,7 @@
                                 >
                                   <span v-if="it.alternative_id">
                                     <img
-                                      :src="'/upload/product/' + it.image"
+                                      :src="it.image ? '/upload/product/' + it.image : '/admin/img/Logo Dashboard.png'"
                                       alt="product-image"
                                       style="
                                         width: 50px;
@@ -957,10 +960,12 @@
                                     this.$i18n.locale == 'en' ? 'drop_ltr' : '',
                                   ]"
                                   style="
-                                    height: 400px;
+                                  height: 400px;
                                     overflow-y: scroll;
-                                    width: 400px;
+                                    width: 650px;
                                     z-index: 999999;
+                                    left:544px!important;
+                                    background:#e0e9e2
                                   "
                                   aria-labelledby="dropdownMenuButton"
                                 >
@@ -989,7 +994,7 @@
                                     "
                                   >
                                     <img
-                                      :src="'/upload/product/' + altr.image"
+                                      :src="altr.image ? '/upload/product/' + altr.image : '/admin/img/Logo Dashboard.png'"
                                       alt="product-image"
                                       style="width: 50px; height: 50px"
                                     />
@@ -1102,6 +1107,7 @@ export default {
     let stores = ref([]);
     let alternatives = ref([]);
 
+
     //start design
     let addProduct = reactive({
       data: {
@@ -1114,6 +1120,7 @@ export default {
         nameEn: "",
         effectiveMaterial: "",
         barcode: "",
+        product_code: "",
         count_unit: null,
         company_id: null,
         maximum_product: null,
@@ -1198,27 +1205,29 @@ export default {
         effectiveMaterial: {
           minLength: minLength(3),
           maxLength: maxLength(70),
-          required,
+        //   required,
         },
         barcode: {
-          integer,
+
         },
-        count_unit: {
+        product_code: {
           required,
-          integer,
         },
+        // count_unit: {
+        //   integer,
+        // },
         company_id: {
           required,
           integer,
         },
-        Re_order_limit: {
-          required,
-          integer,
-        },
-        maximum_product: {
-          required,
-          integer,
-        },
+        // Re_order_limit: {
+        //   required,
+        //   integer,
+        // },
+        // maximum_product: {
+        //   required,
+        //   integer,
+        // },
         description: { required },
         image: {
           required,
@@ -1235,42 +1244,42 @@ export default {
           integer,
         },
         pharmacistForm_id: {
-          required,
+        //   required,
           integer,
         },
-        main_measurement_unit_id: {
-          required,
-          integer,
-        },
-        sub_measurement_unit_id: {
-          required,
-          integer,
-        },
-        selling_method: {
-          required,
-        },
-        sell_app: {
-          required,
-        },
-        price: {
-          required,
-          numeric,
-        },
-        sub_price: {
-          required,
-          numeric,
-        },
-        quantity: {
-          required,
-          numeric,
-        },
-        sub_quantity: {
-          required,
-          numeric,
-        },
-        store_id: {
-          required,
-        },
+        // main_measurement_unit_id: {
+        //   required,
+        //   integer,
+        // },
+        // sub_measurement_unit_id: {
+        //   required,
+        //   integer,
+        // },
+        // selling_method: {
+        //   required,
+        // },
+        // sell_app: {
+        //   required,
+        // },
+        // price: {
+        //   required,
+        //   numeric,
+        // },
+        // sub_price: {
+        //   required,
+        //   numeric,
+        // },
+        // quantity: {
+        //   required,
+        //   numeric,
+        // },
+        // sub_quantity: {
+        //   required,
+        //   numeric,
+        // },
+        // store_id: {
+        //   required,
+        // },
       };
     });
 
@@ -1426,6 +1435,7 @@ export default {
         formData.append("nameEn", this.data.nameEn);
         formData.append("effectiveMaterial", this.data.effectiveMaterial);
         formData.append("barcode", this.data.barcode);
+        formData.append("product_code", this.data.product_code);
         formData.append("count_unit", this.data.count_unit);
         formData.append("company_id", this.data.company_id);
         formData.append("maximum_product", this.data.maximum_product);

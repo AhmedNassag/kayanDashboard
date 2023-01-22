@@ -15,11 +15,11 @@ class ExpenseTableSeeder extends Seeder
     public function run()
     {
         Expense::create([
-           'name'=>'شراء منتجات'
+            'name'=>'طلبات الاونلاين',
         ]);
 
-        Expense::create([
-           'name'=>'حساب جارى شريك'
-        ]);
+        // Expense::create([
+        //    'name'=>'اعلانات'
+        // ]);
     }
 }

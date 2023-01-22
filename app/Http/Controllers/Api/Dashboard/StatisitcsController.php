@@ -73,7 +73,7 @@ class StatisitcsController extends Controller
     }
     public function client_orders(Request $request)
     {
-        $orders = Order::with('products')->where('user_id', $request->user_id)->where('order_status', '!=', 'Cart')->latest()->paginate(5);
+        $orders = Order::with('products')->where('user_id', $request->user_id)->where('order_status', '!=', 'Cart')->latest()->paginate(10);
         return response()->json(['orders' => $orders]);
     }
 

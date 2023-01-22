@@ -239,7 +239,7 @@ export default {
       });
     };
     const getClienOrders = async (page=1) => {
-      adminApi.get(`/v1/dashboard/client_orders?page=${page}&user_id=${id}`).then((response) => {
+      adminApi.get(`/v1/dashboard/client_orders?page=${page}&user_id=${props.id}`).then((response) => {
         orders.value = response.data.orders;
       });
     };

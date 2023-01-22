@@ -77,12 +77,12 @@
                                 <a href="#tab-4" data-bs-toggle="tab"
                                    class="nav-link active">{{ $t('global.ExpenseItems') }}</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="#tab-5" data-bs-toggle="tab" class="nav-link">{{ $t('global.clientsExpense') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#tab-6" data-bs-toggle="tab" class="nav-link">{{ $t('global.SuppliersExpense') }}</a>
-                            </li>
+                            </li> -->
                             <!-- <li class="nav-item">
                                 <a href="#tab-7" data-bs-toggle="tab" class="nav-link">{{ $t('global.capitalOwnerAccount') }}</a>
                             </li> -->
@@ -142,7 +142,7 @@
                             </Pagination>
                             <!-- end Pagination -->
                         </div>
-                        <div role="tabpanel" id="tab-5" class="tab-pane fade">
+                        <!-- <div role="tabpanel" id="tab-5" class="tab-pane fade">
                             <loader v-if="loading"/>
                             <div class="row justify-content-between">
                                 <div class="col-5">
@@ -185,7 +185,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- start Pagination -->
                             <Pagination :limit="2" :data="clientIncomesPaginate" @pagination-change-page="getClientIncomes">
                                 <template #prev-nav>
                                     <span>&lt; {{ $t('global.Previous') }}</span>
@@ -194,7 +193,6 @@
                                     <span>{{ $t('global.Next') }} &gt;</span>
                                 </template>
                             </Pagination>
-                            <!-- end Pagination-->
                         </div>
                         <div role="tabpanel" id="tab-6" class="tab-pane fade">
                             <loader v-if="loading"/>
@@ -239,7 +237,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- start Pagination -->
                             <Pagination :limit="2" :data="supplierIncomesPaginate" @pagination-change-page="getSupplierIncomes">
                                 <template #prev-nav>
                                     <span>&lt; {{ $t('global.Previous') }}</span>
@@ -248,7 +245,6 @@
                                     <span>{{ $t('global.Next') }} &gt;</span>
                                 </template>
                             </Pagination>
-                            <!-- end Pagination-->
                         </div>
                         <div role="tabpanel" id="tab-7" class="tab-pane fade">
                             <loader v-if="loading"/>
@@ -293,7 +289,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- start Pagination -->
                             <Pagination :limit="2" :data="ownerIncomesPaginate" @pagination-change-page="getOwnerIncomes">
                                 <template #prev-nav>
                                     <span>&lt; {{ $t('global.Previous') }}</span>
@@ -302,8 +297,7 @@
                                     <span>{{ $t('global.Next') }} &gt;</span>
                                 </template>
                             </Pagination>
-                            <!-- end Pagination-->
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

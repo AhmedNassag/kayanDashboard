@@ -108,7 +108,7 @@
                       <div class="col-md-6 mb-3">
                         <label for="validationCustom01">الباركود </label>
                         <input
-                          type="number"
+                          type="text"
                           class="form-control"
                           v-model.trim="v$.barcode.$model"
                           id="validationCustom056"
@@ -119,21 +119,37 @@
                           }"
                         />
 
-                        <button
-                          type="button"
-                          class="btn btn-secondary btn-sm"
-                          @click="myFunction()"
-                        >
-                          {{ $t("global.Generate Random") }}
-                        </button>
+
                         <div class="valid-feedback">تبدو جيده</div>
-                        <div class="invalid-feedback">
-                          <span v-if="v$.barcode.integer.$invalid">
-                            يجب ان يكون رقم <br
-                          /></span>
-                        </div>
+
                       </div>
                       <!--End BarCode-->
+
+
+
+                      <!--Start product_code-->
+                      <div class="col-md-6 mb-3">
+                        <label for="validationCustom0122">الكود الدوائي </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          v-model.trim="v$.product_code.$model"
+                          id="validationCustom0122"
+
+                          :class="{
+                            'is-invalid': v$.product_code.$error,
+                            'is-valid': !v$.product_code.$invalid,
+                          }"
+                        />
+                        <div class="valid-feedback">تبدو جيده</div>
+                        <div class="invalid-feedback">
+                            <span v-if="v$.product_code.required.$invalid">
+                            هذا الحقل مطلوب<br />
+                          </span>
+
+                        </div>
+                      </div>
+                      <!--End product_code-->
 
                       <!--Start Category-->
                       <div class="col-md-6 mb-3">
@@ -212,9 +228,7 @@
                         />
                         <div class="valid-feedback">تبدو جيده</div>
                         <div class="invalid-feedback">
-                          <span v-if="v$.effectiveMaterial.required.$invalid">
-                            هذا الحقل مطلوب<br />
-                          </span>
+
                           <span v-if="v$.effectiveMaterial.maxLength.$invalid">
                             يجب ان يكون علي الاقل
                             {{ v$.effectiveMaterial.minLength.$params.min }} حرف
@@ -251,11 +265,7 @@
                           </option>
                         </select>
                         <div class="valid-feedback">تبدو جيده</div>
-                        <div class="invalid-feedback">
-                          <span v-if="v$.pharmacistForm_id.required.$invalid">
-                            هذا الحقل مطلوب<br />
-                          </span>
-                        </div>
+
                       </div>
                       <!--End Pharmacist Form-->
 
@@ -478,11 +488,7 @@
                           }"
                         ></textarea>
                         <div class="valid-feedback">تبدو جيده</div>
-                        <div class="invalid-feedback">
-                          <span v-if="v$.description.required.$invalid">
-                            هذا الحقل مطلوب<br />
-                          </span>
-                        </div>
+
                       </div>
                       <!--End Description-->
 
@@ -552,7 +558,7 @@
                         <div class="container-images" v-show="!numberOfImage">
                           <figure>
                             <figcaption>
-                              <img :src="`/upload/product/${image}`" />
+                              <img :src="image ? `/upload/product/${image}` :'/admin/img/Logo Dashboard.png'" />
                             </figcaption>
                           </figure>
                         </div>
@@ -609,7 +615,7 @@
                               >
                               <img
                                 style="width: 100%"
-                                :src="`${file.file_name}`"
+                                :src="file.file_name ? `${file.file_name}` : '/admin/img/Logo Dashboard.png'"
                               />
                             </figcaption>
                           </figure>
@@ -837,7 +843,7 @@
                                 >
                                   <span v-if="it.alternative_id">
                                     <img
-                                      :src="'/upload/product/' + it.image"
+                                      :src="it.image ? '/upload/product/' + it.image : '/admin/img/Logo Dashboard.png'"
                                       alt="product-image"
                                       style="
                                         width: 50px;
@@ -859,8 +865,9 @@
                                   style="
                                     height: 400px;
                                     overflow-y: scroll;
-                                    width: 400px;
+                                    width: 650px;
                                     z-index: 999999;
+                                    left:544px!important;background:#e0e9e2
                                   "
                                   aria-labelledby="dropdownMenuButton"
                                 >
@@ -889,7 +896,7 @@
                                     "
                                   >
                                     <img
-                                      :src="'/upload/product/' + altr.image"
+                                      :src="altr.image ? '/upload/product/' + altr.image  : '/admin/img/Logo Dashboard.png'"
                                       alt="product-image"
                                       style="width: 50px; height: 50px"
                                     />
@@ -1003,6 +1010,7 @@ export default {
     let images = ref([]);
     let image = ref("");
     let loading2 = ref(false);
+    let debounce = ref("");
     let altr_search = ref("");
     let alternatives = ref([]);
 
@@ -1014,6 +1022,7 @@ export default {
         nameEn: "",
         effectiveMaterial: "",
         barcode: "",
+        product_code: "",
         maximum_product: null,
         Re_order_limit: null,
         description: "",
@@ -1077,42 +1086,41 @@ export default {
           let l = res.data.data;
           addProduct.data.nameAr = l.product.nameAr;
           addProduct.data.nameEn = l.product.nameEn;
+          categories.value = l.categories;
+          getSubCategory(l.product.category_id);
+          companies.value = l.companies;
           addProduct.data.effectiveMaterial = l.product.effectiveMaterial;
           addProduct.data.barcode = l.product.barcode;
-          addProduct.data.maximum_product = l.product.maximum_product;
-          addProduct.data.Re_order_limit = l.product.Re_order_limit;
+        //   addProduct.data.maximum_product = l.product.maximum_product;
+        //   addProduct.data.Re_order_limit = l.product.Re_order_limit;
           addProduct.data.description = l.product.description;
           addProduct.data.company_id = l.product.company_id;
           addProduct.data.category_id = l.product.category_id;
           addProduct.data.sub_category_id = l.product.sub_category_id;
           addProduct.data.pharmacistForm_id = l.product.pharmacistForm_id;
-          addProduct.data.count_unit = l.product.count_unit;
-          addProduct.data.sell_app = l.product.sell_app;
-          addProduct.data.main_measurement_unit_id =
-            l.product.main_measurement_unit_id;
-          addProduct.data.sub_measurement_unit_id =
-            l.product.sub_measurement_unit_id;
+        //   addProduct.data.count_unit = l.product.count_unit;
+        //   addProduct.data.sell_app = l.product.sell_app;
+        //   addProduct.data.main_measurement_unit_id = l.product.main_measurement_unit_id;
+        //   addProduct.data.sub_measurement_unit_id = l.product.sub_measurement_unit_id;
 
-          addProduct.data.quantity = l.storeProduct.quantity;
-          addProduct.data.sub_quantity = l.storeProduct.sub_quantity;
-          addProduct.data.price = l.purchaseProducts.price;
-          addProduct.data.sub_price = parseFloat(
-            l.purchaseProducts.price / l.product.count_unit
-          ).toFixed(2);
-          addProduct.data.store_id = l.storeProduct.store_id;
+        //   addProduct.data.quantity = l.storeProduct.quantity;
+        //   addProduct.data.sub_quantity = l.storeProduct.sub_quantity;
+        //   addProduct.data.price = l.purchaseProducts.price;
+        //   addProduct.data.sub_price = parseFloat(
+        //     l.purchaseProducts.price / l.product.count_unit
+        //   ).toFixed(2);
+        //   addProduct.data.store_id = l.storeProduct.store_id;
 
           image.value = l.product.image;
           images.value = l.product.media;
           pharmacistForms.value = l.pharmacistForms;
-          categories.value = l.categories;
-          companies.value = l.companies;
-          measures.value = l.measures;
-          stores.value = l.stores;
-          sellingMethods.value = l.sellingMethods;
-          l.sellingMethodChange.forEach((e) => {
-            addProduct.data.selling_method.push(e.id);
-          });
-          getSubCategory(l.product.category_id);
+
+        //   measures.value = l.measures;
+        //   stores.value = l.stores;
+        //   sellingMethods.value = l.sellingMethods;
+        //   l.sellingMethodChange.forEach((e) => {
+        //     addProduct.data.selling_method.push(e.id);
+        //   });
         })
         .catch((err) => {
           console.log(err.response);
@@ -1160,23 +1168,24 @@ export default {
         effectiveMaterial: {
           minLength: minLength(3),
           maxLength: maxLength(70),
-          required,
         },
         barcode: {
-          integer,
         },
-        Re_order_limit: {
+        product_code: {
           required,
-          integer,
         },
-        maximum_product: {
-          required,
-          integer,
-        },
-        description: { required },
+        // Re_order_limit: {
+        //   required,
+        //   integer,
+        // },
+        // maximum_product: {
+        //   required,
+        //   integer,
+        // },
+        description: {  },
         category_id: {
-          required,
           integer,
+          required
         },
         company_id: {
           required,
@@ -1187,46 +1196,45 @@ export default {
           integer,
         },
         pharmacistForm_id: {
-          required,
-          integer,
+
         },
-        main_measurement_unit_id: {
-          required,
-          integer,
-        },
-        sub_measurement_unit_id: {
-          required,
-          integer,
-        },
-        count_unit: {
-          required,
-          integer,
-        },
-        selling_method: {
-          required,
-        },
-        sell_app: {
-          required,
-        },
-        price: {
-          required,
-          numeric,
-        },
-        sub_price: {
-          required,
-          numeric,
-        },
-        quantity: {
-          required,
-          numeric,
-        },
-        sub_quantity: {
-          required,
-          numeric,
-        },
-        store_id: {
-          required,
-        },
+        // main_measurement_unit_id: {
+        //   required,
+        //   integer,
+        // },
+        // sub_measurement_unit_id: {
+        //   required,
+        //   integer,
+        // },
+        // count_unit: {
+        //   required,
+        //   integer,
+        // },
+        // selling_method: {
+        //   required,
+        // },
+        // sell_app: {
+        //   required,
+        // },
+        // price: {
+        //   required,
+        //   numeric,
+        // },
+        // sub_price: {
+        //   required,
+        //   numeric,
+        // },
+        // quantity: {
+        //   required,
+        //   numeric,
+        // },
+        // sub_quantity: {
+        //   required,
+        //   numeric,
+        // },
+        // store_id: {
+        //   required,
+        // },
         alternativeDetail: {
           // required
         },
@@ -1392,33 +1400,34 @@ export default {
 
         let formData = new FormData();
         formData.append("quantity", this.data.quantity);
-        formData.append("store_id", this.data.store_id);
+        // formData.append("store_id", this.data.store_id);
         formData.append("sub_quantity", this.data.sub_quantity);
-        formData.append("price", this.data.price);
-        formData.append("sub_price", this.data.sub_price);
+        // formData.append("price", this.data.price);
+        // formData.append("sub_price", this.data.sub_price);
         formData.append("nameAr", this.data.nameAr);
         formData.append("nameEn", this.data.nameEn);
         formData.append("effectiveMaterial", this.data.effectiveMaterial);
         formData.append("barcode", this.data.barcode);
-        formData.append("maximum_product", this.data.maximum_product);
-        formData.append("Re_order_limit", this.data.Re_order_limit);
+        formData.append("product_code", this.data.product_code);
+        // formData.append("maximum_product", this.data.maximum_product);
+        // formData.append("Re_order_limit", this.data.Re_order_limit);
         formData.append("description", this.data.description);
         formData.append("category_id", this.data.category_id);
         formData.append("company_id", this.data.company_id);
         formData.append("pharmacistForm_id", this.data.pharmacistForm_id);
-        formData.append("sell_app", this.data.sell_app);
+        // formData.append("sell_app", this.data.sell_app);
         formData.append("sub_category_id", this.data.sub_category_id);
-        formData.append(
-          "main_measurement_unit_id",
-          this.data.main_measurement_unit_id
-        );
-        formData.append(
-          "sub_measurement_unit_id",
-          this.data.sub_measurement_unit_id
-        );
-        formData.append("count_unit", this.data.count_unit);
+        // formData.append(
+        //   "main_measurement_unit_id",
+        //   this.data.main_measurement_unit_id
+        // );
+        // formData.append(
+        //   "sub_measurement_unit_id",
+        //   this.data.sub_measurement_unit_id
+        // );
+        // formData.append("count_unit", this.data.count_unit);
         formData.append("image", this.data.image);
-        formData.append("selling_method", this.data.selling_method);
+        // formData.append("selling_method", this.data.selling_method);
         formData.append("_method", "PUT");
         formData.append(
           "alternativeDetail",

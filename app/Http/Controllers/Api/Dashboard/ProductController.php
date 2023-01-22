@@ -37,6 +37,13 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::with('category:id,name', 'tax:id,name','pharmacistForm:id,name')
+            ->when($request->search,function($q) use($request) {
+                $q->where('nameAr' ,'like',"%$request->search%")
+                ->orWhere('nameEn' ,'like',"%$request->search%")
+                ->orWhere('effectiveMaterial' ,'like',"%$request->search%")
+                ->orWhere('barcode' ,'like',"%$request->search%")
+                ->orWhere('product_code' ,'like',"%$request->search%");
+            })
            ->latest()->paginate(15);
 
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
@@ -131,65 +138,68 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            DB::beginTransaction();
 
             // Validator request
             $v = Validator::make($request->all(), [
                 'nameAr' => 'required|unique:products',
                 'nameEn' => 'required|unique:products',
-                'effectiveMaterial' => 'required',
-                'barcode' => 'nullable|numeric|unique:products,barcode',
-                'Re_order_limit' => 'required|numeric',
-                'maximum_product' => 'required|numeric',
+                'effectiveMaterial' => 'nullable',
+                'barcode' => 'nullable|unique:products,barcode',
+                'product_code' => 'required|unique:products,product_code',
+                // 'Re_order_limit' => 'required|numeric',
+                // 'maximum_product' => 'required|numeric',
                 'description' => 'nullable',
-                'image' => 'required|file|mimes:png,jpg,jpeg',
-                'files' => 'required|array',
-                'files.*' => 'required|file|mimes:png,jpg,jpeg',
+                'image' => 'nullable|file|mimes:png,jpg,jpeg',
+                'files' => 'nullable|array',
+                'files.*' => 'nullable|file|mimes:png,jpg,jpeg',
                 'category_id' => 'required|integer|exists:categories,id',
                 'company_id' => 'required|integer|exists:companies,id',
                 'sub_category_id' => 'required|integer|exists:sub_categories,id',
-                'pharmacistForm_id' => 'required|integer|exists:pharmacist_forms,id',
-                'main_measurement_unit_id' => 'required|integer|exists:units,id',
-                'sub_measurement_unit_id' => 'required|integer|exists:units,id',
-                'count_unit' => 'required|numeric',
-                'selling_method' => 'required',
-                'sell_app' => 'required',
-                'selling_method.*' => 'required|exists:selling_methods,id',
+                'pharmacistForm_id' => 'nullable',
+                // 'main_measurement_unit_id' => 'required|integer|exists:units,id',
+                // 'sub_measurement_unit_id' => 'required|integer|exists:units,id',
+                // 'count_unit' => 'required|numeric',
+                // 'selling_method' => 'required',
+                // 'sell_app' => 'required',
+                // 'selling_method.*' => 'required|exists:selling_methods,id',
 
-                'quantity' => 'required|numeric',
-                'sub_quantity' => 'required|numeric',
-                'price' => 'required|numeric',
-                'sub_price' => 'required|numeric',
-                'store_id' => 'required|integer|exists:stores,id',
+                // 'quantity' => 'required|numeric',
+                // 'sub_quantity' => 'required|numeric',
+                // 'price' => 'required|numeric',
+                // 'sub_price' => 'required|numeric',
+                // 'store_id' => 'required|integer|exists:stores,id',
             ]);
 
             if ($v->fails()) {
                 return $this->sendError('There is an error in the data', $v->errors());
             }
 
-            $image = time() . '.' . $request->image->getClientOriginalName();
+            if($request->image){
+                $image = time() . '.' . $request->image->getClientOriginalName();
 
-            // picture move
-            $request->image->storeAs('product', $image, 'general');
+                // picture move
+                $request->image->storeAs('product', $image, 'general');
+            }
+
 
             $product = Product::create([
                 'nameAr' => $request->nameAr,
                 'nameEn' => $request->nameEn,
                 'barcode' => $request->barcode,
+                'product_code' => $request->product_code,
                 'effectiveMaterial' => $request->effectiveMaterial,
                 'description' => $request->description,
-                'Re_order_limit' => $request->Re_order_limit,
-                'maximum_product' => $request->maximum_product,
+                // 'Re_order_limit' => $request->Re_order_limit,
+                // 'maximum_product' => $request->maximum_product,
                 'image' => $image,
                 'category_id' => $request->category_id,
                 'company_id' => $request->company_id,
                 'sub_category_id' => $request->sub_category_id,
-                'pharmacistForm_id' => $request->pharmacistForm_id,
-                'main_measurement_unit_id' => $request->main_measurement_unit_id,
-                'sub_measurement_unit_id' => $request->sub_measurement_unit_id,
-                'count_unit' => $request->count_unit,
-                'sell_app' => $request->sell_app,
+                'pharmacistForm_id' =>PharmacistForm::find($request->pharmacistForm_id)? $request->pharmacistForm_id : null,
+                // 'main_measurement_unit_id' => $request->main_measurement_unit_id,
+                // 'sub_measurement_unit_id' => $request->sub_measurement_unit_id,
+                // 'count_unit' => $request->count_unit,
+                // 'sell_app' => $request->sell_app,
             ]);
 
             // $imageProduct = explode(',', $request->selling_method);
@@ -231,35 +241,31 @@ class ProductController extends Controller
                 }
             }
 
-            StoreProduct::create([
-                'product_id' => $product->id,
-                'main_measurement_unit_id' => $request->main_measurement_unit_id,
-                'sub_measurement_unit_id' => $request->sub_measurement_unit_id,
-                'sub_category_id' => $request->sub_category_id,
-                'store_id' => $request['store_id'],
-                'quantity' => $request['quantity'],
-                'sub_quantity' => $request['sub_quantity'],
-                'count_unit' => $request['count_unit'],
-                'sub_quantity_order' => 0,
-            ]);
+            // StoreProduct::create([
+            //     'product_id' => $product->id,
+            //     'main_measurement_unit_id' => $request->main_measurement_unit_id,
+            //     'sub_measurement_unit_id' => $request->sub_measurement_unit_id,
+            //     'sub_category_id' => $request->sub_category_id,
+            //     'store_id' => $request['store_id'],
+            //     'quantity' => $request['quantity'],
+            //     'sub_quantity' => $request['sub_quantity'],
+            //     'count_unit' => $request['count_unit'],
+            //     'sub_quantity_order' => 0,
+            // ]);
 
-            PurchaseProduct::create([
-                'product_id' => $product->id,
-                'quantity' => $request['quantity'],
-                'sub_quantity' => $request['sub_quantity'],
-                'price' => $request['price'],
-                'count_unit' => $request['count_unit'],
-            ]);
+            // PurchaseProduct::create([
+            //     'product_id' => $product->id,
+            //     'quantity' => $request['quantity'],
+            //     'sub_quantity' => $request['sub_quantity'],
+            //     'price' => $request['price'],
+            //     'count_unit' => $request['count_unit'],
+            // ]);
 
             $this->associateAlternativeProducts($request,$product);
 
-            DB::commit();
 
             return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+
     }
 
 
@@ -275,24 +281,24 @@ class ProductController extends Controller
         $pharmacistForms = PharmacistForm::select('id', 'name')->get();
         $categories = Category::select('id', 'name')->get();
         $companies = Company::get();
-        $measures = Unit::select('id', 'name')->get();
-        $sellingMethods = SellingMethod::select('id', 'name')->get();
-        $sellingMethodChange = $product->selling_method;
-        $stores = Store::where('status', 1)->get();
-        $storeProduct = $product->storeProducts()->first();
-        $purchaseProducts = $product->purchaseProducts()->first();
+        // $measures = Unit::select('id', 'name')->get();
+        // $sellingMethods = SellingMethod::select('id', 'name')->get();
+        // $sellingMethodChange = $product->selling_method;
+        // $stores = Store::where('status', 1)->get();
+        // $storeProduct = $product->storeProducts()->first();
+        // $purchaseProducts = $product->purchaseProducts()->first();
 
         return $this->sendResponse([
             'product' => $product,
             'pharmacistForms' => $pharmacistForms,
             'categories' => $categories,
             'companies' => $companies,
-            'measures' => $measures,
-            'sellingMethods' => $sellingMethods,
-            'sellingMethodChange' => $sellingMethodChange,
-            'stores' => $stores,
-            'storeProduct' => $storeProduct,
-            'purchaseProducts' => $purchaseProducts,
+            // 'measures' => $measures,
+            // 'sellingMethods' => $sellingMethods,
+            // 'sellingMethodChange' => $sellingMethodChange,
+            // 'stores' => $stores,
+            // 'storeProduct' => $storeProduct,
+            // 'purchaseProducts' => $purchaseProducts,
         ], 'Data exited successfully');
 
     }
@@ -306,8 +312,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::beginTransaction();
-        try {
+
 
             $product = Product::find($id);
 
@@ -315,30 +320,31 @@ class ProductController extends Controller
             $v = Validator::make($request->all(), [
                 'nameAr' => 'required|unique:products,nameAr,' . $product->id,
                 'nameEn' => 'required|unique:products,nameEn,' . $product->id,
-                'effectiveMaterial' => 'required',
-                'Re_order_limit' => 'required|numeric',
-                'maximum_product' => 'required|numeric',
+                'effectiveMaterial' => 'nullable',
+                // 'Re_order_limit' => 'required|numeric',
+                // 'maximum_product' => 'required|numeric',
                 'barcode' => 'nullable|unique:products,barcode,' . $product->id,
+                'product_code' => 'required|unique:products,product_code,' . $product->id,
                 'description' => 'nullable',
                 'image' => 'nullable' . ($request->hasFile('image') ? '|file|mimes:jpeg,jpg,png' : ''),
                 'files' => 'nullable',
                 'files.*' => 'nullable' . ($request->hasFile('files') ? '|file|mimes:jpeg,jpg,png' : ''),
-                'category_id' => 'required|integer|exists:categories,id',
-                'company_id' => 'required|integer|exists:companies,id',
-                'sub_category_id' => 'required|integer|exists:sub_categories,id',
-                'pharmacistForm_id' => 'required|integer|exists:pharmacist_forms,id',
-                'main_measurement_unit_id' => 'required|integer|exists:units,id',
-                'sub_measurement_unit_id' => 'required|integer|exists:units,id',
-                'count_unit' => 'required|numeric',
-                'selling_method' => 'required',
-                'sell_app' => 'required',
-                'selling_method.*' => 'required|exists:selling_methods,id',
+                'category_id' => 'required|exists:categories,id',
+                'company_id' => 'required|exists:companies,id',
+                'sub_category_id' => 'required|exists:sub_categories,id',
+                'pharmacistForm_id' => 'nullable',
+                // 'main_measurement_unit_id' => 'required|integer|exists:units,id',
+                // 'sub_measurement_unit_id' => 'required|integer|exists:units,id',
+                // 'count_unit' => 'required|numeric',
+                // 'selling_method' => 'required',
+                // 'sell_app' => 'required',
+                // 'selling_method.*' => 'required|exists:selling_methods,id',
 
-                'quantity' => 'required|numeric',
-                'sub_quantity' => 'required|numeric',
-                'price' => 'required|numeric',
-                'sub_price' => 'required|numeric',
-                'store_id' => 'required|integer|exists:stores,id',
+                // 'quantity' => 'required|numeric',
+                // 'sub_quantity' => 'required|numeric',
+                // 'price' => 'required|numeric',
+                // 'sub_price' => 'required|numeric',
+                // 'store_id' => 'required|integer|exists:stores,id',
             ]);
 
             if ($v->fails()) {
@@ -348,12 +354,13 @@ class ProductController extends Controller
             $data['nameAr'] = $request->nameAr;
             $data['nameEn'] = $request->nameEn;
             $data['effectiveMaterial'] = $request->effectiveMaterial;
-            $data['Re_order_limit'] = $request->Re_order_limit;
-            $data['maximum_product'] = $request->maximum_product;
+            // $data['Re_order_limit'] = $request->Re_order_limit;
+            // $data['maximum_product'] = $request->maximum_product;
             $data['barcode'] = $request->barcode != "null" ? $request->barcode : $product->barcode;
+            $data['product_code'] = $request->product_code != "null" ? $request->product_code : $product->product_code;
             $data['description'] = $request->description;
-            if ($request->hasFile('image')) {
-                if (File::exists('upload/product/' . $product->image)) {
+            if ($request->hasFile('image') ) {
+                if (File::exists('upload/product/' . $product->image) && $product->image) {
                     unlink('upload/product/' . $product->image);
                 }
                 $image = time() . '.' . $request->image->getClientOriginalName();
@@ -363,50 +370,50 @@ class ProductController extends Controller
             $data['category_id'] = $request->category_id;
             $data['company_id'] = $request->company_id;
             $data['sub_category_id'] = $request->sub_category_id;
-            $data['pharmacistForm_id'] = $request->pharmacistForm_id;
-            $data['main_measurement_unit_id'] = $request->main_measurement_unit_id;
-            $data['sub_measurement_unit_id'] = $request->sub_measurement_unit_id;
-            $data['count_unit'] = $request->count_unit;
-            $data['sell_app'] = $request->sell_app;
+            $data['pharmacistForm_id'] = PharmacistForm::find($request->pharmacistForm_id)? $request->pharmacistForm_id : null;
+            // $data['main_measurement_unit_id'] = $request->main_measurement_unit_id;
+            // $data['sub_measurement_unit_id'] = $request->sub_measurement_unit_id;
+            // $data['count_unit'] = $request->count_unit;
+            // $data['sell_app'] = $request->sell_app;
 
 
             $product->update($data);
 
-            $imageProduct = explode(',', $request->selling_method);
+            // $imageProduct = explode(',', $request->selling_method);
 
-            $product->selling_method()->sync($imageProduct);
+            // $product->selling_method()->sync($imageProduct);
 
-            foreach ($imageProduct as $item) {
+            // foreach ($imageProduct as $item) {
 
-                $ProductPricing = ProductPricing::where([
-                    ['product_id', $id],
-                    ['selling_method_id', $item],
-                ])->get();
-                if (count($ProductPricing) == 0) {
-                    ProductPricing::create([
-                        'product_id' => $id,
-                        'selling_method_id' => $item,
-                        'measurement_unit_id' => $request->main_measurement_unit_id
-                    ]);
-                    ProductPricing::create([
-                        'product_id' => $id,
-                        'selling_method_id' => $item,
-                        'measurement_unit_id' => $request->sub_measurement_unit_id
-                    ]);
-                } else {
-                    foreach ($ProductPricing as $index => $value) {
-                        if ($index == 0) {
-                            $value->update([
-                                'measurement_unit_id' => $request->main_measurement_unit_id
-                            ]);
-                        } else {
-                            $value->update([
-                                'measurement_unit_id' => $request->sub_measurement_unit_id
-                            ]);
-                        }
-                    }
-                }
-            }
+            //     $ProductPricing = ProductPricing::where([
+            //         ['product_id', $id],
+            //         ['selling_method_id', $item],
+            //     ])->get();
+            //     if (count($ProductPricing) == 0) {
+            //         ProductPricing::create([
+            //             'product_id' => $id,
+            //             'selling_method_id' => $item,
+            //             'measurement_unit_id' => $request->main_measurement_unit_id
+            //         ]);
+            //         ProductPricing::create([
+            //             'product_id' => $id,
+            //             'selling_method_id' => $item,
+            //             'measurement_unit_id' => $request->sub_measurement_unit_id
+            //         ]);
+            //     } else {
+            //         foreach ($ProductPricing as $index => $value) {
+            //             if ($index == 0) {
+            //                 $value->update([
+            //                     'measurement_unit_id' => $request->main_measurement_unit_id
+            //                 ]);
+            //             } else {
+            //                 $value->update([
+            //                     'measurement_unit_id' => $request->sub_measurement_unit_id
+            //                 ]);
+            //             }
+            //         }
+            //     }
+            // }
 
             $i = 0;
             if ($request->hasFile('files')) {
@@ -430,34 +437,30 @@ class ProductController extends Controller
                 }
             }
 
-            $store_product = StoreProduct::where('product_id', $id)->first();
-            $store_product->update([
-                'main_measurement_unit_id' => $request->main_measurement_unit_id,
-                'sub_measurement_unit_id' => $request->sub_measurement_unit_id,
-                'sub_category_id' => $request->sub_category_id,
-                'store_id' => $request['store_id'],
-                'quantity' => $request['quantity'],
-                'sub_quantity' => $request['sub_quantity'],
-                'count_unit' => $request['count_unit'],
-                'sub_quantity_order' => 0,
-            ]);
+            // $store_product = StoreProduct::where('product_id', $id)->first();
+            // $store_product->update([
+            //     'main_measurement_unit_id' => $request->main_measurement_unit_id,
+            //     'sub_measurement_unit_id' => $request->sub_measurement_unit_id,
+            //     'sub_category_id' => $request->sub_category_id,
+            //     'store_id' => $request['store_id'],
+            //     'quantity' => $request['quantity'],
+            //     'sub_quantity' => $request['sub_quantity'],
+            //     'count_unit' => $request['count_unit'],
+            //     'sub_quantity_order' => 0,
+            // ]);
 
-            $purchase_product = PurchaseProduct::where('product_id', $id)->first();
-            $purchase_product->update([
-                'quantity' => $request['quantity'],
-                'sub_quantity' => $request['sub_quantity'],
-                'price' => $request['price'],
-                'count_unit' => $request['count_unit'],
-            ]);
+            // $purchase_product = PurchaseProduct::where('product_id', $id)->first();
+            // $purchase_product->update([
+            //     'quantity' => $request['quantity'],
+            //     'sub_quantity' => $request['sub_quantity'],
+            //     'price' => $request['price'],
+            //     'count_unit' => $request['count_unit'],
+            // ]);
             $this->associateAlternativeProducts($request,$product);
 
-            DB::commit();
-            return $this->sendResponse([], 'Data exited successfully');
-        } catch (\Exception $e) {
 
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
+            return $this->sendResponse([], 'Data exited successfully');
+
     }
 
 

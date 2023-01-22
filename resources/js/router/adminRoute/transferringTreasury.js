@@ -1,6 +1,6 @@
-import indexTransferringTreasury from "../../view/admin/transferringTreasury/index";
-import createTransferringTreasury from "../../view/admin/transferringTreasury/createTreasury";
-import editTransferringTreasury from "../../view/admin/transferringTreasury/editTreasury";
+import indexTransferringTreasury from "../../view/admin/transferringTreasury/index.vue";
+import createTransferringTreasury from "../../view/admin/transferringTreasury/createTreasury.vue";
+import editTransferringTreasury from "../../view/admin/transferringTreasury/editTreasury.vue";
 import store from "../../store/admin";
 
 export default [

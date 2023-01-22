@@ -122,6 +122,7 @@ import supplierExpenses from "./adminRoute/supplierExpenses";
 import clientExpenses from "./adminRoute/clientExpenses";
 import supplierIncomes from "./adminRoute/supplierIncomes";
 import clientIncome from "./adminRoute/clientIncome";
+import report from "./adminRoute/report";
 import SupplierAccountStatement from "./adminRoute/SupplierAccountStatement";
 import ClientAccountStatement from "./adminRoute/ClientAccountStatement";
 import purchaseReturnIncomes from "./adminRoute/purchaseReturnIncomes";
@@ -295,6 +296,7 @@ const routes = [
             ...setting,
             ...statistics,
             ...representative,
+            ...report,
         ]
     },
     {

@@ -65,7 +65,7 @@
                                         <td>{{ item.product_code  }}</td>
                                         <td>
                                             <img
-                                                :src="'/upload/product/' + item.image"
+                                                :src="item.image ? '/upload/product/' + item.image : '/admin/img/Logo Dashboard.png'"
                                                 :alt="item.name"
                                                 class="custom-img"
                                             />
@@ -156,8 +156,6 @@ export default {
 
         onMounted(() => {
             getProduct();
-            console.log('khaled')
-            search.value=""
         });
 
 

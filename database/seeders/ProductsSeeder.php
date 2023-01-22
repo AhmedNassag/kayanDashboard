@@ -39,7 +39,7 @@ class ProductsSeeder extends Seeder
                             "nameAr" => $product['Description AR'],
                             "nameEn" => $product['Description'],
                             "company_id" => $company->id,
-                            "barcode" => uniqid($product['Code']),
+                            "barcode" => $product['Code'],
                             "category_id" => $category_model->id,
                             "sub_category_id" => $sub_category_model->id,
                         ]);

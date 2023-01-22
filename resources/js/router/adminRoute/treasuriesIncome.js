@@ -1,4 +1,4 @@
-import treasuriesIncome from "../../view/admin/Treasuriesincome/index";
+import treasuriesIncome from "../../view/admin/Treasuriesincome/index.vue";
 
 export default [
     {
