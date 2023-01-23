@@ -385,6 +385,8 @@ class PermissionSeeder extends Seeder
             // ['name' => 'avg price product', 'role' => 'order', 'category' => 'order'],
             ['name' => 'orderOnline read', 'role' => 'order', 'category' => 'order'],
             ['name' => 'orderOnline edit', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'CollectOrdersPerDay read', 'role' => 'order', 'category' => 'order'],
+            ['name' => 'CollectOrdersPerDay edit', 'role' => 'order', 'category' => 'order'],
             // ['name' => 'orderReturned read', 'role' => 'order', 'category' => 'order'],
             // ['name' => 'orderDelivered read', 'role' => 'order', 'category' => 'order'],
             // end order

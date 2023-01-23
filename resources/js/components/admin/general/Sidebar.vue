@@ -1182,13 +1182,31 @@
                     </li>
                     <!--end financial Accounts-->
 
-
-                    <!--end order-->
-                    <li :class="[$route.name == 'indexOrderOnline'? 'active': '']" v-if="permission.includes('orderOnline read')">
-                        <router-link :to="{name:'indexOrderOnline'}">
-                            <i class="fas fa-user-tie "></i> <span class="mx-2">{{$t('global.orders')}}</span>
-                        </router-link>
+                    <li class="submenu" v-if="permission.includes('order')">
+                        <a href="#">
+                            <i class="fas fa-truck"></i>
+                            <span>{{ $t("global.orders management") }}</span>
+                            <span :class="['menu-arrow', 'menu-arrow-ar']"></span>
+                        </a>
+                        <ul>
+                              <!--end order-->
+                            <li :class="[$route.name == 'indexOrderOnline'? 'active': '']"
+                             v-if="permission.includes('orderOnline read')">
+                                <router-link :to="{name:'indexOrderOnline'}">
+                                     {{$t('global.orders')}}
+                                </router-link>
+                            </li>
+                            <!--end order-->
+                            <li :class="[$route.name == 'CollectOrdersPerDay'? 'active': '']"
+                             v-if="permission.includes('CollectOrdersPerDay read')">
+                                <router-link :to="{name:'CollectOrdersPerDay'}">
+                                    {{$t('global.CollectOrdersPerDay')}}
+                                </router-link>
+                            </li>
+                        </ul>
                     </li>
+
+
                     <li :class="[$route.name == 'indexRepresentative'? 'active': '']" v-if="permission.includes('representative read')">
                         <router-link :to="{name:'indexRepresentative'}">
                             <i class="fas fa-user-tie "></i> <span class="mx-2">{{$t('global.representatives')}}</span>

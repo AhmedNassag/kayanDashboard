@@ -316,6 +316,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::post('updateOrderStatus/{id}','OrderController@updateOrderStatus');
             Route::post('assignRepresentativeToOrder','OrderController@assignRepresentativeToOrder');
             Route::get('get_representatives','OrderController@get_representatives');
+            Route::get('collect_order_by_date','OrderController@collect_order_by_date');
             //hold orders
             Route::post('holdOrder/{id}','OrderController@holdOrder');
             // cancel order

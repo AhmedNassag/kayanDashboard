@@ -9,12 +9,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 
 class VirtualStocksImport implements ToModel
 {
-    /**
-     * @param array $row
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function model(array $row)
+    public function __construct()
     {
         foreach(Price::where('supplier_id',request()->supplier_id)->get() as $price){
             $price->update(['quantity' => 0]);
@@ -29,6 +24,15 @@ class VirtualStocksImport implements ToModel
                 'price_id' => $price->id,
             ]);
         }
+    }
+    /**
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function model(array $row)
+    {
+        set_time_limit(60);
         if ($row && $row[0] && $row[1] && $row[2] && $row[3] && $row[4]) {
             $product = Product::where('product_code', $row[4])->first();
             if ($product) {

@@ -109,7 +109,7 @@
             </div>
             <!-- /Table -->
             <!-- start Pagination -->
-            <Pagination :data="pricesPaginate" @pagination-change-page="getPrice">
+            <Pagination :data="pricesPaginate" @pagination-change-page="getPrice" :limit="6">
                 <template #prev-nav>
                     <span>&lt; {{ $t("global.Previous") }}</span>
                 </template>

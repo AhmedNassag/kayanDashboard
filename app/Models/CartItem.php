@@ -29,4 +29,9 @@ class CartItem extends Model
     {
         return $this->product->nameEn;
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

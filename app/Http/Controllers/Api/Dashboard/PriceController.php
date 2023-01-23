@@ -37,7 +37,7 @@ class PriceController extends Controller
                 $q->when($request->filter_best_offers == 'best_offers', function ($q) use ($request) {
                     return $q->where('best_offer', 1);
                 });
-            })->latest()->paginate(10);
+            })->latest()->paginate(20);
         return $this->sendResponse(['prices' => $prices], 'Data exited successfully');
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\DailyOrdersLog;
 use App\Models\IncomeAndExpense;
 use App\Models\Order;
 use App\Models\Price;
@@ -293,6 +294,7 @@ class OrderController extends Controller
         }
         return response()->json([],404);
     }
+
     public function representative_refund_order(Request $request)
     {
         $user=$request->user();
@@ -301,6 +303,8 @@ class OrderController extends Controller
         }
         return response()->json([],404);
     }
+
+
     public function representative_orders(Request $request)
     {
         $user = $request->user();
@@ -314,6 +318,14 @@ class OrderController extends Controller
         ->latest()->get();
 
         return response()->json(['orders' => $orders]);
+    }
+
+    public function collect_order_by_date(Request $request)
+    {
+        $date = $request->date ?? now();
+        $products = DailyOrdersLog::collectOrdersPerDay($date)->paginate(20);
+        $products->setCollection(collect($products->items())->groupBy('product_code'));
+        return response()->json(['products' => $products]);
     }
 
 

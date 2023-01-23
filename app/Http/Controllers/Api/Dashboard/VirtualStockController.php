@@ -264,7 +264,7 @@ class VirtualStockController extends Controller
 
     public function saveExcelVirtualStock(Request $request)
     {
-        $path = $request->file('select_virtualStocks_file')->getRealPath();
+        $path = $request->file('select_virtualStocks_file');
         Excel::import(new VirtualStocksImport, $path);
     }
 
