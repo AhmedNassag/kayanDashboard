@@ -544,7 +544,7 @@
 
       const printPolica =async () => {
           $("#printDiv").printThis({
-              header: "<img src='/admin/img/Logo Dashboard.png' onerror='logo' style='width:100%;height:400px' > "
+              header: "<img src='/admin/img/Logo Dashboard.png' onerror='logo' style='width:100%;height:200px' > "
           });
       }
 

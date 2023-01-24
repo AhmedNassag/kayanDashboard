@@ -58,6 +58,11 @@ class Product extends Model
         return $this->hasMany(Purchase::class);
     }
 
+    public function cart_items()
+    {
+        return $this->hasMany(CartItem::class,'product_id');
+    }
+
     public function refuseds()
     {
         return $this->hasMany(Refused::class);

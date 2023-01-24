@@ -7,6 +7,7 @@ use App\Models\CartItem;
 use App\Models\Client;
 use App\Models\Order;
 use App\Models\Price;
+use App\Models\Supplier;
 use App\Models\User;
 use App\Traits\NotificationTrait;
 use Illuminate\Http\Request;
@@ -77,10 +78,10 @@ class StatisitcsController extends Controller
         return response()->json(['orders' => $orders]);
     }
 
-    public function supplier_details(User $user)
+    public function supplier_details(Supplier $supplier)
     {
-        $user->order_numbers = Order::where('order_status', '!=', 'Cart')->whereRelation('products', 'supplier_id', $user->id)->count();
-        return response()->json(['supplier' => $user]);
+        $supplier->order_numbers = Order::where('order_status', '!=', 'Cart')->whereRelation('products', 'supplier_id', $supplier->id)->count();
+        return response()->json(['supplier' => $supplier]);
     }
     public function supplier_orders(Request $request)
     {

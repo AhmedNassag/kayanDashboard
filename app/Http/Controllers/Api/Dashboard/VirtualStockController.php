@@ -28,7 +28,7 @@ class VirtualStockController extends Controller
      */
     public function index(Request $request)
     {
-        $virtualStocks = Supplier::where(['active'=>1, 'is_our_supplier'=>0])
+        $virtualStocks = Supplier::where('active',1)
         ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })->latest()->paginate(10);

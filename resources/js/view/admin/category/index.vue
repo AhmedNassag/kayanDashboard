@@ -84,7 +84,7 @@
                     {{ $t("global.Search") }}:
                     <input type="search" v-model="search" class="custom" />
                   </div>
-                  <div class="col-5 row justify-content-end">
+                  <div class="col-5 text-center">
                     <router-link
                       v-if="permission.includes('department create')"
                       :to="{ name: 'createCategory' }"
@@ -92,11 +92,16 @@
                     >
                       {{ $t("global.Add") }}
                     </router-link>
+                    <a
+                        class="btn btn-sm btn-secondary mx-2"
+                        @click.prevent="printSection()"
+                        ><i class="fa fa-print"></i> </a
+                    >
                   </div>
                 </div>
               </div>
               <div class="table-responsive">
-                <table class="table mb-0">
+                <table class="table mb-0" id="div">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -264,6 +269,10 @@ export default {
       }
     });
 
+    let printSection = () => {
+          $("#div").printThis({});
+        }
+
     function deleteCategory(id, index) {
       Swal.fire({
         title: `${t("global.AreYouSureDelete")}`,
@@ -351,6 +360,7 @@ export default {
       deleteCategory,
       activationCategory,
       categoriesPaginate,
+      printSection,
       categories,
       activeCategories,
       notActiveCategories,

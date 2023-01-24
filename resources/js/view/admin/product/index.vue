@@ -27,31 +27,64 @@
                         <loader v-if="loading"/>
                         <div class="card-body">
                             <div class="card-header pt-0">
-                                <div class="row justify-content-between">
+                                <div class="row justify-content-between mb-4">
                                     <div class="col-5">
                                         بحث :
                                         <input type="search" v-model="search" class="custom"/>
                                     </div>
-                                    <div class="col-5 row justify-content-end">
+                                    <div class="col-5 text-center">
                                         <router-link
                                             v-if="permission.includes('product create')"
                                            :to="{name: 'createProduct'}"
                                             class="btn btn-custom btn-warning">
                                             أضف
                                         </router-link>
+                                        <a
+                                            class="btn btn-sm btn-secondary mx-2"
+                                            @click.prevent="printSection()"
+                                            ><i class="fa fa-print"></i> </a
+                                        >
                                     </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="form-group col-4">
+                                        <label for="">{{ $t('global.Filter By Category') }}</label>
+                                        <select v-model="category_id" class="form-control" @change="getProduct">
+                                            <option value="">{{ $t('global.All Categories') }}</option>
+                                            <option :value="category.id" v-for="category in categories" :key="category.id">{{ category.name }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="">{{ $t('global.Filter Products') }}</label>
+                                        <select v-model="product_filter" class="form-control" @change="getProduct">
+                                            <option value="">{{ $t('global.All Products') }}</option>
+                                            <option value="most_seller">{{ $t('global.Most Seller') }}</option>
+                                            <option value="least_seller">{{ $t('global.Least Seller') }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label for="">{{ $t('global.Paginate Products') }}</label>
+                                        <select v-model="pagination" class="form-control" @change="getProduct">
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                            <option value="200">200</option>
+                                        </select>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table mb-0">
+                                <table class="table mb-0" id="div">
                                     <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>الصورة</th>
                                         <th>اسم المنتج بالعربية</th>
                                         <th>اسم المنتج بالإنجليزية</th>
                                         <th>الفئه</th>
                                         <th>الكود الدوائي</th>
-                                        <th>الصورة</th>
+                                        <th>الكمية المباعة</th>
                                         <th>الحاله</th>
                                         <th>الاجراءات</th>
                                     </tr>
@@ -59,10 +92,6 @@
                                     <tbody v-if="products.length">
                                     <tr v-for="(item,index) in products"  :key="item.id">
                                         <td>{{ item.id }}</td>
-                                        <td>{{ item.nameAr }}</td>
-                                        <td>{{ item.nameEn }}</td>
-                                        <td>{{ item.category ? item.category.name:'' }}</td>
-                                        <td>{{ item.product_code  }}</td>
                                         <td>
                                             <img
                                                 :src="item.image ? '/upload/product/' + item.image : '/admin/img/Logo Dashboard.png'"
@@ -70,6 +99,12 @@
                                                 class="custom-img"
                                             />
                                         </td>
+                                        <td>{{ item.nameAr }}</td>
+                                        <td>{{ item.nameEn }}</td>
+                                        <td>{{ item.category ? item.category.name:'' }}</td>
+                                        <td>{{ item.product_code  }}</td>
+                                        <td>{{ item.sold_quantity??0  }}</td>
+
                                         <td>
                                             <a href="#" @click="activationProduct(item.id,item.status,index)">
                                                 <span :class="[parseInt(item.status) ? 'text-success hover': 'text-danger hover']">{{
@@ -131,8 +166,12 @@ export default {
         // get packages
         let products = ref([]);
         let productsPaginate = ref({});
+        let categories = ref({});
         let loading = ref(false);
         const search = ref('');
+        const pagination = ref(25);
+        const product_filter = ref('');
+        const category_id = ref('');
         let store = useStore();
 
         let permission = computed(() => store.getters['authAdmin/permission']);
@@ -140,7 +179,7 @@ export default {
         let getProduct = (page = 1) => {
             loading.value = true;
 
-            adminApi.get(`/v1/dashboard/product?page=${page}&search=${search.value}`)
+            adminApi.get(`/v1/dashboard/product?page=${page}&search=${search.value}&pagination=${pagination.value}&category_id=${category_id.value}&product_filter=${product_filter.value}`)
                 .then((res) => {
                     let l = res.data.data;
                     productsPaginate.value = l.products;
@@ -156,6 +195,7 @@ export default {
 
         onMounted(() => {
             getProduct();
+            getCategories();
         });
 
 
@@ -164,6 +204,26 @@ export default {
                 getProduct();
             }
         });
+        const  getCategories = () => {
+        adminApi
+            .get(`/v1/dashboard/getCategories`)
+            .then((res) => {
+                categories.value =res.data.data.categories ;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+                this.errors = err.response.data.errors;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ...',
+                    text: `يوجد خطأ..!!`,
+                });
+            })
+            .finally(() => {
+                loading.value = false;
+            });
+    }
+
 
 
         function deleteProduct(id, index) {
@@ -232,8 +292,11 @@ export default {
                 }
             });
         }
+        let printSection = () => {
+          $("#div").printThis({});
+        }
 
-        return {getProduct, loading,permission, search, deleteProduct, activationProduct, productsPaginate,products};
+        return {getProduct, loading,permission,product_filter,pagination,category_id,printSection, search, deleteProduct, activationProduct, productsPaginate,products , categories};
 
     },
     data() {

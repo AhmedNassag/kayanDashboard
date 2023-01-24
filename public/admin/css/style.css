@@ -404,7 +404,7 @@ table.table td h2 span {
 .card-table .table td, .card-table .table th {
     border-top: 1px solid #e2e5e8;
     padding: 1rem 0.75rem;
-    white-space: nowrap;
+    white-space: normal;
 }
 .table .thead-light th {
     color: #495057;
@@ -426,7 +426,7 @@ div.dataTables_wrapper div.dataTables_length select {
 .table td, .table th {
 	border-left: transparent;
 	border-right: transparent;
-	white-space: nowrap;
+	white-space: normal;
 }
 .table .white-space {
 	white-space: initial;

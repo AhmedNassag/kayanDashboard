@@ -317,6 +317,8 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::post('assignRepresentativeToOrder','OrderController@assignRepresentativeToOrder');
             Route::get('get_representatives','OrderController@get_representatives');
             Route::get('collect_order_by_date','OrderController@collect_order_by_date');
+            Route::get('collect_orders_per_day_for_each_client','OrderController@collect_orders_per_day_for_each_client');
+            Route::post('updateDeficitForProduct','OrderController@updateDeficitForProduct');
             //hold orders
             Route::post('holdOrder/{id}','OrderController@holdOrder');
             // cancel order
@@ -409,7 +411,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('get_client_doesnt_have_orders', 'StatisitcsController@get_client_doesnt_have_orders');
             Route::get('web_clients', 'StatisitcsController@web_clients');
             Route::get('client_profile/{user}', 'StatisitcsController@client_details');
-            Route::get('supplier_profile/{user}', 'StatisitcsController@supplier_details');
+            Route::get('supplier_profile/{supplier}', 'StatisitcsController@supplier_details');
             Route::get('client_orders', 'StatisitcsController@client_orders');
             Route::get('supplier_orders', 'StatisitcsController@supplier_orders');
             Route::get('supplier_products', 'StatisitcsController@supplier_products');

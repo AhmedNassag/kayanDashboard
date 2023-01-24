@@ -28,7 +28,7 @@
       <!-- /Page Header -->
       <!-- Table -->
       <div class="row">
-          <div class="col-lg-8">
+          <div class="col-lg-8 mb-5">
             <div class="card">
               <loader v-if="loading" />
               <div class="card-body">
@@ -57,12 +57,17 @@
                         >
                             {{ $t('global.back') }}
                         </router-link>
+                        <a
+                            class="btn btn-sm btn-secondary mx-2"
+                            @click.prevent="printSection(supplier.name,'#supplierProductsDetails')"
+                            ><i class="fa fa-print"></i> </a
+                        >
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="table-responsive">
-                  <table class="table mb-0">
+                  <table class="table mb-0" id="supplierProductsDetails">
                     <thead>
                       <tr>
                         <th>{{ $t("global.Product Name") }}</th>
@@ -179,7 +184,7 @@
       </div>
       <div class="row">
 
-      <div class="col-lg-12">
+      <div class="col-lg-12" id="supplierSoldProducts">
         <div class="card">
           <loader v-if="loading" />
           <div class="card-body">
@@ -218,9 +223,14 @@
                     />
                   </div>
                   <div class="form-group col-md-2 col-sm-12">
-                    <label>.</label>
-                    <button
-                      class="btn btn-info d-block"
+                    <label class="d-block">.</label>
+
+                    <a
+                            class="btn btn-sm btn-secondary mx -2"
+                            @click.prevent="printSection(supplier.name,'#supplierSoldProducts')"
+                            ><i class="fa fa-print"></i> </a
+                        >                    <button
+                      class="btn btn-info"
                       @click.prevent="getSupplierOrders()"
                     >
                       {{ $t("global.Search") }}
@@ -387,6 +397,12 @@ export default {
         });
     };
 
+    const printSection =async (supplier_name , id) => {
+          $(id).printThis({
+              header: `<h1 class="text-center">${supplier_name}</h1>`
+          });
+      }
+
     onMounted(() => {
       getSupplier(props.id);
       getSupplierOrders();
@@ -428,6 +444,7 @@ export default {
       products,
       orders,
       product_logs,
+      printSection,
     };
   },
 };

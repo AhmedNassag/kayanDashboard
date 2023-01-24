@@ -1,24 +1,18 @@
 <template>
-    <div
-      :class="[
+    <div :class="[
         'page-wrapper',
         this.$i18n.locale == 'ar' ? 'page-wrapper-ar' : '',
-      ]"
-    >
-     <notifications
-          :position="this.$i18n.locale == 'ar' ? 'top left' : 'top right'"
-        />
+    ]">
+        <notifications :position="this.$i18n.locale == 'ar' ? 'top left' : 'top right'" />
 
-      <div class="content container-fluid">
+        <div class="content container-fluid">
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
                         <h3 class="page-title">{{ $t("global.CollectOrdersPerDay") }}</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <router-link
-                                    :to="{ name: 'dashboard', params: { lang: 'ar' } }"
-                                >
+                                <router-link :to="{ name: 'dashboard', params: { lang: 'ar' } }">
                                     {{ $t("dashboard.Dashboard") }}
                                 </router-link>
                             </li>
@@ -33,25 +27,19 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <loader v-if="loading"/>
+                        <loader v-if="loading" />
                         <div class="card-body">
                             <div class="card-header pt-0">
                                 <div class="row justify-content-between">
                                     <div class="col-12 row justify-content-end">
-                                            <div class="form-group row col-md-6">
-                                                    <label>{{ $t("global.Date") }}</label>
-                                                    <input
-                                                        type="date"
-                                                        class="form-control date-input"
-                                                        v-model="date"
-                                                        @change="collect_order_by_date"
-                                                    />
-                                            </div>
-                                            <div class="col-md-6 d-flex justify-content-end">
-                                            <button
-                                                @click="printExpense"
-                                                class="btn btn-success print-button  w-25 h-50 mt-4"
-                                            >
+                                        <div class="form-group row col-md-6">
+                                            <label>{{ $t("global.Date") }}</label>
+                                            <input type="date" class="form-control date-input" v-model="date"
+                                                @change="collect_order_by_date" />
+                                        </div>
+                                        <div class="col-md-6 d-flex justify-content-end">
+                                            <button @click.prevent="printExpense"
+                                                class="btn btn-success print-button  w-25 h-50 mt-4">
                                                 {{ $t("global.Print") }}
                                                 <i class="fa fa-print"></i>
                                             </button>
@@ -69,56 +57,54 @@
                             <div class="table-responsive" id="printExpense">
                                 <table class="table mb-0">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{ $t("global.Image") }}</th>
-                                        <th>{{ $t("treasury.NameAr") }}</th>
-                                        <th>{{ $t("treasury.NameEn") }}</th>
-                                        <th>{{ $t("global.Product code") }}</th>
-                                        <th>{{ $t("global.Quantity") }}</th>
-                                        <th>{{ $t("global.deficit in quantity") }}</th>
-                                        <th>{{ $t("global.Date") }}</th>
-                                        <th>{{ $t("global.Action") }}</th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{ $t("global.Image") }}</th>
+                                            <th>{{ $t("treasury.NameAr") }}</th>
+                                            <th>{{ $t("treasury.NameEn") }}</th>
+                                            <th>{{ $t("global.Product code") }}</th>
+                                            <th>{{ $t("global.Quantity") }}</th>
+                                            <th>{{ $t("global.deficit in quantity") }}</th>
+                                            <th>{{ $t("global.Date") }}</th>
+                                            <th>{{ $t("global.Action") }}</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr
-                                        v-if="Object.keys(products.data ?? {}).length"
-                                        v-for="(item, index) in products.data"
-                                        :key="item[0].id"
-                                    >
-                                        <td>{{ index + 1 }}</td>
-                                        <td>
-                                            <img
-                                                :src="item[0].image ? '/upload/product/' + item[0].image : '/admin/img/Logo Dashboard.png'"
-                                                :alt="item[0].name"
-                                                class="custom-img"
-                                                style="width:auto;height: 50px;"
-                                            />
-                                        </td>
-                                        <td style="white-space:normal">{{ item[0].nameAr }}</td>
-                                        <td style="white-space:normal">{{ item[0].nameEn }}</td>
-                                        <td>{{ item[0].product_code }}</td>
-                                        <td>{{ item[0].total_quantity }}</td>
-                                        <td>{{ item[0].deficit }}</td>
-                                        <td>{{ item[0].date }}</td>
-                                        <td>
-                                            <a
-                                                href="javascript:void(0);"
-                                                class="btn btn-sm btn-info me-2"
-                                                data-bs-toggle="modal"
-                                                @click="setProductDetaisl(item)"
-                                                data-bs-target="#showOrders"
-                                            >
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr v-else>
-                                        <th class="text-center" colspan="7">
-                                            {{ $t("treasury.NoDataFound") }}
-                                        </th>
-                                    </tr>
+                                        <tr v-if="Object.keys(products.data ?? {}).length"
+                                            v-for="(item, index) in products.data" :key="item[0].id">
+                                            <td>{{ index + 1 }}</td>
+                                            <td>
+                                                <img :src="item[0].image ? '/upload/product/' + item[0].image : '/admin/img/Logo Dashboard.png'"
+                                                    :alt="item[0].name" class="custom-img"
+                                                    style="width:auto;height: 50px;" />
+                                            </td>
+                                            <td style="white-space:normal">{{ item[0].nameAr }}</td>
+                                            <td style="white-space:normal">{{ item[0].nameEn }}</td>
+                                            <td>{{ item[0].product_code }}</td>
+                                            <td>{{ item[0].total_quantity }}</td>
+                                            <td>{{ item[0].deficit }}</td>
+                                            <td>{{ item[0].date }}</td>
+                                            <td>
+                                                <a v-if="permission.includes('CollectOrdersPerDay edit')"
+                                                    href="javascript:void(0);" class="btn btn-sm btn-success me-2"
+                                                    data-bs-toggle="modal"
+                                                    @click="editDeficit(item[0].log_id, item[0].nameAr, item[0].deficit)"
+                                                    data-bs-target="#editDeficit">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-info me-2"
+                                                    data-bs-toggle="modal"
+                                                    @click="setProductDetaisl(item, item[0].nameAr)"
+                                                    data-bs-target="#showOrders">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr v-else>
+                                            <th class="text-center" colspan="7">
+                                                {{ $t("treasury.NoDataFound") }}
+                                            </th>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -146,14 +132,9 @@
                     <!-- Modal Header -->
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            {{ $t("global.Product Details") }}
+                            {{ product_name }}
                         </h4>
-                        <button
-                            id="close-showOrders"
-                            type="button"
-                            class="close print-button"
-                            data-bs-dismiss="modal"
-                        >
+                        <button id="close-showOrders" type="button" class="close print-button" data-bs-dismiss="modal">
                             <span>&times;</span>
                         </button>
                     </div>
@@ -164,31 +145,77 @@
                             <div class="card-body pt-0">
                                 <table class="table table-center table-hover mb-0 datatable">
                                     <thead>
-                                    <tr>
-                                        <th>{{ $t("global.Order Number") }}</th>
-                                        <th>{{ $t("global.Order status") }}</th>
-                                        <th>{{ $t("global.Supplier Name") }}</th>
-                                        <th>{{ $t("global.Public Price") }}</th>
-                                        <th>{{ $t("global.Pharmacy Price") }}</th>
-                                        <th>{{ $t("global.Client Percentage") }}</th>
-                                        <th>{{ $t("global.Kayan Discount") }}</th>
-                                        <th>{{ $t("global.Quantity") }}</th>
-                                        <th>{{ $t("global.Action") }}</th>
-                                    </tr>
+                                        <tr>
+                                            <th>{{ $t("global.Order Number") }}</th>
+                                            <th>{{ $t("global.Order status") }}</th>
+                                            <th>{{ $t("global.Supplier Name") }}</th>
+                                            <th>{{ $t("global.Public Price") }}</th>
+                                            <th>{{ $t("global.Pharmacy Price") }}</th>
+                                            <th>{{ $t("global.Client Percentage") }}</th>
+                                            <th>{{ $t("global.Kayan Discount") }}</th>
+                                            <th>{{ $t("global.Quantity") }}</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(item, index) in showOrders" :key="item.order_id">
-                                        <td>{{ item.order_id }}</td>
-                                        <td>{{ $t('global.'+item.order_status) }}</td>
-                                        <td>{{ item.supplier_name }}</td>
-                                        <td>{{ item.unit_price_for_client }}</td>
-                                        <td>{{ item.unit_price_for_pharmacist }}</td>
-                                        <td>{{ item.discount_percentage }}</td>
-                                        <td>{{ item.kayan_discount }}</td>
-                                        <td>{{ item.quantity }}</td>
-                                    </tr>
+                                        <tr v-for="(item, index) in showOrders" :key="item.order_id">
+                                            <td>{{ item.order_id }}</td>
+                                            <td>{{ $t('global.'+ item.order_status) }}</td>
+                                            <td>{{ item.supplier_name }}</td>
+                                            <td>{{ item.unit_price_for_client }}</td>
+                                            <td>{{ item.unit_price_for_pharmacist }}</td>
+                                            <td>{{ item.discount_percentage }}</td>
+                                            <td>{{ item.kayan_discount }}</td>
+                                            <td>{{ item.quantity }}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Edit Modal -->
+        <!-- Edit Modal -->
+
+        <div class="modal fade custom-modal" id="editDeficit">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="print">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            {{ product_name }}
+                        </h4>
+                        <button id="close-editDeficit" type="button" class="close print-button" data-bs-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body row">
+                        <div class="card bg-white projects-card">
+                            <div class="card-body pt-0">
+                                <table class="table table-center table-hover mb-0 datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ $t("global.deficit in quantity") }}</th>
+                                            <th> <input type="text" class="form-control" v-model="edit_deficit"> </th>
+                                            <th> <button @click="updateDeficitForProduct" class="btn btn-info">
+                                                    {{ $t('global.Submit') }}
+                                                </button> </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody v-if="errors">
+                                        <tr>
+                                            <td v-if="errors['log_id']" class="text-danger">{{ errors['log_id'][0] }}</td>
+                                            <td v-if="errors['deficit']" class="text-danger">{{ errors['deficit'][0] }}</td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+
                             </div>
                         </div>
                     </div>
@@ -200,20 +227,26 @@
 </template>
 
 <script>
-import {onMounted, inject, watch, ref} from "vue";
-import {useStore} from "vuex";
+import { onMounted, inject, watch, ref, computed } from "vue";
+import { useStore } from "vuex";
 import adminApi from "../../../api/adminAxios";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
 export default {
     name: "index",
     setup() {
+        let store = useStore();
+        let permission = computed(() => store.getters['authAdmin/permission']);
 
         // get packages
         let showOrders = ref({});
         let products = ref({});
+        let errors = ref({});
         let date = ref(new Date().toJSON().slice(0, 10));
         let loading = ref(false);
+        let edit_log_id = ref("");
+        let edit_deficit = ref("");
+        let product_name = ref("");
         const search = ref("");
 
         let collect_order_by_date = (page = 1) => {
@@ -241,13 +274,8 @@ export default {
         });
 
         let printExpense = () => {
-            var printContents = document.getElementById("printExpense").innerHTML;
-            var originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
-            location.reload();
-        };
+          $("#printExpense").printThis({});
+        }
 
         onMounted(() => {
             collect_order_by_date();
@@ -264,8 +292,34 @@ export default {
         let dateFormat = (item) => {
             return new Date(item).toDateString();
         };
-        let setProductDetaisl = (item) => {
-             showOrders.value = item;
+
+        let setProductDetaisl = (item, productName) => {
+            product_name.value = productName
+            showOrders.value = item;
+        };
+
+        let editDeficit = (log_id, productName, deficit) => {
+            edit_log_id.value = log_id
+            edit_deficit.value = deficit
+            product_name.value = productName
+        };
+
+        let updateDeficitForProduct = () => {
+            loading.value = true;
+            errors.value= {}
+            adminApi
+                .post(`/v1/dashboard/updateDeficitForProduct`,{log_id:edit_log_id.value,deficit:edit_deficit.value})
+                .then((res) => {
+                    collect_order_by_date()
+                    $('#close-editDeficit').click()
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+                    errors.value = err.response.data.errors
+                })
+                .finally(() => {
+                    loading.value = false;
+                });
         };
 
         return {
@@ -276,8 +330,14 @@ export default {
             loading,
             collect_order_by_date,
             setProductDetaisl,
+            editDeficit,
             dateFormat,
             search,
+            updateDeficitForProduct,
+            edit_deficit,
+            errors,
+            product_name,
+            permission
         };
     },
 };
@@ -324,12 +384,13 @@ export default {
     margin-top: 38px !important;
 }
 
-.date-input{
+.date-input {
     width: 50% !important;
     display: inline-block !important;
     margin: 0px 8px 0 8px !important;
 }
-.select-input{
+
+.select-input {
     width: 235px !important;
     display: inline-block !important;
     margin: 0px 8px 0 8px !important;

@@ -1203,6 +1203,12 @@
                                     {{$t('global.CollectOrdersPerDay')}}
                                 </router-link>
                             </li>
+                            <li :class="[$route.name == 'collect_orders_per_day_for_each_client'? 'active': '']"
+                             v-if="permission.includes('CollectOrdersPerDay read')">
+                                <router-link :to="{name:'collect_orders_per_day_for_each_client'}">
+                                    {{$t('global.collect_orders_per_day_for_each_client')}}
+                                </router-link>
+                            </li>
                         </ul>
                     </li>
 

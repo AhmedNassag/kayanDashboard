@@ -262,7 +262,7 @@
                                     />
                                     {{ item.representative.name }}</span
                                   >
-                                  <span v-else>-------</span>
+                                  <span v-else>-</span>
                               </div>
                             </div>
                             <!--End representative-->

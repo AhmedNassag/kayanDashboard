@@ -161,6 +161,13 @@ class OrderController extends Controller
         foreach ($order->products()->get() as $cart_item) {
             $price = Price::where('product_id', $cart_item->product_id)->where('supplier_id', $cart_item->supplier_id)->first();
             $price->update(['quantity' => $cart_item->quantity + $price->quantity]);
+
+            $product_log = DailyOrdersLog::whereDate('date',$order->created_at)->where('product_id',$cart_item->product_id)->first();
+            $deficit_after_cancel_or_refund_order =$product_log->deficit - $cart_item->quantity;
+            $product_log->update([
+                'quantity' => $product_log->quantity - $cart_item->quantity ,
+                'deficit' =>  $deficit_after_cancel_or_refund_order > 0 ?$deficit_after_cancel_or_refund_order : 0,
+            ]);
         }
     }
 
@@ -170,10 +177,7 @@ class OrderController extends Controller
         $amount = $order->order_status == 'Shipping' ? $order->total_amount - $order->shipping_cost : $order->total_amount;
         if ($order->order_status == 'Refund' || ($order->payment_method == 'Online' && !$this->makeRefundRequest($amount, $order->invoice_id)))
             return;
-        foreach ($order->products()->get() as $cart_item) {
-            $price = Price::where('product_id', $cart_item->product_id)->where('supplier_id', $cart_item->supplier_id)->first();
-            $price->update(['quantity' => $cart_item->quantity + $price->quantity]);
-        }
+       $this->returnProductToStock($order);
         $this->putCommissionInIncomes($amount,$order->user->name,['expense_id' =>1,'notes' => "مقابل ارجاع منتجات. رقم الطلب ($order->id) "]);
         // $this->notifiy($order->customer,$order->id,'Order Number ('. $order->id.') returned', " $order->id تم ارجاع الطلب رقم " );
         $order->update(['payment_status' => 'Failed', 'order_status' => 'Refund', 'refund_amount' => $amount]);
@@ -326,6 +330,21 @@ class OrderController extends Controller
         $products = DailyOrdersLog::collectOrdersPerDay($date)->paginate(20);
         $products->setCollection(collect($products->items())->groupBy('product_code'));
         return response()->json(['products' => $products]);
+    }
+    public function collect_orders_per_day_for_each_client(Request $request)
+    {
+        $date = $request->date ?? now()->format('Y-m-d');
+        $users = User::whereRelation('orders','created_at','like',"%$date%")->with();
+        $products = DailyOrdersLog::collectOrdersPerDay($date)->paginate(20);
+        $products->setCollection(collect($products->items())->groupBy('product_code'));
+        return response()->json(['products' => $products]);
+    }
+
+    public function updateDeficitForProduct(Request $request)
+    {
+        $request->validate(['log_id' => 'required|exists:daily_orders_logs,id','deficit' => 'required|numeric|gte:0']);
+        DailyOrdersLog::find($request->log_id)->update(['deficit' => $request->deficit]);
+        return response()->json([],200);
     }
 
 

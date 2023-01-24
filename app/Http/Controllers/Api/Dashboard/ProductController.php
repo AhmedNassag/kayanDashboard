@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
@@ -36,16 +37,32 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::with('category:id,name', 'tax:id,name','pharmacistForm:id,name')
-            ->when($request->search,function($q) use($request) {
+        $query = Product::with('category:id,name', 'tax:id,name','pharmacistForm:id,name')
+        ->withSum(['cart_items as sold_quantity' => function ($query) {
+            $query->whereHas('order' , function ($query) {
+                $query->whereIn('order_status' , ['Pending','Shipping','Processing','Completed']);
+            });
+        }], 'quantity')
+        ->where(function($q) use($request){
+            $q->when($request->search,function($q) use($request) {
                 $q->where('nameAr' ,'like',"%$request->search%")
                 ->orWhere('nameEn' ,'like',"%$request->search%")
                 ->orWhere('effectiveMaterial' ,'like',"%$request->search%")
                 ->orWhere('barcode' ,'like',"%$request->search%")
                 ->orWhere('product_code' ,'like',"%$request->search%");
-            })
-           ->latest()->paginate(15);
-
+            });
+        })
+        ->where(function($q) use($request){
+            $q->when($request->category_id,function($q) use($request) {
+                $q->whereRelation('category','id',$request->category_id);
+            });
+        });
+        if($request->product_filter){
+            $query->orderBy('sold_quantity',$request->product_filter == 'least_seller' ? 'asc' :'desc');
+        }else{
+            $query->latest();
+        }
+        $products = $query->paginate( $request->pagination ?? 25 );
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }
 
