@@ -52,18 +52,39 @@ class StatisitcsController extends Controller
     }
     public function web_clients(Request $request)
     {
-        $clients = User::with('client')->whereRelation('client', function($q) use($request){
+        $clients_query = User::
+        with('client')
+        ->withSum(['cart_items as bought_quantity' => function ($query) {
+            $query->whereHas('order' , function ($query) {
+                $query->whereIn('order_status' , ['Pending','Shipping','Processing','Completed']);
+            });
+        }], 'quantity')
+        ->withSum(['orders as total_amount' => function ($query) {
+                $query->whereIn('order_status' , ['Pending','Shipping','Processing','Completed']);
+        }], 'total_amount')
+        ->whereRelation('client', function($q) use($request){
             $q->where('platform_type', 'like',"%$request->platform%")
                 ->where('platform_type', '!=', 'DIRECT_SALE');
         })
-            ->where(function ($q) use ($request) {
-                $q->when($request->search, function ($q) use ($request) {
-                    $q->where("name", "like", "%$request->search%")
-                        ->orWhere("phone", "like", "%$request->search%")
-                        ->orWhere("email", "like", "%$request->search%");
-                });
-            })
-            ->latest()->paginate(10);
+        ->where(function ($q) use ($request) {
+            $q->when($request->search, function ($q) use ($request) {
+                $q->where("name", "like", "%$request->search%")
+                    ->orWhere("phone", "like", "%$request->search%")
+                    ->orWhere("email", "like", "%$request->search%");
+            });
+        })
+        ->where(function ($q) use ($request) {
+            $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
+                $q->whereDate("created_at",'>=', $request->from_date)
+                ->whereDate("created_at",'<=', $request->to_date);
+            });
+        });
+        if($request->product_filter){
+            $clients_query->orderBy(strpos($request->product_filter,'bought') ? 'bought_quantity' : 'total_amount',strpos($request->product_filter,'least') ? 'asc' :'desc');
+        }else{
+            $clients_query->latest();
+        }
+         $clients= $clients_query->latest()->paginate($request->pagination ?? 25);
 
         return response()->json(['clients' => $clients]);
     }

@@ -61,7 +61,7 @@
                     <div class="card wizard-card flex-fill">
                         <div class="card-body text-center">
                             <p class="text-primary mt-0 mb-2">{{ $t("global.Products") }}</p>
-                            <h5>{{products.length}}</h5>
+                            <h5>{{products}}</h5>
                         </div>
                     </div>
                 </div>
@@ -80,11 +80,18 @@
             <div class="card-body">
               <div class="card-header pt-0">
                 <div class="row justify-content-between">
-                  <div class="col-5">
+                  <div class="col-4">
                     {{ $t("global.Search") }}:
                     <input type="search" v-model="search" class="custom" />
                   </div>
-                  <div class="col-5 text-center">
+                  <div class="col-4">
+                        <select v-model="product_filter" class="form-control" @change="getCategory">
+                            <option value="">{{ $t('global.All Products') }}</option>
+                            <option value="most_seller">{{ $t('global.Most Seller') }}</option>
+                            <option value="least_seller">{{ $t('global.Least Seller') }}</option>
+                        </select>
+                    </div>
+                  <div class="col-4 text-center">
                     <router-link
                       v-if="permission.includes('department create')"
                       :to="{ name: 'createCategory' }"
@@ -109,7 +116,7 @@
                       <th>{{ $t("global.Image") }}</th>
                       <th>{{ $t("global.Code Number") }}</th>
                       <th>{{ $t("global.Status") }}</th>
-                      <th>{{ $t("global.Created_At") }}</th>
+                      <th>{{ $t("global.Sold Quantity") }}</th>
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
                   </thead>
@@ -144,7 +151,7 @@
                           >
                         </a>
                       </td>
-                      <td>{{ item.added_at }}</td>
+                      <td>{{ item.sold_quantity ?? 0 }}</td>
                       <td>
                         <router-link
                           :to="{
@@ -223,6 +230,7 @@ export default {
     let categoriesPaginate = ref({});
     let loading = ref(false);
     const search = ref("");
+    const product_filter = ref("");
     let store = useStore();
 
     let permission = computed(() => store.getters["authAdmin/permission"]);
@@ -231,7 +239,7 @@ export default {
       loading.value = true;
 
       adminApi
-        .get(`/v1/dashboard/category?page=${page}&search=${search.value}`)
+        .get(`/v1/dashboard/category?page=${page}&search=${search.value}&product_filter=${product_filter.value}`)
         .then((res) => {
           let l = res.data.data;
           categoriesPaginate.value = l.categories;
@@ -364,6 +372,7 @@ export default {
       categories,
       activeCategories,
       notActiveCategories,
+      product_filter,
       products,
     };
   },

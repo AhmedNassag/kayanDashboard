@@ -24,20 +24,26 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::with('media:file_name,mediable_id')
+        $categories_query = Category::with('media:file_name,mediable_id')
+        ->withSum(['cart_items as sold_quantity' => function ($query) {
+            $query->whereHas('order' , function ($query) {
+                $query->whereIn('order_status' , ['Pending','Shipping','Processing','Completed']);
+            });
+        }], 'quantity')
         ->when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%')
             ->orWhere('code', 'like', '%' . $request->search . '%');
-        })->latest()->paginate(10);
-
-        foreach($categories as $category)
-        {
-            $category->setAttribute('added_at',$category->created_at->format('Y-m-d'));
+        });
+        if($request->product_filter){
+            $categories_query->orderBy('sold_quantity',$request->product_filter == 'least_seller' ? 'asc' :'desc');
+        }else{
+            $categories_query->latest();
         }
+        $categories = $categories_query ->latest()->paginate(10);
 
         $activeCategories = Category::where('status', 1)->get();
         $notActiveCategories = Category::where('status', 0)->get();
-        $products = Product::where('status',1)->get();
+        $products = Product::count();
         return $this->sendResponse(['categories' => $categories,'activeCategories' => $activeCategories,'notActiveCategories' => $notActiveCategories, 'products' => $products], 'Data exited successfully');
     }
 

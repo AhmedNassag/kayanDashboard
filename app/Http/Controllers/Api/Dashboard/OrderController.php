@@ -334,10 +334,12 @@ class OrderController extends Controller
     public function collect_orders_per_day_for_each_client(Request $request)
     {
         $date = $request->date ?? now()->format('Y-m-d');
-        $users = User::whereRelation('orders','created_at','like',"%$date%")->with();
-        $products = DailyOrdersLog::collectOrdersPerDay($date)->paginate(20);
-        $products->setCollection(collect($products->items())->groupBy('product_code'));
-        return response()->json(['products' => $products]);
+        $users = User::
+        whereRelation('orders','created_at','like',"%$date%")
+        ->with(['orders' => function($q) use($date) {
+            $q->where('created_at','like',"%$date%");
+        },'orders.products'])->latest()->paginate(10);
+        return response()->json(['users' => $users]);
     }
 
     public function updateDeficitForProduct(Request $request)

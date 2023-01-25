@@ -16,7 +16,8 @@
                                     {{ $t("dashboard.Dashboard") }}
                                 </router-link>
                             </li>
-                            <li class="breadcrumb-item active">{{ $t("global.collect_orders_per_day_for_each_client") }}</li>
+                            <li class="breadcrumb-item active">{{ $t("global.collect_orders_per_day_for_each_client") }}
+                            </li>
 
                         </ul>
                     </div>
@@ -38,7 +39,7 @@
                                                 @change="collect_orders_per_day_for_each_client" />
                                         </div>
                                         <div class="col-md-6 d-flex justify-content-end">
-                                            <button @click.prevent="printExpense"
+                                            <button @click.prevent="printSection('#printUsers')"
                                                 class="btn btn-success print-button  w-25 h-50 mt-4">
                                                 {{ $t("global.Print") }}
                                                 <i class="fa fa-print"></i>
@@ -54,47 +55,36 @@
                                     </div> -->
                                 </div>
                             </div>
-                            <div class="table-responsive" id="printExpense">
+                            <div class="table-responsive" id="printUsers">
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>{{ $t("global.Image") }}</th>
-                                            <th>{{ $t("treasury.NameAr") }}</th>
-                                            <th>{{ $t("treasury.NameEn") }}</th>
-                                            <th>{{ $t("global.Product code") }}</th>
-                                            <th>{{ $t("global.Quantity") }}</th>
-                                            <th>{{ $t("global.deficit in quantity") }}</th>
-                                            <th>{{ $t("global.Date") }}</th>
+                                            <th>{{ $t("global.Name") }}</th>
+                                            <th>{{ $t("global.Email") }}</th>
+                                            <th>{{ $t("global.Phone") }}</th>
                                             <th>{{ $t("global.Action") }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-if="Object.keys(products.data ?? {}).length"
-                                            v-for="(item, index) in products.data" :key="item[0].id">
+                                        <tr v-if="Object.keys(users.data ?? {}).length"
+                                            v-for="(item, index) in users.data" :key="item.id">
                                             <td>{{ index + 1 }}</td>
                                             <td>
-                                                <img :src="item[0].image ? '/upload/product/' + item[0].image : '/admin/img/Logo Dashboard.png'"
-                                                    :alt="item[0].name" class="custom-img"
+                                                <img :src="item.image ? '/upload/' + item.image : '/admin/img/Logo Dashboard.png'"
+                                                    :alt="item.name" class="custom-img"
                                                     style="width:auto;height: 50px;" />
                                             </td>
-                                            <td style="white-space:normal">{{ item[0].nameAr }}</td>
-                                            <td style="white-space:normal">{{ item[0].nameEn }}</td>
-                                            <td>{{ item[0].product_code }}</td>
-                                            <td>{{ item[0].total_quantity }}</td>
-                                            <td>{{ item[0].deficit }}</td>
-                                            <td>{{ item[0].date }}</td>
+                                            <td style="white-space:normal">{{ item.name }}</td>
+                                            <td>{{ item.email }}</td>
+                                            <td>{{ item.phone }}</td>
+
                                             <td>
-                                                <a v-if="permission.includes('CollectOrdersPerDay edit')"
-                                                    href="javascript:void(0);" class="btn btn-sm btn-success me-2"
-                                                    data-bs-toggle="modal"
-                                                    @click="editDeficit(item[0].log_id, item[0].nameAr, item[0].deficit)"
-                                                    data-bs-target="#editDeficit">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
+
                                                 <a href="javascript:void(0);" class="btn btn-sm btn-info me-2"
                                                     data-bs-toggle="modal"
-                                                    @click="setProductDetails(item, item[0].nameAr)"
+                                                    @click="setUserDetails(item.orders, item.name)"
                                                     data-bs-target="#showOrders">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
@@ -114,7 +104,7 @@
             </div>
             <!-- /Table -->
             <!-- start Pagination -->
-            <Pagination :limit="2" :data="products" @pagination-change-page="collect_orders_per_day_for_each_client">
+            <Pagination :limit="2" :data="users" @pagination-change-page="collect_orders_per_day_for_each_client">
                 <template #prev-nav>
                     <span>&lt; {{ $t("global.Previous") }}</span>
                 </template>
@@ -132,15 +122,20 @@
                     <!-- Modal Header -->
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            {{ product_name }}
+                            {{ client_name }}
                         </h4>
                         <button id="close-showOrders" type="button" class="close print-button" data-bs-dismiss="modal">
                             <span>&times;</span>
                         </button>
+                        <button @click.prevent="printSection('#printOrders', client_name)"
+                            class="btn btn-success print-button mt-4" style="position:absolute;left:90px;top:10px">
+                            {{ $t("global.Print") }}
+                            <i class="fa fa-print"></i>
+                        </button>
                     </div>
 
                     <!-- Modal body -->
-                    <div class="modal-body row">
+                    <div class="modal-body row" id="printOrders">
                         <div class="card bg-white projects-card">
                             <div class="card-body pt-0">
                                 <table class="table table-center table-hover mb-0 datatable">
@@ -148,24 +143,27 @@
                                         <tr>
                                             <th>{{ $t("global.Order Number") }}</th>
                                             <th>{{ $t("global.Order status") }}</th>
-                                            <th>{{ $t("global.Supplier Name") }}</th>
-                                            <th>{{ $t("global.Public Price") }}</th>
-                                            <th>{{ $t("global.Pharmacy Price") }}</th>
-                                            <th>{{ $t("global.Client Percentage") }}</th>
-                                            <th>{{ $t("global.Kayan Discount") }}</th>
-                                            <th>{{ $t("global.Quantity") }}</th>
+                                            <th>{{ $t("global.Total Amount") }}</th>
+                                            <th>{{ $t("global.Date") }}</th>
+                                            <th>{{ $t("global.Address") }}</th>
+                                            <th>{{ $t("global.Action") }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(item, index) in showOrders" :key="item.order_id">
-                                            <td>{{ item.order_id }}</td>
+                                        <tr v-for="(item, index) in showOrders" :key="item.id">
+                                            <td>{{ item.id }}</td>
                                             <td>{{ $t('global.'+ item.order_status) }}</td>
-                                            <td>{{ item.supplier_name }}</td>
-                                            <td>{{ item.unit_price_for_client }}</td>
-                                            <td>{{ item.unit_price_for_pharmacist }}</td>
-                                            <td>{{ item.discount_percentage }}</td>
-                                            <td>{{ item.kayan_discount }}</td>
-                                            <td>{{ item.quantity }}</td>
+                                            <td>{{ item.total_amount }}</td>
+                                            <td>{{ item.created_at }}</td>
+                                            <td>{{ item.city_name + " / " + item.area_name }}</td>
+                                            <td>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-info me-2"
+                                                     @click="setOrderDetails(item.products,item.id)"
+                                                    >
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -177,6 +175,60 @@
         </div>
         <!-- /Edit Modal -->
         <!-- Edit Modal -->
+        <div class="modal fade custom-modal" id="showProducts">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            {{ client_name }} ({{ order_id }})
+                        </h4>
+                        <button id="close-showProducts" type="button" class="close print-button"
+                            data-bs-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                        <button @click.prevent="printSection('#printProducts', client_name)"
+                            class="btn btn-success print-button mt-4" style="position:absolute;left:90px;top:10px">
+                            {{ $t("global.Print") }}
+                            <i class="fa fa-print"></i>
+                        </button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body row" id="printProducts">
+                        <div class="card bg-white projects-card">
+                            <div class="card-body pt-0">
+                                <table class="table table-center table-hover mb-0 datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ $t("global.Product Name") }}</th>
+                                            <th>{{ $t("global.Supplier Name") }}</th>
+                                            <th>{{ $t("global.Pharmacy Price") }}</th>
+                                            <th>{{ $t("global.Public Price") }}</th>
+                                            <!-- <th>{{ $t("global.Discount Percentage") }}</th> -->
+                                            <th>{{ $t("global.Quantity") }}</th>
+                                            <th>{{ $t("global.Subtotal") }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="product in showProducts" :key="product.id">
+                                            <td>{{ product.product_name_ar + "/" + product.product_name_en }}</td>
+                                            <td>{{ product.supplier_name }}</td>
+                                            <td>{{ product.unit_price_for_pharmacist }}</td>
+                                            <td>{{ product.unit_price_for_client }}</td>
+                                            <!-- <td>{{ product.discount_percentage }}</td> -->
+                                            <td>{{ product.quantity }}</td>
+                                            <td>{{ product.total_amount }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Edit Modal -->
 
 
     </div>
@@ -196,21 +248,20 @@ export default {
 
         // get packages
         let showOrders = ref({});
-        let products = ref({});
+        let showProducts = ref({});
+        let users = ref({});
         let date = ref(new Date().toJSON().slice(0, 10));
         let loading = ref(false);
-        let product_name = ref("");
+        let client_name = ref("");
+        let order_id = ref("");
         const search = ref("");
 
         let collect_orders_per_day_for_each_client = (page = 1) => {
             loading.value = true;
-
             adminApi
-                .get(
-                    `/v1/dashboard/collect_orders_per_day_for_each_client?page=${page}&search=${search.value}&date=${date.value}`
-                )
+                .get(`/v1/dashboard/collect_orders_per_day_for_each_client?page=${page}&search=${search.value}&date=${date.value}`)
                 .then((res) => {
-                    products.value = res.data.products;
+                    users.value = res.data.users;
                 })
                 .catch((err) => {
                     console.log(err.response.data);
@@ -226,8 +277,10 @@ export default {
             }
         });
 
-        let printExpense = () => {
-          $("#printExpense").printThis({});
+        let printSection = (id, client_name = '') => {
+            $(id).printThis({
+                'header': `${client_name}`
+            });
         }
 
         onMounted(() => {
@@ -239,23 +292,32 @@ export default {
             return new Date(item).toDateString();
         };
 
-        let setProductDetails = (item, productName) => {
-            product_name.value = productName
+        let setUserDetails = (item, clientName) => {
+            client_name.value = clientName
             showOrders.value = item;
+        };
+
+        let setOrderDetails = (item,orderId) => {
+            showProducts.value = item;
+            order_id.value = orderId;
+            $('#showProducts').modal('toggle')
         };
 
 
         return {
-            products,
-            printExpense,
+            users,
+            printSection,
             date,
             showOrders,
+            showProducts,
             loading,
             collect_orders_per_day_for_each_client,
-            setProductDetails,
+            setUserDetails,
             dateFormat,
             search,
-            product_name,
+            order_id,
+            client_name,
+            setOrderDetails,
             permission
         };
     },

@@ -198,6 +198,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Order::class);
     }
+    public function cart_items()
+    {
+        return $this->hasManyThrough(CartItem::class,Order::class);
+    }
 
 
 

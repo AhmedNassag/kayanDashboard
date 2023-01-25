@@ -179,7 +179,10 @@ class AdvertiserScheduleController extends Controller
         $start_date = Carbon::parse($request->start)->format('Y-m-d H:i');
 
         foreach ($AdvertiseSchedules as $AdvertiseSchedule) {
-            if ((($AdvertiseSchedule->start <= $start_date) && ($AdvertiseSchedule->end >= $start_date)) || (($AdvertiseSchedule->start <= $end_date) && ($AdvertiseSchedule->end >= $end_date))) {
+            if ($id != $AdvertiseSchedule->id &&
+                (($AdvertiseSchedule->start <= $start_date)
+                && ($AdvertiseSchedule->end >= $start_date))
+                || (($AdvertiseSchedule->start <= $end_date) && ($AdvertiseSchedule->end >= $end_date))) {
                 return $this->sendError('للأسف هذه الفترة محجوزة', 401);
             }
         }

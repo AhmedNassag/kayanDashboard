@@ -51,12 +51,49 @@
                       >
                         {{$t('global.Send Notification to All Clients')}}<i class="fa fa-comment-dots"></i>
                       </a>
+                      <a
+                            class="btn btn-sm btn-secondary mx-2 mt-4"
+                            @click.prevent="printSection()"
+                            ><i class="fa fa-print"></i> </a
+                        >
                   </div>
+
+                </div>
+                <div class="row justify-content-between">
+                    <div class=" col-6 row">
+                        <div class="form-group col-6">
+                            <label for="">{{ $t('global.From') }}</label>
+                            <input type="date" v-model="from_date" class="form-control" @change="getClients">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="">{{ $t('global.To') }}</label>
+                            <input type="date" v-model="to_date" class="form-control" @change="getClients">
+                        </div>
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="">{{ $t('global.Filter Products') }}</label>
+                        <select v-model="product_filter" class="form-control" @change="getClients">
+                            <option value="">{{ $t('global.All Clients') }}</option>
+                            <option value="most_bought_quantity">{{ $t('global.Most Bought Quantity') }}</option>
+                            <option value="least_bought_quantity">{{ $t('global.Least Bought Quantity') }}</option>
+                            <option value="most_amount">{{ $t('global.Most Amount') }}</option>
+                            <option value="least_amount">{{ $t('global.Least Amount') }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="">{{ $t('global.Paginate Products') }}</label>
+                        <select v-model="pagination" class="form-control" @change="getClients">
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                        </select>
+                    </div>
 
                 </div>
               </div>
               <div class="table-responsive">
-                <table class="table mb-0">
+                <table class="table mb-0" id="div">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -64,6 +101,9 @@
                       <th>{{ $t("global.Phone") }}</th>
                       <th>{{ $t("global.Email") }}</th>
                       <th>{{ $t("global.Platform") }}</th>
+                      <th>{{ $t("global.Total Amount") }}</th>
+                      <th>{{ $t("global.bought_quantity") }}</th>
+                      <th>{{ $t("global.Date") }}</th>
                       <th>{{ $t("global.Status") }}</th>
                       <th>{{ $t("global.Show") }}</th>
                     </tr>
@@ -75,6 +115,9 @@
                       <td>{{ client.phone }}</td>
                       <td>{{ client.email }}</td>
                       <td>{{ client.client.platform_type == 'WEB' ? $t('global.Website'): $t('global.mobile app') }}</td>
+                      <td>{{ client.total_amount }}</td>
+                      <td>{{ client.bought_quantity }}</td>
+                      <td>{{ printDate(client.created_at) }}</td>
                       <td>
                         <button
                           class="active"
@@ -222,13 +265,20 @@ export default {
     const platform = ref('')
     const notification = ref('')
     const notification_type = ref('')
+    const from_date = ref('')
+    const to_date = ref('')
+    const product_filter = ref('')
+    const pagination = ref(25)
     const client_notification_id = ref(0)
     const search = ref('')
     const getClients = async(page = 1 ) => {
-      adminApi.get(`/v1/dashboard/web_clients?page=${page}&search=${search.value}&platform=${platform.value}`).then((response) => {
+      adminApi.get(`/v1/dashboard/web_clients?page=${page}&search=${search.value}&platform=${platform.value}&from_date=${from_date.value}&to_date=${to_date.value}&product_filter=${product_filter.value}&pagination=${pagination.value}`).then((response) => {
         clients.value = response.data.clients;
       })
     }
+    let printSection = () => {
+          $("#div").printThis({});
+        }
 
     onMounted(() => {
       getClients()
@@ -315,12 +365,22 @@ export default {
         })
     }
 
+    function printDate(date){
+        return new Date(date).toDateString();
+    }
+
 
 
     return {
       getClients,
       toggleActivation,
+      printDate,
       sendNotification,
+      product_filter,
+      from_date,
+      to_date,
+      printSection,
+      pagination,
       client_notification_id,title,notification,errors,
       clients,notification_type,search,platform
     };

@@ -34,6 +34,10 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+    public function cart_items()
+    {
+        return $this->hasManyThrough(CartItem::class,Product::class);
+    }
 
     public function purchases()
     {
