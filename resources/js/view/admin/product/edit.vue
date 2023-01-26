@@ -228,7 +228,6 @@
                         />
                         <div class="valid-feedback">تبدو جيده</div>
                         <div class="invalid-feedback">
-
                           <span v-if="v$.effectiveMaterial.maxLength.$invalid">
                             يجب ان يكون علي الاقل
                             {{ v$.effectiveMaterial.minLength.$params.min }} حرف
@@ -265,7 +264,6 @@
                           </option>
                         </select>
                         <div class="valid-feedback">تبدو جيده</div>
-
                       </div>
                       <!--End Pharmacist Form-->
 
@@ -488,7 +486,6 @@
                           }"
                         ></textarea>
                         <div class="valid-feedback">تبدو جيده</div>
-
                       </div>
                       <!--End Description-->
 

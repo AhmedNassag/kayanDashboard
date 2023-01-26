@@ -1107,7 +1107,6 @@ export default {
     let stores = ref([]);
     let alternatives = ref([]);
 
-
     //start design
     let addProduct = reactive({
       data: {

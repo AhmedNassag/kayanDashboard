@@ -298,7 +298,6 @@ class OrderController extends Controller
         }
         return response()->json([],404);
     }
-
     public function representative_refund_order(Request $request)
     {
         $user=$request->user();
