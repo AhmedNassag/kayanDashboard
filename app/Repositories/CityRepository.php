@@ -20,8 +20,18 @@ class CityRepository
         return $city;
     }
 
-    public function getPage($pageSize, $text)
+    public function getPage($pageSize = 10, $text)
     {
-        return City::where("name", "like", "%$text%")->paginate($pageSize);
+        $city_query =  City::where("name", "like", "%$text%")
+        ->withCount(['orders as number_of_orders' =>function($q) {
+            $q->whereIn('order_status' , ['Pending','Shipping','Processing','Completed']);
+        }]);
+        if(request()->city_filter){
+            $city_query->orderBy('number_of_orders',request()->city_filter == 'least_ordered' ? 'asc' :'desc');
+        }else{
+            $city_query->latest();
+        }
+        return  $city_query->paginate($pageSize);
+
     }
 }

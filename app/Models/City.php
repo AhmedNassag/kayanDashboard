@@ -17,4 +17,10 @@ class City extends Model
     {
         return $this->name;
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class,'city_id');
+    }
+
 }

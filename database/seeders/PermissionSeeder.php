@@ -450,6 +450,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'CapitalOwnerAccount create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
             ['name' => 'CapitalOwnerAccount edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
             ['name' => 'CapitalOwnerAccount delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierDues read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierDues edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
 
 

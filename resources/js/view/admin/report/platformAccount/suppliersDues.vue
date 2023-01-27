@@ -107,7 +107,7 @@
                                         <th>{{ $t("global.Supplier Name") }}</th>
                                         <th>{{ $t("global.Phone") }}</th>
                                         <th>{{ $t("global.Address") }}</th>
-                                        <th>{{ $t("global.Number of orders") }}</th>
+                                        <th>{{ $t("global.Number of Orders") }}</th>
                                         <th>{{ $t("global.Amount") }}</th>
                                         <th>{{ $t("global.Action") }}</th>
                                     </tr>
@@ -196,7 +196,7 @@
                                     <tbody>
                                     <tr v-for="(item, index) in showOrders" :key="item.id">
                                         <td>{{ item.id }}</td>
-                                        <td>{{Math.round((item.pivot.sub_total - (item.pivot.sub_total*item.commission_percentage/100))*100) / 100 + " " + $t('global.LE')}}</td>
+                                        <td>{{Math.round((item.pivot.sub_total)*100) / 100 + " " + $t('global.LE')}}</td>
                                         <td>
                                             {{ item.pivot.dues == 0 ? $t('global.unpaid') : $t('global.paid') }}
                                         </td>
@@ -272,10 +272,10 @@ export default {
             location.reload();
         };
 
-        const sumOrders = (orders,commission_percentage) => {
+        const sumOrders = (orders) => {
         let sum = 0 ;
         orders.forEach(element => {
-            sum += element.pivot.sub_total - (element.pivot.sub_total*element.commission_percentage/100)
+            sum += element.pivot.sub_total
         });
         return  Math.round(sum * 100) / 100;
     }

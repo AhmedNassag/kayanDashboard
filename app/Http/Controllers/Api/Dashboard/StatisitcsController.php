@@ -80,11 +80,11 @@ class StatisitcsController extends Controller
             });
         });
         if($request->product_filter){
-            $clients_query->orderBy(strpos($request->product_filter,'bought') ? 'bought_quantity' : 'total_amount',strpos($request->product_filter,'least') ? 'asc' :'desc');
+            $clients_query->orderBy(strpos($request->product_filter,'bought') ? 'bought_quantity' : 'total_amount',strpos($request->product_filter,'least') === 0 ? 'asc' :'desc');
         }else{
             $clients_query->latest();
         }
-         $clients= $clients_query->latest()->paginate($request->pagination ?? 25);
+         $clients= $clients_query->paginate($request->pagination ?? 25);
 
         return response()->json(['clients' => $clients]);
     }

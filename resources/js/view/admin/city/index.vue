@@ -35,11 +35,18 @@
             <div class="card-body">
               <div class="card-header pt-0">
                 <div class="row justify-content-between">
-                  <div class="col-5">
+                  <div class="col-4">
                     {{ $t("global.Search") }}:
                     <input type="search" v-model="text" class="custom" />
                   </div>
-                  <div class="col-5 row justify-content-end">
+                  <div class="col-4">
+                        <select v-model="city_filter" class="form-control" @change="getCities">
+                            <option value="">{{ $t('global.All Cities') }}</option>
+                            <option value="most_ordered">{{ $t('global.Most Ordered') }}</option>
+                            <option value="least_ordered">{{ $t('global.Least Ordered') }}</option>
+                        </select>
+                    </div>
+                  <div class="col-4 text-center">
                     <button
                       @click="onAddClicked()"
                       data-toggle="modal"
@@ -49,15 +56,21 @@
                     >
                       {{ $t("global.Add") }}
                     </button>
+                    <a
+                        class="btn btn-sm btn-secondary mx-2"
+                        @click.prevent="printSection()"
+                        ><i class="fa fa-print"></i> </a
+                    >
                   </div>
                 </div>
               </div>
               <div class="table-responsive">
-                <table class="table mb-0">
+                <table class="table mb-0" id="div">
                   <thead>
                     <tr>
                       <th>#</th>
                       <th>{{ $t("global.Name") }}</th>
+                      <th>{{ $t("global.Number of Orders") }}</th>
                       <th>{{ $t("global.Available") }}</th>
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
@@ -66,6 +79,7 @@
                     <tr v-for="(city, index) in citys" :key="city.id">
                       <td>{{ index + 1 }}</td>
                       <td>{{ city.name }}</td>
+                      <td>{{ city.number_of_orders }}</td>
                       <td>{{ $t(city.available ? "global.Yeas" : "global.No") }}</td>
                       <td>
                         <a
@@ -110,18 +124,21 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "@vue/reactivity";
+import { reactive, toRefs ,ref} from "@vue/reactivity";
 import { computed, provide, watch } from "@vue/runtime-core";
 import cityStore from "./city-store";
 import cityClient from "../../../http-clients/city-client";
 import CityForm from "./form";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
+import adminApi from "../../../api/adminAxios";
+
 export default {
   components: {
     CityForm,
   },
   setup() {
+    const city_filter = ref('')
     const data = reactive({
       paginate: {},
       citys: [],
@@ -159,8 +176,8 @@ export default {
     function getCities(page = 1) {
       data.page = page;
       data.loading = true;
-      cityClient
-        .getPage(data.page, data.pageSize, data.text)
+      adminApi
+        .get(`/v1/dashboard/cities?page=${data.page}&page_size=${data.pageSize}&text=${data.text}&city_filter=${city_filter.value}`)
         .then((response) => {
           data.loading = false;
           data.citys = response.data.data;
@@ -246,6 +263,10 @@ export default {
     function created() {
       getCities();
     }
+
+    let printSection = () => {
+          $("#div").printThis({});
+        }
     return {
       ...toRefs(data),
       onAddClicked,
@@ -256,6 +277,8 @@ export default {
       onUpdated,
       deletecity,
       search,
+      city_filter,
+      printSection,
       permission,
     };
   },

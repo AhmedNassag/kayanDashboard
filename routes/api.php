@@ -258,6 +258,10 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
              Route::get('dailyBalancePlatformReport','ReportController@dailyBalancePlatformReport');
              Route::get('supplierDuesPlatformReport','ReportController@supplierDuesPlatformReport');
 
+            //dues **********
+            Route::get('dues_suppliers','SupplierController@dues_suppliers');
+            Route::post('doSupplierDues','SupplierController@doSupplierDues');
+
             // Main Account
             Route::resource('mainAccount', 'MainAccountController');
             // Sub Account

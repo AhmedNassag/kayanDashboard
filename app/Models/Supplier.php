@@ -73,5 +73,11 @@ class Supplier extends Model
     {
         return $this->hasMany(SupplierIncome::class);
     }
+
+
+    public function orders(){
+        return $this->belongsToMany(Order::class,'order_suppliers','supplier_id','order_id')->withPivot(['sub_total','dues']);
+    }
+
     //
 }

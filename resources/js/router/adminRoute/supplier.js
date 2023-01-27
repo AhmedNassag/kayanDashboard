@@ -20,6 +20,20 @@ export default [
                     }
                 }
             },
+            {
+                path: 'suppliersDues',
+                name: 'suppliersDues',
+                component:() => import('../../view/admin/suppliers/dues.vue'),
+                beforeEnter: (to, from,next) => {
+                    let permission = store.state.authAdmin.permission;
+
+                    if(permission.includes('SupplierDues read')){
+                        return next();
+                    }else{
+                        return next({name:'Page404'});
+                    }
+                }
+            },
         ]
     },
 ];

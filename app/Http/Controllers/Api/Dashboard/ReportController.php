@@ -178,19 +178,19 @@ class ReportController extends Controller
     public function supplierDuesPlatformReport(Request $request)
     {
         $refund_allowed_days =Setting::first()->refund_allowed_days;
-        $suppliers = Supplier::withTrashed()
-
-            ->with(['orders' =>function($q) use($refund_allowed_days,$request){
-                $q->where('orders.order_status','completed')
+        $suppliers = Supplier::
+            with(['orders' =>function($q) use($refund_allowed_days,$request){
+                $q->where('orders.order_status','Completed')
                 ->where('order_suppliers.dues',$request->paid)
                 ->where('orders.updated_at','<',now()->subDays($refund_allowed_days));
             }])
             ->where(function($q) use($request){
                 $q->when($request->search, function ($q) use ($request) {
-                    return $q->where('suppliers.name_supplier', 'like', '%' . $request->search . '%')
+                    return $q->where('suppliers.responsible_name', 'like', '%' . $request->search . '%')
                     ->orWhere('suppliers.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('suppliers.phone_supplier', 'like', '%' . $request->search . '%')
-                    ->orWhere('suppliers.name_supplier', 'like', '%' . $request->search . '%')
+                    ->orWhere('suppliers.phone', 'like', '%' . $request->search . '%')
+                    ->orWhere('suppliers.commerical_register', 'like', '%' . $request->search . '%')
+                    ->orWhere('suppliers.tax_card', 'like', '%' . $request->search . '%')
                     ->orWhere('suppliers.address', 'like', '%' . $request->search . '%')
                     ->orWhere('orders.id', 'like', '%' . $request->search . '%')
                     ->orWhere('order_suppliers.sub_total', 'like', '%' . $request->search . '%');
@@ -203,7 +203,7 @@ class ReportController extends Controller
                 });
             })
             ->whereHas('orders' , function($q) use($refund_allowed_days,$request){
-                $q->where('orders.order_status','completed')
+                $q->where('orders.order_status','Completed')
                     ->where('order_suppliers.dues',$request->paid)
                     ->where('orders.updated_at','<',now()->subDays($refund_allowed_days));
             })->withCount('orders')

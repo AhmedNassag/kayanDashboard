@@ -466,7 +466,7 @@
                             </li>
 
 
-                            <li :class="[$route.name == 'suppliersDues'? 'active': '']" v-if="permission.includes('dues') && permission.includes('SupplierDues read')">
+                            <li :class="[$route.name == 'suppliersDues'? 'active': '']" v-if="permission.includes('SupplierDues read')">
                                 <router-link :to="{name:'suppliersDues',params: {lang:this.$i18n.locale}}" :class="[this.$i18n.locale == 'ar' ? 'sidebar-menu-rtl':'']">
                                     {{$t('global.Suppliers Dues')}}
                                 </router-link>

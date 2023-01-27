@@ -36,15 +36,22 @@
             <div class="card-body">
               <div class="card-header pt-0">
                 <div class="row justify-content-between">
-                  <div class="col-4">
+                  <div class="col-3">
                     {{ $t("global.Search") }}:
                     <input type="search" v-model="text" class="custom" />
                   </div>
-                  <div class="col-4">
+                  <div class="col-3">
                     {{ $t("global.City") }}:
                     <input type="search" v-model="city" class="custom" />
                   </div>
-                  <div class="col-4 row justify-content-end">
+                  <div class="col-3">
+                        <select v-model="area_filter" class="form-control" @change="getAreas">
+                            <option value="">{{ $t('global.All Areas') }}</option>
+                            <option value="most_ordered">{{ $t('global.Most Ordered') }}</option>
+                            <option value="least_ordered">{{ $t('global.Least Ordered') }}</option>
+                        </select>
+                    </div>
+                  <div class="col-3 text-center">
                     <button
                       @click="onAddClicked()"
                       data-toggle="modal"
@@ -54,16 +61,22 @@
                     >
                       {{ $t("global.Add") }}
                     </button>
+                    <a
+                        class="btn btn-sm btn-secondary mx-2"
+                        @click.prevent="printSection()"
+                        ><i class="fa fa-print"></i> </a
+                    >
                   </div>
                 </div>
               </div>
               <div class="table-responsive">
-                <table class="table mb-0">
+                <table class="table mb-0" id="div">
                   <thead>
                     <tr>
                       <th>#</th>
                       <th>{{ $t("global.Name") }}</th>
                       <th>{{ $t("global.City") }}</th>
+                      <th>{{ $t("global.Number of Orders") }}</th>
                       <th>{{ $t("global.shipping_price")}}</th>
                       <th>{{ $t("global.Action") }}</th>
                     </tr>
@@ -73,6 +86,7 @@
                       <td>{{ index + 1 }}</td>
                       <td>{{ area.name }}</td>
                       <td>{{ area.city.name }}</td>
+                      <td>{{ area.number_of_orders }}</td>
                       <td>{{ area.shipping_price }}</td>
                       <td>
                         <a
@@ -117,18 +131,21 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "@vue/reactivity";
+import { reactive, toRefs ,ref } from "@vue/reactivity";
 import { computed, provide, watch } from "@vue/runtime-core";
 import areaStore from "./area-store";
 import areaClient from "../../../http-clients/area-client";
 import AreaForm from "./form";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
+import adminApi from "../../../api/adminAxios";
+
 export default {
   components: {
     AreaForm,
   },
   setup() {
+    const area_filter = ref('')
     const data = reactive({
       paginate: {},
       areas: [],
@@ -168,8 +185,8 @@ export default {
     function getAreas(page = 1) {
       data.page = page;
       data.loading = true;
-      areaClient
-        .getPage(data.page, data.pageSize, data.text,data.city)
+      adminApi
+        .get(`/v1/dashboard/areas?page=${data.page}&page_size=${data.pageSize}&text=${data.text}&city=${data.city}&area_filter=${area_filter.value}`)
         .then((response) => {
           data.loading = false;
           data.areas = response.data.data;
@@ -276,6 +293,10 @@ export default {
       getAreas();
       getCities();
     }
+
+    let printSection = () => {
+          $("#div").printThis({});
+        }
     return {
       ...toRefs(data),
       onAddClicked,
@@ -286,6 +307,8 @@ export default {
       onUpdated,
       deleteArea,
       search,
+      printSection,
+      area_filter,
       permission,
     };
   },

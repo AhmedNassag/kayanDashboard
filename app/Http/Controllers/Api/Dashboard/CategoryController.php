@@ -39,7 +39,7 @@ class CategoryController extends Controller
         }else{
             $categories_query->latest();
         }
-        $categories = $categories_query ->latest()->paginate(10);
+        $categories = $categories_query->paginate(10);
 
         $activeCategories = Category::where('status', 1)->get();
         $notActiveCategories = Category::where('status', 0)->get();

@@ -94,5 +94,8 @@ class Order extends Model
         }
         return $week_name;
     }
+    public function suppliers(){
+        return $this->belongsToMany(Supplier::class,'order_suppliers','order_id','supplier_id')->withPivot(['sub_total','dues']);
+    }
 
 }

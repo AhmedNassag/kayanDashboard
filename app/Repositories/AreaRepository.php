@@ -25,16 +25,26 @@ class AreaRepository
         return $area;
     }
 
-    public function getPage($pageSize, $text,$city)
+    public function getPage($pageSize = 25, $text,$city)
     {
-        return Area::with("city")
+        $area_query = Area::with("city")
+        ->withCount(['orders as number_of_orders' =>function($q) {
+            $q->whereIn('order_status' , ['Pending','Shipping','Processing','Completed']);
+        }])
+
         ->where(function($q) use($text){
             $q->when($text , function ($q) use($text){
                 $q->where("name", "like", "%$text%")
                 ->orWhere("shipping_price", "like", "%$text%");
             });
-        })->whereRelation('city',"name", "like", "%$city%")
-        ->paginate($pageSize);
+        })->whereRelation('city',"name", "like", "%$city%");
+
+        if(request()->area_filter){
+            $area_query->orderBy('number_of_orders',request()->area_filter == 'least_ordered' ? 'asc' :'desc');
+        }else{
+            $area_query->latest();
+        }
+        return $area_query->paginate(20);
     }
     public function getCities()
     {

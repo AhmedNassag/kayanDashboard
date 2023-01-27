@@ -31,7 +31,13 @@ class ComplaintController extends Controller
                     ->orWhere('type', 'like', '%' . $request->search . '%')
                     ->orWhere('reply', 'like', '%' . $request->search . '%');
             });
-        })->where('platform','like',"%$request->platform%")
+        })->where(function ($q) use ($request) {
+            $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
+                $q->whereDate("created_at",'>=', $request->from_date)
+                ->whereDate("created_at",'<=', $request->to_date);
+            });
+        })
+        ->where('platform','like',"%$request->platform%")
             ->latest()
             ->paginate(10);
 

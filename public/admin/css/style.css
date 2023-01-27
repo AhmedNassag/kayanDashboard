@@ -2787,7 +2787,7 @@ html.menu-opened body {
 .sidebar-menu ul ul a {
 	display: block;
 	font-size: 15px;
-	padding: 7px 10px 7px 45px;
+	padding: 7px 45px 7px 10px;
 	position: relative;
 }
 
