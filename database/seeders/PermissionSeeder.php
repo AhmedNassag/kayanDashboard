@@ -16,6 +16,238 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
+
+            //tax
+            ['name' => 'tax read', 'role' => 'Tax', 'category' => 'Taxes'],
+            ['name' => 'tax create', 'role' => 'Tax', 'category' => 'Taxes'],
+            ['name' => 'tax edit', 'role' => 'Tax', 'category' => 'Taxes'],
+            ['name' => 'tax delete', 'role' => 'Tax', 'category' => 'Taxes'],
+            //company
+            ['name' => 'company read', 'role' => 'companies', 'category' => 'Companies'],
+            ['name' => 'company create', 'role' => 'companies', 'category' => 'Companies'],
+            ['name' => 'company edit', 'role' => 'companies', 'category' => 'Companies'],
+            ['name' => 'company delete', 'role' => 'companies', 'category' => 'Companies'],
+
+            /////////////////////////////Products Management
+            //category
+            ['name' => 'category read', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'category create', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'category edit', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'category delete', 'role' => 'products_management', 'category' => 'Products Management'],
+            //subCategory
+            ['name' => 'subCategory read', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'subCategory create', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'subCategory edit', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'subCategory delete', 'role' => 'products_management', 'category' => 'Products Management'],
+            //product
+            ['name' => 'product read', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'product create', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'product edit', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'product delete', 'role' => 'products_management', 'category' => 'Products Management'],
+            //Pharmacist Form
+            ['name' => 'pharmacistForm read', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'pharmacistForm create', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'pharmacistForm edit', 'role' => 'products_management', 'category' => 'Products Management'],
+            ['name' => 'pharmacistForm delete', 'role' => 'products_management', 'category' => 'Products Management'],
+
+
+
+            //discount
+            ['name' => 'discount read', 'role' => 'Discount', 'category' => 'Coupons and Discounts'],
+            ['name' => 'discount create', 'role' => 'Discount', 'category' => 'Coupons and Discounts'],
+            ['name' => 'discount edit', 'role' => 'Discount', 'category' => 'Coupons and Discounts'],
+            ['name' => 'discount delete', 'role' => 'Discount', 'category' => 'Coupons and Discounts'],
+
+
+            /////////////////////////////stock management
+            //price
+            ['name' => 'price read', 'role' => 'stock_management', 'category' => 'Stocks Management'],
+            ['name' => 'price create', 'role' => 'stock_management', 'category' => 'Stocks Management'],
+            ['name' => 'price edit', 'role' => 'stock_management', 'category' => 'Stocks Management'],
+            ['name' => 'price delete', 'role' => 'stock_management', 'category' => 'Stocks Management'],
+            //virtualStock
+            ['name' => 'virtualStock read', 'role' => 'stock_management', 'category' => 'Stocks Management'],
+            ['name' => 'virtualStock create', 'role' => 'stock_management', 'category' => 'Stocks Management'],
+            ['name' => 'virtualStock edit', 'role' => 'stock_management', 'category' => 'Stocks Management'],
+            ['name' => 'virtualStock delete', 'role' => 'stock_management', 'category' => 'Stocks Management'],
+
+            // orders management
+            ['name' => 'orderOnline read', 'role' => 'Orders', 'category' => 'orders management'],
+            ['name' => 'orderOnline edit', 'role' => 'Orders', 'category' => 'orders management'],
+            ['name' => 'CollectOrdersPerDay read', 'role' => 'Orders', 'category' => 'orders management'],
+            ['name' => 'CollectOrdersPerDay edit', 'role' => 'Orders', 'category' => 'orders management'],
+
+
+            //representative
+            ['name' => 'representative read', 'role' => 'representatives', 'category' => 'representatives'],
+            ['name' => 'representative create', 'role' => 'representatives', 'category' => 'representatives'],
+            ['name' => 'representative edit', 'role' => 'representatives', 'category' => 'representatives'],
+            ['name' => 'representativeChangePassword edit', 'role' => 'representatives', 'category' => 'representatives'],
+
+            // start financial Accounts
+            ['name' => 'AccountsTree read', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+            ['name' => 'AccountsTree create', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+            ['name' => 'AccountsTree edit', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+            ['name' => 'DailyRestriction read', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+            ['name' => 'DailyRestriction create', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+            ['name' => 'DailyRestriction edit', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+            ['name' => 'TrialBalance read', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+            ['name' => 'FinancialCenter read', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+            ['name' => 'IncomeList read', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+            ['name' => 'AccountStatement read', 'role' => 'financial Accounts', 'category' => 'financial Accounts'],
+
+
+
+
+
+            // start platform Accounts
+            ['name' => 'treasury read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasury create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasury edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasury delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'expense read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'expense create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'expense edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'expense delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income&expense read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income&expense create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income&expense edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'income&expense delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasuriesIncome read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'treasuriesExpense read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'transferringTreasury read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'transferringTreasury create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'transferringTreasury edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'transferringTreasury delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'purchaseExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'supplierAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'financialCondition read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'supplierExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'supplierExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'supplierExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'supplierExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'clientExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'SupplierIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'clientIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'clientIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'orderIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'purchaseReturnIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+            ['name' => 'CapitalOwnerAccount read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'CapitalOwnerAccount create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'CapitalOwnerAccount edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'CapitalOwnerAccount delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierDues read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            ['name' => 'SupplierDues edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+
+
+            // end platform Accounts
+
+
+            //reports
+            ['name' => 'platform-accounts-Report read', 'role' => 'Report', 'category' => 'Reports'],
+
+            //  //advertise
+            ['name' => 'package read', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'package create', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'package edit', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'package show', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'package delete', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'schedule read', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'schedule show', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'schedule create', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'schedule edit', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'schedule delete', 'role' => 'advertise', 'category' => 'Advertisement'],
+            //Sliders
+            ['name' => 'slider read', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'slider create', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'slider edit', 'role' => 'advertise', 'category' => 'Advertisement'],
+            ['name' => 'slider delete', 'role' => 'advertise', 'category' => 'Advertisement'],
+
+
+
+
+
+
+
+
+            //Deals
+            // ['name' => 'deal read', 'role' => ''],
+            // ['name' => 'deal create', 'role' => ''],
+            // ['name' => 'deal edit', 'role' => ''],
+            // ['name' => 'deal delete', 'role' => ''],
+
+            //Best sellers
+            ['name' => 'best-seller read', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+            ['name' => 'best-seller create', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+            ['name' => 'best-seller edit', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+            ['name' => 'best-seller delete', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+
+            //Most populars
+            ['name' => 'most-popular read', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+            ['name' => 'most-popular create', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+            ['name' => 'most-popular edit', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+            ['name' => 'most-popular delete', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+
+            //Also bought
+            ['name' => 'also-bought read', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+            ['name' => 'also-bought create', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+            ['name' => 'also-bought edit', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+            ['name' => 'also-bought delete', 'role' => 'Kayan Special Products','category' => 'Kayan Special Products'],
+
+
+
+            //Cities
+            ['name' => 'city read', 'role' => 'places' ,'category' => 'Places'],
+            ['name' => 'city create', 'role' => 'places' ,'category' => 'Places'],
+            ['name' => 'city edit', 'role' => 'places' ,'category' => 'Places'],
+            //Areas
+            ['name' => 'area read', 'role' => 'places' ,'category' => 'Places'],
+            ['name' => 'area create', 'role' => 'places' ,'category' => 'Places'],
+            ['name' => 'area edit', 'role' => 'places' ,'category' => 'Places'],
+            //Unavailable places users
+            ['name' => 'unavailable-city-client read', 'role' => 'places' ,'category' => 'Places'],
+
+
+            //Supplier
+            ['name' => 'supplier read', 'role' => 'Suppliers','category' => 'Suppliers'],
+            ['name' => 'supplier create', 'role' => 'Suppliers','category' => 'Suppliers'],
+            ['name' => 'supplier edit', 'role' => 'Suppliers','category' => 'Suppliers'],
+            ['name' => 'supplier delete', 'role' => 'Suppliers','category' => 'Suppliers'],
+
+
+            // start sitting
+            ['name' => 'setting read', 'role' => 'Setting', 'category' => 'Setting'],
+            ['name' => 'setting edit', 'role' => 'Setting', 'category' => 'Setting'],
+            // end setting
+            //Terms and conditions
+            ['name' => 'termAndCondition read', 'role' => 'Setting' , 'category' =>'Setting' ],
+
+
+
+
+
+
+
             //Role
             ['name' => 'role read', 'role' => 'role-employee'],
             ['name' => 'role create', 'role' => 'role-employee'],
@@ -31,66 +263,35 @@ class PermissionSeeder extends Seeder
             ['name' => 'job create', 'role' => 'management'],
             ['name' => 'job edit', 'role' => 'management'],
             ['name' => 'job delete', 'role' => 'management'],
-            //category
-            ['name' => 'category read', 'role' => 'management'],
-            ['name' => 'category create', 'role' => 'management'],
-            ['name' => 'category edit', 'role' => 'management'],
-            ['name' => 'category delete', 'role' => 'management'],
-            //subCategory
-            ['name' => 'subCategory read', 'role' => 'management'],
-            ['name' => 'subCategory create', 'role' => 'management'],
-            ['name' => 'subCategory edit', 'role' => 'management'],
-            ['name' => 'subCategory delete', 'role' => 'management'],
+
             //usersCategory
-            ['name' => 'usersCategory read', 'role' => 'management'],
-            ['name' => 'usersCategory create', 'role' => 'management'],
-            ['name' => 'usersCategory edit', 'role' => 'management'],
-            ['name' => 'usersCategory delete', 'role' => 'management'],
-            //discount
-            ['name' => 'discount read', 'role' => '', 'category' => 'Discount'],
-            ['name' => 'discount create', 'role' => '', 'category' => 'Discount'],
-            ['name' => 'discount edit', 'role' => '', 'category' => 'Discount'],
-            ['name' => 'discount delete', 'role' => '', 'category' => 'Discount'],
-            //tax
-            ['name' => 'tax read', 'role' => '', 'category' => 'Tax'],
-            ['name' => 'tax create', 'role' => '', 'category' => 'Tax'],
-            ['name' => 'tax edit', 'role' => '', 'category' => 'Tax'],
-            ['name' => 'tax delete', 'role' => '', 'category' => 'Tax'],
-            //company
-            ['name' => 'company read', 'role' => 'management'],
-            ['name' => 'company create', 'role' => 'management'],
-            ['name' => 'company edit', 'role' => 'management'],
-            ['name' => 'company delete', 'role' => 'management'],
+            // ['name' => 'usersCategory read', 'role' => 'management'],
+            // ['name' => 'usersCategory create', 'role' => 'management'],
+            // ['name' => 'usersCategory edit', 'role' => 'management'],
+            // ['name' => 'usersCategory delete', 'role' => 'management'],
+
+
             //alternative
-            ['name' => 'alternative read', 'role' => 'management'],
-            ['name' => 'alternative create', 'role' => 'management'],
-            ['name' => 'alternative edit', 'role' => 'management'],
-            ['name' => 'alternative delete', 'role' => 'management'],
-            //product
-            ['name' => 'product read', 'role' => 'management'],
-            ['name' => 'product create', 'role' => 'management'],
-            ['name' => 'product edit', 'role' => 'management'],
-            ['name' => 'product delete', 'role' => 'management'],
-            //Pharmacist Form
-            ['name' => 'pharmacistForm read', 'role' => 'management'],
-            ['name' => 'pharmacistForm create', 'role' => 'management'],
-            ['name' => 'pharmacistForm edit', 'role' => 'management'],
-            ['name' => 'pharmacistForm delete', 'role' => 'management'],
-            //price
-            ['name' => 'price read', 'role' => 'management'],
-            ['name' => 'price create', 'role' => 'management'],
-            ['name' => 'price edit', 'role' => 'management'],
-            ['name' => 'price delete', 'role' => 'management'],
+            // ['name' => 'alternative read', 'role' => 'management' , 'category' => 'management'],
+            // ['name' => 'alternative create', 'role' => 'management' , 'category' => 'management'],
+            // ['name' => 'alternative edit', 'role' => 'management' , 'category' => 'management'],
+            // ['name' => 'alternative delete', 'role' => 'management' , 'category' => 'management'],
+
+
+
+
+
+
             //kayanPrice
             ['name' => 'kayanPrice read', 'role' => 'management'],
             ['name' => 'kayanPrice create', 'role' => 'management'],
             ['name' => 'kayanPrice edit', 'role' => 'management'],
             ['name' => 'kayanPrice delete', 'role' => 'management'],
             //sellingMethods
-            ['name' => 'sellingMethod read', 'role' => 'management'],
-            ['name' => 'sellingMethod create', 'role' => 'management'],
-            ['name' => 'sellingMethod edit', 'role' => 'management'],
-            ['name' => 'sellingMethod delete', 'role' => 'management'],
+            // ['name' => 'sellingMethod read', 'role' => 'management'],
+            // ['name' => 'sellingMethod create', 'role' => 'management'],
+            // ['name' => 'sellingMethod edit', 'role' => 'management'],
+            // ['name' => 'sellingMethod delete', 'role' => 'management'],
             //shift
             ['name' => 'shift read', 'role' => 'management'],
             ['name' => 'shift create', 'role' => 'management'],
@@ -115,11 +316,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'stock create', 'role' => 'management'],
             ['name' => 'stock edit', 'role' => 'management'],
             ['name' => 'stock delete', 'role' => 'management'],
-            //virtualStock
-            ['name' => 'virtualStock read', 'role' => 'management'],
-            ['name' => 'virtualStock create', 'role' => 'management'],
-            ['name' => 'virtualStock edit', 'role' => 'management'],
-            ['name' => 'virtualStock delete', 'role' => 'management'],
+
+
+
+
             //purchase
             // ['name' => 'purchase read', 'role' => 'management'],
             // ['name' => 'purchase create', 'role' => 'management'],
@@ -201,17 +401,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'adOwner create', 'role' => 'management'],
             ['name' => 'adOwner edit', 'role' => 'management'],
             ['name' => 'adOwner delete', 'role' => 'management'],
-            //advertise
-            ['name' => 'package read', 'role' => 'advertise', 'category' => 'advertise'],
-            ['name' => 'package create', 'role' => 'advertise', 'category' => 'advertise'],
-            ['name' => 'package edit', 'role' => 'advertise', 'category' => 'advertise'],
-            ['name' => 'package show', 'role' => 'advertise', 'category' => 'advertise'],
-            ['name' => 'package delete', 'role' => 'advertise', 'category' => 'advertise'],
-            ['name' => 'schedule read', 'role' => 'advertise', 'category' => 'advertise'],
-            ['name' => 'schedule show', 'role' => 'advertise', 'category' => 'advertise'],
-            ['name' => 'schedule create', 'role' => 'advertise', 'category' => 'advertise'],
-            ['name' => 'schedule edit', 'role' => 'advertise', 'category' => 'advertise'],
-            ['name' => 'schedule delete', 'role' => 'advertise', 'category' => 'advertise'],
+
             //CRM
             // ['name' => 'targetPlan read', 'role' => 'CRM', 'category' => 'CRM'],
             // ['name' => 'targetPlan create', 'role' => 'CRM', 'category' => 'CRM'],
@@ -242,8 +432,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'refused edit', 'role' => 'management'],
             ['name' => 'refused delete', 'role' => 'management'],
 
-            //Terms and conditions
-            ['name' => 'termAndCondition read', 'role' => ''],
 
             //Unit
             ['name' => 'unit read', 'role' => ''],
@@ -265,11 +453,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'shipping create', 'role' => ''],
             ['name' => 'shipping edit', 'role' => ''],
             ['name' => 'shipping delete', 'role' => ''],
-            //Supplier
-            ['name' => 'supplier read', 'role' => ''],
-            ['name' => 'supplier create', 'role' => ''],
-            ['name' => 'supplier edit', 'role' => ''],
-            ['name' => 'supplier delete', 'role' => ''],
+
             //Employee
             ['name' => 'employee read', 'role' => 'management'],
             ['name' => 'employee create', 'role' => 'management'],
@@ -311,50 +495,12 @@ class PermissionSeeder extends Seeder
             // ['name' => 'examinationRecords edit', 'role' => 'buy'],
             //Newsletters
             ['name' => 'newsletter read', 'role' => ''],
-            //Sliders
-            ['name' => 'slider read', 'role' => ''],
-            ['name' => 'slider create', 'role' => ''],
-            ['name' => 'slider edit', 'role' => ''],
-            ['name' => 'slider delete', 'role' => ''],
+
             //Simple advertises
             ['name' => 'simple-advertise read', 'role' => ''],
             ['name' => 'simple-advertise create', 'role' => ''],
             ['name' => 'simple-advertise edit', 'role' => ''],
             ['name' => 'simple-advertise delete', 'role' => ''],
-            //Cities
-            ['name' => 'city read', 'role' => 'places'],
-            ['name' => 'city create', 'role' => 'places'],
-            ['name' => 'city edit', 'role' => 'places'],
-            //Areas
-            ['name' => 'area read', 'role' => 'places'],
-            ['name' => 'area create', 'role' => 'places'],
-            ['name' => 'area edit', 'role' => 'places'],
-            //Unavailable places users
-            ['name' => 'unavailable-city-client read', 'role' => 'places'],
-
-            //Deals
-            ['name' => 'deal read', 'role' => ''],
-            ['name' => 'deal create', 'role' => ''],
-            ['name' => 'deal edit', 'role' => ''],
-            ['name' => 'deal delete', 'role' => ''],
-
-            //Best sellers
-            ['name' => 'best-seller read', 'role' => ''],
-            ['name' => 'best-seller create', 'role' => ''],
-            ['name' => 'best-seller edit', 'role' => ''],
-            ['name' => 'best-seller delete', 'role' => ''],
-
-            //Most populars
-            ['name' => 'most-popular read', 'role' => ''],
-            ['name' => 'most-popular create', 'role' => ''],
-            ['name' => 'most-popular edit', 'role' => ''],
-            ['name' => 'most-popular delete', 'role' => ''],
-
-            //Also bought
-            ['name' => 'also-bought read', 'role' => ''],
-            ['name' => 'also-bought create', 'role' => ''],
-            ['name' => 'also-bought edit', 'role' => ''],
-            ['name' => 'also-bought delete', 'role' => ''],
 
             //Footer
             ['name' => 'footer read', 'role' => 'footer'],
@@ -364,17 +510,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'about read', 'role' => 'about'],
             ['name' => 'about edit', 'role' => 'about'],
 
-            // start financial Accounts
-            // ['name' => 'AccountsTree read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            // ['name' => 'AccountsTree create','role' => 'financial Accounts','category' => 'financial Accounts'],
-            // ['name' => 'AccountsTree edit','role' => 'financial Accounts','category' => 'financial Accounts'],
-            // ['name' => 'DailyRestriction read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            // ['name' => 'DailyRestriction create','role' => 'financial Accounts','category' => 'financial Accounts'],
-            // ['name' => 'DailyRestriction edit','role' => 'financial Accounts','category' => 'financial Accounts'],
-            // ['name' => 'TrialBalance read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            // ['name' => 'FinancialCenter read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            // ['name' => 'IncomeList read','role' => 'financial Accounts','category' => 'financial Accounts'],
-            // ['name' => 'AccountStatement read','role' => 'financial Accounts','category' => 'financial Accounts'],
+
             // end financial Accounts
 
             // // start order
@@ -383,89 +519,14 @@ class PermissionSeeder extends Seeder
             // ['name' => 'order edit', 'role' => 'order', 'category' => 'order'],
             // ['name' => 'order delete', 'role' => 'order', 'category' => 'order'],
             // ['name' => 'avg price product', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'orderOnline read', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'orderOnline edit', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'CollectOrdersPerDay read', 'role' => 'order', 'category' => 'order'],
-            ['name' => 'CollectOrdersPerDay edit', 'role' => 'order', 'category' => 'order'],
+
             // ['name' => 'orderReturned read', 'role' => 'order', 'category' => 'order'],
             // ['name' => 'orderDelivered read', 'role' => 'order', 'category' => 'order'],
             // end order
-            // start sitting
-            ['name' => 'setting read', 'role' => '', 'category' => 'Setting'],
-            ['name' => 'setting edit', 'role' => '', 'category' => 'Setting'],
-            // end setting
-            // start platform Accounts
-            ['name' => 'treasury read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'treasury create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'treasury edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'treasury delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'income read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'income create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'income edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'income delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'expense read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'expense create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'expense edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'expense delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'income&expense read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'income&expense create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'income&expense edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'income&expense delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'treasuriesIncome read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'treasuriesExpense read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'transferringTreasury read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'transferringTreasury create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'transferringTreasury edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'transferringTreasury delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-
-            ['name' => 'purchaseExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'supplierAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'financialCondition read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-
-            ['name' => 'supplierExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'supplierExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'supplierExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'supplierExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-
-            ['name' => 'clientExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-
-            ['name' => 'SupplierIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'SupplierIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'SupplierIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'SupplierIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-
-            ['name' => 'clientIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-
-            ['name' => 'orderIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'purchaseReturnIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-
-            ['name' => 'CapitalOwnerAccount read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'CapitalOwnerAccount create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'CapitalOwnerAccount edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'CapitalOwnerAccount delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'SupplierDues read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'SupplierDues edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
 
 
-            // end platform Accounts
 
-
-            // ['name' => 'representative read','role' => 'role-employee','category' => 'Representative'],
-            // ['name' => 'representative create','role' => 'role-employee','category' => 'Representative'],
-            // ['name' => 'representative edit','role' => 'role-employee','category' => 'Representative'],
-            // ['name' => 'representativeChangePassword edit','role' => 'role-employee','category' => 'Representative'],
-
-
-            //reports
-            ['name' => 'platform-accounts-Report read','role' => 'Report','category' => 'Report'],
 
         ];
 

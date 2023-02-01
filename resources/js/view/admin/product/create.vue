@@ -956,7 +956,7 @@
                                 </button>
                                 <div
                                   :class="[
-                                    'dropdown-menu',
+                                    'dropdown-menu bg-white',
                                     this.$i18n.locale == 'en' ? 'drop_ltr' : '',
                                   ]"
                                   style="

@@ -481,28 +481,6 @@ class ProductController extends Controller
     }
 
 
-    public function deleteOne(Request $request, $id)
-    {
-        try {
-            $product = Product::find($id);
-            if ($product) {
-
-                $media = Media::find($request->idMedia);
-
-                if (File::exists('upload/product/' . $media->file_name)) {
-                    unlink('upload/product/' . $media->file_name);
-                }
-
-                $media->delete();
-                return $this->sendResponse([], 'Deleted successfully');
-            } else {
-                return $this->sendError('ID is not exist');
-            }
-        } catch (\Exception $e) {
-            return $this->sendError('An error occurred in the system');
-        }
-    }
-
 
     public function deleteOne(Request $request, $id)
     {

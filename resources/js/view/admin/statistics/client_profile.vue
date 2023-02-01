@@ -37,6 +37,14 @@
                   <div class="col-5">
                     {{$t('global.Client Orders')}}
                   </div>
+                  <div class="col-5">
+                    <router-link
+                            :to="{name: 'web_clients'}"
+                            class="btn btn-custom btn-dark w-50 bg-dark"
+                        >
+                            {{ $t('global.back') }}
+                        </router-link>
+                  </div>
                 </div>
               </div>
               <div class="table-responsive">

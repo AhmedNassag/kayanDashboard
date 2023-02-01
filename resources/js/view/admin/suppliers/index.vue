@@ -113,7 +113,6 @@
                       <td class="text-center">
                         <router-link :to="{name:'supplier_profile',params:{id:supplier.id,lang:this.$i18n.locale}}"
                           data-toggle="modal"
-
                           class="btn btn-sm btn-info me-2"
                         >
                           <i class="far fa-eye"></i>

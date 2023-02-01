@@ -128,6 +128,7 @@
                     <thead>
                       <tr>
                         <th>{{ $t("global.Order Number") }}</th>
+                        <th>{{ $t("global.Address") }}</th>
                         <th>{{ $t("global.Receiver Name") }}</th>
                         <th>{{ $t("global.representative") }}</th>
                         <th>{{ $t("global.Order status") }}</th>
@@ -148,6 +149,11 @@
                         <td>
                           {{
                             item.receiver_name
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.city_name + " / " + item.area_name
                           }}
                         </td>
 

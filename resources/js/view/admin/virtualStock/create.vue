@@ -367,6 +367,7 @@ export default {
     methods: {
         //
         saveExcelVirtualStock(){
+            this.loading = true
             var $mainFormVirualStocks = $('#mainFormVirualStocks')
             var data2 = new FormData(mainFormVirualStocks)
             data2.append('supplier_id' , this.id)

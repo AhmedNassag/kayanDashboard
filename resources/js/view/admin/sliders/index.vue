@@ -5,7 +5,7 @@
   >
     <SliderForm
       :selectedSlider="selectedSlider"
-      :products="products"
+      :allProducts="products"
       @created="onCreated"
       @updated="onUpdated"
       @loading="loading = $event"
@@ -195,6 +195,7 @@ export default {
           console.log(error.response);
         });
     }
+
     function getProducts() {
       data.loading = true;
       sliderClient.getProducts().then((response) => {
@@ -202,9 +203,11 @@ export default {
         data.loading = false;
       });
     }
+
     function onCreated(event) {
       data.sliders.unshift(event);
     }
+
     function onUpdated(event) {
       data.sliders[data.selectedSliderIndex] = event;
       data.selectedSlider = null;

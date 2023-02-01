@@ -298,10 +298,10 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             // order Status
             Route::resource('orderStatus','OrderStatusController');
             // Representative
-                // Route::resource('representative','RepresentativeController')->except(['show']);
-                // Route::get('activeShift','RepresentativeController@activeShift');
-                // Route::get('activeRepresentative','RepresentativeController@activeRepresentative');
-                // Route::post('representative/changePassword/{id}','RepresentativeController@changePassword');
+            Route::resource('representative','RepresentativeController')->except(['show']);
+            Route::get('activeShift','RepresentativeController@activeShift');
+            Route::get('activeRepresentative','RepresentativeController@activeRepresentative');
+            Route::post('representative/changePassword/{id}','RepresentativeController@changePassword');
             // order Returned
             Route::resource('orderReturned','OrderReturnedController');
             /*----- End routes -----*/
@@ -312,6 +312,9 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('activeShift','RepresentativeController@activeShift');
             Route::get('activeRepresentative','RepresentativeController@activeRepresentative');
             Route::post('representative/changePassword/{id}','RepresentativeController@changePassword');
+            Route::get('representative_orders', 'RepresentativeController@representativeOrders');
+            Route::get('representative_profile/{user}', 'RepresentativeController@representativeDetails');
+
 
             // orders
             Route::resource('orders','OrderController');

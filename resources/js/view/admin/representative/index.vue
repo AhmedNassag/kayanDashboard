@@ -28,28 +28,41 @@
                         <div class="card-body">
                             <div class="card-header pt-0">
                                 <div class="row justify-content-between">
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         {{ $t('global.Search') }}:
                                         <input type="search" v-model="search" class="custom"/>
                                     </div>
-                                    <div class="col-5 row justify-content-end">
+                                    <div class="col-4">
+                                        <select v-model="representative_filter" class="form-control" @change="getEmployee">
+                                            <option value="">{{ $t('global.All Representative') }}</option>
+                                            <option value="most_orders">{{ $t('global.Has Most Orders') }}</option>
+                                            <option value="least_orders">{{ $t('global.Has Least Orders') }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4 text-center">
                                         <router-link
                                             :to="{name: 'createRepresentative', params: {lang: locale || 'ar'}}"
                                             v-if="permission.includes('representative create')"
                                             class="btn btn-custom btn-warning">
                                             {{ $t('global.Add') }}
                                         </router-link>
+                                        <a
+                                            class="btn btn-sm btn-secondary mx-2"
+                                            @click.prevent="printSection()"
+                                            ><i class="fa fa-print"></i> </a
+                                        >
                                     </div>
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table mb-0">
+                                <table class="table mb-0" id="printRepresentative">
                                     <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>{{ $t('global.Name') }}</th>
                                         <th>{{ $t('global.Phone') }}</th>
                                         <th>{{ $t('global.Email') }}</th>
+                                        <th>{{ $t('global.Number of Orders') }}</th>
                                         <th>{{ $t('global.HiringDate') }}</th>
                                         <th>{{ $t('global.areas') }}</th>
                                         <th>{{ $t('global.Status') }}</th>
@@ -62,6 +75,7 @@
                                         <td>{{ item.user.name }}</td>
                                         <td>{{ item.user.phone }}</td>
                                         <td>{{ item.user.email }}</td>
+                                        <td>{{ item.number_of_orders }}</td>
                                         <td>{{ item.hiring_date }}</td>
                                         <td> <span  v-for="(it,index) in item.areas" :key="it.id">{{ it.name }} <br></span></td>
                                         <td>
@@ -71,9 +85,13 @@
                                                     }}</span>
                                             </a>
                                         </td>
-
                                         <td>
-
+                                            <router-link :to="{name:'representative_profile',params:{id:item.user_id,lang:this.$i18n.locale}}"
+                                                data-toggle="modal"
+                                                class="btn btn-sm btn-info me-2"
+                                                >
+                                                <i class="far fa-eye"></i>
+                                            </router-link>
                                             <router-link
                                                 :to="{name: 'editRepresentative', params: {id:item.id}}"
                                                 v-if="permission.includes('representative edit')"
@@ -134,6 +152,7 @@ export default {
         let representativesPaginate = ref({});
         let loading = ref(false);
         const search = ref('');
+        const representative_filter = ref('');
         let store = useStore();
 
         let permission = computed(() => store.getters['authAdmin/permission']);
@@ -141,7 +160,7 @@ export default {
         let getEmployee = (page = 1) => {
             loading.value = true;
 
-            adminApi.get(`/v1/dashboard/representative?page=${page}&search=${search.value}`)
+            adminApi.get(`/v1/dashboard/representative?page=${page}&search=${search.value}&representative_filter=${representative_filter.value}`)
                 .then((res) => {
                     let l = res.data.data;
                     representativesPaginate.value = l.representatives;
@@ -197,8 +216,12 @@ export default {
                 }
             });
         }
+        //printRepresentative
 
-        return {representatives, loading, getEmployee, search,permission, activationRepresentative, representativesPaginate};
+        const printSection =async () => {
+          $('#printRepresentative').printThis();
+      }
+        return {representatives, loading, getEmployee, printSection, search,permission, activationRepresentative, representativesPaginate, representative_filter};
 
     },
     data() {

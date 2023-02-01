@@ -353,7 +353,7 @@ export default {
                             width: e.size.width,
                             height:  e.size.height,
                             size_id: e.size.id,
-                            page_id: e.id
+                            page_id: e.page_mobile_id
                         });
                         fileMobile.push({file_name:{required}});
                         data.model[index].mobileImage.push({numberOfImage:0});
@@ -553,22 +553,27 @@ export default {
                 })
                 .catch((err) => {
                     console.log(err.response);
-                    if(err.response && err.response.data.errors && err.response.data.errors){
+                    if(err.response && err.response.data.message){
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'يوجد خطا في معاد الحجز...',
+                        text: err.response.data.message,
+                    });
+                    }
+                    if(err.response && err.response.data.errors){
+                        if(err.response.data.errors.website_images_errors)
                         err.response.data.errors.website_images_errors.forEach(element => {
                             let key = Object.keys(element??[])[0];
                             this.website_image_validation_errors[key] = element[key];
                         });
+                        if(err.response.data.errors.mobile_images_errors)
                         err.response.data.errors.mobile_images_errors.forEach(element => {
                             let key = Object.keys(element??[])[0];
                             this.mobile_image_validation_errors[key] = element[key];
                         });
                     }
 
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'يوجد خطا في الصور...',
-                        text: 'اقصي ارتفاع للصوره يكون 500px و اقصي عرض 500px و ان حجمها لا يتعدي 2mb !',
-                    });
+
                 })
                 .finally(() => {
                     this.loading = false;
@@ -585,6 +590,9 @@ export default {
 </script>
 
 <style scoped>
+.swal2-popup{
+    z-index: 9999999999;
+}
 .card {
     position: relative;
 }

@@ -19,4 +19,9 @@ class Representative extends Model
     {
         return $this->belongsToMany(Area::class,'representative_areas','representative_id','area_id','id','id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class,'representative_id','user_id');
+    }
 }

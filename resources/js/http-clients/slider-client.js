@@ -11,7 +11,7 @@ export default {
         return adminApi.delete(`${BASE_URL}/${id}`);
     },
     getProducts() {
-        return adminApi.get(`${BASE_URL}/products`);
+        return adminApi.get(`/v1/dashboard/sliders/products`);
     },
     getPage(pageNo, pageSize, text) {
         return adminApi.get(`${BASE_URL}?page=${pageNo}&page_size=${pageSize}&text=${text}`);

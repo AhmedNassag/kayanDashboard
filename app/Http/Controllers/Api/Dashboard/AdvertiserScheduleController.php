@@ -320,7 +320,7 @@ class AdvertiserScheduleController extends Controller
 
         foreach ($request->fileMobile as $index => $fileMobile) {
             $schedule_page_mo = SchedulePageMobile::create([
-                'page_mobile_id' => $fileMobile['page_id'],
+                'page_mobile_id' => 1,
                 'schedule_id' => $schedule->id
             ]);
 

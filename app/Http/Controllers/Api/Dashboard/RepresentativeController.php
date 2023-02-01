@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\Order;
 use App\Models\Representative;
 use App\Models\User;
 use App\Traits\Message;
@@ -82,7 +83,8 @@ class RepresentativeController extends Controller
      */
     public function index(Request $request)
     {
-        $representatives = Representative::with('user:id,name,email,phone,status','areas')
+        $representatives_query = Representative::
+        with('user:id,name,email,phone,status','areas','orders')
             ->where(function ($q) use($request){
                 $q->when($request->search,function ($q) use($request){
                     return $q->OrWhere('hiring_date','like','%'.$request->search.'%')
@@ -90,28 +92,42 @@ class RepresentativeController extends Controller
                         ->orWhereRelation('user','name','like','%'.$request->search.'%')
                         ->orWhereRelation('user','phone','like','%'.$request->search.'%');
                 });
-            })->latest()->paginate(10);
+            })
+            ->withCount('orders as number_of_orders');
+            if($request->representative_filter){
+                $representatives_query->orderBy('number_of_orders',$request->representative_filter == 'least_orders' ? 'asc' :'desc');
+            }else{
+                $representatives_query->latest();
+            }
+            $representatives = $representatives_query->paginate(25);
 
         return $this->sendResponse(['representatives' => $representatives], 'Data exited successfully');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function representativeOrders(Request $request)
+    {
+        $orders = Order::with('products')
+        ->where('representative_id', $request->user_id)
+        ->latest()
+        ->paginate(10);
+        return response()->json(['orders' => $orders]);
+    }
+
+    public function representativeDetails(User $user)
+    {
+        $user->order_numbers = Order::where('representative_id', $user->id)->count();
+        return response()->json(['representative' => $user]);
+    }
+
+
     public function create()
     {
         $areas = Area::all();
         return $this->sendResponse(['areas' => $areas],'Data exited successfully');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         DB::beginTransaction();

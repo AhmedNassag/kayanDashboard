@@ -35,9 +35,10 @@ class RoleController extends Controller
     public function create()
     {
         try {
-            $permission = Permission::select('id', 'name')->get();
-            $notifies = Notify::select('id', 'name')->get();
-
+            $permission = Permission::get()
+            ->groupBy('category')->sortKeys();
+            $notifies = Notify::get()
+            ->groupBy('category')->sortKeys();
             return $this->sendResponse(['permission' => $permission, 'notifies' => $notifies], 'Data exited successfully');
         } catch (\Exception $e) {
             return $this->sendError('An error occurred in the system');
@@ -81,7 +82,9 @@ class RoleController extends Controller
             $role = Role::find($id);
 
             if ($role) {
-                $permission = Permission::get();
+                $permission = Permission::get()
+                ->groupBy('category')->sortKeys();
+
                 $rolePermissions = DB::table("role_has_permissions")
                     ->where("role_has_permissions.role_id", $id)->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')->all();
 
