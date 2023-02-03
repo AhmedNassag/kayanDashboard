@@ -361,4 +361,10 @@ class OrderController extends Controller
         ,$arr_type));
     }
 
+
+    public function get_setting()
+    {
+        return response()->json(['setting' => Setting::select('facebook','youtube','address','email','phone','wats_app','linkedin','pinterest','work_time','instagram')->first()]);
+    }
+
 }

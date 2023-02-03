@@ -591,7 +591,10 @@ export default {
 
 <style scoped>
 .swal2-popup{
-    z-index: 9999999999;
+    z-index: 9999999999!important;
+}
+.swal2-backdrop-show{
+    z-index: 9999999999!important;
 }
 .card {
     position: relative;

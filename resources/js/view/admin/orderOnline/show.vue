@@ -100,49 +100,7 @@
                 <span class="sr-only">Next</span>
               </a>
             </div>
-            <div id="printDiv">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title px-2">
-                    {{ $t("global.Receiver Information") }}
-                  </h5>
-                </div>
-                <div class="card-body">
-                  <div class="row justify-content-between">
-                    <h5 class="w-auto">{{ $t("global.Receiver Name") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
-                      order.receiver_name
-                    }}</span>
-                  </div>
-                  <div class="row justify-content-between">
-                    <h5 class="w-auto">{{ $t("global.Receiver Phone") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
-                      order.receiver_phone
-                    }}</span>
-                  </div>
-                  <div class="row justify-content-between">
-                    <h5 class="w-auto">
-                      {{ $t("global.State / Area") }}
-                    </h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
-                      state + " / " + area
-                    }}</span>
-                  </div>
-                  <div class="row justify-content-between">
-                    <h5 class="w-auto">{{ $t("global.Receiver Adress") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
-                      order.receiver_address
-                    }}</span>
-                  </div>
-                  <div class="row justify-content-between">
-                    <h5 class="w-auto">{{ $t("global.Date") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
-                      order.created_at
-                    }}</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card" v-if="order.representative_id">
+            <div class="card" v-if="order.representative_id">
                 <div class="card-header">
                   <h5 class="card-title px-2">
                     {{ $t("global.Representative Information") }}
@@ -171,6 +129,49 @@
 
                 </div>
               </div>
+            <div id="printDiv">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title px-2">
+                    {{ $t("global.Receiver Information") }}
+                  </h5>
+                </div>
+                <div class="card-body">
+                  <div class="w-100">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Receiver Name") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
+                      order.receiver_name
+                    }}</span>
+                  </div>
+                  <div class="w-100">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Receiver Phone") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
+                      order.receiver_phone
+                    }}</span>
+                  </div>
+                  <div class="w-100">
+                    <h5 class="w-50 d-inline-block">
+                      {{ $t("global.State / Area") }}
+                    </h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
+                      state + " / " + area
+                    }}</span>
+                  </div>
+                  <div class="w-100">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Receiver Adress") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
+                      order.receiver_address
+                    }}</span>
+                  </div>
+                  <div class="w-100">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Date") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
+                      order.created_at
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+
               <div class="card">
                 <div class="card-header">
                   <h5 class="card-title px-2">
@@ -178,27 +179,27 @@
                   </h5>
                 </div>
                 <div class="card-body">
-                  <div class="row justify-content-between">
-                    <h5 class="w-auto">{{ $t("global.Order Number") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
+                  <div class="w-100">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Order Number") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
                       order.id
                     }}</span>
                   </div>
-                  <div class="row justify-content-between" v-if="order.invoice_id != 0">
-                    <h5 class="w-auto">{{ $t("global.Invoice id") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
+                  <div class="w-100" v-if="order.invoice_id != 0">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Invoice id") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
                       order.invoice_id
                     }}</span>
                   </div>
-                  <div class="row justify-content-between" v-if="order.coupon">
-                    <h5 class="w-auto">{{ $t("global.Coupon") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
+                  <div class="w-100" v-if="order.coupon">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Coupon") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
                       order.coupon
                     }}</span>
                   </div>
-                  <div class="row justify-content-between">
-                    <h5 class="w-auto">{{ $t("global.Order Status") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">
+                  <div class="w-100">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Order Status") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">
                       <i
                         class="far fa-pause-circle"
                         v-if="order.order_status == 'Pending'"
@@ -226,9 +227,9 @@
                       {{ order.order_status }}</span
                     >
                   </div>
-                  <div class="row justify-content-between">
-                    <h5 class="w-auto">{{ $t("global.Payment Status") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">
+                  <div class="w-100">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Payment Status") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">
                       <i
                         class="text-success fas fa-check-circle"
                         v-if="order.payment_status == 'Paid'"
@@ -244,18 +245,18 @@
                       {{ $t("global." + order.payment_status) }}</span
                     >
                   </div>
-                  <div class="row justify-content-between">
-                    <h5 class="w-auto">{{ $t("global.Payment Way") }}</h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
+                  <div class="w-100">
+                    <h5 class="w-50 d-inline-block">{{ $t("global.Payment Way") }}</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
                       $t("global." + order.payment_method)
                     }}</span>
                   </div>
                   <div
-                    class="row justify-content-between"
+                    class="w-100"
                     v-if="order.payment_method == 'Online' &&  order.transaction_id != 0"
                   >
-                    <h5 class="w-auto">Transaction id</h5>
-                    <span class="w-auto" style="color: #fcb00c">{{
+                    <h5 class="w-50 d-inline-block">Transaction id</h5>
+                    <span class="float-right w-auto" style="color: #fcb00c">{{
                       order.transaction_id
                     }}</span>
                   </div>
@@ -533,6 +534,7 @@
         client,
         area,
         state,
+        setting,
         updateOrderStatus,
         holdOrder,
         cancelOrder,
@@ -544,8 +546,19 @@
 
       const printPolica =async () => {
           $("#printDiv").printThis({
-              header: "<img src='/admin/img/Logo Dashboard.png' onerror='logo' style='width:100%;height:200px' > "
-          });
+              importStyle:"*{direction:ltr!important;text-align:start};",
+              header: "<img src='/admin/img/Logo Dashboard.png' onerror='logo' style='width:50%;height:200px' class='d-block mx-auto my-3'> ",
+              footer:`
+              ${setting.value.email ? "<p>"+setting.value.email+"<b> :البريد الالكتروني</b>" : ''}</p>
+              ${setting.value.phone ? "<p>"+setting.value.phone+"<b> :رقم الهاتف</b></p>" : ''}</p>
+              ${setting.value.wats_app ? "<p>"+setting.value.wats_app+"<b> :واتساب</b></p>" : ''}</p>
+              ${setting.value.address ? "<p>"+setting.value.address+"<b> :العنوان</b></p>" : ''}</p>
+              ${setting.value.facebook ? "<p>"+setting.value.facebook+"<b> :فيسبوك</b></p>" : ''}</p>
+              ${setting.value.linkedin ? "<p>"+setting.value.linkedin+"<b> :لينكدان</b></p>" : ''}</p>
+              ${setting.value.youtube ? "<p>"+setting.value.youtube+"<b> :يوتيوب</b></p>" : ''}</p>
+              ${setting.value.work_time ? "<p>"+setting.value.work_time+"<b> :مواعيد العمل</b></p>" : ''}</p>              `
+
+            });
       }
 
 

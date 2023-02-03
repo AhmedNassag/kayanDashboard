@@ -29,9 +29,11 @@
             <!-- Notifications -->
             <!-- <Notification /> -->
             <!-- /Notifications -->
+            <a class="download"  href="https://gomla.kayan-store.net/dashboard" target="_blank" >داشبورد كيان جملة</a>
 
             <!-- User Menu -->
             <li class="nav-item dropdown has-arrow main-drop">
+
                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                     <span class="user-img">
                         <span class="status online">{{ user && user.name ? user.name:'' }}</span>
@@ -101,5 +103,12 @@ export default {
 .header .header-left{
     background: #FFF;
     /* background: #00DD2F; */
+}
+.download{
+    border: 2px solid;
+    padding: 15px 10px;
+    font-size: 16px;
+    font-weight: 900;
+    border-radius: 10px;
 }
 </style>

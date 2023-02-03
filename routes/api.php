@@ -325,6 +325,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['secretAPI']], function () {
             Route::get('get_representatives','OrderController@get_representatives');
             Route::get('collect_order_by_date','OrderController@collect_order_by_date');
             Route::get('collect_orders_per_day_for_each_client','OrderController@collect_orders_per_day_for_each_client');
+            Route::get('get_setting','OrderController@get_setting');
             Route::post('updateDeficitForProduct','OrderController@updateDeficitForProduct');
             //hold orders
             Route::post('holdOrder/{id}','OrderController@holdOrder');

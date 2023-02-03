@@ -329,7 +329,7 @@ export default {
             data.uploadedImage = null;
         }
         function getProductId() {
-            let firstProductId = props.products.length > 0 ? props.products[0].id : null;
+            let firstProductId = props.allProducts.length > 0 ? props.allProducts[0].id : null;
             return props.selectedSlider ? props.selectedSlider.product_id : firstProductId;
         }
         watch(product_search, () => {

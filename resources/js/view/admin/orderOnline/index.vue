@@ -123,7 +123,7 @@
                   </form>
                 </div>
 
-                <div class="table-responsive">
+                <div class="table-responsive" style="min-height: 450px;">
                   <table class="table mb-0">
                     <thead>
                       <tr>
@@ -214,7 +214,7 @@
                                     :class="['form-control ' , item.representative_id ? 'w-75 d-inline' : 'w-100']"
                                     onchange="event.stopPropagation()"
                                   />
-                                  <button class="btn btn-danger mx-4"  v-if="item.representative_id" @click="assignRepresentativeToOrder(item.id,0,'cancel')">{{$t('global.Cancel')}}</button>
+                                  <button class="btn btn-danger mx-2"  v-if="item.representative_id" @click="assignRepresentativeToOrder(item.id,0,'cancel')">{{$t('global.Cancel')}}</button>
                                   <loader v-if="loading2" />
 
                                   <div

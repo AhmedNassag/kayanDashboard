@@ -1092,6 +1092,7 @@ export default {
         //   addProduct.data.Re_order_limit = l.product.Re_order_limit;
           addProduct.data.description = l.product.description;
           addProduct.data.company_id = l.product.company_id;
+          addProduct.data.product_code = l.product.product_code;
           addProduct.data.category_id = l.product.category_id;
           addProduct.data.sub_category_id = l.product.sub_category_id;
           addProduct.data.pharmacistForm_id = l.product.pharmacistForm_id;

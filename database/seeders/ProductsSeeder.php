@@ -20,36 +20,47 @@ class ProductsSeeder extends Seeder
      */
     public function run()
     {
+
+        Category::create(['name' => 'ادوية']);
+        Category::create(['name' => 'مستلزمات']);
+        Category::create(['name' => 'مستحضرات']);
+        SubCategory::create(['name' => 'ادوية' ,'category_id' => 1]);
+        SubCategory::create(['name' => 'مستلزمات' ,'category_id' => 2]);
+        SubCategory::create(['name' => 'مستحضرات' ,'category_id' => 3]);
+
         $sheet = ExcelSheetProduct::where('id','!=',1)->get();
         foreach($sheet->groupBy('Company') as $key => $company){
             Company::create(['name_en' => $key,"name_ar" => $key]);
         }
-        foreach($sheet->groupBy('Sub-Division') as $cate_name =>  $category){
-            $category_model = Category::create(['name' => $cate_name]);
-            foreach(collect($category)->groupBy('Product Category')->toArray() as $subName => $sub_category){
-                $sub_category_model = SubCategory::create([
-                    'name' => $subName,
-                    'category_id' => $category_model->id,
+        foreach($sheet as $product){
+            $company = Company::where('name_en','like',"%".$product['Company']."%")->first();
+            if($company){
+                $cat_and_sub_cat = $this->getCategoryAndSubCategoryId($product['Code']);
+                Product::create([
+                    "product_code" => $product['Code'],
+                    "image" => $product['Code'].".jpg",
+                    "nameAr" => $product['Description AR'],
+                    "nameEn" => $product['Description'],
+                    "company_id" => $company->id,
+                    "barcode" => $product['Code'],
+                    "category_id" => $cat_and_sub_cat,
+                    "sub_category_id" => $cat_and_sub_cat,
                 ]);
-                foreach($sub_category as $product){
-                    $company = Company::where('name_en','like',"%".$product['Company']."%")->first();
-                    if($company){
-                        Product::create([
-                            "product_code" => $product['Code'],
-                            "nameAr" => $product['Description AR'],
-                            "nameEn" => $product['Description'],
-                            "company_id" => $company->id,
-                            "barcode" => $product['Code'],
-                            "category_id" => $category_model->id,
-                            "sub_category_id" => $sub_category_model->id,
-                        ]);
-                    }
-
-                }
-
             }
         }
+    }
 
+    private function getCategoryAndSubCategoryId($product_code)
+    {
+        if(strpos($product_code,'ED-')) // for category 2
+            return 2;
+        elseif(strpos($product_code,'OS-')) //for cosmatics
+            return 3;
+        else //for medical
+            return 1;
 
     }
+
 }
+
+

@@ -96,7 +96,7 @@
                                                     <div class="card-body pt-0"
                                                         v-for="(permission, name) in permissions" :kay="permission.id">
                                                         <div class="card-header mb-4">
-                                                            <h5 class="card-title">{{ name }}</h5>
+                                                            <h5 class="card-title">{{ $t('global.'+name) }}</h5>
                                                         </div>
                                                         <div
                                                             class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
@@ -104,7 +104,7 @@
                                                                 v-for="(permissio, index) in permission" :kay="index">
                                                                 <div class="card flex-fill">
                                                                     <div class="card-body p-3 text-center">
-                                                                        <p class="card-text f-12">{{ permissio.name }}
+                                                                        <p class="card-text f-12">{{ $t('role.'+permissio.name) }}
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer">

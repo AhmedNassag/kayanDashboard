@@ -1029,6 +1029,7 @@
         "FinishingCompanies": "شركات التشطيبات",
         "Designers": "المصممين",
         "Advertisers": "المعلنين",
+        "Download Representative App": "تحميل تطبيق المندوب",
         "Sponsors": "الرعاه",
         "TotalCountOfClients": "إجمالي عدد العملاء",
         "SalesEmployeeClients": "عملاء موظفي المبيعات",
@@ -1129,6 +1130,8 @@
         "ExpenseItem":"بند المصروفات",
         "Date_Pay":"تاريخ الدفع",
         "Treasury":"الخزنة",
+        "Kayan Special Products":"منتجات كيان المميزة",
+        "Managements":"الادارة",
         "Balance":"الرصيد",
         "client":"العميل",
         "InvoiceResourceType":"نوع مورد الفاتورة",
@@ -1150,6 +1153,7 @@
         "otherDiscount":"خصومات أخرى",
         "otherPrice":"قيمة الخصم",
         "TotalTax":"إجمالى الضريبة",
+        "General": "ادوار عامة",
         "TotalPriceAfterTaxx":"إجمالى السعر بعد الضريبة"
     },
     "treasury": {
@@ -1215,6 +1219,184 @@
         "EditEmployee": "تعديل بيانات الموظف"
     },
     "role": {
+        "package read": "عرض الباكدجات",
+        "package edit": "تعديل الباكدجات",
+        "package create": "انشاء الباكدجات",
+        "package delete": "مسح الباكدجات",
+        "package show": "عرض تفاصيل الباكدجات",
+        "schedule read": "عرض الحجوزات",
+        "schedule edit": "تعديل الحجوزات",
+        "schedule create": "انشاء الحجوزات",
+        "schedule delete": "مسح الحجوزات",
+        "schedule show": "عرض تفاصيل الحجوزات",
+        "slider read": "عرض السلايدرز",
+        "slider edit": "تعديل السلايدرز",
+        "slider create": "انشاء السلايدرز",
+        "slider delete": "مسح السلايدرز",
+
+        "company read": "عرض الشركات",
+        "company edit": "تعديل الشركات",
+        "company create": "انشاء الشركات",
+        "company delete": "مسح الشركات",
+
+        "complaint read": "عرض الشكاوي",
+        "complaint edit": "تعديل الشكاوي",
+        "complaint create": "انشاء الشكاوي",
+        "complaint delete": "مسح الشكاوي",
+
+        "discount read": "عرض الكوبونات والخصومات",
+        "discount edit": "تعديل الكوبونات والخصومات",
+        "discount create": "انشاء الكوبونات والخصومات",
+        "discount delete": "مسح الكوبونات والخصومات",
+
+        "best-seller read": "عرض افضل المبيعات",
+        "best-seller edit": "تعديل افضل المبيعات",
+        "best-seller create": "انشاء افضل المبيعات",
+        "best-seller delete": "مسح افضل المبيعات",
+
+        "most-popular read": "عرض الاكثر شيوعا",
+        "most-popular edit": "تعديل الاكثر شيوعا",
+        "most-popular create": "انشاء الاكثر شيوعا",
+        "most-popular delete": "مسح الاكثر شيوعا",
+
+        "also-bought read": "عرض منتجات العملاء اشتروا ايضا",
+        "also-bought edit": "تعديل منتجات العملاء اشتروا ايضا",
+        "also-bought create": "انشاء منتجات العملاء اشتروا ايضا",
+        "also-bought delete": "مسح منتجات العملاء اشتروا ايضا",
+
+        "role read": "عرض ادوار الموظفين",
+        "role edit": "تعديل ادوار الموظفين",
+        "role create": "انشاء ادوار الموظفين",
+        "role delete": "مسح ادوار الموظفين",
+
+        "department read": "عرض اقسام الموظفين",
+        "department edit": "تعديل اقسام الموظفين",
+        "department create": "انشاء اقسام الموظفين",
+        "department delete": "مسح اقسام الموظفين",
+
+        "job read": "عرض الوظائف",
+        "job edit": "تعديل الوظائف",
+        "job create": "انشاء الوظائف",
+        "job delete": "مسح الوظائف",
+
+        "employee read": "عرض الموظفين",
+        "employee edit": "تعديل الموظفين",
+        "employee create": "انشاء الموظفين",
+        "employee delete": "مسح الموظفين",
+        "employeeChangePassword edit": "تعديل كلمات مرور الموظفين",
+
+        "newsletter read": "عرض القائمة البريدية",
+        "about read": "عرض نبذة عنا",
+        "about edit": "تعديل نبذة عنا",
+        "setting read": "عرض الاعدادات",
+        "setting edit": "تعديل الاعدادات",
+        "termAndCondition read": "عرض الشروط والاحكام وسياسة الاسترجاه",
+        "client read": "عرض العملاء",
+
+        "city read": "عرض المحافظات",
+        "city edit": "تعديل المحافظات",
+        "city create": "انشاء المحافظات",
+
+        "area read": "عرض المناطق",
+        "area edit": "تعديل المناطق",
+        "area create": "انشاء المناطق",
+        "unavailable-city-client read": "عرض عملاء المدن الغير متاحة",
+
+        "category read": "عرض الفئات الرئيسية",
+        "category edit": "تعديل الفئات الرئيسية",
+        "category create": "انشاء الفئات الرئيسية",
+        "category delete": "مسح الفئات الرئيسية",
+
+        "subCategory read": "عرض الفئات الفرعية",
+        "subCategory edit": "تعديل الفئات الفرعية",
+        "subCategory create": "انشاء الفئات الفرعية",
+        "subCategory delete": "مسح الفئات الفرعية",
+
+        "product read": "عرض المنتجات",
+        "product edit": "تعديل المنتجات",
+        "product create": "انشاء المنتجات",
+        "product delete": "مسح المنتجات",
+
+        "representative read": "عرض المناديب",
+        "representative edit": "تعديل المناديب",
+        "representative create": "انشاء المناديب",
+        "representativeChangePassword edit": "تغير كلمات مرور المناديب",
+
+
+        "pharmacistForm read": "عرض الشكل الصيدلي",
+        "pharmacistForm edit": "تعديل الشكل الصيدلي",
+        "pharmacistForm create": "انشاء الشكل الصيدلي",
+        "pharmacistForm delete": "مسح الشكل الصيدلي",
+
+        "platform-accounts-Report read":"عرض تقارير حسابات المنصة",
+
+        "virtualStock read": "عرض مخازن الموردين",
+        "virtualStock edit": "تعديل مخازن الموردين",
+        "virtualStock create": "انشاء مخازن الموردين",
+        "virtualStock delete": "مسح مخازن الموردين",
+        "price read": "عرض اسعار الموردين",
+        "price edit": "تعديل اسعار الموردين",
+        "price create": "انشاء اسعار الموردين",
+        "price delete": "مسح اسعار الموردين",
+        "supplier read": "عرض الموردين",
+        "supplier edit": "تعديل الموردين",
+        "supplier create": "انشاء الموردين",
+        "supplier delete": "مسح الموردين",
+
+        "tax read": "عرض الضرائب",
+        "tax edit": "تعديل الضرائب",
+        "tax create": "انشاء الضرائب",
+        "tax delete": "مسح الضرائب",
+
+        "treasury read": "عرض الخزن",
+        "treasury edit": "تعديل الخزن",
+        "treasury create": "انشاء الخزن",
+        "treasury delete": "مسح الخزن",
+
+        "transferringTreasury read": "عرض تحويلات الخزن",
+        "transferringTreasury edit": "تعديل تحويلات الخزن",
+        "transferringTreasury create": "انشاء تحويلات الخزن",
+        "transferringTreasury delete": "مسح تحويلات الخزن",
+
+        "treasuriesIncome read": "عرض ايرادات الخزن",
+        "treasuriesExpense read": "عرض منصرف الخزن",
+
+        "income read": "عرض الايرادات",
+        "income edit": "تعديل الايرادات",
+        "income create": "انشاء الايرادات",
+        "income delete": "مسح الايرادات",
+
+        "expense read": "عرض المصروفات",
+        "expense edit": "تعديل المصروفات",
+        "expense create": "انشاء المصروفات",
+        "expense delete": "مسح المصروفات",
+
+        "SupplierDues read": "عرض مستحقات الموردين",
+        "SupplierDues edit": "صرف مستحقات الموردين",
+
+        "income&expense read": "عرض الايرادات و المصروفات",
+        "income&expense edit": "تعديل الايرادات و المصروفات",
+        "income&expense create": "انشاء الايرادات و المصروفات",
+        "income&expense delete": "مسح الايرادات و المصروفات",
+
+        "orderOnline read": "عرض الطلبات",
+        "orderOnline edit": "تعديل الطلبات",
+        "CollectOrdersPerDay read": "عرض تجميع الطلبات اليومية والنواقص",
+        "CollectOrdersPerDay edit": "تعديل تجميع الطلبات اليومية والنواقص",
+
+        "AccountsTree read": "عرض شجرة الحسابات",
+        "AccountsTree edit": "تعديل شجرة الحسابات",
+        "AccountsTree create": "انشاء شجرة الحسابات",
+
+        "DailyRestriction read": "عرض القيود اليومية",
+        "DailyRestriction edit": "تعديل القيود اليومية",
+        "DailyRestriction create": "انشاء القيود اليومية",
+
+        "TrialBalance read": "عرض ميزان المراجعة",
+        "AccountStatement read": "عرض كشف حساب",
+        "FinancialCenter read": "عرض قائمة المركز المالي",
+        "IncomeList read": "عرض قائمة الدخل",
+
         "CreateRole": "إضافة أدوار الموظفين",
         "EditRole": "تعديل أدوار الموظفين"
     },
@@ -1354,4 +1536,5 @@
         "CreateStore":"انشاء مخزن",
         "EditStore":"تعديل مخزن"
     }
+
 }

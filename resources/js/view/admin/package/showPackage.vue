@@ -34,7 +34,7 @@
                                 <div class="col-md-4">
                                     <div class="package-detail">
                                         <h4>{{ $t('global.Plan') }} ( {{Package.name}} )</h4>
-                                        <h3 class="package-price">${{parseFloat(Package.price,2)}}</h3>
+                                        <h3 class="package-price"> جنيهاََ {{parseFloat(Package.price,2)}}</h3>
                                         <div class="package-feature">
                                             <ul>
                                                 <li>{{Package.visiter_num}} {{ $t('global.Number of Visitors') }}</li>

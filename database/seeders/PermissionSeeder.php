@@ -71,6 +71,12 @@ class PermissionSeeder extends Seeder
             ['name' => 'virtualStock edit', 'role' => 'stock_management', 'category' => 'Stocks Management'],
             ['name' => 'virtualStock delete', 'role' => 'stock_management', 'category' => 'Stocks Management'],
 
+            //Supplier
+            ['name' => 'supplier read', 'role' => 'stock_management','category' => 'Stocks Management'],
+            ['name' => 'supplier create', 'role' => 'stock_management','category' => 'Stocks Management'],
+            ['name' => 'supplier edit', 'role' => 'stock_management','category' => 'Stocks Management'],
+            ['name' => 'supplier delete', 'role' => 'stock_management','category' => 'Stocks Management'],
+
             // orders management
             ['name' => 'orderOnline read', 'role' => 'Orders', 'category' => 'orders management'],
             ['name' => 'orderOnline edit', 'role' => 'Orders', 'category' => 'orders management'],
@@ -124,38 +130,38 @@ class PermissionSeeder extends Seeder
             ['name' => 'transferringTreasury edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
             ['name' => 'transferringTreasury delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
-            ['name' => 'purchaseExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'supplierAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'financialCondition read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'purchaseExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'supplierAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'clientAccountStatement read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'financialCondition read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
-            ['name' => 'supplierExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'supplierExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'supplierExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'supplierExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'supplierExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'supplierExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'supplierExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'supplierExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
-            ['name' => 'clientExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'clientExpenses read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'clientExpenses create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'clientExpenses edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'clientExpenses delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
-            ['name' => 'SupplierIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'SupplierIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'SupplierIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'SupplierIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'SupplierIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'SupplierIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'SupplierIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'SupplierIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
-            ['name' => 'clientIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'clientIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'clientIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'clientIncomes create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'clientIncomes edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'clientIncomes delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
-            ['name' => 'orderIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'purchaseReturnIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'orderIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'purchaseReturnIncomes read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
-            ['name' => 'CapitalOwnerAccount read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'CapitalOwnerAccount create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'CapitalOwnerAccount edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
-            ['name' => 'CapitalOwnerAccount delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'CapitalOwnerAccount read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'CapitalOwnerAccount create', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'CapitalOwnerAccount edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
+            // ['name' => 'CapitalOwnerAccount delete', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
             ['name' => 'SupplierDues read', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
             ['name' => 'SupplierDues edit', 'role' => 'platform Accounts', 'category' => 'platform Accounts'],
 
@@ -182,10 +188,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'slider create', 'role' => 'advertise', 'category' => 'Advertisement'],
             ['name' => 'slider edit', 'role' => 'advertise', 'category' => 'Advertisement'],
             ['name' => 'slider delete', 'role' => 'advertise', 'category' => 'Advertisement'],
-
-
-
-
 
 
 
@@ -228,41 +230,59 @@ class PermissionSeeder extends Seeder
             ['name' => 'unavailable-city-client read', 'role' => 'places' ,'category' => 'Places'],
 
 
-            //Supplier
-            ['name' => 'supplier read', 'role' => 'Suppliers','category' => 'Suppliers'],
-            ['name' => 'supplier create', 'role' => 'Suppliers','category' => 'Suppliers'],
-            ['name' => 'supplier edit', 'role' => 'Suppliers','category' => 'Suppliers'],
-            ['name' => 'supplier delete', 'role' => 'Suppliers','category' => 'Suppliers'],
+
 
 
             // start sitting
-            ['name' => 'setting read', 'role' => 'Setting', 'category' => 'Setting'],
-            ['name' => 'setting edit', 'role' => 'Setting', 'category' => 'Setting'],
+            ['name' => 'setting read', 'role' => '', 'category' => 'General'],
+            ['name' => 'setting edit', 'role' => '', 'category' => 'General'],
             // end setting
             //Terms and conditions
-            ['name' => 'termAndCondition read', 'role' => 'Setting' , 'category' =>'Setting' ],
+            ['name' => 'termAndCondition read', 'role' => '' , 'category' =>'General' ],
 
+            //About
+            ['name' => 'about read', 'role' => 'about' , 'category' =>'General' ],
+            ['name' => 'about edit', 'role' => 'about', 'category' =>'General' ],
 
+            //Newsletters
+            ['name' => 'newsletter read', 'role' => '' , 'category' =>'General' ],
 
-
+            //clients
+            ['name' => 'client read', 'role' => 'clients' ,'category' => 'General'],
 
 
 
             //Role
-            ['name' => 'role read', 'role' => 'role-employee'],
-            ['name' => 'role create', 'role' => 'role-employee'],
-            ['name' => 'role edit', 'role' => 'role-employee'],
-            ['name' => 'role delete', 'role' => 'role-employee'],
+            ['name' => 'role read', 'role' => 'role-employee', 'category' => 'Managements'],
+            ['name' => 'role create', 'role' => 'role-employee', 'category' => 'Managements'],
+            ['name' => 'role edit', 'role' => 'role-employee', 'category' => 'Managements'],
+            ['name' => 'role delete', 'role' => 'role-employee', 'category' => 'Managements'],
             //Department
-            ['name' => 'department read', 'role' => 'management'],
-            ['name' => 'department create', 'role' => 'management'],
-            ['name' => 'department edit', 'role' => 'management'],
-            ['name' => 'department delete', 'role' => 'management'],
+            ['name' => 'department read', 'role' => 'management', 'category' => 'Managements'],
+            ['name' => 'department create', 'role' => 'management', 'category' => 'Managements'],
+            ['name' => 'department edit', 'role' => 'management', 'category' => 'Managements'],
+            ['name' => 'department delete', 'role' => 'management', 'category' => 'Managements'],
+
             //Job
-            ['name' => 'job read', 'role' => 'management'],
-            ['name' => 'job create', 'role' => 'management'],
-            ['name' => 'job edit', 'role' => 'management'],
-            ['name' => 'job delete', 'role' => 'management'],
+            ['name' => 'job read', 'role' => 'management', 'category' => 'Managements'],
+            ['name' => 'job create', 'role' => 'management', 'category' => 'Managements'],
+            ['name' => 'job edit', 'role' => 'management', 'category' => 'Managements'],
+            ['name' => 'job delete', 'role' => 'management', 'category' => 'Managements'],
+
+             //Employee
+             ['name' => 'employee read', 'role' => 'management', 'category' => 'Managements'],
+             ['name' => 'employee create', 'role' => 'management', 'category' => 'Managements'],
+             ['name' => 'employee edit', 'role' => 'management', 'category' => 'Managements'],
+             ['name' => 'employee delete', 'role' => 'management', 'category' => 'Managements'],
+             ['name' => 'employeeChangePassword edit', 'role' => 'role-employee', 'category' => 'Managements'],
+
+
+            //complaint
+            ['name' => 'complaint read', 'role' => 'management', 'category' => 'Complaints'],
+            ['name' => 'complaint create', 'role' => 'management', 'category' => 'Complaints'],
+            ['name' => 'complaint edit', 'role' => 'management', 'category' => 'Complaints'],
+            ['name' => 'complaint delete', 'role' => 'management', 'category' => 'Complaints'],
+
 
             //usersCategory
             // ['name' => 'usersCategory read', 'role' => 'management'],
@@ -283,39 +303,44 @@ class PermissionSeeder extends Seeder
 
 
             //kayanPrice
-            ['name' => 'kayanPrice read', 'role' => 'management'],
-            ['name' => 'kayanPrice create', 'role' => 'management'],
-            ['name' => 'kayanPrice edit', 'role' => 'management'],
-            ['name' => 'kayanPrice delete', 'role' => 'management'],
+            // ['name' => 'kayanPrice read', 'role' => 'management'],
+            // ['name' => 'kayanPrice create', 'role' => 'management'],
+            // ['name' => 'kayanPrice edit', 'role' => 'management'],
+            // ['name' => 'kayanPrice delete', 'role' => 'management'],
+
+
             //sellingMethods
             // ['name' => 'sellingMethod read', 'role' => 'management'],
             // ['name' => 'sellingMethod create', 'role' => 'management'],
             // ['name' => 'sellingMethod edit', 'role' => 'management'],
             // ['name' => 'sellingMethod delete', 'role' => 'management'],
+
+
             //shift
-            ['name' => 'shift read', 'role' => 'management'],
-            ['name' => 'shift create', 'role' => 'management'],
-            ['name' => 'shift edit', 'role' => 'management'],
-            ['name' => 'shift delete', 'role' => 'management'],
+            // ['name' => 'shift read', 'role' => 'management'],
+            // ['name' => 'shift create', 'role' => 'management'],
+            // ['name' => 'shift edit', 'role' => 'management'],
+            // ['name' => 'shift delete', 'role' => 'management'],
+
             // start Store Management
-            ['name' => 'store read', 'role' => 'StoreManagement', 'category' => 'Store Management'],
-            ['name' => 'store create', 'role' => 'StoreManagement', 'category' => 'Store Management'],
-            ['name' => 'store edit', 'role' => 'StoreManagement', 'category' => 'Store Management'],
-            ['name' => 'store delete', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // ['name' => 'store read', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // ['name' => 'store create', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // ['name' => 'store edit', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // ['name' => 'store delete', 'role' => 'StoreManagement', 'category' => 'Store Management'],
 
-            ['name' => 'examinationRecords read', 'role' => 'StoreManagement', 'category' => 'Store Management'],
-            ['name' => 'examinationRecords create', 'role' => 'StoreManagement', 'category' => 'Store Management'],
-            ['name' => 'examinationRecords edit', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // ['name' => 'examinationRecords read', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // ['name' => 'examinationRecords create', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // ['name' => 'examinationRecords edit', 'role' => 'StoreManagement', 'category' => 'Store Management'],
 
-            ['name' => 'ProductsPricing read', 'role' => 'StoreManagement', 'category' => 'Store Management'],
-            ['name' => 'ProductsPricing edit', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // ['name' => 'ProductsPricing read', 'role' => 'StoreManagement', 'category' => 'Store Management'],
+            // ['name' => 'ProductsPricing edit', 'role' => 'StoreManagement', 'category' => 'Store Management'],
             // end Store Management
 
             //stock
-            ['name' => 'stock read', 'role' => 'management'],
-            ['name' => 'stock create', 'role' => 'management'],
-            ['name' => 'stock edit', 'role' => 'management'],
-            ['name' => 'stock delete', 'role' => 'management'],
+            // ['name' => 'stock read', 'role' => 'management'],
+            // ['name' => 'stock create', 'role' => 'management'],
+            // ['name' => 'stock edit', 'role' => 'management'],
+            // ['name' => 'stock delete', 'role' => 'management'],
 
 
 
@@ -331,76 +356,93 @@ class PermissionSeeder extends Seeder
             // ['name' => 'SaleInvoice edit', 'role' => 'buy'],
             // ['name' => 'SaleInvoice delete', 'role' => 'buy'],
             // ['name' => 'SaleReturn read', 'role' => 'buy'],
+
+
             //Sale Records
-            ['name' => 'saleRecords read', 'role' => 'buy'],
-            ['name' => 'saleRecords create', 'role' => 'buy'],
-            ['name' => 'saleRecords edit', 'role' => 'buy'],
+            // ['name' => 'saleRecords read', 'role' => 'buy'],
+            // ['name' => 'saleRecords create', 'role' => 'buy'],
+            // ['name' => 'saleRecords edit', 'role' => 'buy'],
+
+
+
             //storage
-            ['name' => 'storage read', 'role' => 'management'],
-            ['name' => 'storage create', 'role' => 'management'],
-            ['name' => 'storage edit', 'role' => 'management'],
-            ['name' => 'storage delete', 'role' => 'management'],
-            //complaint
-            ['name' => 'complaint read', 'role' => 'management'],
-            ['name' => 'complaint create', 'role' => 'management'],
-            ['name' => 'complaint edit', 'role' => 'management'],
-            ['name' => 'complaint delete', 'role' => 'management'],
+            // ['name' => 'storage read', 'role' => 'management'],
+            // ['name' => 'storage create', 'role' => 'management'],
+            // ['name' => 'storage edit', 'role' => 'management'],
+            // ['name' => 'storage delete', 'role' => 'management'],
+
 
             //financialReport
-            ['name' => 'financialReport read', 'role' => 'management'],
-            ['name' => 'financialReport create', 'role' => 'management'],
-            ['name' => 'financialReport edit', 'role' => 'management'],
-            ['name' => 'financialReport delete', 'role' => 'management'],
+            // ['name' => 'financialReport read', 'role' => 'management'],
+            // ['name' => 'financialReport create', 'role' => 'management'],
+            // ['name' => 'financialReport edit', 'role' => 'management'],
+            // ['name' => 'financialReport delete', 'role' => 'management'],
+
+
             //productReport
-            ['name' => 'productReport read', 'role' => 'management'],
-            ['name' => 'productReport create', 'role' => 'management'],
-            ['name' => 'productReport edit', 'role' => 'management'],
-            ['name' => 'productReport delete', 'role' => 'management'],
-            //customerReport
-            ['name' => 'customerReport read', 'role' => 'management'],
-            ['name' => 'customerReport create', 'role' => 'management'],
-            ['name' => 'customerReport edit', 'role' => 'management'],
-            ['name' => 'customerReport delete', 'role' => 'management'],
+            // ['name' => 'productReport read', 'role' => 'management'],
+            // ['name' => 'productReport create', 'role' => 'management'],
+            // ['name' => 'productReport edit', 'role' => 'management'],
+            // ['name' => 'productReport delete', 'role' => 'management'],
+
+
+            // //customerReport
+            // ['name' => 'customerReport read', 'role' => 'management'],
+            // ['name' => 'customerReport create', 'role' => 'management'],
+            // ['name' => 'customerReport edit', 'role' => 'management'],
+            // ['name' => 'customerReport delete', 'role' => 'management'],
+
             //supplierReport
-            ['name' => 'supplierReport read', 'role' => 'management'],
-            ['name' => 'supplierReport create', 'role' => 'management'],
-            ['name' => 'supplierReport edit', 'role' => 'management'],
-            ['name' => 'supplierReport delete', 'role' => 'management'],
+            // ['name' => 'supplierReport read', 'role' => 'management'],
+            // ['name' => 'supplierReport create', 'role' => 'management'],
+            // ['name' => 'supplierReport edit', 'role' => 'management'],
+            // ['name' => 'supplierReport delete', 'role' => 'management'],
+
+
             //stockReport
-            ['name' => 'stockReport read', 'role' => 'management'],
-            ['name' => 'stockReport create', 'role' => 'management'],
-            ['name' => 'stockReport edit', 'role' => 'management'],
-            ['name' => 'stockReport delete', 'role' => 'management'],
+            // ['name' => 'stockReport read', 'role' => 'management'],
+            // ['name' => 'stockReport create', 'role' => 'management'],
+            // ['name' => 'stockReport edit', 'role' => 'management'],
+            // ['name' => 'stockReport delete', 'role' => 'management'],
+
+
             //complaintReport
-            ['name' => 'complaintReport read', 'role' => 'management'],
-            ['name' => 'complaintReport create', 'role' => 'management'],
-            ['name' => 'complaintReport edit', 'role' => 'management'],
-            ['name' => 'complaintReport delete', 'role' => 'management'],
+            // ['name' => 'complaintReport read', 'role' => 'management'],
+            // ['name' => 'complaintReport create', 'role' => 'management'],
+            // ['name' => 'complaintReport edit', 'role' => 'management'],
+            // ['name' => 'complaintReport delete', 'role' => 'management'],
+
+
             //delegateReport
-            ['name' => 'delegateReport read', 'role' => 'management'],
-            ['name' => 'delegateReport create', 'role' => 'management'],
-            ['name' => 'delegateReport edit', 'role' => 'management'],
-            ['name' => 'delegateReport delete', 'role' => 'management'],
+            // ['name' => 'delegateReport read', 'role' => 'management'],
+            // ['name' => 'delegateReport create', 'role' => 'management'],
+            // ['name' => 'delegateReport edit', 'role' => 'management'],
+            // ['name' => 'delegateReport delete', 'role' => 'management'],
+
             //regionReport
-            ['name' => 'regionReport read', 'role' => 'management'],
-            ['name' => 'regionReport create', 'role' => 'management'],
-            ['name' => 'regionReport edit', 'role' => 'management'],
-            ['name' => 'regionReport delete', 'role' => 'management'],
+            // ['name' => 'regionReport read', 'role' => 'management'],
+            // ['name' => 'regionReport create', 'role' => 'management'],
+            // ['name' => 'regionReport edit', 'role' => 'management'],
+            // ['name' => 'regionReport delete', 'role' => 'management'],
+
             //purchaseReport
-            ['name' => 'purchaseReport read', 'role' => 'management'],
-            ['name' => 'purchaseReport create', 'role' => 'management'],
-            ['name' => 'purchaseReport edit', 'role' => 'management'],
-            ['name' => 'purchaseReport delete', 'role' => 'management'],
+            // ['name' => 'purchaseReport read', 'role' => 'management'],
+            // ['name' => 'purchaseReport create', 'role' => 'management'],
+            // ['name' => 'purchaseReport edit', 'role' => 'management'],
+            // ['name' => 'purchaseReport delete', 'role' => 'management'],
+
             //saleReport
-            ['name' => 'saleReport read', 'role' => 'management'],
-            ['name' => 'saleReport create', 'role' => 'management'],
-            ['name' => 'saleReport edit', 'role' => 'management'],
-            ['name' => 'saleReport delete', 'role' => 'management'],
+            // ['name' => 'saleReport read', 'role' => 'management'],
+            // ['name' => 'saleReport create', 'role' => 'management'],
+            // ['name' => 'saleReport edit', 'role' => 'management'],
+            // ['name' => 'saleReport delete', 'role' => 'management'],
+
+
             //adOwner
-            ['name' => 'adOwner read', 'role' => 'management'],
-            ['name' => 'adOwner create', 'role' => 'management'],
-            ['name' => 'adOwner edit', 'role' => 'management'],
-            ['name' => 'adOwner delete', 'role' => 'management'],
+            // ['name' => 'adOwner read', 'role' => 'management'],
+            // ['name' => 'adOwner create', 'role' => 'management'],
+            // ['name' => 'adOwner edit', 'role' => 'management'],
+            // ['name' => 'adOwner delete', 'role' => 'management'],
 
             //CRM
             // ['name' => 'targetPlan read', 'role' => 'CRM', 'category' => 'CRM'],
@@ -427,49 +469,49 @@ class PermissionSeeder extends Seeder
 
 
             //refused
-            ['name' => 'refused read', 'role' => 'management'],
-            ['name' => 'refused create', 'role' => 'management'],
-            ['name' => 'refused edit', 'role' => 'management'],
-            ['name' => 'refused delete', 'role' => 'management'],
+            // ['name' => 'refused read', 'role' => 'management'],
+            // ['name' => 'refused create', 'role' => 'management'],
+            // ['name' => 'refused edit', 'role' => 'management'],
+            // ['name' => 'refused delete', 'role' => 'management'],
 
 
             //Unit
-            ['name' => 'unit read', 'role' => ''],
-            ['name' => 'unit create', 'role' => ''],
-            ['name' => 'unit edit', 'role' => ''],
-            ['name' => 'unit delete', 'role' => ''],
-            //Know us ways
-            ['name' => 'know-us-way read', 'role' => ''],
-            ['name' => 'know-us-way create', 'role' => ''],
-            ['name' => 'know-us-way edit', 'role' => ''],
-            ['name' => 'know-us-way delete', 'role' => ''],
-            //Offer
-            ['name' => 'offer read', 'role' => ''],
-            ['name' => 'offer create', 'role' => ''],
-            ['name' => 'offer edit', 'role' => ''],
-            ['name' => 'offer delete', 'role' => ''],
-            //Shipping
-            ['name' => 'shipping read', 'role' => ''],
-            ['name' => 'shipping create', 'role' => ''],
-            ['name' => 'shipping edit', 'role' => ''],
-            ['name' => 'shipping delete', 'role' => ''],
+            // ['name' => 'unit read', 'role' => ''],
+            // ['name' => 'unit create', 'role' => ''],
+            // ['name' => 'unit edit', 'role' => ''],
+            // ['name' => 'unit delete', 'role' => ''],
 
-            //Employee
-            ['name' => 'employee read', 'role' => 'management'],
-            ['name' => 'employee create', 'role' => 'management'],
-            ['name' => 'employee edit', 'role' => 'management'],
-            ['name' => 'employee delete', 'role' => 'management'],
-            ['name' => 'employeeChangePassword edit', 'role' => 'role-employee'],
+            //Know us ways
+            // ['name' => 'know-us-way read', 'role' => ''],
+            // ['name' => 'know-us-way create', 'role' => ''],
+            // ['name' => 'know-us-way edit', 'role' => ''],
+            // ['name' => 'know-us-way delete', 'role' => ''],
+
+            //Offer
+            // ['name' => 'offer read', 'role' => ''],
+            // ['name' => 'offer create', 'role' => ''],
+            // ['name' => 'offer edit', 'role' => ''],
+            // ['name' => 'offer delete', 'role' => ''],
+
+            //Shipping
+            // ['name' => 'shipping read', 'role' => ''],
+            // ['name' => 'shipping create', 'role' => ''],
+            // ['name' => 'shipping edit', 'role' => ''],
+            // ['name' => 'shipping delete', 'role' => ''],
+
+
             //Client Group
             // ['name' => 'client-group read', 'role' => ''],
             // ['name' => 'client-group create', 'role' => ''],
             // ['name' => 'client-group edit', 'role' => ''],
             // ['name' => 'client-group delete', 'role' => ''],
+
             //Client
-            ['name' => 'client read', 'role' => ''],
-            ['name' => 'client create', 'role' => ''],
-            ['name' => 'client edit', 'role' => ''],
-            ['name' => 'client delete', 'role' => ''],
+            // ['name' => 'client read', 'role' => ''],
+            // ['name' => 'client create', 'role' => ''],
+            // ['name' => 'client edit', 'role' => ''],
+            // ['name' => 'client delete', 'role' => ''],
+
             //Sales Points
             // ['name' => 'sale-point read', 'role' => ''],
             // ['name' => 'sale-point create', 'role' => ''],
@@ -493,22 +535,17 @@ class PermissionSeeder extends Seeder
             // ['name' => 'examinationRecords read', 'role' => 'buy'],
             // ['name' => 'examinationRecords create', 'role' => 'buy'],
             // ['name' => 'examinationRecords edit', 'role' => 'buy'],
-            //Newsletters
-            ['name' => 'newsletter read', 'role' => ''],
 
             //Simple advertises
-            ['name' => 'simple-advertise read', 'role' => ''],
-            ['name' => 'simple-advertise create', 'role' => ''],
-            ['name' => 'simple-advertise edit', 'role' => ''],
-            ['name' => 'simple-advertise delete', 'role' => ''],
+            // ['name' => 'simple-advertise read', 'role' => ''],
+            // ['name' => 'simple-advertise create', 'role' => ''],
+            // ['name' => 'simple-advertise edit', 'role' => ''],
+            // ['name' => 'simple-advertise delete', 'role' => ''],
 
             //Footer
-            ['name' => 'footer read', 'role' => 'footer'],
-            ['name' => 'footer edit', 'role' => 'footer'],
+            // ['name' => 'footer read', 'role' => 'footer'],
+            // ['name' => 'footer edit', 'role' => 'footer'],
 
-            //About
-            ['name' => 'about read', 'role' => 'about'],
-            ['name' => 'about edit', 'role' => 'about'],
 
 
             // end financial Accounts
@@ -526,8 +563,6 @@ class PermissionSeeder extends Seeder
 
 
 
-
-
         ];
 
         $notifies = [
@@ -539,7 +574,7 @@ class PermissionSeeder extends Seeder
         }
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission['name'], 'role' => $permission['role']]);
+            Permission::create(['name' => $permission['name'], 'role' => $permission['role'],'category' => $permission['category']]);
         }
     }
 }

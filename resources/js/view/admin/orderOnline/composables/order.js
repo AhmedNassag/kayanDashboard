@@ -6,6 +6,7 @@ import { useRouter } from "vue-router";
 export function ordersComposable() {
     const order = ref({});
     const products = ref({});
+    const setting = ref({});
     const client = ref({});
     const client_orders = ref(0);
     const order_numbers = ref(0);
@@ -75,6 +76,7 @@ export function ordersComposable() {
 
     //get category by id
     const getOrder = async (id) => {
+        get_setting();
         loading.value = true;
        await adminApi
             .get(`/v1/dashboard/orders/${id}`)
@@ -95,6 +97,17 @@ export function ordersComposable() {
                 console.log(err);
             })
             loading.value = false;
+    };
+
+    const get_setting = async (id) => {
+       await adminApi
+            .get(`/v1/dashboard/get_setting`)
+            .then((res) => {
+                setting.value=res.data.setting
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     };
 
 
@@ -221,6 +234,7 @@ export function ordersComposable() {
         rep_search,
         assignRepresentativeToOrder,
         loading2,
+        setting,
         cancelOrder
     };
 }
