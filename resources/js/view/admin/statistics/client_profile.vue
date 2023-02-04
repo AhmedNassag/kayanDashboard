@@ -100,7 +100,7 @@
           </div>
           <!-- /Table -->
           <!-- start Pagination -->
-          <Pagination :data="orders" @pagination-change-page="getClienOrders">
+          <Pagination :data="orders" @pagination-change-page="getClienOrders" :limit="5">
             <template #prev-nav>
               <span>&lt; {{ $t("global.Previous") }}</span>
             </template>

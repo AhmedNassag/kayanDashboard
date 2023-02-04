@@ -146,7 +146,7 @@ export default {
             if(localStorage.getItem("user")){
                 adminApi.post(`/v1/dashboard/clearItem/${id}`)
                     .then((res) => {
-                        notifications.value.splice(index,index + 1);
+                        notifications.value.splice(index, 1);
                         count.value -= 1;
                     })
                     .catch((err) => {

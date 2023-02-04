@@ -258,6 +258,7 @@ export default {
             },
         }]);
 
+
         let getData = () => {
             loading.value = true;
             adminApi.get(`/v1/dashboard/saleInvoice/create`)

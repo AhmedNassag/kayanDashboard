@@ -151,8 +151,6 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::beginTransaction();
-        try {
 
             $subCategory = SubCategory::find($id);
 
@@ -173,10 +171,10 @@ class SubCategoryController extends Controller
 
             if ($request->hasFile('file')) {
 
-                if (File::exists('upload/subCategory/' . $subCategory->media->file_name)) {
+                if ($subCategory->media && File::exists('upload/subCategory/' . $subCategory->media->file_name)) {
                     unlink('upload/subCategory/' . $subCategory->media->file_name);
+                    $subCategory->media->delete();
                 }
-                $subCategory->media->delete();
 
                 $file_size = $request->file->getSize();
                 $file_type = $request->file->getMimeType();
@@ -193,13 +191,8 @@ class SubCategoryController extends Controller
                 ]);
             }
 
-            DB::commit();
             return $this->sendResponse([],'Data exited successfully');
-        }catch (\Exception $e){
 
-            DB::rollBack();
-            return $this->sendError('An error occurred in the system');
-        }
     }
 
     /**

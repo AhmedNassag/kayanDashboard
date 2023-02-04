@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AdvertiseScheduleResource;
 use App\Models\AdvertiseSchedule;
 use App\Models\AdvertisingPackage;
+use App\Models\AdvertisingPage;
 use App\Models\AdvertisingPageAdvertisingView;
 use App\Models\AdvertisingPageMobileAdvertisingView;
 use App\Models\AdvertisingSize;
@@ -269,13 +270,14 @@ class AdvertiserScheduleController extends Controller
             ->whereBetween('end', [now(), now()->addMonths(5)])
             ->get();
 
+        $package = AdvertisingPackage::find($request->package_id);
         $end_date = Carbon::parse($request->date)->addDays($request->day)->format('Y-m-d H:i');
         $start_date = Carbon::parse($request->date)->format('Y-m-d H:i');
 
         foreach ($AdvertiseSchedules as $AdvertiseSchedule) {
             if (
-                (($AdvertiseSchedule->start <= $start_date) && ($AdvertiseSchedule->end >= $start_date)) ||
-                (($AdvertiseSchedule->start <= $end_date) && ($AdvertiseSchedule->end >= $end_date))
+               ( (($AdvertiseSchedule->start <= $start_date) && ($AdvertiseSchedule->end >= $start_date)) ||
+                (($AdvertiseSchedule->start <= $end_date) && ($AdvertiseSchedule->end >= $end_date))) && $AdvertiseSchedule->advertising_package_id == $package->id
             ) {
                 return $this->sendError('The appointment has already been booked', 401);
             }

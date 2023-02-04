@@ -5768,3 +5768,7 @@ img{
     margin-bottom: 15px;
 }
 }
+
+.swal2-container.swal2-center{
+    z-index:999999999;
+}

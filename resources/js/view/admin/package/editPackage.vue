@@ -166,7 +166,6 @@
                                                         :class="['form-control coustom-select',{'is-invalid':v$.pageView_id.$error,'is-valid':!v$.pageView_id.$invalid}]"
                                                         id="WebsitePages"
                                                         v-if="pageWeb"
-                                                        required
                                                         v-model="v$.pageView_id.$model"
                                                     >
                                                         <optgroup
@@ -184,9 +183,7 @@
                                                         </optgroup>
                                                     </select>
                                                     <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
-                                                    <div class="invalid-feedback">
-                                                        <span v-if="v$.pageView_id.required.$invalid">{{ $t('global.fieldRequired') }}</span>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -197,7 +194,6 @@
                                                         :class="['form-control coustom-select',{'is-invalid':v$.pageViewMobile_id.$error,'is-valid':!v$.pageViewMobile_id.$invalid}]"
                                                         id="MobilePages"
                                                         v-if="pageMobile"
-                                                        required
                                                         v-model="v$.pageViewMobile_id.$model"
                                                     >
                                                         <optgroup
@@ -215,9 +211,7 @@
                                                         </optgroup>
                                                     </select>
                                                     <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
-                                                    <div class="invalid-feedback">
-                                                        <span v-if="v$.pageViewMobile_id.required.$invalid">{{ $t('global.fieldRequired') }}</span>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -356,10 +350,10 @@ export default {
                     integer
                 },
                 pageView_id:{
-                    required
+
                 },
                 pageViewMobile_id:{
-                    required
+
                 }
             }
         });

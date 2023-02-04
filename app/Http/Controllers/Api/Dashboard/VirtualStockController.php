@@ -279,14 +279,21 @@ class VirtualStockController extends Controller
         $products = Product::
         whereDoesntHave('prices',function($q) use($request){
             $q->where('supplier_id',$request->supplier_id);
-        })->
-        where([
+        })
+        ->where(function($q) use($request){
+            $q->when($request->search,function($q) use($request){
+                $q->where('nameAr','like',"%$request->search%")
+                ->orWhere('nameEn','like',"%$request->search%")
+                ->orWhere('product_code','like',"%$request->search%");
+            });
+        })
+        ->where([
             ['status', 1],
             ['category_id', $request->category_id],
             ['sub_category_id', $request->sub_category_id]
         ])
         ->with('mainMeasurementUnit', 'subMeasurementUnit')
-        ->get();
+        ->limit(20)->get();
 
         return $this->sendResponse(['products' => $products], 'Data exited successfully');
     }

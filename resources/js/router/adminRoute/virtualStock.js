@@ -48,7 +48,7 @@ export default [
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('stock edit')){
+                    if(permission.includes('virtualStock edit')){
                         return next();
                     }else{
                         return next({name:'Page404'});
@@ -63,7 +63,7 @@ export default [
                 beforeEnter: (to, from,next) => {
                     let permission = store.state.authAdmin.permission;
 
-                    if(permission.includes('stock read')){
+                    if(permission.includes('virtualStock read')){
                         return next();
                     }else{
                         return next({name:'Page404'});

@@ -73,7 +73,9 @@ class PackageController extends Controller
         {
             $data = $request->only([/*'ar','en',*/ 'name','period','visiter_num','price']);
             $package = AdvertisingPackage::create($data);
+            if($request->pageView_id)
             $package->page_view()->attach($request->pageView_id);
+            if($request->pageViewMobile_id)
             $package->page_view_mobile()->attach($request->pageViewMobile_id);
 
             DB::commit();
@@ -168,21 +170,24 @@ class PackageController extends Controller
                     'period'              => 'required|integer',
                     'visiter_num'         => 'required|integer',
                     'price'               => 'required|integer',
-                    'pageView_id'         => 'required|array',
-                    'pageView_id.*'       => 'required|integer',
-                    'pageViewMobile_id'   => 'required|array',
-                    'pageViewMobile_id.*' => 'required|integer'
+                    'pageView_id'         => 'nullable|array',
+                    'pageView_id.*'       => 'integer',
+                    'pageViewMobile_id'   => 'nullable|array',
+                    'pageViewMobile_id.*' => 'integer'
                 ]);
 
                 if ($v->fails())
                 {
                     return $this->sendError('There is an error in the data', $v->errors());
                 }
-
+                $advertisingPackage->page_view()->detach();
+                $advertisingPackage->page_view_mobile()->detach();
                 $data = $request->only([/*'ar','en',*/'name','period','visiter_num','price']);
                 $advertisingPackage->update($data);
-                $advertisingPackage->page_view()->sync($request->pageView_id);
-                $advertisingPackage->page_view_mobile()->sync($request->pageViewMobile_id);
+                if($request->pageView_id)
+                    $advertisingPackage->page_view()->sync($request->pageView_id);
+                if($request->pageViewMobile_id)
+                    $advertisingPackage->page_view_mobile()->sync($request->pageViewMobile_id);
 
                 DB::commit();
                 return $this->sendResponse([],'Data exited successfully');

@@ -197,7 +197,7 @@ export default {
                     adminApi
                     .delete(`/v1/dashboard/scheduleAdvertise/${id}`)
                     .then((res) => {
-                        calender.value.splice(index, index + 1);
+                        calender.value.splice(index, 1);
 
                         Swal.fire({
                             icon: "success",

@@ -962,6 +962,8 @@
         "Paginate Products": "عدد الصفوف",
         "Most Seller": "الاكثر مبيعا",
         "Least Seller": "الاقل مبيعا",
+        "Active Products": "المنتجات الفعالة",
+        "Inactive Products": "المنتجات الغير فعالة",
         "Kind": "الصنف",
         "deficit in quantity": "العجز في الكمية",
         "Product code": "الكود الدوائي",

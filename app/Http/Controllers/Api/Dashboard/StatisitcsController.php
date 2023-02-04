@@ -139,7 +139,8 @@ class StatisitcsController extends Controller
     {
         $products = Price::with(['logs' => function ($q) {
                 $q->latest();
-            }, 'product'])->where('supplier_id', $request->user_id)
+            }, 'product'])
+            ->where('supplier_id', $request->user_id)
             ->whereHas('product', function ($q) use ($request) {
                 $q->when($request->search, function ($q) use ($request) {
                     $q->where('products.nameAr', 'like', "%$request->search%")
@@ -151,6 +152,12 @@ class StatisitcsController extends Controller
                         ->orWhere('prices.quantity', 'like', "%$request->search%")
                         ->orWhere('prices.clientDiscount', 'like', "%$request->search%");
                 });
+            })
+            ->where(function($q) use($request){
+                if($request->filter == 'active')
+                    $q->where('quantity' , '>' , 0);
+                    if($request->filter == 'inactive')
+                    $q->where('quantity' , 0);
             })
             ->latest()
             ->paginate(10);

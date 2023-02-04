@@ -188,9 +188,7 @@
                                                         </optgroup>
                                                     </select>
                                                     <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
-                                                    <div class="invalid-feedback">
-                                                        <span v-if="v$.pageView_id.required.$invalid">{{ $t('global.fieldRequired') }}.</span>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -220,9 +218,7 @@
                                                         </optgroup>
                                                     </select>
                                                     <div class="valid-feedback">{{ $t('global.LooksGood') }}</div>
-                                                    <div class="invalid-feedback">
-                                                        <span v-if="v$.pageViewMobile_id.required.$invalid">{{ $t('global.fieldRequired') }}</span>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -345,10 +341,10 @@ export default {
                     integer
                 },
                 pageView_id:{
-                    required
+
                 },
                 pageViewMobile_id:{
-                    required
+
                 }
             }
         });
